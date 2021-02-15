@@ -6,14 +6,17 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel'
+import InputLabel from '@material-ui/core/InputLabel';
+import logo from '../assets/logo-sort.png';
 
 type props = { 
     message: string;
 }; 
-const SignUp = ({ message}: props) =>
+const SignIn = ({ message}: props) =>
     <Card>
         <CardContent>
+            <img src={logo} alt="Logo" id='logo'/>
+            <h4>Logg inn</h4>
 
             {message}
             <form>
@@ -40,4 +43,4 @@ const SignUp = ({ message}: props) =>
 
     </Card>
 
-export default SignUp;
+export default SignIn;
