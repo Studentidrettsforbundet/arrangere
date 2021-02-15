@@ -30,37 +30,12 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ChooseApplicationForm() {
+export default function ChooseApplication() {
   const classes = useStyles();
-  function studentleker() {
-    return <StudentlekerForm />;
-  }
 
-  function About() {
-    return <h2>About</h2>;
-  }
-
-  function Users() {
-    return <h2>Users</h2>;
-  }
   return (
     <div style={{ padding: 40 }}>
       <Router>
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/student-NM">
-            <StudentNMForm />
-          </Route>
-          <Route path="/studentleker">
-            {/* <StudentlekerForm /> */}
-            {studentleker()}
-          </Route>
-          <Route path="/student-Cup">
-            <StudentCupForm />
-          </Route>
-        </Switch>
-
         <Typography gutterBottom variant="h5" component="h2">
           Opprette ny søknad
         </Typography>
@@ -141,6 +116,18 @@ export default function ChooseApplicationForm() {
           <br></br>
           Mine påbegynte søknader
         </Typography>
+
+        <Switch>
+          <Route path="/student-NM">
+            <StudentNMForm />
+          </Route>
+          <Route path="/studentleker">
+            <StudentlekerForm />
+          </Route>
+          <Route path="/student-Cup">
+            <StudentCupForm />
+          </Route>
+        </Switch>
       </Router>
     </div>
   );
