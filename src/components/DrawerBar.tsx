@@ -8,12 +8,15 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Collapse from '@material-ui/core/Collapse';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import SendIcon from '@material-ui/icons/Send';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
+import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
+import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
+import AppsOutlinedIcon from '@material-ui/icons/AppsOutlined';
+import { Divider } from '@material-ui/core';
 
 const drawerWidth = 240;
 
@@ -78,30 +81,28 @@ export default function DrawerBar() {
     >
       <ListItem button>
         <ListItemIcon>
-          <SendIcon />
+          <AppsOutlinedIcon />
         </ListItemIcon>
-        <ListItemText primary="Sent mail" />
+        <ListItemText primary="Hjem" />
       </ListItem>
       <ListItem button>
         <ListItemIcon> 
-          <DraftsIcon />
+          <PersonOutlineOutlinedIcon />
         </ListItemIcon>
-        <ListItemText primary="Drafts" />
+        <ListItemText primary="Brukerprofil" />
       </ListItem>
+      <Divider/>
       <ListItem button onClick={handleClick}>
         <ListItemIcon>
-          <InboxIcon />
+          <DescriptionOutlinedIcon />
         </ListItemIcon>
-        <ListItemText primary="Inbox" />
+        <ListItemText primary="Mine søknader" />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Starred" />
+            <ListItemText primary="Eksempel søknad 1" />
           </ListItem>
         </List>
       </Collapse>
