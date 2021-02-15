@@ -1,15 +1,24 @@
 import React from "react";
-import "../style/App.css";
 import SignUp from "./SignUp";
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from 'recoil';
+
 
 
 
 function App() {
   return (
+    <RecoilRoot>
     <div className="App">
       <p>Her skal det komme en søknadsside</p>
-      <SignUp message="hei"></SignUp>
+      <SignUp ></SignUp>
     </div>
+    </RecoilRoot>
   );
 }
 
