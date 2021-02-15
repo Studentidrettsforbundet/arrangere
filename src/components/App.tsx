@@ -1,14 +1,17 @@
 import React from "react";
-import "../style/App.css";
+import Container from '@material-ui/core/Container';
 import SignUp from "./SignUp";
+import LogIn from "./LogIn";
 
 
 
 function App() {
   return (
     <div className="App">
-      <p>Her skal det komme en søknadsside</p>
-      <SignUp message="hei"></SignUp>
+      <Container>
+        <SignUp message="Register deg her"></SignUp>
+      </Container>
+      
     </div>
   );
 }

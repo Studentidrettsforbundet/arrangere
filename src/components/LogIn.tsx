@@ -9,7 +9,7 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel'
 
 type props = { 
-    message: string,
+    message: string;
 }; 
 const SignUp = ({ message}: props) =>
     <Card>
@@ -17,30 +17,27 @@ const SignUp = ({ message}: props) =>
 
             {message}
             <form>
-            <FormControl id='email-input' fullWidth>
+            <FormControl id='email-input'>
             <InputLabel htmlFor="my-input">E-post</InputLabel>
             <Input id="my-input" aria-describedby="my-helper-text" />
             </FormControl>
 
-            <FormControl id='password-input' fullWidth>
+            <FormControl id='passord-input'>
             <InputLabel htmlFor="my-input">Passord</InputLabel>
             <Input id="my-input" aria-describedby="my-helper-text" />
             </FormControl>
 
-            <FormControl id='password-confirmation-input' fullWidth>
-            <InputLabel htmlFor="my-input" >Gjenta passord</InputLabel>
-            <Input id="my-input" aria-describedby="my-helper-text" />
-            </FormControl>
             </form>
         
         </CardContent>
         <CardActions>
             <Button variant="outlined" type='submit'>
-                Sign up
+                Logg inn
             </Button>
         </CardActions>
 
-        Har du allerede en konto? <Link href='/login'>Logg inn her</Link>
+    Har du ikke en konto? <Link href='/signup'>Registrer deg her</Link>
+
     </Card>
 
 export default SignUp;
