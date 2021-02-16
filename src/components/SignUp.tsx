@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useRef,useState} from "react";
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -7,53 +7,55 @@ import FormControl from '@material-ui/core/FormControl';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel'
 import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from 'recoil';
-import { auth } from "../firebase";
-import firebase from "firebase/app"
-
-
-const currentUserState = atom({
-    key: 'user',
-    default: null,
-})
-
+    useSetRecoilState,
+  } from 'recoil';
+  import { auth } from "../firebase";
+  import {currentUserState} from "../stateManagement/userAuth"
 
 
 const SignUp = () =>{
    const emailRef = useRef<HTMLInputElement>(null);
    const passwordRef = useRef<HTMLInputElement>(null);
-
    const passwordConfirmRef = useRef<HTMLInputElement>(null);
 
-   const [currentUser, setCurrentUser] = useRecoilState<any>(currentUserState)
-   
-   function SignUpFunc(email:string, password:string){
+   const setCurrentUser = useSetRecoilState(currentUserState)
+   const [loading, setLoading] = useState(false)
+   const [error, setError] = useState<string>("")
+
+
+   function signUpFunc(email:string, password:string){
        auth.createUserWithEmailAndPassword(email, password)
-
    }
-
    useEffect(() =>{
-       const unsubscribe = auth.onAuthStateChanged((user:any) =>{
-           setCurrentUser(user)
+       const unsubscribe = auth.onAuthStateChanged( ( user :  any ) =>{
+           setCurrentUser(user.toJSON())
+           setLoading(false)
    })
+
    return unsubscribe
     },[])
 
-    function handleSubmit(e:any){
+    async function handleSubmit(e:any){
         e.preventDefault()
-        SignUpFunc(emailRef?.current?.value!, passwordRef?.current?.value!)
-
+        if(passwordRef?.current?.value! != passwordConfirmRef?.current?.value!){
+            return setError("Passwords do not match")
+        }
+        try {
+            setError('')
+            setLoading(true)
+            await signUpFunc(emailRef?.current?.value!, passwordRef?.current?.value!)
+        }catch{
+            setError("Failed to create and account")
+        }
+        setLoading(false)
     }
+    
 return(
     <Card>
         <CardContent>
             <form>
             <FormControl>
+                {error}
             <InputLabel htmlFor="email">Email address</InputLabel>
             <OutlinedInput  inputRef={emailRef} id="my-input" aria-describedby="my-helper-text" />
             </FormControl>
@@ -68,7 +70,7 @@ return(
             </form>        
         </CardContent>
         <CardActions>
-            <Button onClick={(event) => handleSubmit(event)} type="submit" variant="outlined" >
+            <Button disabled={loading} onClick={(event) => handleSubmit(event)} type="submit" variant="outlined" >
                 Sign up
             </Button>
         </CardActions>
