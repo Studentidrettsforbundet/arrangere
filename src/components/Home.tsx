@@ -4,7 +4,8 @@ export default function Home() {
   console.log("Hjem");
   return (
     <div>
-      <p>Hjem</p>
+      <h1>Hjem</h1>
+      <p>Dette er hjem siden</p>
     </div>
   );
 }

@@ -7,7 +7,7 @@ import ChooseApplication from "./components/ChooseApplication";
 
 function App() {
   return (
-    <div>
+    <div style={{ display: "flex", flexDirection: "row" }}>
       <DrawerBar />
       <Switch>
         <Route path="/" component={Home} exact />
