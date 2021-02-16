@@ -1,22 +1,24 @@
 import React from "react";
-import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 
+import StudentidrettLogo from "./../images/studentidrett-logo-sort.png";
+
+import AppsOutlinedIcon from "@material-ui/icons/AppsOutlined";
+import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
+
+import CardMedia from "@material-ui/core/CardMedia";
+import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
 import Collapse from "@material-ui/core/Collapse";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Divider from "@material-ui/core/Divider";
+import Drawer from "@material-ui/core/Drawer";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
-import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
-import AppsOutlinedIcon from "@material-ui/icons/AppsOutlined";
-import { Divider } from "@material-ui/core";
-import StudentidrettLogo from "./../images/studentidrett-logo-sort.png";
-import { CardMedia } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 
 const drawerWidth = 300;
 
