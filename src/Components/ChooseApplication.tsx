@@ -11,7 +11,14 @@ import Student_NM_logo from "./../images/student_NM.png";
 import Studentleker_logo from "./../images/studentleker-1.png";
 import Student_Cup_logo from "./../images/studentcup-1.png";
 import Divider from "@material-ui/core/Divider";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link as RouterLink,
+  useHistory,
+  Redirect,
+} from "react-router-dom";
 import StudentCupForm from "./StudentCupForm";
 import StudentNMForm from "./StudentNMForm";
 import StudentlekerForm from "./StudentlekerForm";
@@ -32,6 +39,10 @@ const useStyles = makeStyles({
 
 export default function ChooseApplication() {
   const classes = useStyles();
+
+  // function handleClick() {
+  //   return <StudentNMForm></StudentNMForm>;
+  // }
 
   return (
     <div style={{ padding: 40 }}>
@@ -61,8 +72,14 @@ export default function ChooseApplication() {
               </CardContent>
             </CardActionArea>
             <CardActions>
-              <Button size="small" color="primary">
-                <Link to="/student-NM">Ny søknad</Link>
+              <Button
+                component={RouterLink}
+                to="/studentnm"
+                size="small"
+                color="primary"
+                // onClick={handleClick}
+              >
+                Ny søknad
               </Button>
             </CardActions>
           </Card>
@@ -82,8 +99,13 @@ export default function ChooseApplication() {
               </CardContent>
             </CardActionArea>
             <CardActions>
-              <Button size="small" color="primary">
-                <Link to="/studentleker">Ny søknad</Link>
+              <Button
+                component={RouterLink}
+                to="/studentleker"
+                size="small"
+                color="primary"
+              >
+                Ny søknad
               </Button>
             </CardActions>
           </Card>
@@ -103,8 +125,13 @@ export default function ChooseApplication() {
               </CardContent>
             </CardActionArea>
             <CardActions>
-              <Button size="small" color="primary">
-                <Link to="/student-Cup">Ny søknad</Link>
+              <Button
+                component={RouterLink}
+                size="small"
+                to="/studentcup"
+                color="primary"
+              >
+                Ny søknad
               </Button>
             </CardActions>
           </Card>
@@ -117,17 +144,18 @@ export default function ChooseApplication() {
           Mine påbegynte søknader
         </Typography>
 
-        <Switch>
-          <Route path="/student-NM">
+        {/* <Switch>
+          <Redirect path="/student-NM" component={StudentNMForm}>
             <StudentNMForm />
-          </Route>
+          </Redirect>
+
           <Route path="/studentleker">
             <StudentlekerForm />
           </Route>
           <Route path="/student-Cup">
             <StudentCupForm />
           </Route>
-        </Switch>
+        </Switch> */}
       </Router>
     </div>
   );
