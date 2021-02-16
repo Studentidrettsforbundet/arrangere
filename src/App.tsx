@@ -1,6 +1,6 @@
 import React from "react";
 import DrawerBar from "./components/DrawerBar";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import Home from "./components/Home";
 import UserProfile from "./components/UserProfile";
 import ChooseApplication from "./components/ChooseApplication";
