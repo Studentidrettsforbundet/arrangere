@@ -4,7 +4,7 @@
   "description": "Unit testing for arrangere App",
   "main": "test.ts",
   "scripts": {
-    "test": "env TS_NODE_PROJECT=\"tsconfig.testing.json\" mocha --require ts-node/register 'src/test/*.test.ts'"
+    "test": "env TS_NODE_PROJECT=\"tsconfig.testing.json\" mocha --require ts-node/register '*.test.ts'"
   },
   "author": "Siw Døvle",
   "license": "ISC",
@@ -19,6 +19,7 @@
     "typescript": "^4.1.5"
   },
   "dependencies": {
+    "dotenv": "^8.2.0",
     "firebase": "^8.2.7"
   }
 }
