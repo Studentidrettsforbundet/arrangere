@@ -6,6 +6,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
+
 import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
@@ -15,6 +16,7 @@ import AppsOutlinedIcon from "@material-ui/icons/AppsOutlined";
 import { Divider } from "@material-ui/core";
 import StudentidrettLogo from "./../images/studentidrett-logo-sort.png";
 import { CardMedia } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const drawerWidth = 300;
 
@@ -61,7 +63,6 @@ export default function DrawerBar() {
       <CssBaseline />
       <div className="drawerContent">
         {" "}
-        {/* Sjekk om dette er riktig måte å skrive klassenavn på */}
         <Drawer
           className={classes.drawer}
           variant="permanent"
@@ -76,24 +77,29 @@ export default function DrawerBar() {
             className={classes.root}
           >
             <CardMedia className={classes.media} image={StudentidrettLogo} />
-            <ListItem button>
+            <ListItem button component={Link} to="/">
               <ListItemIcon>
                 <AppsOutlinedIcon />
               </ListItemIcon>
               <ListItemText primary="Hjem" />
             </ListItem>
-            <ListItem button>
+            <ListItem button component={Link} to="/userprofile">
               <ListItemIcon>
                 <PersonOutlineOutlinedIcon />
               </ListItemIcon>
               <ListItemText primary="Brukerprofil" />
             </ListItem>
             <Divider />
-            <ListItem button onClick={handleClick}>
+            <ListItem
+              button
+              onClick={handleClick}
+              component={Link}
+              to="/applications"
+            >
               <ListItemIcon>
                 <DescriptionOutlinedIcon />
               </ListItemIcon>
-              <ListItemText primary="Mine søknader" />
+              <ListItemText primary="Søknader" />
               {open ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
             <Collapse in={open} timeout="auto" unmountOnExit>
