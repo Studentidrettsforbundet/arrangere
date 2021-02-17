@@ -1,46 +1,39 @@
-import React from "react";
+import React, {useEffect, useRef} from "react";
 import Card from '@material-ui/core/Card';
-import Link from '@material-ui/core/Link';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import logo from '../assets/logo-sort.png';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import InputLabel from '@material-ui/core/InputLabel'
+import { Typography } from "@material-ui/core";
 
-type props = { 
-    message: string;
-}; 
-const SignIn = ({ message}: props) =>
+
+const Login = () =>{
+   
+return(
     <Card>
         <CardContent>
-            <img src={logo} alt="Logo" id='logo'/>
-            <h4>Logg inn</h4>
-
-            {message}
+        <Typography>Logg inn</Typography>
             <form>
-            <FormControl id='email-input'>
-            <InputLabel htmlFor="my-input">E-post</InputLabel>
-            <Input id="my-input" aria-describedby="my-helper-text" />
+            <FormControl>
+            <InputLabel htmlFor="email">Email address</InputLabel>
+            <OutlinedInput  id="my-input" aria-describedby="my-helper-text" />
             </FormControl>
-
-            <FormControl id='passord-input'>
-            <InputLabel htmlFor="my-input">Passord</InputLabel>
-            <Input id="my-input" aria-describedby="my-helper-text" />
+            <FormControl>
+            <InputLabel htmlFor="email">password</InputLabel>
+            <OutlinedInput  id="my-input" aria-describedby="my-helper-text" />
             </FormControl>
-
-            </form>
-        
+            </form>        
         </CardContent>
         <CardActions>
-            <Button variant="outlined" type='submit'>
+            <Button  type="submit" variant="outlined" >
                 Logg inn
             </Button>
         </CardActions>
-
-    Har du ikke en konto? <Link href='/signup'>Registrer deg her</Link>
-
+        <Typography>Har du ikke en konto? Registrer deg her</Typography>
     </Card>
+)
+}
 
-export default SignIn;
+export default Login;

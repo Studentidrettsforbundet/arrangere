@@ -1,50 +1,45 @@
-import React from "react";
+import React, {useEffect, useRef} from "react";
 import Card from '@material-ui/core/Card';
-import Link from '@material-ui/core/Link';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import logo from '../assets/logo-sort.png'
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import InputLabel from '@material-ui/core/InputLabel'
+import { Typography } from "@material-ui/core";
+import logo from '../assets/logo-sort.png';
 
-type props = { 
-    message: string,
-}; 
-const SignUp = ({ message}: props) =>
+
+const Signup = () =>{
+   
+return(
     <Card>
+        <img src={logo} alt="logo"/>
+        <Typography>Registrering</Typography>
         <CardContent>
-            <img src={logo} alt="Logo" id='logo' width='70%'/>
-
-            <h4>Registrer</h4>
-
-            {message}
             <form>
-            <FormControl id='email-input' fullWidth>
-            <InputLabel htmlFor="my-input">E-post</InputLabel>
-            <Input id="my-input" aria-describedby="my-helper-text" />
+            <FormControl>
+            <InputLabel htmlFor="email">Email address</InputLabel>
+            <OutlinedInput   id="my-input" aria-describedby="my-helper-text" />
             </FormControl>
-
-            <FormControl id='password-input' fullWidth>
-            <InputLabel htmlFor="my-input">Passord</InputLabel>
-            <Input id="my-input" aria-describedby="my-helper-text" />
+            <FormControl>
+            <InputLabel htmlFor="email">password</InputLabel>
+            <OutlinedInput   id="my-input" aria-describedby="my-helper-text" />
             </FormControl>
-
-            <FormControl id='password-confirmation-input' fullWidth>
-            <InputLabel htmlFor="my-input" >Gjenta passord</InputLabel>
-            <Input id="my-input" aria-describedby="my-helper-text" />
+            <FormControl>
+            <InputLabel htmlFor="email">password confirm</InputLabel>
+            <OutlinedInput  id="my-input" aria-describedby="my-helper-text" />
             </FormControl>
-            </form>
-        
+            </form>        
         </CardContent>
         <CardActions>
-            <Button variant="outlined" type='submit'>
+            <Button  type="submit" variant="outlined" >
                 Sign up
             </Button>
         </CardActions>
-
-        Har du allerede en konto? <Link href='/signin'>Logg inn her</Link>
+        <Typography>Har du allerede en konto? Logg inn her</Typography>
     </Card>
+)
+}
 
-export default SignUp;
+export default Signup;
