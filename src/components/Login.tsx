@@ -13,14 +13,14 @@ import {
   import {currentUserState} from "../stateManagement/userAuth"
 
 
-const SignUp = () =>{
+const Login = () =>{
    const emailRef = useRef<HTMLInputElement>(null);
    const passwordRef = useRef<HTMLInputElement>(null);
-   const passwordConfirmRef = useRef<HTMLInputElement>(null);
 
    const setCurrentUser = useSetRecoilState(currentUserState)
    const [loading, setLoading] = useState(false)
    const [error, setError] = useState<string>("")
+
 
    useEffect(() =>{
        const unsubscribe = auth.onAuthStateChanged( ( user :  any ) =>{
@@ -31,16 +31,12 @@ const SignUp = () =>{
     },[])
 
     async function handleSubmit(e:any){
-        e.preventDefault()
-        if(passwordRef?.current?.value! != passwordConfirmRef?.current?.value!){
-            return setError("Passwords do not match")
-        }
-        try {
-            setError('')
+        try{
+            setError("")
             setLoading(true)
-            await auth.createUserWithEmailAndPassword(emailRef?.current?.value!, passwordRef?.current?.value!)
+            await auth.signInWithEmailAndPassword(emailRef?.current?.value!, passwordRef?.current?.value!)
         }catch{
-            setError("Failed to create and account")
+            setError("failed to log in")
         }
         setLoading(false)
     }
@@ -58,10 +54,6 @@ return(
             <InputLabel htmlFor="email">password</InputLabel>
             <OutlinedInput  inputRef={passwordRef} id="my-input" aria-describedby="my-helper-text" />
             </FormControl>
-            <FormControl>
-            <InputLabel htmlFor="email">password confirm</InputLabel>
-            <OutlinedInput  inputRef={passwordConfirmRef} id="my-input" aria-describedby="my-helper-text" />
-            </FormControl>
             </form>        
         </CardContent>
         <CardActions>
@@ -73,4 +65,4 @@ return(
 )
 }
 
-export default SignUp;
+export default Login;

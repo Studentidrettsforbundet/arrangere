@@ -1,11 +1,8 @@
 import React from "react";
 import SignUp from "./SignUp";
+import Login from "./Login"
 import {
   RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
 } from 'recoil';
 
 
@@ -17,6 +14,7 @@ function App() {
     <div className="App">
       <p>Her skal det komme en søknadsside</p>
       <SignUp ></SignUp>
+      <Login></Login>
     </div>
     </RecoilRoot>
   );
