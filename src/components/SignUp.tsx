@@ -5,25 +5,40 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
+import FilledInput from "@material-ui/core/FilledInput";
 import { Container, Typography } from "@material-ui/core";
 import logo from "../assets/logo-sort.png";
 
 const useStyles = makeStyles({
   container: {
-    paddingTop: "20",
+    paddingTop: "50px",
   },
   root: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
   },
-  field: {
-    margin: "none",
+  content: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "start",
+  },
+  form: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  formfield: {
+    margin: "15px",
   },
   image: {
-    height: 30,
+    padding: "50px",
+    width: "40%",
+  },
+  button: {
+    width: "150px",
+  },
+  text: {
+    margin: "10px",
   },
 });
 
@@ -34,29 +49,36 @@ const Signup = () => {
     <Container className={classes.container}>
       <Card className={classes.root}>
         <img className={classes.image} src={logo} alt="logo" />
-        <Typography>Registrering</Typography>
-        <CardContent>
-          <form>
-            <FormControl className={classes.field}>
-              <InputLabel htmlFor="email">Email</InputLabel>
-              <Input id="my-input" aria-describedby="my-helper-text" />
+
+        <CardContent className={classes.content}>
+          <Typography variant="h6">Registrering</Typography>
+          <form className={classes.form}>
+            <FormControl className={classes.formfield}>
+              <Typography variant="body2">Email</Typography>
+              <FilledInput id="my-input" aria-describedby="my-helper-text" />
             </FormControl>
-            <FormControl>
-              <InputLabel htmlFor="email">Passord</InputLabel>
-              <Input id="my-input" aria-describedby="my-helper-text" />
+            <FormControl className={classes.formfield}>
+              <Typography variant="body2">Passord</Typography>
+              <FilledInput id="my-input" aria-describedby="my-helper-text" />
             </FormControl>
-            <FormControl>
-              <InputLabel htmlFor="email">Gjenta passord</InputLabel>
-              <Input id="my-input" aria-describedby="my-helper-text" />
+            <FormControl className={classes.formfield}>
+              <Typography variant="body2">Gjenta passord</Typography>
+              <FilledInput
+                id="filled-basic"
+                aria-describedby="my-helper-text"
+              />
             </FormControl>
           </form>
+          <CardActions>
+            <Button type="submit" variant="outlined" className={classes.button}>
+              Registrer
+            </Button>
+          </CardActions>
         </CardContent>
-        <CardActions>
-          <Button type="submit" variant="outlined">
-            Registrer
-          </Button>
-        </CardActions>
-        <Typography>Har du allerede en konto? Logg inn her</Typography>
+
+        <Typography variant="body1" className={classes.text}>
+          Har du allerede en konto? <b>Logg inn her</b>
+        </Typography>
       </Card>
     </Container>
   );
