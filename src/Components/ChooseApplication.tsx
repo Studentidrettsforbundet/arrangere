@@ -13,15 +13,9 @@ import Student_Cup_logo from "./../images/studentcup-1.png";
 import Divider from "@material-ui/core/Divider";
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
   Link as RouterLink,
-  useHistory,
-  Redirect,
+  Link,
 } from "react-router-dom";
-import StudentCupForm from "./StudentCupForm";
-import StudentNMForm from "./StudentNMForm";
-import StudentlekerForm from "./StudentlekerForm";
 
 const useStyles = makeStyles({
   root: {
@@ -40,123 +34,103 @@ const useStyles = makeStyles({
 export default function ChooseApplication() {
   const classes = useStyles();
 
-  // function handleClick() {
-  //   return <StudentNMForm></StudentNMForm>;
-  // }
-
   return (
     <div style={{ padding: 40 }}>
-      <Router>
-        <Typography gutterBottom variant="h5" component="h2">
-          Opprette ny søknad
-        </Typography>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-          }}
-        >
-          {/* Card for Student-NM */}
-          <Card className={classes.root}>
-            <CardActionArea>
-              <CardMedia
-                className={classes.media}
-                image={Student_NM_logo}
-                title="studentnm"
-              />
-              <CardContent>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  Søknadskjema for Student-NM
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button
-                component={RouterLink}
-                to="/studentnm"
-                size="small"
-                color="primary"
-                // onClick={handleClick}
-              >
-                Ny søknad
-              </Button>
-            </CardActions>
-          </Card>
+      <Typography gutterBottom variant="h5" component="h2">
+        Opprette ny søknad
+      </Typography>
 
-          {/* Card for studentleker */}
-          <Card className={classes.root}>
-            <CardActionArea>
-              <CardMedia
-                className={classes.media}
-                image={Studentleker_logo}
-                title="studentleker"
-              />
-              <CardContent>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  Søknadskjema for Studentleker
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button
-                component={RouterLink}
-                to="/studentleker"
-                size="small"
-                color="primary"
-              >
-                Ny søknad
-              </Button>
-            </CardActions>
-          </Card>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+        }}
+      >
+        {/* Card for Student-NM */}
+        <Card className={classes.root}>
+          <CardActionArea>
+            <CardMedia
+              className={classes.media}
+              image={Student_NM_logo}
+              title="studentnm"
+            />
+            <CardContent>
+              <Typography variant="body2" color="textSecondary" component="p">
+                Søknadskjema for Student-NM
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <CardActions>
+            <Button
+              component={RouterLink}
+              to="/studentnm"
+              size="small"
+              color="primary"
+            >
+              Ny søknad
+            </Button>
+          </CardActions>
+        </Card>
 
-          {/* Card for student-Cup */}
-          <Card className={classes.root}>
-            <CardActionArea>
-              <CardMedia
-                className={classes.media}
-                image={Student_Cup_logo}
-                title="studentleker"
-              />
-              <CardContent>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  Søknadskjema for Student-Cup
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button
-                component={RouterLink}
-                size="small"
-                to="/studentcup"
-                color="primary"
-              >
-                Ny søknad
-              </Button>
-            </CardActions>
-          </Card>
-        </div>
-        <br></br>
-        <Divider />
-        <br></br>
-        <Typography gutterBottom variant="h5" component="h2">
-          <br></br>
-          Mine påbegynte søknader
-        </Typography>
+        {/* Card for studentleker */}
+        <Card className={classes.root}>
+          <CardActionArea>
+            <CardMedia
+              className={classes.media}
+              image={Studentleker_logo}
+              title="studentleker"
+            />
+            <CardContent>
+              <Typography variant="body2" color="textSecondary" component="p">
+                Søknadskjema for Studentleker
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <CardActions>
+            <Button
+              component={RouterLink}
+              to="/studentleker"
+              size="small"
+              color="primary"
+            >
+              Ny søknad
+            </Button>
+          </CardActions>
+        </Card>
 
-        {/* <Switch>
-          <Redirect path="/student-NM" component={StudentNMForm}>
-            <StudentNMForm />
-          </Redirect>
-
-          <Route path="/studentleker">
-            <StudentlekerForm />
-          </Route>
-          <Route path="/student-Cup">
-            <StudentCupForm />
-          </Route>
-        </Switch> */}
-      </Router>
+        {/* Card for student-Cup */}
+        <Card className={classes.root}>
+          <CardActionArea>
+            <CardMedia
+              className={classes.media}
+              image={Student_Cup_logo}
+              title="studentleker"
+            />
+            <CardContent>
+              <Typography variant="body2" color="textSecondary" component="p">
+                Søknadskjema for Student-Cup
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <CardActions>
+            <Button
+              component={RouterLink}
+              size="small"
+              to="/studentcup"
+              color="primary"
+            >
+              Ny søknad
+            </Button>
+          </CardActions>
+        </Card>
+      </div>
+      <br></br>
+      <Divider />
+      <br></br>
+      <Typography gutterBottom variant="h5" component="h2">
+        Mine påbegynte søknader
+      </Typography>
     </div>
   );
 }

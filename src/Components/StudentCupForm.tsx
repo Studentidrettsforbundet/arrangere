@@ -1,10 +1,10 @@
+import { Typography } from "@material-ui/core";
 import React from "react";
 
 export default function StudentCupForm() {
-  console.log("hello");
   return (
-    <div>
-      <h1>Student-Cup form</h1>
-    </div>
+    <Typography gutterBottom variant="h5" component="h2">
+      Studentcup Form
+    </Typography>
   );
 }
