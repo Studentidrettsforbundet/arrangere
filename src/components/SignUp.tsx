@@ -38,16 +38,16 @@ const SignUp = () => {
     if (passwordRef.current!.value != passwordConfirmRef.current!.value) {
       return setError("Passwords do not match");
     }
-    try {
-      setError("");
-      setLoading(true);
-      await auth.createUserWithEmailAndPassword(
+    setError("");
+    setLoading(true);
+    await auth
+      .createUserWithEmailAndPassword(
         emailRef?.current?.value!,
         passwordRef?.current?.value!
-      );
-    } catch (error) {
-      setError(error.message);
-    }
+      )
+      .catch(function (error) {
+        setError(error.message);
+      });
     setLoading(false);
   }
 
@@ -78,6 +78,7 @@ const SignUp = () => {
               inputRef={passwordConfirmRef}
               id="my-input"
               aria-describedby="my-helper-text"
+              required
             />
           </FormControl>
         </form>

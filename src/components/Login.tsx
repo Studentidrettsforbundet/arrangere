@@ -18,6 +18,16 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>("");
 
+  /*
+  const login = (email:string, password:string) => {
+      if(email == null || password == null){
+        auth.signInWithEmailAndPassword("", "")
+
+      }
+
+  }
+  */
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user: any) => {
       if (user != null) {
@@ -34,14 +44,16 @@ const Login = () => {
     e.preventDefault();
     setError("");
     setLoading(true);
-    try {
-      await auth.signInWithEmailAndPassword(
+
+    await auth
+      .signInWithEmailAndPassword(
         emailRef.current!.value,
         passwordRef.current!.value
-      );
-    } catch (error) {
-      setError(error.message);
-    }
+      )
+      .catch(function (error) {
+        setError(error.message);
+      });
+
     setLoading(false);
   }
 
