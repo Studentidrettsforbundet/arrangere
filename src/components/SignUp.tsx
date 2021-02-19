@@ -11,6 +11,7 @@ import { auth } from "../firebase";
 import firebase from "firebase/app";
 
 import { currentUserState } from "../stateManagement/userAuth";
+import { setUncaughtExceptionCaptureCallback } from "process";
 
 const SignUp = () => {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -36,7 +37,7 @@ const SignUp = () => {
     e.preventDefault();
 
     if (passwordRef.current!.value != passwordConfirmRef.current!.value) {
-      return setError("Passwords do not match");
+      return setError("Passordene er ikke like");
     }
     setError("");
     setLoading(true);
@@ -46,7 +47,18 @@ const SignUp = () => {
         passwordRef?.current?.value!
       )
       .catch(function (error) {
-        setError(error.message);
+        let code = error.code;
+        if (code == "auth/email-already-in-use") {
+          setError("En bruker er allerede knyttet til denne adressen");
+        } else if (code == "auth/invalid-email") {
+          setError("Ugyldig epostadresse");
+        } else if (code == "auth/weak-password") {
+          setError(
+            "Ikke sterkt nok passord. Må bestå av minst seks bokstaver eller tegn"
+          );
+        } else {
+          setError("Konto ble ikke opprettet");
+        }
       });
     setLoading(false);
   }

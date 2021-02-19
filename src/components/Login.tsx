@@ -51,7 +51,16 @@ const Login = () => {
         passwordRef.current!.value
       )
       .catch(function (error) {
-        setError(error.message);
+        let code = error.code;
+        if (code == "auth/user-not-found") {
+          setError("Det finnes ingen bruker med denne adressen");
+        } else if (code == "auth/wrong-password") {
+          setError("Feil passord");
+        } else if (code == "auth/invalid-email") {
+          setError("Ugyldig epostadresse");
+        } else {
+          setError("Kunne ikke logge inn");
+        }
       });
 
     setLoading(false);
