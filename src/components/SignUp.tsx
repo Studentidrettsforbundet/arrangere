@@ -90,7 +90,6 @@ const SignUp = () => {
                 inputRef={emailRef}
                 id="my-input"
                 aria-describedby="my-helper-text"
-                size="small"
               />
             </FormControl>
             <FormControl className={classes.formfield}>
