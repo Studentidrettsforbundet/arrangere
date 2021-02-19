@@ -18,12 +18,14 @@ const currentUserState = atom({
 
 const useStyles = makeStyles({
   container: {
-    paddingTop: "50px",
+    margin: "0 auto",
+    marginTop: "50px",
   },
   root: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    backgroundColor: "#E8E8E8",
   },
   content: {
     display: "flex",
@@ -88,6 +90,7 @@ const SignUp = () => {
                 inputRef={emailRef}
                 id="my-input"
                 aria-describedby="my-helper-text"
+                size="small"
               />
             </FormControl>
             <FormControl className={classes.formfield}>

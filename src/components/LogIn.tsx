@@ -11,12 +11,14 @@ import logo from "../assets/logo-sort.png";
 
 const useStyles = makeStyles({
   container: {
-    paddingTop: "50px",
+    margin: "0 auto",
+    marginTop: "50px",
   },
   root: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    backgroundColor: "#E8E8E8",
   },
   content: {
     display: "flex",
