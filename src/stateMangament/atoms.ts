@@ -5,11 +5,9 @@ import {
   selector,
   useRecoilState,
   useRecoilValue,
-} from 'recoil';
-
+} from "recoil";
 
 const user = atom({
-    key: 'user',
-    default: ''
-})
-
+  key: "user",
+  default: "",
+});

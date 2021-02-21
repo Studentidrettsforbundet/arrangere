@@ -8,8 +8,15 @@ import FormControl from "@material-ui/core/FormControl";
 import FilledInput from "@material-ui/core/FilledInput";
 import { Container, Typography } from "@material-ui/core";
 import logo from "../assets/logo-sort.png";
-import { atom, useRecoilState } from "recoil";
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from "recoil";
 import { auth } from "../firebase";
+import firebase from "firebase/app";
 
 const currentUserState = atom({
   key: "user",
