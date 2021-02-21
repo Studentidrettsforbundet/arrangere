@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -8,20 +8,11 @@ import FormControl from "@material-ui/core/FormControl";
 import FilledInput from "@material-ui/core/FilledInput";
 import { Container, Typography } from "@material-ui/core";
 import logo from "../assets/logo-sort.png";
-import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from "recoil";
+import { useSetRecoilState } from "recoil";
 import { auth } from "../firebase";
-import firebase from "firebase/app";
 
-const currentUserState = atom({
-  key: "user",
-  default: null,
-});
+import { currentUserState } from "../stateManagement/userAuth";
+import { setUncaughtExceptionCaptureCallback } from "process";
 
 const useStyles = makeStyles({
   container: {
@@ -60,28 +51,60 @@ const useStyles = makeStyles({
 
 const SignUp = () => {
   const classes = useStyles();
+
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-
   const passwordConfirmRef = useRef<HTMLInputElement>(null);
 
-  const [currentUser, setCurrentUser] = useRecoilState<any>(currentUserState);
+  const setCurrentUser = useSetRecoilState(currentUserState);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>("");
 
   function SignUpFunc(email: string, password: string) {
     auth.createUserWithEmailAndPassword(email, password);
   }
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user: any) => {
-      setCurrentUser(user);
+    auth.onAuthStateChanged((user: any) => {
+      if (user != null) {
+        setCurrentUser(user.toJSON());
+      } else {
+        setCurrentUser(null);
+      }
+      setLoading(false);
     });
-    return unsubscribe;
   }, []);
 
-  function handleSubmit(e: any) {
+  async function handleSubmit(e: any) {
     e.preventDefault();
-    SignUpFunc(emailRef?.current?.value!, passwordRef?.current?.value!);
+
+    if (passwordRef.current!.value !== passwordConfirmRef.current!.value) {
+      return setError("Passordene er ikke like");
+    }
+    setError("");
+    setLoading(true);
+    await auth
+      .createUserWithEmailAndPassword(
+        emailRef?.current?.value!,
+        passwordRef?.current?.value!
+      )
+      .catch(function (error) {
+        let code = error.code;
+        if (code === "auth/email-already-in-use") {
+          setError("En bruker er allerede knyttet til denne adressen");
+        } else if (code === "auth/invalid-email") {
+          setError("Ugyldig epostadresse");
+        } else if (code === "auth/weak-password") {
+          setError(
+            "Ikke sterkt nok passord. Må bestå av minst seks bokstaver eller tegn"
+          );
+        } else {
+          setError("Konto ble ikke opprettet");
+        }
+      });
+    setLoading(false);
   }
+  console.log(error);
 
   return (
     <Container className={classes.container}>
