@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -7,59 +6,16 @@ import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import TextField from "@material-ui/core/TextField";
 import Alert from "@material-ui/lab/Alert";
-
-import { Container, Link, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
+import { Container } from "@material-ui/core";
+import { Link } from "@material-ui/core";
 
 import logo from "../assets/logo-sort.png";
 import { useSetRecoilState } from "recoil";
 import { auth } from "../firebase";
 import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
-
 import { currentUserState } from "../stateManagement/userAuth";
-
-const useStyles = makeStyles({
-  container: {
-    // margin: "0 auto",
-    marginTop: "10%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    maxWidth: 800,
-    padding: 30,
-    //alignItems: "center",
-  },
-  content: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  formfield: {
-    margin: "15px",
-  },
-  image: {
-    padding: "20px",
-    width: "40%",
-    alignSelf: "center",
-  },
-  button: {
-    display: "flex",
-    alignSelf: "center",
-  },
-  text: {
-    margin: "10px",
-  },
-  errorText: {
-    color: "red",
-  },
-});
+import { useStyles } from "../style/authentication";
 
 const SignUp = () => {
   const classes = useStyles();
@@ -90,19 +46,19 @@ const SignUp = () => {
     setErrorText("");
     setPassError(false);
     setEmailError(false);
-    setLoading(true);
 
     if (
       emailRef.current!.value == "" ||
       passwordRef.current!.value == "" ||
       passwordConfirmRef.current!.value == ""
     ) {
-      return (
-        setErrorText("Fyll inn alle felter"),
-        (<Alert severity="error">This is an error alert — check it out!</Alert>)
-      );
+      return setErrorText("Fyll inn alle feltene");
     }
-
+    if (passwordRef.current!.value !== passwordConfirmRef.current!.value) {
+      setPassError(true);
+      return setErrorText("Passordene er ikke like");
+    }
+    setLoading(true);
     await auth
       .createUserWithEmailAndPassword(
         emailRef.current!.value,
@@ -123,11 +79,17 @@ const SignUp = () => {
           return setErrorText("Konto ble ikke opprettet");
         }
       });
-    if (passwordRef.current!.value !== passwordConfirmRef.current!.value) {
-      setPassError(true);
-      return setErrorText("Passordene er ikke like");
-    }
+
     setLoading(false);
+  }
+
+  let alertContainer;
+  if (errorText != "") {
+    alertContainer = (
+      <Alert className={classes.formfield} severity="error">
+        {errorText}
+      </Alert>
+    );
   }
 
   return (
@@ -136,7 +98,9 @@ const SignUp = () => {
         <img className={classes.image} src={logo} alt="logo" />
 
         <CardContent>
-          <Typography variant="h6">Registrer bruker</Typography>
+          <Typography variant="h6" className={classes.formfield}>
+            Registrer bruker
+          </Typography>
           <form className={classes.form}>
             <FormControl className={classes.formfield}>
               <TextField
@@ -167,9 +131,8 @@ const SignUp = () => {
                 type="password"
               />
             </FormControl>
+            {alertContainer}
           </form>
-          <p className={classes.errorText}>{errorText}</p>
-
           <CardActions className={classes.content}>
             <Button
               onClick={(event) => handleSubmit(event)}

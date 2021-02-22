@@ -1,71 +1,29 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { currentUserState } from "../stateManagement/userAuth";
 import { auth } from "../firebase";
 
-import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import TextField from "@material-ui/core/TextField";
-
+import Alert from "@material-ui/lab/Alert";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
-import { Container, Typography } from "@material-ui/core";
-import logo from "../assets/logo-sort.png";
-import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
+import { Typography } from "@material-ui/core";
+import { Container } from "@material-ui/core";
 import { Link } from "@material-ui/core";
 
-const useStyles = makeStyles({
-  container: {
-    // margin: "0 auto",
-    marginTop: "10%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    maxWidth: 800,
-    padding: 30,
-    //alignItems: "center",
-  },
-  content: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  formfield: {
-    margin: "15px",
-  },
-  image: {
-    padding: "20px",
-    width: "40%",
-    alignSelf: "center",
-  },
-  button: {
-    display: "flex",
-    alignSelf: "center",
-  },
-  text: {
-    margin: "10px",
-  },
-  errorText: {
-    color: "red",
-  },
-});
+import logo from "../assets/logo-sort.png";
+import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
+import { useStyles } from "../style/authentication";
 
 const LogIn = () => {
   const classes = useStyles();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
-  const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
+  const setCurrentUser = useSetRecoilState(currentUserState);
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState<string>("");
   const [emailError, setEmailError] = useState<boolean>(false);
@@ -86,12 +44,14 @@ const LogIn = () => {
   async function handleSubmit(e: any) {
     e.preventDefault();
     setErrorText("");
-    setLoading(true);
+    setPassError(false);
+    setEmailError(false);
 
     if (emailRef.current!.value == "" || passwordRef.current!.value == "") {
-      return setErrorText("Fyll inn alle felter");
+      return setErrorText("Fyll inn alle feltene");
     }
 
+    setLoading(true);
     await auth
       .signInWithEmailAndPassword(
         emailRef.current!.value,
@@ -118,6 +78,14 @@ const LogIn = () => {
 
     setLoading(false);
   }
+  let alertContainer;
+  if (errorText != "") {
+    alertContainer = (
+      <Alert className={classes.formfield} severity="error">
+        {errorText}
+      </Alert>
+    );
+  }
 
   return (
     <Container className={classes.container}>
@@ -125,7 +93,9 @@ const LogIn = () => {
         <img className={classes.image} src={logo} alt="logo" />
 
         <CardContent>
-          <Typography variant="h6">Logg inn</Typography>
+          <Typography variant="h6" className={classes.formfield}>
+            Logg inn
+          </Typography>
           <form className={classes.form}>
             <FormControl className={classes.formfield}>
               <TextField
@@ -146,8 +116,8 @@ const LogIn = () => {
                 type="password"
               />
             </FormControl>
+            {alertContainer}
           </form>
-          <p className={classes.errorText}> {errorText}</p>
 
           <CardActions className={classes.content}>
             <Button
