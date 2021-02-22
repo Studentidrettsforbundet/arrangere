@@ -4,29 +4,32 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import InputLabel from "@material-ui/core/InputLabel";
+
+import TextField from "@material-ui/core/TextField";
+
+import { makeStyles } from "@material-ui/core/styles";
+
 import { useRecoilState } from "recoil";
 import { auth } from "../firebase";
 import { currentUserState } from "../stateManagement/userAuth";
 
+const useStyles = makeStyles({
+  errorText: {
+    color: "red",
+  },
+});
+
 const Login = () => {
+  const classes = useStyles();
+
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string>("");
-
-  /*
-  const login = (email:string, password:string) => {
-      if(email == null || password == null){
-        auth.signInWithEmailAndPassword("", "")
-
-      }
-
-  }
-  */
+  const [errorText, setErrorText] = useState<string>("");
+  const [emailError, setEmailError] = useState<boolean>(false);
+  const [passError, setPassError] = useState<boolean>(false);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user: any) => {
@@ -42,7 +45,9 @@ const Login = () => {
 
   async function handleSubmit(e: any) {
     e.preventDefault();
-    setError("");
+    setErrorText("");
+    setPassError(false);
+    setEmailError(false);
     setLoading(true);
 
     await auth
@@ -53,13 +58,16 @@ const Login = () => {
       .catch(function (error) {
         let code = error.code;
         if (code == "auth/user-not-found") {
-          setError("Det finnes ingen bruker med denne adressen");
+          setErrorText("Det finnes ingen bruker med denne adressen");
+          return setEmailError(true);
         } else if (code == "auth/wrong-password") {
-          setError("Feil passord");
+          setErrorText("Feil passord");
+          return setPassError(true);
         } else if (code == "auth/invalid-email") {
-          setError("Ugyldig epostadresse");
+          setErrorText("Ugyldig epostadresse");
+          return setEmailError(true);
         } else {
-          setError("Kunne ikke logge inn");
+          setErrorText("Kunne ikke logge inn");
         }
       });
 
@@ -71,23 +79,26 @@ const Login = () => {
       <CardContent>
         <form>
           <FormControl>
-            {error}
-            <InputLabel htmlFor="email">Email address</InputLabel>
-            <OutlinedInput
+            <TextField
+              required
+              label="E-post"
               inputRef={emailRef}
-              id="my-input"
-              aria-describedby="my-helper-text"
+              variant="filled"
+              error={emailError}
             />
           </FormControl>
           <FormControl>
-            <InputLabel htmlFor="email">password</InputLabel>
-            <OutlinedInput
+            <TextField
+              required
+              label="Passord"
+              error={passError}
               inputRef={passwordRef}
-              id="my-input"
-              aria-describedby="my-helper-text"
+              variant="filled"
+              type="password"
             />
           </FormControl>
         </form>
+        <p className={classes.errorText}> {errorText}</p>
       </CardContent>
       <CardActions>
         <Button
