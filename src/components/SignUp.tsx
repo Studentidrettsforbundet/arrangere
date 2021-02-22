@@ -5,15 +5,19 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
+import TextField from "@material-ui/core/TextField";
+
+import { Container, Typography } from "@material-ui/core";
+
 import FilledInput from "@material-ui/core/FilledInput";
 import { Container, Link, Typography } from "@material-ui/core";
+
 import logo from "../assets/logo-sort.png";
 import { useSetRecoilState } from "recoil";
 import { auth } from "../firebase";
 import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 
 import { currentUserState } from "../stateManagement/userAuth";
-import { setUncaughtExceptionCaptureCallback } from "process";
 
 const useStyles = makeStyles({
   container: {
@@ -47,6 +51,9 @@ const useStyles = makeStyles({
   text: {
     margin: "10px",
   },
+  errorText: {
+    color: "red",
+  },
 });
 
 const SignUp = () => {
@@ -58,11 +65,9 @@ const SignUp = () => {
 
   const setCurrentUser = useSetRecoilState(currentUserState);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string>("");
-
-  function SignUpFunc(email: string, password: string) {
-    auth.createUserWithEmailAndPassword(email, password);
-  }
+  const [errorText, setErrorText] = useState<string>("");
+  const [emailError, setEmailError] = useState<boolean>(false);
+  const [passError, setPassError] = useState<boolean>(false);
 
   useEffect(() => {
     auth.onAuthStateChanged((user: any) => {
@@ -77,34 +82,45 @@ const SignUp = () => {
 
   async function handleSubmit(e: any) {
     e.preventDefault();
-
-    if (passwordRef.current!.value !== passwordConfirmRef.current!.value) {
-      return setError("Passordene er ikke like");
-    }
-    setError("");
+    setErrorText("");
+    setPassError(false);
+    setEmailError(false);
     setLoading(true);
+
+    if (
+      emailRef.current!.value == "" ||
+      passwordRef.current!.value == "" ||
+      passwordConfirmRef.current!.value == ""
+    ) {
+      return setErrorText("Fyll inn alle felter");
+    }
+
     await auth
       .createUserWithEmailAndPassword(
-        emailRef?.current?.value!,
-        passwordRef?.current?.value!
+        emailRef.current!.value,
+        passwordRef.current!.value
       )
       .catch(function (error: any) {
         let code = error.code;
         if (code === "auth/email-already-in-use") {
-          setError("En bruker er allerede knyttet til denne adressen");
+          setErrorText("En bruker er allerede knyttet til denne adressen");
+          return setEmailError(true);
         } else if (code === "auth/invalid-email") {
-          setError("Ugyldig epostadresse");
+          setErrorText("Ugyldig epostadresse");
+          return setEmailError(true);
         } else if (code === "auth/weak-password") {
-          setError(
-            "Ikke sterkt nok passord. Må bestå av minst seks bokstaver eller tegn"
-          );
+          setErrorText("Passordet må bestå av minst seks bokstaver eller tegn");
+          return setPassError(true);
         } else {
-          setError("Konto ble ikke opprettet");
+          return setErrorText("Konto ble ikke opprettet");
         }
       });
+    if (passwordRef.current!.value !== passwordConfirmRef.current!.value) {
+      setPassError(true);
+      return setErrorText("Passordene er ikke like");
+    }
     setLoading(false);
   }
-  console.log(error);
 
   return (
     <Container className={classes.container}>
@@ -112,38 +128,45 @@ const SignUp = () => {
         <img className={classes.image} src={logo} alt="logo" />
 
         <CardContent className={classes.content}>
-          <Typography variant="h6">Registrering</Typography>
           <form className={classes.form}>
             <FormControl className={classes.formfield}>
-              <Typography variant="body2">Email</Typography>
-              <FilledInput
+              <TextField
+                required
+                label="E-post"
                 inputRef={emailRef}
-                id="my-input"
-                aria-describedby="my-helper-text"
+                variant="filled"
+                error={emailError}
               />
             </FormControl>
             <FormControl className={classes.formfield}>
-              <Typography variant="body2">Passord</Typography>
-              <FilledInput
+              <TextField
+                required
+                label="Passord"
+                error={passError}
                 inputRef={passwordRef}
-                id="my-input"
-                aria-describedby="my-helper-text"
+                variant="filled"
+                type="password"
               />
             </FormControl>
             <FormControl className={classes.formfield}>
-              <Typography variant="body2">Gjenta passord</Typography>
-              <FilledInput
+              <TextField
+                required
+                error={passError}
+                label="Gjenta passord"
                 inputRef={passwordConfirmRef}
-                id="filled-basic"
-                aria-describedby="my-helper-text"
+                variant="filled"
+                type="password"
               />
             </FormControl>
           </form>
+          <p className={classes.errorText}> {errorText}</p>
+
           <CardActions>
             <Button
               onClick={(event) => handleSubmit(event)}
               type="submit"
               variant="outlined"
+              disabled={loading}
               className={classes.button}
             >
               Registrer
