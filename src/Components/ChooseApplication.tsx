@@ -11,15 +11,16 @@ import Student_NM_logo from "./../images/student_NM.png";
 import Studentleker_logo from "./../images/studentleker-1.png";
 import Student_Cup_logo from "./../images/studentcup-1.png";
 import Divider from "@material-ui/core/Divider";
-import { BrowserRouter, Link, Switch, Route } from "react-router-dom";
-import StudentNMForm from "./StudentNMForm";
-import StudentlekerForm from "./StudentlekerForm";
-import StudentCupForm from "./StudentCupForm";
+import {
+  BrowserRouter as Router,
+  Link as RouterLink,
+  Link,
+} from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
-    padding: 20,
+    padding: 30,
     margin: 20,
     display: "flex",
     flexDirection: "column",
@@ -62,7 +63,7 @@ export default function ChooseApplication() {
           </CardActionArea>
           <CardActions>
             <Button
-              component={Link}
+              component={RouterLink}
               to="/studentnm"
               size="small"
               color="primary"
@@ -88,7 +89,7 @@ export default function ChooseApplication() {
           </CardActionArea>
           <CardActions>
             <Button
-              component={Link}
+              component={RouterLink}
               to="/studentleker"
               size="small"
               color="primary"
@@ -114,7 +115,7 @@ export default function ChooseApplication() {
           </CardActionArea>
           <CardActions>
             <Button
-              component={Link}
+              component={RouterLink}
               size="small"
               to="/studentcup"
               color="primary"
