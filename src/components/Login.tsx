@@ -18,19 +18,23 @@ import { Link } from "@material-ui/core";
 
 const useStyles = makeStyles({
   container: {
-    margin: "0 auto",
-    marginTop: "50px",
+    // margin: "0 auto",
+    marginTop: "10%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   root: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
-    backgroundColor: "#E8E8E8",
+    maxWidth: 800,
+    padding: 30,
+    //alignItems: "center",
   },
   content: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "start",
+    alignItems: "center",
   },
   form: {
     display: "flex",
@@ -40,11 +44,13 @@ const useStyles = makeStyles({
     margin: "15px",
   },
   image: {
-    padding: "50px",
+    padding: "20px",
     width: "40%",
+    alignSelf: "center",
   },
   button: {
-    width: "150px",
+    display: "flex",
+    alignSelf: "center",
   },
   text: {
     margin: "10px",
@@ -118,7 +124,7 @@ const LogIn = () => {
       <Card className={classes.root}>
         <img className={classes.image} src={logo} alt="logo" />
 
-        <CardContent className={classes.content}>
+        <CardContent>
           <Typography variant="h6">Logg inn</Typography>
           <form className={classes.form}>
             <FormControl className={classes.formfield}>
@@ -126,7 +132,7 @@ const LogIn = () => {
                 required
                 label="E-post"
                 inputRef={emailRef}
-                variant="filled"
+                variant="outlined"
                 error={emailError}
               />
             </FormControl>
@@ -136,14 +142,14 @@ const LogIn = () => {
                 label="Passord"
                 error={passError}
                 inputRef={passwordRef}
-                variant="filled"
+                variant="outlined"
                 type="password"
               />
             </FormControl>
           </form>
           <p className={classes.errorText}> {errorText}</p>
 
-          <CardActions>
+          <CardActions className={classes.content}>
             <Button
               onClick={(event) => handleSubmit(event)}
               type="submit"
@@ -156,14 +162,16 @@ const LogIn = () => {
           </CardActions>
         </CardContent>
 
-        <Typography variant="body1" className={classes.text}>
-          Har du ikke konto?{" "}
-          <b>
-            <Link component={RouterLink} to="/signup">
-              Register deg her
-            </Link>
-          </b>
-        </Typography>
+        <div className={classes.content}>
+          <Typography variant="body1">
+            Har du ikke konto?{" "}
+            <b>
+              <Link component={RouterLink} to="/signup">
+                Register deg her
+              </Link>
+            </b>
+          </Typography>
+        </div>
       </Card>
     </Container>
   );

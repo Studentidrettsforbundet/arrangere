@@ -6,6 +6,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import TextField from "@material-ui/core/TextField";
+import Alert from "@material-ui/lab/Alert";
 
 import { Container, Link, Typography } from "@material-ui/core";
 
@@ -18,18 +19,23 @@ import { currentUserState } from "../stateManagement/userAuth";
 
 const useStyles = makeStyles({
   container: {
-    margin: "0 auto",
-    marginTop: "50px",
+    // margin: "0 auto",
+    marginTop: "10%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   root: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
+    maxWidth: 800,
+    padding: 30,
+    //alignItems: "center",
   },
   content: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "start",
+    alignItems: "center",
   },
   form: {
     display: "flex",
@@ -39,11 +45,13 @@ const useStyles = makeStyles({
     margin: "15px",
   },
   image: {
-    padding: "50px",
+    padding: "20px",
     width: "40%",
+    alignSelf: "center",
   },
   button: {
-    width: "150px",
+    display: "flex",
+    alignSelf: "center",
   },
   text: {
     margin: "10px",
@@ -89,7 +97,10 @@ const SignUp = () => {
       passwordRef.current!.value == "" ||
       passwordConfirmRef.current!.value == ""
     ) {
-      return setErrorText("Fyll inn alle felter");
+      return (
+        setErrorText("Fyll inn alle felter"),
+        (<Alert severity="error">This is an error alert — check it out!</Alert>)
+      );
     }
 
     await auth
@@ -124,14 +135,15 @@ const SignUp = () => {
       <Card className={classes.root}>
         <img className={classes.image} src={logo} alt="logo" />
 
-        <CardContent className={classes.content}>
+        <CardContent>
+          <Typography variant="h6">Registrer bruker</Typography>
           <form className={classes.form}>
             <FormControl className={classes.formfield}>
               <TextField
                 required
                 label="E-post"
                 inputRef={emailRef}
-                variant="filled"
+                variant="outlined"
                 error={emailError}
               />
             </FormControl>
@@ -141,7 +153,7 @@ const SignUp = () => {
                 label="Passord"
                 error={passError}
                 inputRef={passwordRef}
-                variant="filled"
+                variant="outlined"
                 type="password"
               />
             </FormControl>
@@ -151,14 +163,14 @@ const SignUp = () => {
                 error={passError}
                 label="Gjenta passord"
                 inputRef={passwordConfirmRef}
-                variant="filled"
+                variant="outlined"
                 type="password"
               />
             </FormControl>
           </form>
-          <p className={classes.errorText}> {errorText}</p>
+          <p className={classes.errorText}>{errorText}</p>
 
-          <CardActions>
+          <CardActions className={classes.content}>
             <Button
               onClick={(event) => handleSubmit(event)}
               type="submit"
@@ -171,14 +183,16 @@ const SignUp = () => {
           </CardActions>
         </CardContent>
 
-        <Typography variant="body1" className={classes.text}>
-          Har du allerede en konto?{" "}
-          <b>
-            <Link component={RouterLink} to="/">
-              Logg inn her
-            </Link>
-          </b>
-        </Typography>
+        <div className={classes.content}>
+          <Typography variant="body1">
+            Har du allerede en konto?{" "}
+            <b>
+              <Link component={RouterLink} to="/">
+                Logg inn her
+              </Link>
+            </b>
+          </Typography>
+        </div>
       </Card>
     </Container>
   );
