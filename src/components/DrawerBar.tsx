@@ -9,12 +9,11 @@ import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined"
 
 import CardMedia from "@material-ui/core/CardMedia";
 import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
-import Collapse from "@material-ui/core/Collapse";
+
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
+
 import { Link } from "react-router-dom";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -27,7 +26,6 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       width: "100%",
       maxWidth: 360,
-      // backgroundColor: theme.palette.background.paper,
     },
     drawer: {
       width: drawerWidth,
@@ -53,12 +51,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function DrawerBar() {
   const classes = useStyles();
-
-  const [open, setOpen] = React.useState(true);
-
-  const handleClick = () => {
-    setOpen(!open);
-  };
 
   return (
     <div className={classes.root}>
@@ -92,25 +84,12 @@ export default function DrawerBar() {
               <ListItemText primary="Brukerprofil" />
             </ListItem>
             <Divider />
-            <ListItem
-              button
-              onClick={handleClick}
-              component={Link}
-              to="/applications"
-            >
+            <ListItem button component={Link} to="/applications">
               <ListItemIcon>
                 <DescriptionOutlinedIcon />
               </ListItemIcon>
               <ListItemText primary="Søknader" />
-              {open ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
-            <Collapse in={open} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <ListItem button className={classes.nested}>
-                  <ListItemText primary="Eksempel søknad 1" />
-                </ListItem>
-              </List>
-            </Collapse>
           </List>
         </Drawer>
       </div>
