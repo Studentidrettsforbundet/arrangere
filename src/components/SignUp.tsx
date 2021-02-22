@@ -6,10 +6,11 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import FilledInput from "@material-ui/core/FilledInput";
-import { Container, Typography } from "@material-ui/core";
+import { Container, Link, Typography } from "@material-ui/core";
 import logo from "../assets/logo-sort.png";
 import { useSetRecoilState } from "recoil";
 import { auth } from "../firebase";
+import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
 
 import { currentUserState } from "../stateManagement/userAuth";
 import { setUncaughtExceptionCaptureCallback } from "process";
@@ -23,7 +24,6 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    backgroundColor: "#E8E8E8",
   },
   content: {
     display: "flex",
@@ -88,7 +88,7 @@ const SignUp = () => {
         emailRef?.current?.value!,
         passwordRef?.current?.value!
       )
-      .catch(function (error) {
+      .catch(function (error: any) {
         let code = error.code;
         if (code === "auth/email-already-in-use") {
           setError("En bruker er allerede knyttet til denne adressen");
@@ -152,7 +152,12 @@ const SignUp = () => {
         </CardContent>
 
         <Typography variant="body1" className={classes.text}>
-          Har du allerede en konto? <b>Logg inn her</b>
+          Har du allerede en konto?{" "}
+          <b>
+            <Link component={RouterLink} to="/">
+              Logg inn her
+            </Link>
+          </b>
         </Typography>
       </Card>
     </Container>

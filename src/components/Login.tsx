@@ -6,11 +6,13 @@ import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import InputLabel from "@material-ui/core/InputLabel";
+import { Link, Typography } from "@material-ui/core";
 import { useRecoilState } from "recoil";
 import { auth } from "../firebase";
 import { currentUserState } from "../stateManagement/userAuth";
+import { Link as RouterLink } from "react-router-dom";
 
-const Login = () => {
+const LogIn = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -50,13 +52,13 @@ const Login = () => {
         emailRef.current!.value,
         passwordRef.current!.value
       )
-      .catch(function (error) {
+      .catch(function (error: any) {
         let code = error.code;
-        if (code == "auth/user-not-found") {
+        if (code === "auth/user-not-found") {
           setError("Det finnes ingen bruker med denne adressen");
-        } else if (code == "auth/wrong-password") {
+        } else if (code === "auth/wrong-password") {
           setError("Feil passord");
-        } else if (code == "auth/invalid-email") {
+        } else if (code === "auth/invalid-email") {
           setError("Ugyldig epostadresse");
         } else {
           setError("Kunne ikke logge inn");
@@ -100,8 +102,16 @@ const Login = () => {
         </Button>
         current user is: {currentUser?.email}
       </CardActions>
+      <Typography variant="body1">
+        Har du ikke konto?{" "}
+        <b>
+          <Link component={RouterLink} to="/signup">
+            Registrer deg her
+          </Link>
+        </b>
+      </Typography>
     </Card>
   );
 };
 
-export default Login;
+export default LogIn;
