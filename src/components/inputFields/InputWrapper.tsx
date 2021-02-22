@@ -5,13 +5,16 @@ type InputWrapperProps = {
   title: string;
   mainDesc: string;
 };
-
+const components = {
+  short: ShortText,
+};
 const InputWrapper: FC<InputWrapperProps> = ({ title, mainDesc }) => {
+  const CompName = ShortText;
   return (
-    <div className="">
+    <div>
       <h3>{title}</h3>
-      <p> {mainDesc}</p>
-      <ShortText desc="feltbeskrivelse" label="label"></ShortText>
+      <p>{mainDesc}</p>
+      <CompName desc="besk1" label="label1" />
     </div>
   );
 };
