@@ -1,19 +1,25 @@
 import React from "react";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
-import ChooseApplicationForm from "./Components/ChooseApplication";
-import StudentCupForm from "./Components/StudentCupForm";
-import StudentlekerForm from "./Components/StudentlekerForm";
-import StudentNMForm from "./Components/StudentNMForm";
+import DrawerBar from "./components/DrawerBar";
+import Home from "./components/Home";
+import UserProfile from "./components/UserProfile";
+import ChooseApplication from "./components/ChooseApplication";
+import StudentCupForm from "./components/StudentCupForm";
+import StudentlekerForm from "./components/StudentlekerForm";
+import StudentNMForm from "./components/StudentNMForm";
 
 function App() {
   return (
-    <div className="App">
+    <div style={{ display: "flex", flexDirection: "row" }}>
+      <DrawerBar />
       <BrowserRouter>
         <Switch>
-          <Route exact path="/" component={ChooseApplicationForm} />
-          <Route path="/studentnm" component={StudentNMForm} />
+          <Route path="/" component={Home} exact />
+          <Route path="/userprofile" component={UserProfile} />
+          <Route path="/applications" component={ChooseApplication} />
+          {/* <Route path="/studentnm" component={StudentNMForm} />
           <Route path="/studentleker" component={StudentlekerForm} />
-          <Route path="/studentcup" component={StudentCupForm} />
+          <Route path="/studentcup" component={StudentCupForm} /> */}
         </Switch>
       </BrowserRouter>
     </div>
