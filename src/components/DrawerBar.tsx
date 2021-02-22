@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       width: "100%",
-      maxWidth: 360,
+      maxWidth: 300,
     },
     drawer: {
       width: drawerWidth,
