@@ -14,7 +14,7 @@ const InputWrapper: FC<InputWrapperProps> = ({ title, mainDesc }) => {
     <div>
       <h3>{title}</h3>
       <p>{mainDesc}</p>
-      <CompName desc="besk1" label="label1" />
+      <CompName desc="besk kort tekst" label="Kort tekst" />
     </div>
   );
 };
