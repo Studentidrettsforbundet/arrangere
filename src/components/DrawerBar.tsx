@@ -71,7 +71,7 @@ export default function DrawerBar() {
             className={classes.root}
           >
             <CardMedia className={classes.media} image={StudentidrettLogo} />
-            <ListItem button component={Link} to="/">
+            <ListItem button component={Link} to="/home">
               <ListItemIcon>
                 <AppsOutlinedIcon />
               </ListItemIcon>
