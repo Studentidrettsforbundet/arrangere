@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import ShortText from "./ShortText";
 import LongText from "./LongText";
 import RadioButton from "./RadioButton";
+import Date from "./Date";
 import { Typography } from "@material-ui/core";
 
 type InputWrapperProps = {
@@ -30,6 +31,9 @@ const getComponentToBeRendered = (type: string) => {
   if (type == "radio button") {
     ComponentName = RadioButton;
   }
+  if (type == "date") {
+    ComponentName = Date;
+  }
 
   return ComponentName;
 };
@@ -39,7 +43,7 @@ const InputWrapper: FC<InputWrapperProps> = ({ title, mainDesc, fields }) => {
   console.log(Component);
   return (
     <div>
-      <Typography variant="h3">{title}</Typography>
+      <Typography variant="h4">{title}</Typography>
       <Typography variant="h6">{mainDesc}</Typography>
       <Component desc={fields.desc}></Component>
     </div>

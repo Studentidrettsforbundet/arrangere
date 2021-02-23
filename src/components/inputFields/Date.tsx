@@ -25,10 +25,11 @@ const Date: FC<DateProps> = ({ desc }) => {
   const classes = useStyles();
   return (
     <div className="dateContainer">
+      <Typography>{desc}</Typography>
       <form className={classes.container} noValidate>
         <TextField
           id="date"
-          label={desc}
+          label="Dato"
           type="date"
           defaultValue="2017-05-24"
           className={classes.textField}

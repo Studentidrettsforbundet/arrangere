@@ -11,7 +11,7 @@ const LongText: FC<LongTextProps> = ({ desc }) => {
     <div className="longTextContainer">
       <Typography>{desc}</Typography>
       <TextField
-        id="outlined-full-width"
+        id="outlined-basic"
         fullWidth
         multiline
         rows={4}

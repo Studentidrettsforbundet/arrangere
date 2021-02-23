@@ -25,12 +25,13 @@ const Time: FC<TimeProps> = ({ desc }) => {
   const classes = useStyles();
   return (
     <div className="timeContainer">
+      <Typography>{desc}</Typography>
       <form className={classes.container} noValidate>
         <TextField
           id="time"
-          label={desc}
+          label="Tidspunkt"
           type="time"
-          defaultValue="07:30"
+          defaultValue="12:00"
           className={classes.textField}
           InputLabelProps={{
             shrink: true,
