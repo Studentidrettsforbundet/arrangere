@@ -1,20 +1,46 @@
 import React, { FC } from "react";
 import ShortText from "./ShortText";
+import LongText from "./LongText";
+import RadioButton from "./RadioButton";
 
 type InputWrapperProps = {
   title: string;
   mainDesc: string;
+  fields: {
+    type: string;
+    desc: string;
+  };
 };
-const components = {
-  short: ShortText,
+
+const defaultComponent = () => {
+  return <div></div>;
 };
-const InputWrapper: FC<InputWrapperProps> = ({ title, mainDesc }) => {
-  const CompName = ShortText;
+
+const getComponentToBeRendered = (type: string) => {
+  let ComponentName: React.FC<{ desc: string }>;
+  ComponentName = defaultComponent;
+
+  if (type == "short text") {
+    ComponentName = ShortText;
+  }
+  if (type == "long text") {
+    ComponentName = LongText;
+  }
+  if (type == "radio button") {
+    ComponentName = RadioButton;
+  }
+
+  return ComponentName;
+};
+
+const InputWrapper: FC<InputWrapperProps> = ({ title, mainDesc, fields }) => {
+  const Component = getComponentToBeRendered(fields.type);
+  console.log(Component);
   return (
     <div>
       <h3>{title}</h3>
       <p>{mainDesc}</p>
-      <CompName desc="besk kort tekst" label="Kort tekst" />
+      <Component desc={fields.desc}></Component>
     </div>
   );
 };

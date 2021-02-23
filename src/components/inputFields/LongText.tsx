@@ -3,16 +3,14 @@ import TextField from "@material-ui/core/TextField";
 
 type LongTextProps = {
   desc: string;
-  label: string;
 };
 
-const LongText: FC<LongTextProps> = ({ desc, label }) => {
+const LongText: FC<LongTextProps> = ({ desc }) => {
   return (
     <div className="longText">
       <p>{desc}</p>
       <TextField
         id="outlined-full-width"
-        label={label}
         fullWidth
         multiline
         InputLabelProps={{

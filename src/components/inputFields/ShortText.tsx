@@ -3,14 +3,13 @@ import TextField from "@material-ui/core/TextField";
 
 type ShortTextProps = {
   desc: string;
-  label: string;
 };
 
-const ShortText: FC<ShortTextProps> = ({ desc, label }) => {
+const ShortText: FC<ShortTextProps> = ({ desc }) => {
   return (
     <div className="shortText">
       <p>{desc}</p>
-      <TextField id="outlined-basic" label={label} variant="outlined" />
+      <TextField id="outlined-basic" variant="outlined" />
     </div>
   );
 };

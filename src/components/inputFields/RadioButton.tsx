@@ -7,15 +7,14 @@ import FormLabel from "@material-ui/core/FormLabel";
 
 type RadioProps = {
   desc: string;
-  label: string;
 };
 
-const RadioButton: FC<RadioProps> = ({ desc, label }) => {
+const RadioButton: FC<RadioProps> = ({ desc }) => {
   return (
     <div className="radios">
       <FormControl component="fieldset">
         <FormLabel component="legend">{desc}</FormLabel>
-        <RadioGroup aria-label={label} name="radio">
+        <RadioGroup name="radio">
           <FormControlLabel value="Ja" control={<Radio />} label="Ja" />
           <FormControlLabel value="Nei" control={<Radio />} label="Nei" />
         </RadioGroup>
