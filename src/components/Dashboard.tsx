@@ -15,10 +15,9 @@ export default function Dashboard() {
       <BrowserRouter>
         <DrawerBar />
         <Switch>
-          <Route path="/home" component={Home} />
-          <Route path="/userprofile" component={UserProfile} />
-          <Route path="/applications" component={ChooseApplication} />
-
+          <Route exact path="/" component={Home} />
+          <Route exact path="/userprofile" component={UserProfile} />
+          <Route exact path="/applications" component={ChooseApplication} />
           <Route path="/studentnm" component={StudentNMForm} />
           <Route path="/studentleker" component={StudentlekerForm} />
           <Route path="/studentcup" component={StudentCupForm} />

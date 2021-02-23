@@ -13,7 +13,11 @@ import { Link } from "@material-ui/core";
 import logo from "../assets/logo-sort.png";
 import { useSetRecoilState } from "recoil";
 import { auth } from "../firebase";
-import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Link as RouterLink,
+  useHistory,
+} from "react-router-dom";
 import { currentUserState } from "../stateManagement/userAuth";
 import { useStyles } from "../style/authentication";
 
@@ -25,6 +29,8 @@ const SignUp = () => {
   const passwordConfirmRef = useRef<HTMLInputElement>(null);
 
   const setCurrentUser = useSetRecoilState(currentUserState);
+  const history = useHistory();
+
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState<string>("");
   const [emailError, setEmailError] = useState<boolean>(false);
@@ -59,26 +65,27 @@ const SignUp = () => {
       return setErrorText("Passordene er ikke like");
     }
     setLoading(true);
-    await auth
-      .createUserWithEmailAndPassword(
+    await Promise.all([
+      auth.createUserWithEmailAndPassword(
         emailRef.current!.value,
         passwordRef.current!.value
-      )
-      .catch(function (error: any) {
-        let code = error.code;
-        if (code === "auth/email-already-in-use") {
-          setErrorText("En bruker er allerede knyttet til denne adressen");
-          return setEmailError(true);
-        } else if (code === "auth/invalid-email") {
-          setErrorText("Ugyldig epostadresse");
-          return setEmailError(true);
-        } else if (code === "auth/weak-password") {
-          setErrorText("Passordet må bestå av minst seks bokstaver eller tegn");
-          return setPassError(true);
-        } else {
-          return setErrorText("Konto ble ikke opprettet");
-        }
-      });
+      ),
+      history.push("/"),
+    ]).catch(function (error: any) {
+      let code = error.code;
+      if (code === "auth/email-already-in-use") {
+        setErrorText("En bruker er allerede knyttet til denne adressen");
+        return setEmailError(true);
+      } else if (code === "auth/invalid-email") {
+        setErrorText("Ugyldig epostadresse");
+        return setEmailError(true);
+      } else if (code === "auth/weak-password") {
+        setErrorText("Passordet må bestå av minst seks bokstaver eller tegn");
+        return setPassError(true);
+      } else {
+        return setErrorText("Konto ble ikke opprettet");
+      }
+    });
 
     setLoading(false);
   }
