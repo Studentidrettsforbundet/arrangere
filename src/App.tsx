@@ -23,7 +23,7 @@ const studentidrettTheme = createMuiTheme({
     },
   },
   typography: {
-    fontFamily: "KofiPureSerif",
+    // fontFamily: "KofiPureSerif",
   },
 });
 
@@ -32,18 +32,17 @@ function App() {
   return (
     <ThemeProvider theme={studentidrettTheme}>
       <div style={{ display: "flex", flexDirection: "row", padding: 20 }}>
-      <RecoilRoot>
-        <BrowserRouter>
-          <Switch>
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/signup" component={SignUp} />
-            <Dashboard></Dashboard>
-          </Switch>
-        </BrowserRouter>
-      </RecoilRoot>
-    </div>
+        <RecoilRoot>
+          <BrowserRouter>
+            <Switch>
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/signup" component={SignUp} />
+              <Dashboard></Dashboard>
+            </Switch>
+          </BrowserRouter>
+        </RecoilRoot>
+      </div>
     </ThemeProvider>
-
   );
 }
 export default App;
