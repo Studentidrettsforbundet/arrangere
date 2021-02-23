@@ -56,7 +56,6 @@ export default function DrawerBar() {
     <div className={classes.root}>
       <CssBaseline />
       <div className="drawerContent">
-        {" "}
         <Drawer
           className={classes.drawer}
           variant="permanent"
@@ -71,7 +70,7 @@ export default function DrawerBar() {
             className={classes.root}
           >
             <CardMedia className={classes.media} image={StudentidrettLogo} />
-            <ListItem button component={Link} to="/home">
+            <ListItem button component={Link} to="/">
               <ListItemIcon>
                 <AppsOutlinedIcon />
               </ListItemIcon>
