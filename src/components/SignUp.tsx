@@ -150,7 +150,7 @@ const SignUp = () => {
           <Typography variant="body1">
             Har du allerede en konto?{" "}
             <b>
-              <Link component={RouterLink} to="/">
+              <Link component={RouterLink} to="/login">
                 Logg inn her
               </Link>
             </b>

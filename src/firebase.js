@@ -1,4 +1,5 @@
 import firebase from "firebase/app";
+import "firebase/firestore";
 import "firebase/auth";
 
 const firebaseConfig = {
@@ -14,6 +15,15 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig);
 
+export const firestore = firebase.firestore();
 export const auth = app.auth();
+
+//eslint-disable-next-line no-restricted-globals
+if (location.hostname === "localhost") {
+  firestore.useEmulator("localhost", 8080);
+  firebase
+    .auth()
+    .useEmulator("http://localhost:9099/", { disableWarnings: true });
+}
 
 export default app;
