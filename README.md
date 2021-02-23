@@ -9,7 +9,11 @@ When running the application at localhost it gets connected to firebase emulator
 
 When running the application on localhost you can access diffrent pages with the following URLS:
 http://localhost:3000/login
+
 http://localhost:4000/signup
+
 http://localhost:4000/home
+
 http://localhost:4000/applications
+
 http://localhost:4000/userprofile
