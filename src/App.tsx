@@ -1,6 +1,4 @@
 import React from "react";
-import Text from "./Text";
-import Buttons from "./Buttons";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 const studentidrettTheme = createMuiTheme({
@@ -18,16 +16,15 @@ const studentidrettTheme = createMuiTheme({
       contrastText: "#000",
     },
   },
+  typography: {
+    fontFamily: "KofiPureSerif",
+  },
 });
 
 function App() {
   return (
     <ThemeProvider theme={studentidrettTheme}>
-      <div className="App">
-        <p>Her skal det komme en søknadsside</p>
-        <Text></Text>
-        <Buttons></Buttons>
-      </div>
+      <div className="App"></div>
     </ThemeProvider>
   );
 }
