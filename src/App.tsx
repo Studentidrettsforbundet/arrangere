@@ -39,18 +39,10 @@ function App() {
   return (
     <ThemeProvider theme={studentidrettTheme}>
       <div style={{ display: "flex", flexDirection: "row", padding: 20 }}>
-        <BrowserRouter>
-          <DrawerBar />
-          <Switch>
-            <Route path="/" component={Home} exact />
-            <Route path="/userprofile" component={UserProfile} />
-            <Route path="/applications" component={ChooseApplication} />
-
-            <Route path="/studentnm" component={StudentNMForm} />
-            <Route path="/studentleker" component={StudentlekerForm} />
-            <Route path="/studentcup" component={StudentCupForm} />
-
-            {/* <Route
+        <RecoilRoot>
+          <BrowserRouter>
+            <Switch>
+              {/* <Route
               path="/login"
               component={Login}
               render={() =>
@@ -62,11 +54,12 @@ function App() {
               }
             /> */}
 
-            <Route exact path="/" component={Dashboard} />
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={SignUp} />
-          </Switch>
-        </BrowserRouter>
+              <Route exact path="/" component={Dashboard} />
+              <Route path="/login" component={Login} />
+              <Route path="/signup" component={SignUp} />
+            </Switch>
+          </BrowserRouter>
+        </RecoilRoot>
       </div>
     </ThemeProvider>
   );
