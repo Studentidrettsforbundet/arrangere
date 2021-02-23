@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import TextField from "@material-ui/core/TextField";
+import { Typography } from "@material-ui/core";
 
 type ShortTextProps = {
   desc: string;
@@ -7,9 +8,9 @@ type ShortTextProps = {
 
 const ShortText: FC<ShortTextProps> = ({ desc }) => {
   return (
-    <div className="shortText">
-      <p>{desc}</p>
-      <TextField id="outlined-basic" variant="outlined" />
+    <div className="shortTextContainer">
+      <Typography>{desc}</Typography>
+      <TextField id="outlined-basic" variant="outlined" fullWidth />
     </div>
   );
 };

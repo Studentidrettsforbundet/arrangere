@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import ShortText from "./ShortText";
 import LongText from "./LongText";
 import RadioButton from "./RadioButton";
+import { Typography } from "@material-ui/core";
 
 type InputWrapperProps = {
   title: string;
@@ -38,8 +39,8 @@ const InputWrapper: FC<InputWrapperProps> = ({ title, mainDesc, fields }) => {
   console.log(Component);
   return (
     <div>
-      <h3>{title}</h3>
-      <p>{mainDesc}</p>
+      <Typography variant="h3">{title}</Typography>
+      <Typography variant="h6">{mainDesc}</Typography>
       <Component desc={fields.desc}></Component>
     </div>
   );

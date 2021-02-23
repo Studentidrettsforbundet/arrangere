@@ -11,7 +11,7 @@ type RadioProps = {
 
 const RadioButton: FC<RadioProps> = ({ desc }) => {
   return (
-    <div className="radios">
+    <div className="radioContainer">
       <FormControl component="fieldset">
         <FormLabel component="legend">{desc}</FormLabel>
         <RadioGroup name="radio">

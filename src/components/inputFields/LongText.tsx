@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import TextField from "@material-ui/core/TextField";
+import { Typography } from "@material-ui/core";
 
 type LongTextProps = {
   desc: string;
@@ -7,12 +8,13 @@ type LongTextProps = {
 
 const LongText: FC<LongTextProps> = ({ desc }) => {
   return (
-    <div className="longText">
-      <p>{desc}</p>
+    <div className="longTextContainer">
+      <Typography>{desc}</Typography>
       <TextField
         id="outlined-full-width"
         fullWidth
         multiline
+        rows={4}
         InputLabelProps={{
           shrink: true,
         }}
