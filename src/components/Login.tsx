@@ -57,30 +57,30 @@ const LogIn = () => {
     }
 
     setLoading(true);
-    await Promise.all([
-      auth.signInWithEmailAndPassword(
+    await auth
+      .signInWithEmailAndPassword(
         emailRef.current!.value,
         passwordRef.current!.value
-      ),
-      history.push("/"),
-    ]).catch(function (error) {
-      setLoading(false);
+      )
+      .then(() => {
+        history.push("/");
+      })
+      .catch((error) => {
+        let code = error.code;
+        if (code == "auth/user-not-found") {
+          setErrorText("Det finnes ingen bruker med denne adressen");
+          return setEmailError(true);
+        } else if (code == "auth/wrong-password") {
+          setErrorText("Feil passord");
+          return setPassError(true);
+        } else if (code == "auth/invalid-email") {
+          setErrorText("Ugyldig epostadresse");
 
-      let code = error.code;
-      if (code == "auth/user-not-found") {
-        setErrorText("Det finnes ingen bruker med denne adressen");
-        return setEmailError(true);
-      } else if (code == "auth/wrong-password") {
-        setErrorText("Feil passord");
-        return setPassError(true);
-      } else if (code == "auth/invalid-email") {
-        setErrorText("Ugyldig epostadresse");
-
-        return setEmailError(true);
-      } else {
-        setErrorText("Kunne ikke logge inn");
-      }
-    });
+          return setEmailError(true);
+        } else {
+          setErrorText("Kunne ikke logge inn");
+        }
+      });
 
     setLoading(false);
   }

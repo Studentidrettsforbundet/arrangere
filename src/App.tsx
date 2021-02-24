@@ -31,15 +31,13 @@ function App() {
   return (
     <ThemeProvider theme={studentidrettTheme}>
       <div style={{ display: "flex", flexDirection: "row", padding: 20 }}>
-        <RecoilRoot>
-          <BrowserRouter>
-            <Switch>
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/signup" component={SignUp} />
-              <Dashboard></Dashboard>
-            </Switch>
-          </BrowserRouter>
-        </RecoilRoot>
+        <BrowserRouter>
+          <Switch>
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/signup" component={SignUp} />
+            <Dashboard></Dashboard>
+          </Switch>
+        </BrowserRouter>
       </div>
     </ThemeProvider>
   );

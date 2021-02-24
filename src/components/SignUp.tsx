@@ -65,27 +65,29 @@ const SignUp = () => {
       return setErrorText("Passordene er ikke like");
     }
     setLoading(true);
-    await Promise.all([
-      auth.createUserWithEmailAndPassword(
+    await auth
+      .createUserWithEmailAndPassword(
         emailRef.current!.value,
         passwordRef.current!.value
-      ),
-      history.push("/"),
-    ]).catch(function (error: any) {
-      let code = error.code;
-      if (code === "auth/email-already-in-use") {
-        setErrorText("En bruker er allerede knyttet til denne adressen");
-        return setEmailError(true);
-      } else if (code === "auth/invalid-email") {
-        setErrorText("Ugyldig epostadresse");
-        return setEmailError(true);
-      } else if (code === "auth/weak-password") {
-        setErrorText("Passordet må bestå av minst seks bokstaver eller tegn");
-        return setPassError(true);
-      } else {
-        return setErrorText("Konto ble ikke opprettet");
-      }
-    });
+      )
+      .then(() => {
+        history.push("/");
+      })
+      .catch((error: any) => {
+        let code = error.code;
+        if (code === "auth/email-already-in-use") {
+          setErrorText("En bruker er allerede knyttet til denne adressen");
+          return setEmailError(true);
+        } else if (code === "auth/invalid-email") {
+          setErrorText("Ugyldig epostadresse");
+          return setEmailError(true);
+        } else if (code === "auth/weak-password") {
+          setErrorText("Passordet må bestå av minst seks bokstaver eller tegn");
+          return setPassError(true);
+        } else {
+          return setErrorText("Konto ble ikke opprettet");
+        }
+      });
 
     setLoading(false);
   }
