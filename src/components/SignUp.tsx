@@ -37,7 +37,7 @@ const SignUp = () => {
   const [passError, setPassError] = useState<boolean>(false);
 
   useEffect(() => {
-    auth.onAuthStateChanged((user: any) => {
+    const unsubscribe = auth.onAuthStateChanged((user: any) => {
       if (user != null) {
         setCurrentUser(user.toJSON());
       } else {
@@ -45,6 +45,7 @@ const SignUp = () => {
       }
       setLoading(false);
     });
+    return unsubscribe;
   }, []);
 
   async function handleSubmit(e: any) {
