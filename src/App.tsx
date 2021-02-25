@@ -29,9 +29,9 @@ const studentidrettTheme = createMuiTheme({
 
 function App() {
   return (
-    <ThemeProvider theme={studentidrettTheme}>
-      <div style={{ display: "flex", flexDirection: "row", padding: 20 }}>
-        <RecoilRoot>
+    <RecoilRoot>
+      <ThemeProvider theme={studentidrettTheme}>
+        <div style={{ display: "flex", flexDirection: "row", padding: 20 }}>
           <BrowserRouter>
             <Switch>
               <Route exact path="/login" component={Login} />
@@ -39,9 +39,9 @@ function App() {
               <Dashboard></Dashboard>
             </Switch>
           </BrowserRouter>
-        </RecoilRoot>
-      </div>
-    </ThemeProvider>
+        </div>
+      </ThemeProvider>
+    </RecoilRoot>
   );
 }
 export default App;

@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { currentUserState } from "../stateManagement/userAuth";
 import { auth } from "../firebase";
-
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -28,7 +27,8 @@ const LogIn = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
-  const setCurrentUser = useSetRecoilState(currentUserState);
+  const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
+
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState<string>("");
   const [emailError, setEmailError] = useState<boolean>(false);
@@ -37,12 +37,17 @@ const LogIn = () => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user: any) => {
       if (user != null) {
+        console.log("Loginuser before set(firebase):" + user.email);
+
         setCurrentUser(user.toJSON());
+        console.log("Loginuser:" + currentUser?.email);
       } else {
         setCurrentUser(null);
+        console.log("Loginuser if null:" + currentUser);
       }
-      setLoading(false);
+      console.log("Loginuser after:" + currentUser?.email);
     });
+
     return unsubscribe;
   }, []);
 
@@ -57,13 +62,12 @@ const LogIn = () => {
     }
 
     setLoading(true);
-    await Promise.all([
-      auth.signInWithEmailAndPassword(
+    try {
+      await auth.signInWithEmailAndPassword(
         emailRef.current!.value,
         passwordRef.current!.value
-      ),
-      history.push("/"),
-    ]).catch(function (error) {
+      );
+    } catch (error) {
       setLoading(false);
 
       let code = error.code;
@@ -80,10 +84,11 @@ const LogIn = () => {
       } else {
         setErrorText("Kunne ikke logge inn");
       }
-    });
-
+    }
     setLoading(false);
+    history.push("/");
   }
+
   let alertContainer;
   if (errorText != "") {
     alertContainer = (
