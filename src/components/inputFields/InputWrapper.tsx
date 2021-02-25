@@ -4,6 +4,9 @@ import LongText from "./LongText";
 import RadioButton from "./RadioButton";
 import Date from "./Date";
 import { Typography } from "@material-ui/core";
+import Time from "./Time";
+import FileUpload from "./FileUpload";
+import Number from "./Number";
 
 type InputWrapperProps = {
   title: string;
@@ -14,6 +17,17 @@ type InputWrapperProps = {
   };
 };
 
+const componentList = [
+  { type: "short text", ComponentName: ShortText },
+  { type: "long text", ComponentName: LongText },
+  { type: "radio button", ComponentName: RadioButton },
+  { type: "date", ComponentName: Date },
+  { type: "time", ComponentName: Time },
+  { type: "file", ComponentName: FileUpload },
+  { type: "number", ComponentName: Number },
+];
+
+// Default component if nothing is selected
 const defaultComponent = () => {
   return <div></div>;
 };
@@ -22,18 +36,11 @@ const getComponentToBeRendered = (type: string) => {
   let ComponentName: React.FC<{ desc: string }>;
   ComponentName = defaultComponent;
 
-  if (type == "short text") {
-    ComponentName = ShortText;
-  }
-  if (type == "long text") {
-    ComponentName = LongText;
-  }
-  if (type == "radio button") {
-    ComponentName = RadioButton;
-  }
-  if (type == "date") {
-    ComponentName = Date;
-  }
+  componentList.map((component) => {
+    if (component.type == type) {
+      ComponentName = component.ComponentName;
+    }
+  });
 
   return ComponentName;
 };

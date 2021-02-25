@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import TextField from "@material-ui/core/TextField";
-import { InputAdornment, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 
 type NumberProps = {
   desc: string;
@@ -15,9 +15,6 @@ const Number: FC<NumberProps> = ({ desc }) => {
         variant="outlined"
         fullWidth
         type="number"
-        InputProps={{
-          startAdornment: <InputAdornment position="start">NOK</InputAdornment>,
-        }}
       />
     </div>
   );

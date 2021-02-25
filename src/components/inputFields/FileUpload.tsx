@@ -1,10 +1,6 @@
-import React, { FC, Fragment } from "react";
-import TextField from "@material-ui/core/TextField";
-import { IconButton, Typography } from "@material-ui/core";
+import React, { FC } from "react";
+import { Typography } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import AttachFileIcon from "@material-ui/icons/AttachFile";
-import Button from "@material-ui/core/Button";
-import { PhotoCamera } from "@material-ui/icons";
 
 type FileUploadProps = {
   desc: string;
