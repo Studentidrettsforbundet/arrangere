@@ -27,29 +27,10 @@ const LogIn = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
-  const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
-
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState<string>("");
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passError, setPassError] = useState<boolean>(false);
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user: any) => {
-      if (user != null) {
-        console.log("Loginuser before set(firebase):" + user.email);
-
-        setCurrentUser(user.toJSON());
-        console.log("Loginuser:" + currentUser?.email);
-      } else {
-        setCurrentUser(null);
-        console.log("Loginuser if null:" + currentUser);
-      }
-      console.log("Loginuser after:" + currentUser?.email);
-    });
-
-    return unsubscribe;
-  }, []);
 
   async function handleSubmit(e: any) {
     e.preventDefault();

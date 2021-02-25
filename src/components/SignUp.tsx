@@ -28,25 +28,12 @@ const SignUp = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
   const passwordConfirmRef = useRef<HTMLInputElement>(null);
 
-  const setCurrentUser = useSetRecoilState(currentUserState);
-
   const history = useHistory();
 
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState<string>("");
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passError, setPassError] = useState<boolean>(false);
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user: any) => {
-      if (user != null) {
-        setCurrentUser(user.toJSON());
-      } else {
-        setCurrentUser(null);
-      }
-    });
-    return unsubscribe;
-  }, []);
 
   async function handleSubmit(e: any) {
     e.preventDefault();
