@@ -3,7 +3,7 @@ import {
   } from 'recoil';
   import firebase from "firebase/app"
   
-  export const NMdataState = atom<string | null>({
+  export const NMdataState = atom<Object | null>({
       key: 'NMdataState',
       default: null
   })
