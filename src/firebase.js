@@ -11,7 +11,7 @@ const firebaseConfig = {
     messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
     appId: process.env.REACT_APP_FIREBASE_APP_ID,
   };
-
+  
   // Initialize Firebase
   const app = firebase.initializeApp(firebaseConfig);
 
@@ -23,5 +23,6 @@ if (location.hostname === 'localhost') {
   firestore.useEmulator('localhost', 8080);
   firebase.auth().useEmulator('http://localhost:9099/', { disableWarnings: true });
 }
+
 
 export default app
