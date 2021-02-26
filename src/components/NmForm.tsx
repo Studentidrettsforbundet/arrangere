@@ -1,56 +1,11 @@
-import { render } from "@testing-library/react";
-import { type } from "os";
-import { exit } from "process";
 import React, { useEffect } from "react";
-import { useState } from "react";
-import { useRecoilState } from "recoil";
 import { firestore } from "../firebase";
-import { NMdataState } from "../stateManagement/firestoreData";
 
 const NmForm = () => {
-  //var applicationTemplate = firestore.collection("Søknadsmal").doc("NM");
+  var NMTemplate = firestore.collection("Søknadsmal").doc("NM");
 
-  const [data, setData] = useRecoilState(NMdataState);
-
-  var docRef = firestore.collection("Søknadsmal").doc("NM");
-
-  /*  async function getNMDocument() {
-    await docRef
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          const promises: any = [];
-          let input: Array<string> = [];
-          let type: string;
-          let desc: string;
-          Object.keys(doc.data()!).forEach((attribute: string) => {
-            const InputFieldsObj = doc.data()![attribute];
-            console.log("InputFieldsObj", InputFieldsObj);
-            console.log("Title", InputFieldsObj.Title);
-            console.log(InputFieldsObj.Desc);
-            Object.keys(InputFieldsObj).forEach((key) => {
-              if (typeof InputFieldsObj[key] === "object") {
-                type = InputFieldsObj[key].Type;
-                desc = InputFieldsObj[key].Desc;
-                console.log("type", type);
-                console.log(desc);
-              }
-            });
-          });
-        } else {
-          // doc.data() will be undefined in this case
-          console.log("No such document!");
-          throw new Error("no doc");
-        }
-      })
-      .catch((error) => {
-        console.log("Error getting document:", error);
-      });
-  } */
-
-  async function getNMDocument() {
-    await docRef
-      .get()
+  async function generateNMDocument() {
+    await NMTemplate.get()
       .then((doc) => {
         if (doc.exists) {
           let inputFields: Array<string[]> = [];
@@ -92,19 +47,8 @@ const NmForm = () => {
   }
 
   useEffect(() => {
-    getNMDocument();
+    generateNMDocument();
   }, []);
-
-  function displayFields() {
-    let field;
-    if (data != null) {
-      for (field in data) {
-        console.log("displayField", field);
-      }
-    }
-  }
-
-  displayFields();
 
   const onSubmit = (e: any) => {
     e.preventDefault();
@@ -116,7 +60,6 @@ const NmForm = () => {
       <h1>Her skal det forhåpentligvis rendres noe fra firestore:</h1>
       <form onSubmit={onSubmit}>
         <p>todo...</p>
-        {/* {renderType()} */}
       </form>
     </div>
   );
