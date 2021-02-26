@@ -1,13 +1,11 @@
 import React from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import {  useRecoilValue } from "recoil";
 import { currentUserState } from "../stateManagement/userAuth";
-import firebase from "firebase/app";
-import { Link, useHistory } from "react-router-dom";
+import { Link} from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import { auth } from "../firebase";
 
 export default function UserProfile() {
-  const history = useHistory();
 
   const currentUser = useRecoilValue(currentUserState);
 
@@ -16,19 +14,18 @@ export default function UserProfile() {
     user = currentUser.email;
   }
 
-  async function handleLogout() {
-    await auth
+  function handleLogout(e:any) {
+    e.preventDefault()
+    auth
       .signOut()
       .then(function () {
         console.log("signout complete");
-        console.log(currentUser);
       })
       .catch((error) => {
         console.log("Kunne ikke logge ut");
       });
   }
 
-  console.log(user);
   return (
     <div>
       <p>Brukerprofil {user}</p>

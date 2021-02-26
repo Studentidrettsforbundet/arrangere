@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
-import { RecoilRoot, useRecoilValue, useSetRecoilState } from "recoil";
+import { RecoilRoot, useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Dashboard from "./components/Dashboard";
 
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { auth } from "./firebase";
 import { currentUserState } from "./stateManagement/userAuth";
+import { Unsubscribe } from "@material-ui/icons";
 
 const studentidrettTheme = createMuiTheme({
   palette: {
@@ -30,18 +31,19 @@ const studentidrettTheme = createMuiTheme({
 });
 
 function App() {
+
   const setCurrentUser = useSetRecoilState(currentUserState);
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user: any) => {
+    return auth.onAuthStateChanged((user: any) => {
       if (user != null) {
         setCurrentUser(user.toJSON());
-        console.log("ikke null firebase", user);
-      } else {
+              } else {
         setCurrentUser(null);
       }
     });
-    return unsubscribe;
+  
   }, []);
+ 
   return (
     <ThemeProvider theme={studentidrettTheme}>
       <div style={{ display: "flex", flexDirection: "row", padding: 20 }}>

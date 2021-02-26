@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Route } from "react-router";
-import { BrowserRouter, Switch } from "react-router-dom";
+import { BrowserRouter, Redirect, Switch } from "react-router-dom";
 import ChooseApplication from "./ChooseApplication";
 import DrawerBar from "./DrawerBar";
 import Home from "./Home";
@@ -8,7 +8,7 @@ import StudentCupForm from "./StudentCupForm";
 import StudentlekerForm from "./StudentlekerForm";
 import StudentNMForm from "./StudentNMForm";
 import UserProfile from "./UserProfile";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 
 import { currentUserState } from "../stateManagement/userAuth";
 import Login from "./Login";
@@ -16,6 +16,11 @@ import SignUp from "./SignUp";
 
 export default function Dashboard() {
   const currentUser = useRecoilValue(currentUserState);
+
+  if (currentUser == null) {
+    return <Redirect to="/login" />;
+  }
+
 
   if (currentUser != null) {
     return (

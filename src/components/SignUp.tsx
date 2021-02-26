@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {  useRef, useState } from "react";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -11,11 +11,12 @@ import { Container } from "@material-ui/core";
 import { Link } from "@material-ui/core";
 
 import logo from "../assets/logo-sort.png";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue  } from "recoil";
 import { auth } from "../firebase";
 import {
   BrowserRouter as Router,
   Link as RouterLink,
+  Redirect,
   useHistory,
 } from "react-router-dom";
 import { currentUserState } from "../stateManagement/userAuth";
@@ -23,6 +24,8 @@ import { useStyles } from "../style/authentication";
 
 const SignUp = () => {
   const classes = useStyles();
+  const currentUser = useRecoilValue(currentUserState);
+
 
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -35,7 +38,11 @@ const SignUp = () => {
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passError, setPassError] = useState<boolean>(false);
 
-  async function handleSubmit(e: any) {
+  if (currentUser != null) {
+    return <Redirect to="/" />;
+  }
+
+  const handleSubmit = (e: any)  => {
     e.preventDefault();
     setErrorText("");
     setPassError(false);
@@ -53,7 +60,7 @@ const SignUp = () => {
       return setErrorText("Passordene er ikke like");
     }
     setLoading(true);
-    await auth
+   auth
       .createUserWithEmailAndPassword(
         emailRef.current!.value,
         passwordRef.current!.value
@@ -80,6 +87,7 @@ const SignUp = () => {
     setLoading(false);
   }
 
+  
   let alertContainer;
   if (errorText != "") {
     alertContainer = (
