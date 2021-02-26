@@ -11,8 +11,7 @@ import UserProfile from "./UserProfile";
 import { useRecoilValue } from "recoil";
 
 import { currentUserState } from "../stateManagement/userAuth";
-import Login from "./Login";
-import SignUp from "./SignUp";
+
 
 export default function Dashboard() {
   const currentUser = useRecoilValue(currentUserState);
@@ -22,7 +21,6 @@ export default function Dashboard() {
   }
 
 
-  if (currentUser != null) {
     return (
       <div style={{ display: "flex", flexDirection: "row", padding: 20 }}>
         <BrowserRouter>
@@ -36,14 +34,4 @@ export default function Dashboard() {
         </BrowserRouter>
       </div>
     );
-  } else {
-    return (
-      <div style={{ display: "flex", flexDirection: "row", padding: 20 }}>
-        <BrowserRouter>
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/signup" component={SignUp} />
-        </BrowserRouter>
-      </div>
-    );
-  }
-}
+  } 
