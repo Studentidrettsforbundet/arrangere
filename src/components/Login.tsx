@@ -52,8 +52,7 @@ const LogIn = () => {
     }
 
     setLoading(true);
-   auth
-      .signInWithEmailAndPassword(
+   auth.signInWithEmailAndPassword(
         emailRef.current!.value,
         passwordRef.current!.value
       )
@@ -76,6 +75,7 @@ const LogIn = () => {
           setErrorText("Kunne ikke logge inn");
         }
       });
+
     setLoading(false);
   }
 

@@ -41,6 +41,17 @@ const SignUp = () => {
   if (currentUser != null) {
     return <Redirect to="/" />;
   }
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user: any) => {
+      if (user != null) {
+        setCurrentUser(user.toJSON());
+      } else {
+        setCurrentUser(null);
+      }
+      setLoading(false);
+    });
+    return unsubscribe;
+  }, []);
 
   const handleSubmit = (e: any)  => {
     e.preventDefault();
@@ -59,9 +70,9 @@ const SignUp = () => {
       setPassError(true);
       return setErrorText("Passordene er ikke like");
     }
+    
     setLoading(true);
-   auth
-      .createUserWithEmailAndPassword(
+   auth.createUserWithEmailAndPassword(
         emailRef.current!.value,
         passwordRef.current!.value
       )
