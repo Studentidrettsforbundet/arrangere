@@ -28,8 +28,14 @@ const LogIn = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
+  // consider using state here
   const setCurrentUser = useSetRecoilState(currentUserState);
   const [loading, setLoading] = useState(false);
+
+  // consider creating an interface or type named FirebaseError/LoginError/or similar,
+  // and collecting all of these errors in one state
+  // of type useState<FirebaseError> if only one error can occur at one time
+  // or useState<FirebaseError[]> if multiple can occur simultaneously.
   const [errorText, setErrorText] = useState<string>("");
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passError, setPassError] = useState<boolean>(false);
@@ -46,6 +52,7 @@ const LogIn = () => {
     return unsubscribe;
   }, []);
 
+  // e is a possible error? would be nice to use a proper type here
   async function handleSubmit(e: any) {
     e.preventDefault();
     setErrorText("");
@@ -66,6 +73,8 @@ const LogIn = () => {
         history.push("/");
       })
       .catch((error) => {
+        // it is better pratice to use switch-cases here. It communicates your intent more clearly, and
+        // guarantees that every case is handled.
         let code = error.code;
         if (code == "auth/user-not-found") {
           setErrorText("Det finnes ingen bruker med denne adressen");
@@ -92,6 +101,10 @@ const LogIn = () => {
       </Alert>
     );
   }
+
+  // there is a lot of logic and a lot of UI in this file. I think it would be beneficial to seperate it
+  // by refactoring the following into a separate component. I don't want to think about login logic when I am
+  // improving the UI, and I certainly do not want to have all this UI-code if I am debugging login-logic.
 
   return (
     <Container className={classes.container}>

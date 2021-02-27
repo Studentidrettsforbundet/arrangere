@@ -1,5 +1,6 @@
 import React from "react";
 
+// I think seperating pages from components could improve the organization of your app
 export default function Home() {
   return (
     <div>

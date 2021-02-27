@@ -46,6 +46,15 @@ export default function ChooseApplication() {
         }}
       >
         {/* Card for Student-NM */}
+        {/*
+        A comment that just states what the code _is_ is a code smell.
+        This does not provide any substantial benefit, and the need for clearer
+        communication implies that the code is not readable.  (As is really long functions)
+
+        I suggest you refactor this into a separate component, and pass in props:
+
+          <ApplicationCard image={image}, title="title", link="" ... />
+         */}
         <Card className={classes.root}>
           <CardActionArea>
             <CardMedia

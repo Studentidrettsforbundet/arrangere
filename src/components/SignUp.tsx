@@ -32,10 +32,14 @@ const SignUp = () => {
   const history = useHistory();
 
   const [loading, setLoading] = useState(false);
+
+  // reuse the error-interface/type from Login
   const [errorText, setErrorText] = useState<string>("");
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passError, setPassError] = useState<boolean>(false);
 
+  // a lot of the following code is really similar to login. Is it possible to reuse some of the
+  // code in a common function?
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user: any) => {
       if (user != null) {
@@ -75,6 +79,7 @@ const SignUp = () => {
         history.push("/");
       })
       .catch((error: any) => {
+        // switch case
         let code = error.code;
         if (code === "auth/email-already-in-use") {
           setErrorText("En bruker er allerede knyttet til denne adressen");
