@@ -27,7 +27,7 @@ export const currentUserState = atom<firebase.User | null>({
 
 
 export enum ErrorStatus {
-  PASSSWORD = "password",
+  PASSWORD = "password",
   EMAIL = "email",
   OTHER = "other",
   NONE = "",
@@ -45,13 +45,13 @@ export enum ErrorText {
 }
 
 type ErrorTypes = {
-  type: ErrorStatus;
+  status: ErrorStatus;
   text: ErrorText;
 }
 export const errorState = atom<ErrorTypes>({
   key: "errorState",
   default: {
-    type: ErrorStatus.NONE,
+    status: ErrorStatus.NONE,
     text: ErrorText.NONE,
   }
 });

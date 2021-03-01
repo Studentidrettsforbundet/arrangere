@@ -72,14 +72,12 @@ const SignUp = () => {
       .catch((error: any) => {
         let code = error.code;
         if (code === "auth/email-already-in-use") {
-          setError(ErrorStatus.EMAIL, ErrorText.EMAIL_IN_USE);
-          return setEmailError(true);
+          return setError({status: ErrorStatus.EMAIL, text: ErrorText.EMAIL_IN_USE});
         } else if (code === "auth/invalid-email") {
-          setErrorText("Ugyldig epostadresse");
-          return setEmailError(true);
+          return setError({status: ErrorStatus.EMAIL, text: ErrorText.WRONG_EMAIL});
+
         } else if (code === "auth/weak-password") {
-          setErrorText("Passordet må bestå av minst seks bokstaver eller tegn");
-          return setPassError(true);
+          return setError({status: ErrorStatus.PASSWORD, text: ErrorText.WEAK_PASSWORD});
         } else {
           return setErrorText("Konto ble ikke opprettet");
         }
