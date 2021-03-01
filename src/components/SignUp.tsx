@@ -1,4 +1,4 @@
-import React, {  useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -11,7 +11,7 @@ import { Container } from "@material-ui/core";
 import { Link } from "@material-ui/core";
 
 import logo from "../assets/logo-sort.png";
-import { useRecoilValue  } from "recoil";
+import { useRecoilValue } from "recoil";
 import { auth } from "../firebase";
 import {
   BrowserRouter as Router,
@@ -25,7 +25,6 @@ import { useStyles } from "../style/authentication";
 const SignUp = () => {
   const classes = useStyles();
   const currentUser = useRecoilValue(currentUserState);
-
 
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -41,28 +40,17 @@ const SignUp = () => {
   if (currentUser != null) {
     return <Redirect to="/" />;
   }
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user: any) => {
-      if (user != null) {
-        setCurrentUser(user.toJSON());
-      } else {
-        setCurrentUser(null);
-      }
-      setLoading(false);
-    });
-    return unsubscribe;
-  }, []);
 
-  const handleSubmit = (e: any)  => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     setErrorText("");
     setPassError(false);
     setEmailError(false);
 
     if (
-      emailRef.current!.value == "" ||
-      passwordRef.current!.value == "" ||
-      passwordConfirmRef.current!.value == ""
+      emailRef.current!.value === "" ||
+      passwordRef.current!.value === "" ||
+      passwordConfirmRef.current!.value === ""
     ) {
       return setErrorText("Fyll inn alle feltene");
     }
@@ -70,9 +58,10 @@ const SignUp = () => {
       setPassError(true);
       return setErrorText("Passordene er ikke like");
     }
-    
+
     setLoading(true);
-   auth.createUserWithEmailAndPassword(
+    auth
+      .createUserWithEmailAndPassword(
         emailRef.current!.value,
         passwordRef.current!.value
       )
@@ -96,11 +85,10 @@ const SignUp = () => {
       });
 
     setLoading(false);
-  }
+  };
 
-  
   let alertContainer;
-  if (errorText != "") {
+  if (errorText !== "") {
     alertContainer = (
       <Alert className={classes.formfield} severity="error">
         {errorText}
