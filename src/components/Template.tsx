@@ -75,7 +75,6 @@ const Template = () => {
         />
       );
     });
-    console.log("attributes", attributes);
     return attributes;
   };
 

@@ -27,9 +27,4 @@ if (location.hostname === "localhost") {
     .useEmulator("http://localhost:9099/", { disableWarnings: true });
 }
 
-
-<<<<<<< HEAD
 export default app;
-=======
-export default app
->>>>>>> 01bb75956968bcbd848c8250b04b873bfcd5acfe
