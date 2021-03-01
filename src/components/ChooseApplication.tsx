@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import { ApplicationCard } from "./ApplicationCard";
 
-export default function ChooseApplication() {
+export const ChooseApplication = () => {
   return (
     <div style={{ padding: 40 }}>
       <Typography gutterBottom variant="h5" component="h2">
