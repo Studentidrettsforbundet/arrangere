@@ -28,4 +28,8 @@ if (location.hostname === "localhost") {
 }
 
 
+<<<<<<< HEAD
 export default app;
+=======
+export default app
+>>>>>>> 01bb75956968bcbd848c8250b04b873bfcd5acfe
