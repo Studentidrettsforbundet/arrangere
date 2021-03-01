@@ -1,8 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useSetRecoilState } from "recoil";
+import React, { useRef, useState } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { currentUserState } from "../stateManagement/userAuth";
+import {
+  errorState,
+  errorStateSelector,
+} from "../stateManagement/errorHandling";
 import { auth } from "../firebase";
-
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -18,77 +21,55 @@ import logo from "../assets/logo-sort.png";
 import {
   BrowserRouter as Router,
   Link as RouterLink,
+  Redirect,
   useHistory,
 } from "react-router-dom";
 import { useStyles } from "../style/authentication";
 
 const LogIn = () => {
+  const currentUser = useRecoilValue(currentUserState);
+
   const history = useHistory();
   const classes = useStyles();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
-  const setCurrentUser = useSetRecoilState(currentUserState);
   const [loading, setLoading] = useState(false);
-  const [errorText, setErrorText] = useState<string>("");
-  const [emailError, setEmailError] = useState<boolean>(false);
-  const [passError, setPassError] = useState<boolean>(false);
+  const setError = useSetRecoilState(errorState);
+  const error = useRecoilValue(errorStateSelector);
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user: any) => {
-      if (user != null) {
-        setCurrentUser(user.toJSON());
-      } else {
-        setCurrentUser(null);
-      }
-      setLoading(false);
-    });
-    return unsubscribe;
-  }, []);
+  if (currentUser != null) {
+    return <Redirect to="/" />;
+  }
 
-  async function handleSubmit(e: any) {
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    setErrorText("");
-    setPassError(false);
-    setEmailError(false);
 
     if (emailRef.current!.value == "" || passwordRef.current!.value == "") {
-      return setErrorText("Fyll inn alle feltene");
+      return setError("required");
     }
 
     setLoading(true);
-    await Promise.all([
-      auth.signInWithEmailAndPassword(
+    auth
+      .signInWithEmailAndPassword(
         emailRef.current!.value,
         passwordRef.current!.value
-      ),
-      history.push("/"),
-    ]).catch(function (error) {
-      setLoading(false);
-
-      let code = error.code;
-      if (code == "auth/user-not-found") {
-        setErrorText("Det finnes ingen bruker med denne adressen");
-        return setEmailError(true);
-      } else if (code == "auth/wrong-password") {
-        setErrorText("Feil passord");
-        return setPassError(true);
-      } else if (code == "auth/invalid-email") {
-        setErrorText("Ugyldig epostadresse");
-
-        return setEmailError(true);
-      } else {
-        setErrorText("Kunne ikke logge inn");
-      }
-    });
+      )
+      .then(() => {
+        history.push("/");
+      })
+      .catch((error) => {
+        setError("login");
+      });
 
     setLoading(false);
-  }
+  };
+
   let alertContainer;
-  if (errorText != "") {
+  if (error.status != "") {
     alertContainer = (
       <Alert className={classes.formfield} severity="error">
-        {errorText}
+        {error.text}
       </Alert>
     );
   }
@@ -109,14 +90,12 @@ const LogIn = () => {
                 label="E-post"
                 inputRef={emailRef}
                 variant="outlined"
-                error={emailError}
               />
             </FormControl>
             <FormControl className={classes.formfield}>
               <TextField
                 required
                 label="Passord"
-                error={passError}
                 inputRef={passwordRef}
                 variant="outlined"
                 type="password"
