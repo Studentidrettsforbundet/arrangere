@@ -11,7 +11,7 @@ import { Container } from "@material-ui/core";
 import { Link } from "@material-ui/core";
 
 import logo from "../assets/logo-sort.png";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { auth } from "../firebase";
 import {
   BrowserRouter as Router,
@@ -19,12 +19,13 @@ import {
   Redirect,
   useHistory,
 } from "react-router-dom";
-import { currentUserState } from "../stateManagement/userAuth";
+import { currentUserState, errorState, ErrorStatus, ErrorText } from "../stateManagement/userAuth";
 import { useStyles } from "../style/authentication";
 
 const SignUp = () => {
   const classes = useStyles();
   const currentUser = useRecoilValue(currentUserState);
+  const [error, setError] = useRecoilState(errorState)
 
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -33,9 +34,11 @@ const SignUp = () => {
   const history = useHistory();
 
   const [loading, setLoading] = useState(false);
+  /*
   const [errorText, setErrorText] = useState<string>("");
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passError, setPassError] = useState<boolean>(false);
+  */
 
   if (currentUser != null) {
     return <Redirect to="/" />;
@@ -43,9 +46,7 @@ const SignUp = () => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    setErrorText("");
-    setPassError(false);
-    setEmailError(false);
+    
 
     if (
       emailRef.current!.value === "" ||
@@ -71,7 +72,7 @@ const SignUp = () => {
       .catch((error: any) => {
         let code = error.code;
         if (code === "auth/email-already-in-use") {
-          setErrorText("En bruker er allerede knyttet til denne adressen");
+          setError(ErrorStatus.EMAIL, ErrorText.EMAIL_IN_USE);
           return setEmailError(true);
         } else if (code === "auth/invalid-email") {
           setErrorText("Ugyldig epostadresse");

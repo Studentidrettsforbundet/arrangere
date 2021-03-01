@@ -1,7 +1,8 @@
-import React, { useRef, useState } from "react";
-import {  useRecoilValue } from "recoil";
+import React, { useEffect, useRef, useState } from "react";
+import { useSetRecoilState } from "recoil";
 import { currentUserState } from "../stateManagement/userAuth";
 import { auth } from "../firebase";
+
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -17,31 +18,35 @@ import logo from "../assets/logo-sort.png";
 import {
   BrowserRouter as Router,
   Link as RouterLink,
-  Redirect,
   useHistory,
 } from "react-router-dom";
 import { useStyles } from "../style/authentication";
 
 const LogIn = () => {
-  const currentUser = useRecoilValue(currentUserState);
-
   const history = useHistory();
   const classes = useStyles();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
+  const setCurrentUser = useSetRecoilState(currentUserState);
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState<string>("");
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passError, setPassError] = useState<boolean>(false);
 
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user: any) => {
+      if (user != null) {
+        setCurrentUser(user.toJSON());
+      } else {
+        setCurrentUser(null);
+      }
+      setLoading(false);
+    });
+    return unsubscribe;
+  }, []);
 
-  if (currentUser != null) {
-    return <Redirect to="/" />;
-  }
-
-
-  const handleSubmit = (e: any)  => {
+  async function handleSubmit(e: any) {
     e.preventDefault();
     setErrorText("");
     setPassError(false);
@@ -52,33 +57,33 @@ const LogIn = () => {
     }
 
     setLoading(true);
-   auth.signInWithEmailAndPassword(
+    await Promise.all([
+      auth.signInWithEmailAndPassword(
         emailRef.current!.value,
         passwordRef.current!.value
-      )
-      .then(() => {
-        history.push("/");
-      })
-      .catch((error) => {
-        let code = error.code;
-        if (code == "auth/user-not-found") {
-          setErrorText("Det finnes ingen bruker med denne adressen");
-          return setEmailError(true);
-        } else if (code == "auth/wrong-password") {
-          setErrorText("Feil passord");
-          return setPassError(true);
-        } else if (code == "auth/invalid-email") {
-          setErrorText("Ugyldig epostadresse");
+      ),
+      history.push("/"),
+    ]).catch(function (error) {
+      setLoading(false);
 
-          return setEmailError(true);
-        } else {
-          setErrorText("Kunne ikke logge inn");
-        }
-      });
+      let code = error.code;
+      if (code == "auth/user-not-found") {
+        setErrorText("Det finnes ingen bruker med denne adressen");
+        return setEmailError(true);
+      } else if (code == "auth/wrong-password") {
+        setErrorText("Feil passord");
+        return setPassError(true);
+      } else if (code == "auth/invalid-email") {
+        setErrorText("Ugyldig epostadresse");
+
+        return setEmailError(true);
+      } else {
+        setErrorText("Kunne ikke logge inn");
+      }
+    });
 
     setLoading(false);
   }
-
   let alertContainer;
   if (errorText != "") {
     alertContainer = (
@@ -87,7 +92,6 @@ const LogIn = () => {
       </Alert>
     );
   }
- 
 
   return (
     <Container className={classes.container}>

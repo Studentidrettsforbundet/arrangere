@@ -24,3 +24,36 @@ export const currentUserState = atom<firebase.User | null>({
   default: null,
   effects_UNSTABLE: [localStorageEffect("current_user")],
 });
+
+
+export enum ErrorStatus {
+  PASSSWORD = "password",
+  EMAIL = "email",
+  OTHER = "other",
+  NONE = "",
+}
+
+export enum ErrorText {
+  NOT_MATCH = "Passordene er ikke like",
+  REQUIRED = "Fyll inn alle feltene",
+  WRONG_EMAIL = "Ugyldig e-postadresse",
+  EMAIL_IN_USE = "En bruker er allerede knyttet til denne adressen",
+  GENERAL = "Konto ble ikke opprettet",
+  WEAK_PASSWORD = "Passordet må bestå av minst seks bokstaver eller tegn",
+  LOGIN = "E-post eller passord er feil",
+  NONE = "",
+}
+
+type ErrorTypes = {
+  type: ErrorStatus;
+  text: ErrorText;
+}
+export const errorState = atom<ErrorTypes>({
+  key: "errorState",
+  default: {
+    type: ErrorStatus.NONE,
+    text: ErrorText.NONE,
+  }
+});
+
+
