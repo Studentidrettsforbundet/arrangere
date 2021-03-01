@@ -11,7 +11,11 @@ type Attribute = {
 const Template = () => {
   const [loading, setLoading] = useState(false);
   const [attributeList, setAttributeList] = useState<Attribute[]>([]);
-  var NM = firestore.collection("Søknadsmal").doc("NM");
+  var NM = firestore
+    .collection("templates")
+    .doc("snm")
+    .collection("economy")
+    .doc("oGiubNpdn8R97RbO3wvz");
 
   useEffect(() => {
     generateApplicationForm();
@@ -35,17 +39,17 @@ const Template = () => {
             const AttributeObj = doc.data()![attribute];
             Object.keys(AttributeObj).forEach((key) => {
               if (typeof AttributeObj[key] === "string") {
-                title = AttributeObj.Title;
-                mainDesc = AttributeObj.Desc;
+                title = AttributeObj.title;
+                mainDesc = AttributeObj.desc;
               } else if (typeof AttributeObj[key] === "object") {
-                type = AttributeObj[key].Type;
-                desc = AttributeObj[key].Desc;
+                type = AttributeObj[key].type;
+                desc = AttributeObj[key].desc;
                 inputFields.push({ type: type, desc: desc });
               }
             });
             attributeList.push({
               title: title,
-              mainDesc: desc,
+              mainDesc: mainDesc,
               inputFields: inputFields,
             });
             inputFields = [];
@@ -80,7 +84,6 @@ const Template = () => {
 
   return (
     <div>
-      <h1>Her skal det forhåpentligvis rendres noe fra firestore:</h1>
       {loading ? (
         <p>Laster inn</p>
       ) : (
