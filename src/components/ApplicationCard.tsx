@@ -10,22 +10,15 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import { Link } from "react-router-dom";
+import { useStyles } from "../style/cards";
 
-const useStyles = makeStyles({
-  root: {
-    maxWidth: 345,
-    padding: 20,
-    margin: 20,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  media: {
-    height: 30,
-  },
-});
+type Props = {
+  image: string;
+  text: string;
+  to: string;
+};
 
-export const ApplicationCard = (props: any) => {
+export const ApplicationCard = (props: Props) => {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
