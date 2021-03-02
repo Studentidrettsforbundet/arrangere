@@ -12,7 +12,6 @@ import { useRecoilValue } from "recoil";
 
 import { currentUserState } from "../stateManagement/userAuth";
 
-
 export default function Dashboard() {
   const currentUser = useRecoilValue(currentUserState);
 
@@ -20,18 +19,17 @@ export default function Dashboard() {
     return <Redirect to="/login" />;
   }
 
-
-    return (
-      <div style={{ display: "flex", flexDirection: "row", padding: 20 }}>
-        <BrowserRouter>
-          <DrawerBar />
-          <Route exact path="/" component={Home} />
-          <Route exact path="/userprofile" component={UserProfile} />
-          <Route exact path="/applications" component={ChooseApplication} />
-          <Route path="/studentnm" component={StudentNMForm} />
-          <Route path="/studentleker" component={StudentlekerForm} />
-          <Route path="/studentcup" component={StudentCupForm} />
-        </BrowserRouter>
-      </div>
-    );
-  } 
+  return (
+    <div style={{ display: "flex", flexDirection: "row", padding: 20 }}>
+      <BrowserRouter>
+        <DrawerBar />
+        <Route exact path="/" component={Home} />
+        <Route exact path="/userprofile" component={UserProfile} />
+        <Route exact path="/applications" component={ChooseApplication} />
+        <Route path="/studentnm" component={StudentNMForm} />
+        <Route path="/studentleker" component={StudentlekerForm} />
+        <Route path="/studentcup" component={StudentCupForm} />
+      </BrowserRouter>
+    </div>
+  );
+}

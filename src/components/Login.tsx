@@ -1,6 +1,10 @@
 import React, { useRef, useState } from "react";
-import {  useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { currentUserState } from "../stateManagement/userAuth";
+import {
+  errorState,
+  errorStateSelector,
+} from "../stateManagement/errorHandling";
 import { auth } from "../firebase";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -31,28 +35,23 @@ const LogIn = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const [loading, setLoading] = useState(false);
-  const [errorText, setErrorText] = useState<string>("");
-  const [emailError, setEmailError] = useState<boolean>(false);
-  const [passError, setPassError] = useState<boolean>(false);
-
+  const setError = useSetRecoilState(errorState);
+  const error = useRecoilValue(errorStateSelector);
 
   if (currentUser != null) {
     return <Redirect to="/" />;
   }
 
-
-  const handleSubmit = (e: any)  => {
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    setErrorText("");
-    setPassError(false);
-    setEmailError(false);
 
     if (emailRef.current!.value == "" || passwordRef.current!.value == "") {
-      return setErrorText("Fyll inn alle feltene");
+      return setError("required");
     }
 
     setLoading(true);
-   auth.signInWithEmailAndPassword(
+    auth
+      .signInWithEmailAndPassword(
         emailRef.current!.value,
         passwordRef.current!.value
       )
@@ -60,34 +59,20 @@ const LogIn = () => {
         history.push("/");
       })
       .catch((error) => {
-        let code = error.code;
-        if (code == "auth/user-not-found") {
-          setErrorText("Det finnes ingen bruker med denne adressen");
-          return setEmailError(true);
-        } else if (code == "auth/wrong-password") {
-          setErrorText("Feil passord");
-          return setPassError(true);
-        } else if (code == "auth/invalid-email") {
-          setErrorText("Ugyldig epostadresse");
-
-          return setEmailError(true);
-        } else {
-          setErrorText("Kunne ikke logge inn");
-        }
+        setError("login");
       });
 
     setLoading(false);
-  }
+  };
 
   let alertContainer;
-  if (errorText != "") {
+  if (error.status != "") {
     alertContainer = (
       <Alert className={classes.formfield} severity="error">
-        {errorText}
+        {error.text}
       </Alert>
     );
   }
- 
 
   return (
     <Container className={classes.container}>
@@ -105,14 +90,12 @@ const LogIn = () => {
                 label="E-post"
                 inputRef={emailRef}
                 variant="outlined"
-                error={emailError}
               />
             </FormControl>
             <FormControl className={classes.formfield}>
               <TextField
                 required
                 label="Passord"
-                error={passError}
                 inputRef={passwordRef}
                 variant="outlined"
                 type="password"

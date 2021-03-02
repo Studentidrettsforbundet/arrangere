@@ -11,7 +11,7 @@ import { Container } from "@material-ui/core";
 import { Link } from "@material-ui/core";
 
 import logo from "../assets/logo-sort.png";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { auth } from "../firebase";
 import {
   BrowserRouter as Router,
@@ -21,42 +21,40 @@ import {
 } from "react-router-dom";
 import { currentUserState } from "../stateManagement/userAuth";
 import { useStyles } from "../style/authentication";
+import {
+  errorState,
+  errorStateSelector,
+} from "../stateManagement/errorHandling";
 
 const SignUp = () => {
   const classes = useStyles();
+  const history = useHistory();
   const currentUser = useRecoilValue(currentUserState);
 
+  const [loading, setLoading] = useState(false);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const passwordConfirmRef = useRef<HTMLInputElement>(null);
 
-  const history = useHistory();
-
-  const [loading, setLoading] = useState(false);
-  const [errorText, setErrorText] = useState<string>("");
-  const [emailError, setEmailError] = useState<boolean>(false);
-  const [passError, setPassError] = useState<boolean>(false);
+  const setError = useSetRecoilState(errorState);
+  const error = useRecoilValue(errorStateSelector);
 
   if (currentUser != null) {
     return <Redirect to="/" />;
   }
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    setErrorText("");
-    setPassError(false);
-    setEmailError(false);
 
     if (
       emailRef.current!.value === "" ||
       passwordRef.current!.value === "" ||
       passwordConfirmRef.current!.value === ""
     ) {
-      return setErrorText("Fyll inn alle feltene");
+      return setError("required");
     }
     if (passwordRef.current!.value !== passwordConfirmRef.current!.value) {
-      setPassError(true);
-      return setErrorText("Passordene er ikke like");
+      return setError("not-match");
     }
 
     setLoading(true);
@@ -68,30 +66,18 @@ const SignUp = () => {
       .then(() => {
         history.push("/");
       })
-      .catch((error: any) => {
-        let code = error.code;
-        if (code === "auth/email-already-in-use") {
-          setErrorText("En bruker er allerede knyttet til denne adressen");
-          return setEmailError(true);
-        } else if (code === "auth/invalid-email") {
-          setErrorText("Ugyldig epostadresse");
-          return setEmailError(true);
-        } else if (code === "auth/weak-password") {
-          setErrorText("Passordet må bestå av minst seks bokstaver eller tegn");
-          return setPassError(true);
-        } else {
-          return setErrorText("Konto ble ikke opprettet");
-        }
+      .catch((err: any) => {
+        setError(err.code);
       });
 
     setLoading(false);
   };
 
   let alertContainer;
-  if (errorText !== "") {
+  if (error.status != "") {
     alertContainer = (
       <Alert className={classes.formfield} severity="error">
-        {errorText}
+        {error.text}
       </Alert>
     );
   }
@@ -112,14 +98,14 @@ const SignUp = () => {
                 label="E-post"
                 inputRef={emailRef}
                 variant="outlined"
-                error={emailError}
+                error={error.status == "email"}
               />
             </FormControl>
             <FormControl className={classes.formfield}>
               <TextField
                 required
                 label="Passord"
-                error={passError}
+                error={error.status == "password"}
                 inputRef={passwordRef}
                 variant="outlined"
                 type="password"
@@ -128,7 +114,7 @@ const SignUp = () => {
             <FormControl className={classes.formfield}>
               <TextField
                 required
-                error={passError}
+                error={error.status == "password"}
                 label="Gjenta passord"
                 inputRef={passwordConfirmRef}
                 variant="outlined"
