@@ -24,3 +24,5 @@ export const currentUserState = atom<firebase.User | null>({
   default: null,
   effects_UNSTABLE: [localStorageEffect("current_user")],
 });
+
+
