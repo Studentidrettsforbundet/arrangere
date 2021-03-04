@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 import { firestore } from "../firebase";
+import { choosenApplicationState } from "../stateManagement/choosenApplication";
 import InputWrapper, { InputField } from "./inputFields/InputWrapper";
 
 type Attribute = {
@@ -11,6 +13,7 @@ type Attribute = {
 const Template = () => {
   const [loading, setLoading] = useState(false);
   const [attributeList, setAttributeList] = useState<Attribute[]>([]);
+  const choosenApplicationForm = useRecoilValue(choosenApplicationState);
 
   useEffect(() => {
     generateApplicationForm();
@@ -20,8 +23,10 @@ const Template = () => {
     let attributeListLocal: Array<any> = [];
     console.log("attributeListLocal start", attributeListLocal);
 
+    console.log(choosenApplicationForm);
+
     await firestore
-      .collection("snmTemplate")
+      .collection(choosenApplicationForm)
       .get()
       .then((snapshot) => {
         snapshot.docs.forEach((chapter) => {

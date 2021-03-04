@@ -14,6 +14,8 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { choosenApplicationState } from "../stateManagement/choosenApplication";
 
 const useStyles = makeStyles({
   root: {
@@ -31,6 +33,7 @@ const useStyles = makeStyles({
 
 export default function ChooseApplication() {
   const classes = useStyles();
+  const setChoosenApplicationState = useSetRecoilState(choosenApplicationState);
 
   return (
     <div style={{ padding: 40 }}>
@@ -65,6 +68,7 @@ export default function ChooseApplication() {
               to="/studentnm"
               size="small"
               color="primary"
+              onClick={() => setChoosenApplicationState("snmTemplate")}
             >
               Ny søknad
             </Button>
@@ -91,6 +95,7 @@ export default function ChooseApplication() {
               to="/studentleker"
               size="small"
               color="primary"
+              onClick={() => setChoosenApplicationState("slTemplate")}
             >
               Ny søknad
             </Button>
@@ -117,6 +122,7 @@ export default function ChooseApplication() {
               size="small"
               to="/studentcup"
               color="primary"
+              onClick={() => setChoosenApplicationState("scTemplate")}
             >
               Ny søknad
             </Button>
