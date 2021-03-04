@@ -3,7 +3,6 @@
 describe("Sign up", () => {
   it("should fill signup form with weak password and not redirect", () => {
     cy.visit("/signup");
-
     cy.get("[type='text']")
       .type("nybruker@test.no")
       .should("have.value", "nybruker@test.no");
@@ -15,13 +14,11 @@ describe("Sign up", () => {
       .last()
       .type("teste")
       .should("have.value", "teste");
-
     cy.get("button").click();
-
     cy.location("pathname", { timeout: 10000 }).should("eq", "/signup");
   });
 
-  it("should fill in signup form with bad email", () => {
+  it("should fill in signup form with bad email and not redirect", () => {
     cy.visit("/signup");
 
     cy.get("[type='text']").type("nybruker");
@@ -30,6 +27,7 @@ describe("Sign up", () => {
 
     cy.get("button").click();
     cy.get("form").should("contain", "Ugyldig e-postadresse");
+    cy.location("pathname", { timeout: 10000 }).should("eq", "/signup");
   });
   it("should fill signup form and redirect to homepage", () => {
     cy.visit("/signup");
@@ -53,23 +51,8 @@ describe("Sign up", () => {
     cy.location("pathname", { timeout: 10000 }).should("eq", "/login");
   });
 
-  it("should try to log in - should not log in", () => {
-    cy.visit("/login");
-
-    cy.get('[type="text"]')
-      .type("nybruker@test.no")
-      .should("have.value", "nybruker@test.no");
-
-    cy.get('[type="password"]').type("teste").should("have.value", "teste");
-
-    cy.get("button").click();
-
-    cy.location("pathname", { timeout: 10000 }).should("eq", "/login");
-    cy.get("form").should("contain", "E-post eller passord er feil");
-  });
-
   describe("Login in", () => {
-    it("should try to log in - should not log in", () => {
+    it("should try to log in with wrong password", () => {
       cy.visit("/login");
 
       cy.get('[type="text"]')
@@ -83,25 +66,37 @@ describe("Sign up", () => {
       cy.location("pathname", { timeout: 10000 }).should("eq", "/login");
       cy.get("form").should("contain", "E-post eller passord er feil");
     });
-  });
+    it("should try to log in with no password", () => {
+      cy.visit("/login");
 
-  it("should fill login form and redirect to homepage, then log out", () => {
-    cy.visit("/login");
+      cy.get('[type="text"]')
+        .type("nybruker@test.no")
+        .should("have.value", "nybruker@test.no");
 
-    cy.get('[type="text"]')
-      .type("nybruker@test.no")
-      .should("have.value", "nybruker@test.no");
+      cy.get("button").click();
 
-    cy.get('[type="password"]')
-      .type("teste123")
-      .should("have.value", "teste123");
+      cy.location("pathname", { timeout: 10000 }).should("eq", "/login");
+      cy.get("form").should("contain", "Fyll inn alle feltene");
+    });
 
-    cy.get("button").click();
+    it("should fill login form and redirect to homepage, then log out", () => {
+      cy.visit("/login");
 
-    cy.location("pathname", { timeout: 10000 }).should("eq", "/");
+      cy.get('[type="text"]')
+        .type("nybruker@test.no")
+        .should("have.value", "nybruker@test.no");
 
-    cy.title().should("eq", "Søknadsportal");
-    cy.get("nav").contains("Brukerprofil").click();
-    cy.get(".MuiButton-text").click();
+      cy.get('[type="password"]')
+        .type("teste123")
+        .should("have.value", "teste123");
+
+      cy.get("button").click();
+
+      cy.location("pathname", { timeout: 10000 }).should("eq", "/");
+
+      cy.title().should("eq", "Søknadsportal");
+      cy.get("nav").contains("Brukerprofil").click();
+      cy.get(".MuiButton-text").click();
+    });
   });
 });
