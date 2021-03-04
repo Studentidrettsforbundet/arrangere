@@ -17,7 +17,7 @@ const Template = () => {
 
   useEffect(() => {
     generateApplicationForm();
-  }, []);
+  }, [choosenApplicationForm]);
 
   async function generateApplicationForm() {
     let attributeListLocal: Array<any> = [];
