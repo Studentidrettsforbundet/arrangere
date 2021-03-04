@@ -1,12 +1,12 @@
 import React, { FC } from "react";
-import ShortText from "./ShortText";
-import LongText from "./LongText";
-import RadioButton from "./RadioButton";
-import Date from "./Date";
 import { Typography } from "@material-ui/core";
-import Time from "./Time";
+import Date from "./Date";
 import FileUpload from "./FileUpload";
+import LongText from "./LongText";
 import Number from "./Number";
+import RadioButton from "./RadioButton";
+import ShortText from "./ShortText";
+import Time from "./Time";
 
 type InputWrapperProps = {
   title: string;

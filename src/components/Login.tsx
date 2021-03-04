@@ -17,7 +17,7 @@ import { Typography } from "@material-ui/core";
 import { Container } from "@material-ui/core";
 import { Link } from "@material-ui/core";
 
-import logo from "../assets/logo-sort.png";
+import logo from "../images/logo-sort.png";
 import {
   BrowserRouter as Router,
   Link as RouterLink,

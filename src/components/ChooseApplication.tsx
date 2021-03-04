@@ -1,10 +1,9 @@
 import React from "react";
+import { Divider, Typography } from "@material-ui/core/";
+import { ApplicationCard } from "./ApplicationCard";
 import Student_NM_logo from "./../images/student_NM.png";
 import Studentleker_logo from "./../images/studentleker-1.png";
 import Student_Cup_logo from "./../images/studentcup-1.png";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import { ApplicationCard } from "./ApplicationCard";
 
 export const ChooseApplication = () => {
   return (
@@ -43,4 +42,4 @@ export const ChooseApplication = () => {
       </Typography>
     </div>
   );
-}
+};

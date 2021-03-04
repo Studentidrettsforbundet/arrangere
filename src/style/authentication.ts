@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles({
   container: {
-    marginTop: "10%",
+    marginTop: "7vw",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
