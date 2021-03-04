@@ -1,25 +1,11 @@
 import React, { FC } from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { useStyles } from "./inputStyles";
 import TextField from "@material-ui/core/TextField";
 import { Typography } from "@material-ui/core";
 
 type DateProps = {
   desc: string;
 };
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    container: {
-      display: "flex",
-      flexWrap: "wrap",
-    },
-    textField: {
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1),
-      width: 200,
-    },
-  })
-);
 
 const Date: FC<DateProps> = ({ desc }) => {
   const classes = useStyles();
