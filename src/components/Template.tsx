@@ -11,59 +11,63 @@ type Attribute = {
 const Template = () => {
   const [loading, setLoading] = useState(false);
   const [attributeList, setAttributeList] = useState<Attribute[]>([]);
-  var NM = firestore
-    .collection("templates")
-    .doc("snm")
-    .collection("economy")
-    .doc("oGiubNpdn8R97RbO3wvz");
 
   useEffect(() => {
     generateApplicationForm();
   }, []);
 
   async function generateApplicationForm() {
-    setLoading(true);
+    let attributeListLocal: Array<any> = [];
+    console.log("attributeListLocal start", attributeListLocal);
 
-    let attributeList: Array<Attribute> = [];
-
-    await NM.get()
-      .then((doc) => {
-        if (doc.exists) {
-          let inputFields: Array<InputField> = [];
-          let title: string = "";
-          let mainDesc: string = "";
-          let type: string = "";
-          let desc: string = "";
-          //Iterates through each attribute and its field, then push to attributeList
-          Object.keys(doc.data()!).forEach((attribute: string) => {
-            const AttributeObj = doc.data()![attribute];
-            Object.keys(AttributeObj).forEach((key) => {
-              if (typeof AttributeObj[key] === "string") {
-                title = AttributeObj.title;
-                mainDesc = AttributeObj.desc;
-              } else if (typeof AttributeObj[key] === "object") {
-                type = AttributeObj[key].type;
-                desc = AttributeObj[key].desc;
-                inputFields.push({ type: type, desc: desc });
-              }
+    await firestore
+      .collection("snmTemplate")
+      .get()
+      .then((snapshot) => {
+        snapshot.docs.forEach((chapter) => {
+          if (chapter.exists) {
+            let inputFields: Array<InputField> = [];
+            let title: string = "";
+            let mainDesc: string = "";
+            let type: string = "";
+            let desc: string = "";
+            //Iterates through each attribute and its field, then push to attributeList
+            Object.keys(chapter.data()!).forEach((attribute: string) => {
+              const AttributeObj = chapter.data()![attribute];
+              console.log("AttributeObj", AttributeObj);
+              Object.keys(AttributeObj).forEach((key) => {
+                if (typeof AttributeObj[key] === "string") {
+                  //console.log("AttributeObj[key]", AttributeObj[key]);
+                  title = AttributeObj.title;
+                  mainDesc = AttributeObj.desc;
+                } else if (typeof AttributeObj[key] === "object") {
+                  type = AttributeObj[key].type;
+                  desc = AttributeObj[key].desc;
+                  inputFields.push({ type: type, desc: desc });
+                }
+              });
+              attributeListLocal.push({
+                title: title,
+                mainDesc: mainDesc,
+                inputFields: inputFields,
+              });
+              title = "";
+              mainDesc = "";
+              inputFields = [];
             });
-            attributeList.push({
-              title: title,
-              mainDesc: mainDesc,
-              inputFields: inputFields,
-            });
-            inputFields = [];
-          });
-        } else {
-          // doc.data() will be undefined in this case
-          console.log("No such document!");
-          throw new Error("no doc");
-        }
+          } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+            throw new Error("no doc");
+          }
+        });
       })
       .catch((error) => {
         console.log("Error getting document:", error);
       });
-    setAttributeList(attributeList);
+    setAttributeList(attributeListLocal);
+    console.log("attributeListLocal", attributeListLocal);
+    attributeListLocal = [];
     setLoading(false);
   }
 
