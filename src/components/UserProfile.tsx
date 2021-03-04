@@ -1,12 +1,11 @@
 import React from "react";
-import {  useRecoilValue } from "recoil";
-import { currentUserState } from "../stateManagement/userAuth";
-import { Link} from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
+import { currentUserState } from "../stateManagement/userAuth";
 import { auth } from "../firebase";
 
 export default function UserProfile() {
-
   const currentUser = useRecoilValue(currentUserState);
 
   let user: string | null = "ingen bruker";
@@ -14,8 +13,8 @@ export default function UserProfile() {
     user = currentUser.email;
   }
 
-  function handleLogout(e:any) {
-    e.preventDefault()
+  function handleLogout(e: any) {
+    e.preventDefault();
     auth
       .signOut()
       .then(function () {
