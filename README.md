@@ -21,6 +21,9 @@ This command runs the app in the development mode. Open [http://localhost:3000](
 
 When running the application at localhost it gets connected to firebase emulators. An emulator is used to build and test apps locally. The app is connected to the Cloud Firestore emulator to safely read and write documents in testing.
 
+Make sure you have a Java SDK downloaded and also the firebase tool package. Download this using the command:
+`npm install -g firebase-tools`
+
 1. Start the emulators by running the command `firebare emulators:start` in your terminal
 2. Open the UI by clicking the link in your terminal ( http://localhost:4000)
 
@@ -77,6 +80,19 @@ arrangere/
 ## Testing
 
 #### Cypress
+
+
+It is important that you are running the emulator before running the test. If you are not running the emulator, a new user will be created in the production environment.
+If you want to run the tests again, remember to delete the user created by the test from the emulator first.
+
+For running the test, use the command:
+`npx cypress run`
+
+- Running this command will overwrite the screenshots and videoes in the cypress-folder. Just add and commit them when you do changes.
+
+To open Cypress in test browser, use the command:
+`npx cypress open`
+
 
 ## Pages
 
