@@ -11,5 +11,13 @@ export const useStyles = makeStyles((theme: Theme) =>
       marginRight: theme.spacing(1),
       width: 200,
     },
+    root: {
+      "& > *": {
+        margin: theme.spacing(1),
+      },
+    },
+    input: {
+      display: "block",
+    },
   })
 );

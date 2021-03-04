@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import { useStyles } from "./inputStyles";
-import TextField from "@material-ui/core/TextField";
-import { Typography } from "@material-ui/core";
+import { Typography, TextField } from "@material-ui/core";
 
 type DateProps = {
   desc: string;
