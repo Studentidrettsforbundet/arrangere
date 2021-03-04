@@ -65,6 +65,7 @@ const SignUp = () => {
         passwordRef.current!.value
       )
       .then(() => {
+        setError("");
         history.push("/");
       })
       .catch((err: any) => {
