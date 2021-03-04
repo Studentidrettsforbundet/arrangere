@@ -1,23 +1,10 @@
 import React, { FC } from "react";
 import { Typography } from "@material-ui/core";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { useStyles } from "./inputStyles";
 
 type FileUploadProps = {
   desc: string;
 };
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      "& > *": {
-        margin: theme.spacing(1),
-      },
-    },
-    input: {
-      display: "block",
-    },
-  })
-);
 
 const FileUpload: FC<FileUploadProps> = ({ desc }) => {
   const classes = useStyles();
