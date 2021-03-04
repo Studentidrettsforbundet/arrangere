@@ -56,6 +56,7 @@ const LogIn = () => {
         passwordRef.current!.value
       )
       .then(() => {
+        setError("");
         history.push("/");
       })
       .catch((error) => {
