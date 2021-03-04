@@ -81,6 +81,9 @@ arrangere/
 
 #### Cypress
 
+It is important that you are running the emulator before running the test. If you are not running the emulator, a new user will be created in the production environment.
+If you want to run the tests again, remember to delete the user created by the test from the emulator first.
+
 For running the test, use the command:
 `npx cypress run`
 
