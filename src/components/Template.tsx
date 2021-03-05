@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { firestore } from "../firebase";
+import ChapterWrapper from "./ChapterWrapper";
 import { choosenApplicationState } from "../stateManagement/choosenApplication";
 import InputWrapper, { InputField } from "./inputFields/InputWrapper";
 
-type Attribute = {
+export type Chapter = {
+  title: string;
+  desc: string;
+  attributes: Array<Attribute>;
+};
+
+export type Attribute = {
   title: string;
   mainDesc: string;
   inputFields: Array<InputField>;
 };
 
 const Template = () => {
-  const [loading, setLoading] = useState(false);
-  const [attributeList, setAttributeList] = useState<Attribute[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [chapterList, setChapterList] = useState<Chapter[]>([]);
   const choosenApplicationForm = useRecoilValue(choosenApplicationState);
 
   useEffect(() => {
@@ -20,8 +27,8 @@ const Template = () => {
   }, [choosenApplicationForm]);
 
   async function generateApplicationForm() {
-    let attributeListLocal: Array<any> = [];
-    console.log("attributeListLocal start", attributeListLocal);
+    setLoading(true);
+    let chapterListLocal: Array<Chapter> = [];
 
     console.log(choosenApplicationForm);
 
@@ -31,34 +38,10 @@ const Template = () => {
       .then((snapshot) => {
         snapshot.docs.forEach((chapter) => {
           if (chapter.exists) {
-            let inputFields: Array<InputField> = [];
-            let title: string = "";
-            let mainDesc: string = "";
-            let type: string = "";
-            let desc: string = "";
-            //Iterates through each attribute and its field, then push to attributeList
-            Object.keys(chapter.data()!).forEach((attribute: string) => {
-              const AttributeObj = chapter.data()![attribute];
-              console.log("AttributeObj", AttributeObj);
-              Object.keys(AttributeObj).forEach((key) => {
-                if (typeof AttributeObj[key] === "string") {
-                  //console.log("AttributeObj[key]", AttributeObj[key]);
-                  title = AttributeObj.title;
-                  mainDesc = AttributeObj.desc;
-                } else if (typeof AttributeObj[key] === "object") {
-                  type = AttributeObj[key].type;
-                  desc = AttributeObj[key].desc;
-                  inputFields.push({ type: type, desc: desc });
-                }
-              });
-              attributeListLocal.push({
-                title: title,
-                mainDesc: mainDesc,
-                inputFields: inputFields,
-              });
-              title = "";
-              mainDesc = "";
-              inputFields = [];
+            chapterListLocal.push({
+              title: chapter.data().title,
+              desc: chapter.data().desc,
+              attributes: chapter.data().attributes,
             });
           } else {
             // doc.data() will be undefined in this case
@@ -70,34 +53,22 @@ const Template = () => {
       .catch((error) => {
         console.log("Error getting document:", error);
       });
-    setAttributeList(attributeListLocal);
-    console.log("attributeListLocal", attributeListLocal);
-    attributeListLocal = [];
+    setChapterList(chapterListLocal);
+    chapterListLocal = [];
     setLoading(false);
   }
 
-  const renderAttributes = (attributeList: any) => {
-    const attributes: any = [];
-    attributeList.map((attribute: Attribute) => {
-      attributes.push(
-        <InputWrapper
-          key={attribute.title}
-          title={attribute.title}
-          mainDesc={attribute.mainDesc}
-          inputFields={attribute.inputFields}
-        />
-      );
+  const renderChapters = (chapterList: Array<Chapter>) => {
+    const chapters: any = [];
+    chapterList.map((chapter: Chapter) => {
+      chapters.push(<ChapterWrapper key={chapter.title} chapter={chapter} />);
     });
-    return attributes;
+    return chapters;
   };
 
   return (
     <div>
-      {loading ? (
-        <p>Laster inn</p>
-      ) : (
-        <div>{renderAttributes(attributeList)}</div>
-      )}
+      {loading ? <p>Laster inn</p> : <div>{renderChapters(chapterList)}</div>}
     </div>
   );
 };
