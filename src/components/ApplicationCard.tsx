@@ -9,8 +9,6 @@ import {
 } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
 import { useStyles } from "../style/cards";
-import { useSetRecoilState } from "recoil";
-import { choosenApplicationState } from "../stateManagement/choosenApplication";
 
 type Props = {
   image: string;
@@ -21,8 +19,6 @@ type Props = {
 
 export const ApplicationCard = (props: Props) => {
   const classes = useStyles();
-
-  const setChoosenApplicationForm = useSetRecoilState(choosenApplicationState);
 
   return (
     <Card className={classes.root}>
@@ -37,10 +33,12 @@ export const ApplicationCard = (props: Props) => {
       <CardActions>
         <Button
           component={RouterLink}
-          to={{ pathname: props.to, state: { title: props.title } }}
+          to={{
+            pathname: props.to,
+            state: { title: props.title, template: props.template },
+          }}
           size="small"
           color="primary"
-          onClick={() => setChoosenApplicationForm(props.template)}
         >
           Ny søknad
         </Button>

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Typography } from "@material-ui/core";
 import { Chapter } from "./Template";
 import InputWrapper, { InputField } from "./inputFields/InputWrapper";

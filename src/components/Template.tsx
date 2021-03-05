@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { firestore } from "../firebase";
 import ChapterWrapper from "./ChapterWrapper";
@@ -25,8 +25,6 @@ const Template = () => {
   useEffect(() => {
     generateApplicationForm();
   }, [choosenApplicationForm]);
-
-  console.log(choosenApplicationForm);
 
   async function generateApplicationForm() {
     setLoading(true);
@@ -62,7 +60,6 @@ const Template = () => {
     chapterList.map((chapter: Chapter) => {
       chapters.push(<ChapterWrapper key={chapter.title} chapter={chapter} />);
     });
-    console.log(chapters);
     return chapters;
   };
 
