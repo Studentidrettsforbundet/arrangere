@@ -4,6 +4,7 @@ import { ApplicationCard } from "./ApplicationCard";
 import Student_NM_logo from "./../images/student_NM.png";
 import Studentleker_logo from "./../images/studentleker-1.png";
 import Student_Cup_logo from "./../images/studentcup-1.png";
+import { ApplicationForm } from "./ApplicationForm";
 
 export const ChooseApplication = () => {
   return (
@@ -11,6 +12,13 @@ export const ChooseApplication = () => {
       <Typography gutterBottom variant="h5" component="h2">
         Opprette ny søknad
       </Typography>
+      {/* <Route
+        exact
+        path="/application"
+        render={(props) => (
+          <ApplicationForm {...props} title=`Props through render` />
+        )}
+      /> */}
       <div
         style={{
           display: "flex",
@@ -20,23 +28,25 @@ export const ChooseApplication = () => {
       >
         <ApplicationCard
           image={Student_NM_logo}
-          text="Søknadskjema for student-NM"
-          to="/studentnm"
+          title="Søknadskjema for student-NM"
+          to="/application"
         />
         <ApplicationCard
           image={Studentleker_logo}
-          text="Søknadskjema for studentleker"
-          to="/studentleker"
+          title="Søknadskjema for studentleker"
+          to="/application"
         />
         <ApplicationCard
           image={Student_Cup_logo}
-          text="Søknadskjema for student-Cup"
-          to="/studentcup"
+          title="Søknadskjema for student-Cup"
+          to="/application"
         />
       </div>
+
       <br></br>
       <Divider />
       <br></br>
+
       <Typography gutterBottom variant="h5" component="h2">
         Mine påbegynte søknader
       </Typography>

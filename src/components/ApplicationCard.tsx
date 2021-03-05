@@ -8,16 +8,17 @@ import {
   CardMedia,
   Typography,
 } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, Link as RouterLink } from "react-router-dom";
 import { useStyles } from "../style/cards";
+import { ApplicationForm } from "./ApplicationForm";
 
-type Props = {
-  image: string;
-  text: string;
-  to: string;
-};
+// type Props = {
+//   image: string;
+//   title: any;
+//   to: object;
+// };
 
-export const ApplicationCard = (props: Props) => {
+export const ApplicationCard = (props: any) => {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
@@ -25,12 +26,20 @@ export const ApplicationCard = (props: Props) => {
         <CardMedia className={classes.media} image={props.image} />
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
-            {props.text}
+            {props.title}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button component={Link} to={props.to} size="small" color="primary">
+        <Button
+          //component={RouterLink}
+          //to={{ pathname: "/application", AppProps: { title: "julie" } }}
+          size="small"
+          color="primary"
+        >
+          <Link to={{ pathname: "/application", state: { title: "julie" } }}>
+            About
+          </Link>
           Ny søknad
         </Button>
       </CardActions>
