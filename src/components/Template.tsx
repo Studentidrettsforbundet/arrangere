@@ -26,6 +26,8 @@ const Template = () => {
     generateApplicationForm();
   }, [choosenApplicationForm]);
 
+  console.log(choosenApplicationForm);
+
   async function generateApplicationForm() {
     setLoading(true);
     let chapterListLocal: Array<Chapter> = [];
@@ -60,6 +62,7 @@ const Template = () => {
     chapterList.map((chapter: Chapter) => {
       chapters.push(<ChapterWrapper key={chapter.title} chapter={chapter} />);
     });
+    console.log(chapters);
     return chapters;
   };
 

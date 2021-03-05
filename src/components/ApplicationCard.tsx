@@ -9,15 +9,21 @@ import {
 } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
 import { useStyles } from "../style/cards";
+import { useSetRecoilState } from "recoil";
+import { choosenApplicationState } from "../stateManagement/choosenApplication";
 
 type Props = {
   image: string;
   title: string;
   to: string;
+  template: string;
 };
 
 export const ApplicationCard = (props: Props) => {
   const classes = useStyles();
+
+  const setChoosenApplicationForm = useSetRecoilState(choosenApplicationState);
+
   return (
     <Card className={classes.root}>
       <CardActionArea>
@@ -34,6 +40,7 @@ export const ApplicationCard = (props: Props) => {
           to={{ pathname: props.to, state: { title: props.title } }}
           size="small"
           color="primary"
+          onClick={() => setChoosenApplicationForm(props.template)}
         >
           Ny søknad
         </Button>

@@ -12,12 +12,13 @@ const renderAttributes = (attributes: any) => {
   let inputFields: Array<InputField> = [];
   if (attributes) {
     Object.keys(attributes).forEach((attribute: string) => {
-      Object.keys(attributes[attribute].inputFields).forEach(
+      Object.keys(attributes[attribute].input_fields).forEach(
         (inputField: string) => {
           inputFields.push({
-            type: attributes[attribute].inputFields[inputField].type,
-            desc: attributes[attribute].inputFields[inputField].desc,
+            type: attributes[attribute].input_fields[inputField].type,
+            desc: attributes[attribute].input_fields[inputField].desc,
           });
+          console.log(attribute);
         }
       );
       inputWrappers.push(
