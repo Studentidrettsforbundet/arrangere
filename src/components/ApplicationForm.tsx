@@ -9,10 +9,10 @@ export const ApplicationForm = (props: any) => {
   console.log("application", props.location.state);
   return (
     <>
-      {/* <Typography gutterBottom variant="h5" component="h2">
-        {props.title}
+      <Typography gutterBottom variant="h5" component="h2">
+        {props.location.state.title}
         Hei
-      </Typography> */}
+      </Typography>
     </>
   );
 };

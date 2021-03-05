@@ -37,7 +37,9 @@ export const ApplicationCard = (props: any) => {
           size="small"
           color="primary"
         >
-          <Link to={{ pathname: "/application", state: { title: "julie" } }}>
+          <Link
+            to={{ pathname: "/application", state: { title: props.title } }}
+          >
             About
           </Link>
           Ny søknad
