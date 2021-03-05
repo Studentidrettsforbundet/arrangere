@@ -63,8 +63,8 @@ const InputWrapper: FC<InputWrapperProps> = ({
 }) => {
   return (
     <div>
-      <Typography variant="h4">{title}</Typography>
-      <Typography variant="h6">{mainDesc}</Typography>
+      <Typography variant="h6">{title}</Typography>
+      <Typography variant="subtitle1">{mainDesc}</Typography>
       <div>{generateComponents(inputFields)}</div>
     </div>
   );
