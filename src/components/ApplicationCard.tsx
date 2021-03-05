@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Button,
   Card,
@@ -8,17 +7,16 @@ import {
   CardMedia,
   Typography,
 } from "@material-ui/core";
-import { Link, Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import { useStyles } from "../style/cards";
-import { ApplicationForm } from "./ApplicationForm";
 
-// type Props = {
-//   image: string;
-//   title: any;
-//   to: object;
-// };
+type Props = {
+  image: string;
+  title: string;
+  to: string;
+};
 
-export const ApplicationCard = (props: any) => {
+export const ApplicationCard = (props: Props) => {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
@@ -32,16 +30,11 @@ export const ApplicationCard = (props: any) => {
       </CardActionArea>
       <CardActions>
         <Button
-          //component={RouterLink}
-          //to={{ pathname: "/application", AppProps: { title: "julie" } }}
+          component={RouterLink}
+          to={{ pathname: props.to, state: { title: props.title } }}
           size="small"
           color="primary"
         >
-          <Link
-            to={{ pathname: "/application", state: { title: props.title } }}
-          >
-            About
-          </Link>
           Ny søknad
         </Button>
       </CardActions>

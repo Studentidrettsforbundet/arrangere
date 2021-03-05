@@ -23,14 +23,9 @@ export default function Dashboard() {
         <Route exact path="/" component={Home} />
         <Route exact path="/userprofile" component={UserProfile} />
         <Route exact path="/applications" component={ChooseApplication} />
-        <Route exact path="/application" component={ApplicationForm} />
-        {/* <Route
-          exact
-          path="/application"
-          render={(props) => (
-            <ApplicationForm {...props} formName={props.text} />
-          )}
-        /> */}
+        <Route exact path="/studentnm" component={ApplicationForm} />
+        <Route exact path="/studentleker" component={ApplicationForm} />
+        <Route exact path="/studentcup" component={ApplicationForm} />
       </BrowserRouter>
     </div>
   );

@@ -1,10 +1,8 @@
-import React from "react";
 import { Divider, Typography } from "@material-ui/core/";
 import { ApplicationCard } from "./ApplicationCard";
 import Student_NM_logo from "./../images/student_NM.png";
 import Studentleker_logo from "./../images/studentleker-1.png";
 import Student_Cup_logo from "./../images/studentcup-1.png";
-import { ApplicationForm } from "./ApplicationForm";
 
 export const ChooseApplication = () => {
   return (
@@ -12,13 +10,6 @@ export const ChooseApplication = () => {
       <Typography gutterBottom variant="h5" component="h2">
         Opprette ny søknad
       </Typography>
-      {/* <Route
-        exact
-        path="/application"
-        render={(props) => (
-          <ApplicationForm {...props} title=`Props through render` />
-        )}
-      /> */}
       <div
         style={{
           display: "flex",
@@ -29,17 +20,17 @@ export const ChooseApplication = () => {
         <ApplicationCard
           image={Student_NM_logo}
           title="Søknadskjema for student-NM"
-          to="/application"
+          to="/studentnm"
         />
         <ApplicationCard
           image={Studentleker_logo}
           title="Søknadskjema for studentleker"
-          to="/application"
+          to="/studentleker"
         />
         <ApplicationCard
           image={Student_Cup_logo}
           title="Søknadskjema for student-Cup"
-          to="/application"
+          to="/studentcup"
         />
       </div>
 
