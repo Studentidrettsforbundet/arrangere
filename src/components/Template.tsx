@@ -3,7 +3,7 @@ import { useRecoilValue } from "recoil";
 import { firestore } from "../firebase";
 import ChapterWrapper from "./ChapterWrapper";
 import { choosenApplicationState } from "../stateManagement/choosenApplication";
-import InputWrapper, { InputField } from "./inputFields/InputWrapper";
+import { InputField } from "./inputFields/InputWrapper";
 
 export type Chapter = {
   title: string;
@@ -30,8 +30,6 @@ const Template = () => {
     setLoading(true);
     let chapterListLocal: Array<Chapter> = [];
 
-    console.log(choosenApplicationForm);
-
     await firestore
       .collection(choosenApplicationForm)
       .get()
@@ -44,14 +42,13 @@ const Template = () => {
               attributes: chapter.data().attributes,
             });
           } else {
-            // doc.data() will be undefined in this case
             console.log("No such document!");
-            throw new Error("no doc");
+            throw new Error("No document.");
           }
         });
       })
       .catch((error) => {
-        console.log("Error getting document:", error);
+        console.log("Error getting document: ", error);
       });
     setChapterList(chapterListLocal);
     chapterListLocal = [];
@@ -68,7 +65,7 @@ const Template = () => {
 
   return (
     <div>
-      {loading ? <p>Laster inn</p> : <div>{renderChapters(chapterList)}</div>}
+      {loading ? <p>Laster inn..</p> : <div>{renderChapters(chapterList)}</div>}
     </div>
   );
 };

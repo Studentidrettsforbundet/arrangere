@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Typography } from "@material-ui/core";
-import { Attribute, Chapter } from "./Template";
+import { Chapter } from "./Template";
 import InputWrapper, { InputField } from "./inputFields/InputWrapper";
 
 type ChapterProps = {
