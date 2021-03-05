@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 import { firestore } from "../firebase";
-import { InputField } from "./inputFields/InputWrapper";
 import ChapterWrapper from "./ChapterWrapper";
+import { choosenApplicationState } from "../stateManagement/choosenApplication";
+import InputWrapper, { InputField } from "./inputFields/InputWrapper";
 
 export type Chapter = {
   title: string;
@@ -18,6 +20,7 @@ export type Attribute = {
 const Template = () => {
   const [loading, setLoading] = useState(true);
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
+  const choosenApplicationForm = useRecoilValue(choosenApplicationState);
 
   useEffect(() => {
     generateApplicationForm();
@@ -27,8 +30,10 @@ const Template = () => {
     setLoading(true);
     let chapterListLocal: Array<Chapter> = [];
 
+    console.log(choosenApplicationForm);
+
     await firestore
-      .collection("snTemplateNestedInput")
+      .collection(choosenApplicationForm)
       .get()
       .then((snapshot) => {
         snapshot.docs.forEach((chapter) => {
