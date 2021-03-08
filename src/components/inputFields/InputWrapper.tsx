@@ -8,13 +8,15 @@ import RadioButton from "./RadioButton";
 import ShortText from "./ShortText";
 import Time from "./Time";
 
+export type InputField = {
+  type: string;
+  desc: string;
+};
+
 type InputWrapperProps = {
   title: string;
   mainDesc: string;
-  fields: {
-    type: string;
-    desc: string;
-  };
+  inputFields: Array<InputField>;
 };
 
 const componentList = [
@@ -45,14 +47,25 @@ const getComponentToBeRendered = (type: string) => {
   return ComponentName;
 };
 
-const InputWrapper: FC<InputWrapperProps> = ({ title, mainDesc, fields }) => {
-  const Component = getComponentToBeRendered(fields.type);
-  console.log(Component);
+const generateComponents = (inputFields: Array<InputField>) => {
+  const components: any = [];
+  inputFields.map((inputField: any, i) => {
+    const Component = getComponentToBeRendered(inputField.type);
+    components.push(<Component key={i} desc={inputField.desc}></Component>);
+  });
+  return components;
+};
+
+const InputWrapper: FC<InputWrapperProps> = ({
+  title,
+  mainDesc,
+  inputFields,
+}) => {
   return (
     <div>
-      <Typography variant="h4">{title}</Typography>
-      <Typography variant="h6">{mainDesc}</Typography>
-      <Component desc={fields.desc}></Component>
+      <Typography variant="h6">{title}</Typography>
+      <Typography variant="subtitle1">{mainDesc}</Typography>
+      <div>{generateComponents(inputFields)}</div>
     </div>
   );
 };

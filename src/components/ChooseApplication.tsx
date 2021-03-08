@@ -1,4 +1,3 @@
-import React from "react";
 import { Divider, Typography } from "@material-ui/core/";
 import { ApplicationCard } from "./ApplicationCard";
 import Student_NM_logo from "./../images/student_NM.png";
@@ -20,23 +19,28 @@ export const ChooseApplication = () => {
       >
         <ApplicationCard
           image={Student_NM_logo}
-          text="Søknadskjema for student-NM"
+          title="Søknadskjema for student-NM"
           to="/studentnm"
+          template="snmTemplate"
         />
         <ApplicationCard
           image={Studentleker_logo}
-          text="Søknadskjema for studentleker"
+          title="Søknadskjema for studentleker"
           to="/studentleker"
+          template="slTemplate"
         />
         <ApplicationCard
           image={Student_Cup_logo}
-          text="Søknadskjema for student-Cup"
+          title="Søknadskjema for student-Cup"
           to="/studentcup"
+          template="scTemplate"
         />
       </div>
+
       <br></br>
       <Divider />
       <br></br>
+
       <Typography gutterBottom variant="h5" component="h2">
         Mine påbegynte søknader
       </Typography>

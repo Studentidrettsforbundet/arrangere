@@ -6,10 +6,8 @@ import { useRecoilValue } from "recoil";
 import { currentUserState } from "../stateManagement/userAuth";
 import DrawerBar from "./DrawerBar";
 import Home from "./Home";
-import StudentCupForm from "./StudentCupForm";
-import StudentlekerForm from "./StudentlekerForm";
-import StudentNMForm from "./StudentNMForm";
 import UserProfile from "./UserProfile";
+import { ApplicationForm } from "./ApplicationForm";
 
 export default function Dashboard() {
   const currentUser = useRecoilValue(currentUserState);
@@ -25,9 +23,9 @@ export default function Dashboard() {
         <Route exact path="/" component={Home} />
         <Route exact path="/userprofile" component={UserProfile} />
         <Route exact path="/applications" component={ChooseApplication} />
-        <Route path="/studentnm" component={StudentNMForm} />
-        <Route path="/studentleker" component={StudentlekerForm} />
-        <Route path="/studentcup" component={StudentCupForm} />
+        <Route exact path="/studentnm" component={ApplicationForm} />
+        <Route exact path="/studentleker" component={ApplicationForm} />
+        <Route exact path="/studentcup" component={ApplicationForm} />
       </BrowserRouter>
     </div>
   );
