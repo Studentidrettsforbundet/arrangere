@@ -10,6 +10,7 @@ export type Chapter = {
   title: string;
   desc: string;
   attributes: Array<Attribute>;
+  priority: number;
 };
 
 export type Attribute = {
@@ -23,7 +24,7 @@ const Template = () => {
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
   const choosenApplicationForm = useRecoilValue(choosenApplicationState);
 
-  const [chapterCounter, setChapterCounter] = useState(2);
+  const [chapterCounter, setChapterCounter] = useState(0);
 
   useEffect(() => {
     generateApplicationForm();
@@ -43,6 +44,7 @@ const Template = () => {
               title: chapter.data().title,
               desc: chapter.data().desc,
               attributes: chapter.data().attributes,
+              priority: chapter.data().priority,
             });
           } else {
             /* console.log("No such document!"); */
@@ -62,7 +64,9 @@ const Template = () => {
     const chapters: any = [];
     chapterList.map((chapter: Chapter) => {
       chapters.push(<ChapterWrapper key={chapter.title} chapter={chapter} />);
+      console.log("Chapter: " + chapter.priority);
     });
+    chapterList.sort((a: Chapter, b: Chapter) => a.priority - b.priority);
     return chapters;
   };
 
@@ -87,10 +91,10 @@ const Template = () => {
       ) : (
         <div>
           {renderChapters(chapterList)[chapterCounter]}{" "}
-          <Button variant="contained" onClick={nextChapter}>
+          <Button variant="contained" onClick={prevChapter}>
             Forrige
           </Button>
-          <Button variant="contained" onClick={prevChapter}>
+          <Button variant="contained" onClick={nextChapter}>
             Neste
           </Button>
         </div>

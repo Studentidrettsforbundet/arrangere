@@ -40,8 +40,8 @@ const renderAttributes = (attributes: any) => {
 const ChapterWrapper: FC<ChapterProps> = ({ chapter }) => {
   return (
     <div>
-      <Typography variant="h2">{chapter.title}</Typography>
-      <Typography variant="h4">{chapter.desc}</Typography>
+      <Typography variant="h4">{chapter.title}</Typography>
+      <Typography variant="h6">{chapter.desc}</Typography>
       <div>{renderAttributes(chapter.attributes)}</div>
     </div>
   );
