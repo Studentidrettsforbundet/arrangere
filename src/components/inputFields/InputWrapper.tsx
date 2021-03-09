@@ -55,7 +55,6 @@ const generateComponents = (inputFields: Array<InputField>) => {
     components.push(
       <Component key={i} desc={inputField.desc} id={inputField.id}></Component>
     );
-    console.log(inputField.id);
   });
   return components;
 };

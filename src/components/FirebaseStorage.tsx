@@ -1,7 +1,8 @@
 import { Button } from "@material-ui/core";
 import { useRecoilValue } from "recoil";
 import { firestore } from "../firebase";
-import ShortText, { selectedAttributeState } from "./inputFields/ShortText";
+import { selectedAttributeState } from "../stateManagement/attributesState";
+import ShortText from "./inputFields/ShortText";
 
 // Generate new document to Firestore with data
 const addDocToFirebase = (docData: any) => {
@@ -16,17 +17,26 @@ const addDocToFirebase = (docData: any) => {
     });
 };
 
-const setData = (docData: any) {
-    firestore.collection("testCollection").doc("pzYKnYEpVdAMCbPaPDbG");
-}
+// Update a single field in the doc
+const setData = (docData: any) => {
+  firestore
+    .collection("testCollection")
+    .doc("pzYKnYEpVdAMCbPaPDbG")
+    .update({
+      "chapter-1.attributes.comments.input_fields.input1.value": docData,
+    })
+    .then(() => {
+      console.log("Field updated!");
+    })
+    .catch((error) => {
+      console.error("Error updating field: ", error);
+    });
+};
 
 const FirebaseStorage = () => {
   const selectedAttribute = useRecoilValue(selectedAttributeState);
 
-  console.log(selectedAttribute?.id);
-
   const docData = {
-    input1: selectedAttribute?.id,
     value: selectedAttribute?.value,
   };
 
@@ -43,6 +53,10 @@ const FirebaseStorage = () => {
 
       <Button onClick={() => addDocToFirebase(docData)}>
         Lagre dokument til Firestore
+      </Button>
+
+      <Button onClick={() => setData(docData)}>
+        Oppdater dokument i testCollection i Firestore
       </Button>
     </div>
   );
