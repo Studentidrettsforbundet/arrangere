@@ -10,6 +10,7 @@ type ChapterProps = {
 const renderAttributes = (attributes: any) => {
   const inputWrappers: any = [];
   let inputFields: Array<InputField> = [];
+  let idNr: number = 0;
   if (attributes) {
     Object.keys(attributes).forEach((attribute: string) => {
       Object.keys(attributes[attribute].input_fields).forEach(
@@ -17,8 +18,9 @@ const renderAttributes = (attributes: any) => {
           inputFields.push({
             type: attributes[attribute].input_fields[inputField].type,
             desc: attributes[attribute].input_fields[inputField].desc,
+            id: attribute + idNr,
           });
-          console.log(attribute);
+          idNr++;
         }
       );
       inputWrappers.push(
@@ -30,6 +32,7 @@ const renderAttributes = (attributes: any) => {
         />
       );
       inputFields = [];
+      idNr = 0;
     });
   } else {
     console.log("No attributes!");

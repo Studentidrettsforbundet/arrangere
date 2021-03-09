@@ -11,6 +11,7 @@ import Time from "./Time";
 export type InputField = {
   type: string;
   desc: string;
+  id: string;
 };
 
 type InputWrapperProps = {
@@ -35,7 +36,7 @@ const defaultComponent = () => {
 };
 
 const getComponentToBeRendered = (type: string) => {
-  let ComponentName: React.FC<{ desc: string }>;
+  let ComponentName: React.FC<{ desc: string; id: string }>;
   ComponentName = defaultComponent;
 
   componentList.map((component) => {
@@ -51,7 +52,10 @@ const generateComponents = (inputFields: Array<InputField>) => {
   const components: any = [];
   inputFields.map((inputField: any, i) => {
     const Component = getComponentToBeRendered(inputField.type);
-    components.push(<Component key={i} desc={inputField.desc}></Component>);
+    components.push(
+      <Component key={i} desc={inputField.desc} id={inputField.id}></Component>
+    );
+    console.log(inputField.id);
   });
   return components;
 };

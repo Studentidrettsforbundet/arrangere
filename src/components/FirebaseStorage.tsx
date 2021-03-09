@@ -1,15 +1,14 @@
 import { Button } from "@material-ui/core";
-import React from "react";
+import { useRecoilValue } from "recoil";
 import { firestore } from "../firebase";
+import { attributeData } from "../stateManagement/docData";
+import ShortText, { selectedAttributeState } from "./inputFields/ShortText";
 
 // Generate new document to Firestore with data
-const addDocToFirebase = () => {
+const addDocToFirebase = (docData: any) => {
   firestore
     .collection("snmApplications")
-    .add({
-      application: "snm",
-      org: "NTNUI",
-    })
+    .add(docData)
     .then((docRef) => {
       console.log("Document written with ID: ", docRef.id);
     })
@@ -18,10 +17,32 @@ const addDocToFirebase = () => {
     });
 };
 
+const setData = (docData: any) {
+    firestore.collection("testCollection").doc("pzYKnYEpVdAMCbPaPDbG");
+}
+
 const FirebaseStorage = () => {
+  const selectedAttribute = useRecoilValue(selectedAttributeState);
+
+  console.log(selectedAttribute?.id);
+
+  const docData = {
+    input1: selectedAttribute?.id,
+    value: selectedAttribute?.value,
+  };
+
   return (
     <div>
-      <Button onClick={() => addDocToFirebase()}>
+      <ShortText
+        desc="Input-feltet her skal lagres i Firestore"
+        id="input1"
+      ></ShortText>
+      <ShortText
+        desc="Input-feltet her skal lagres i Firestore"
+        id="input2"
+      ></ShortText>
+
+      <Button onClick={() => addDocToFirebase(docData)}>
         Lagre dokument til Firestore
       </Button>
     </div>
