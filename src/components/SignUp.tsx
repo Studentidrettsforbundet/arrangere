@@ -26,8 +26,10 @@ import {
   errorState,
   errorStateSelector,
 } from "../stateManagement/errorHandling";
+import firebase from "firebase";
 
 const SignUp = () => {
+  var db = firebase.firestore();
   const classes = useStyles();
   const history = useHistory();
   const currentUser = useRecoilValue(currentUserState);
@@ -36,6 +38,7 @@ const SignUp = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const passwordConfirmRef = useRef<HTMLInputElement>(null);
+  // const organizationRef = useRef("");
 
   const setError = useSetRecoilState(errorState);
   const error = useRecoilValue(errorStateSelector);
@@ -64,6 +67,16 @@ const SignUp = () => {
         emailRef.current!.value,
         passwordRef.current!.value
       )
+      /*tester litt, dette er for å opprette brukerdoc når profil opprettes
+      for å kunne legge til organisation på bruker */
+      .then((cred) => {
+        if (cred.user != null) {
+          return db.collection("users").doc(cred.user.uid).set({
+            organization: "",
+            name: emailRef.current!.value,
+          });
+        }
+      })
       .then(() => {
         setError("");
         history.push("/");
