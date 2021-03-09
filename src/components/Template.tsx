@@ -4,6 +4,7 @@ import { firestore } from "../firebase";
 import ChapterWrapper from "./ChapterWrapper";
 import { choosenApplicationState } from "../stateManagement/choosenApplication";
 import { InputField } from "./inputFields/InputWrapper";
+import Button from "@material-ui/core/Button";
 
 export type Chapter = {
   title: string;
@@ -22,7 +23,7 @@ const Template = () => {
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
   const choosenApplicationForm = useRecoilValue(choosenApplicationState);
 
-  const [chapterCounter, setChapterCounter] = useState(0);
+  const [chapterCounter, setChapterCounter] = useState(2);
 
   useEffect(() => {
     generateApplicationForm();
@@ -86,8 +87,12 @@ const Template = () => {
       ) : (
         <div>
           {renderChapters(chapterList)[chapterCounter]}{" "}
-          <button onClick={prevChapter}>Forrige</button>
-          <button onClick={nextChapter}>Neste</button>
+          <Button variant="contained" onClick={nextChapter}>
+            Forrige
+          </Button>
+          <Button variant="contained" onClick={prevChapter}>
+            Neste
+          </Button>
         </div>
       )}
     </div>
