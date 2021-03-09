@@ -22,6 +22,8 @@ const Template = () => {
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
   const choosenApplicationForm = useRecoilValue(choosenApplicationState);
 
+  const [chapterCounter, setChapterCounter] = useState(0);
+
   useEffect(() => {
     generateApplicationForm();
   }, [choosenApplicationForm]);
@@ -42,13 +44,13 @@ const Template = () => {
               attributes: chapter.data().attributes,
             });
           } else {
-            console.log("No such document!");
+            /* console.log("No such document!"); */
             throw new Error("No document.");
           }
         });
       })
       .catch((error) => {
-        console.log("Error getting document: ", error);
+        /* console.log("Error getting document: ", error); */
       });
     setChapterList(chapterListLocal);
     chapterListLocal = [];
@@ -63,9 +65,31 @@ const Template = () => {
     return chapters;
   };
 
+  const nextChapter = () => {
+    console.log(chapterCounter);
+    if (chapterCounter < chapterList.length - 1) {
+      setChapterCounter(chapterCounter + 1);
+    }
+  };
+
+  const prevChapter = () => {
+    console.log(chapterCounter);
+    if (chapterCounter > 0) {
+      setChapterCounter(chapterCounter - 1);
+    }
+  };
+
   return (
     <div>
-      {loading ? <p>Laster inn..</p> : <div>{renderChapters(chapterList)}</div>}
+      {loading ? (
+        <p>Laster inn..</p>
+      ) : (
+        <div>
+          {renderChapters(chapterList)[chapterCounter]}{" "}
+          <button onClick={prevChapter}>Forrige</button>
+          <button onClick={nextChapter}>Neste</button>
+        </div>
+      )}
     </div>
   );
 };
