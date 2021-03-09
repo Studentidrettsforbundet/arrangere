@@ -1,6 +1,3 @@
-import { Button } from "@material-ui/core";
-import React from "react";
-
 import { firestore } from "../firebase";
 import { Chapter } from "./Template";
 
@@ -58,19 +55,5 @@ export const copyDoc = async (
     });
     return true;
   }
-  console.log(chapterListLocal.length);
-
   return false;
 };
-
-const FirebaseStorage = () => {
-  return (
-    <div>
-      <Button onClick={() => copyDoc("scTemplate", "testCollection")}>
-        Lagre dokument til Firestore
-      </Button>
-    </div>
-  );
-};
-
-export default FirebaseStorage;

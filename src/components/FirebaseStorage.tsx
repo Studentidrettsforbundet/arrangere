@@ -1,7 +1,6 @@
 import { Button } from "@material-ui/core";
 import { useRecoilValue } from "recoil";
 import { firestore } from "../firebase";
-import { attributeData } from "../stateManagement/docData";
 import ShortText, { selectedAttributeState } from "./inputFields/ShortText";
 
 // Generate new document to Firestore with data
