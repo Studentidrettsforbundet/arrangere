@@ -47,13 +47,13 @@ const Template = () => {
               priority: chapter.data().priority,
             });
           } else {
-            /* console.log("No such document!"); */
+            console.log("No such document!");
             throw new Error("No document.");
           }
         });
       })
       .catch((error) => {
-        /* console.log("Error getting document: ", error); */
+        console.log("Error getting document: ", error);
       });
     setChapterList(chapterListLocal);
     chapterListLocal = [];
@@ -64,21 +64,18 @@ const Template = () => {
     const chapters: any = [];
     chapterList.map((chapter: Chapter) => {
       chapters.push(<ChapterWrapper key={chapter.title} chapter={chapter} />);
-      console.log("Chapter: " + chapter.priority);
     });
     chapterList.sort((a: Chapter, b: Chapter) => a.priority - b.priority);
     return chapters;
   };
 
   const nextChapter = () => {
-    console.log(chapterCounter);
     if (chapterCounter < chapterList.length - 1) {
       setChapterCounter(chapterCounter + 1);
     }
   };
 
   const prevChapter = () => {
-    console.log(chapterCounter);
     if (chapterCounter > 0) {
       setChapterCounter(chapterCounter - 1);
     }
