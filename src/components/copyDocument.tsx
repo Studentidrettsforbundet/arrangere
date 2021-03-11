@@ -22,6 +22,7 @@ export const copyDoc = async (
           title: chapter.data().title,
           desc: chapter.data().desc,
           attributes: chapter.data().attributes,
+          priority: chapter.data().priority,
         });
       });
       return chapterExists;
