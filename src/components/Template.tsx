@@ -6,6 +6,7 @@ import { choosenApplicationState } from "../stateManagement/choosenApplication";
 import { InputField } from "./inputFields/InputWrapper";
 import Button from "@material-ui/core/Button";
 import { useStyles } from "../style/chapters";
+import ChapterButton from "./ChapterButton";
 
 export type Chapter = {
   title: string;
@@ -22,6 +23,7 @@ export type Attribute = {
 
 const Template = () => {
   const [loading, setLoading] = useState(true);
+
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
   const choosenApplicationForm = useRecoilValue(choosenApplicationState);
   const classes = useStyles();
@@ -60,14 +62,24 @@ const Template = () => {
     chapterListLocal = [];
     setLoading(false);
   }
+  const titles: Array<string> = [];
 
   const renderChapters = (chapterList: Array<Chapter>) => {
     const chapters: any = [];
     chapterList.map((chapter: Chapter) => {
       chapters.push(<ChapterWrapper key={chapter.title} chapter={chapter} />);
+      titles.push(chapter.title);
     });
     chapterList.sort((a: Chapter, b: Chapter) => a.priority - b.priority);
     return chapters;
+  };
+
+  const renderButtons = (chapterList: Array<Chapter>) => {
+    const chapterButtons: any = [];
+    chapterList.map((chapter: Chapter) => {
+      chapterButtons.push(<ChapterButton title={chapter.title} />);
+    });
+    return chapterButtons;
   };
 
   const nextChapter = () => {
@@ -81,24 +93,27 @@ const Template = () => {
       setChapterCounter(chapterCounter - 1);
     }
   };
-
+  console.log(titles);
   return (
     <div>
       {loading ? (
         <p>Laster inn..</p>
       ) : (
         <div>
-          {renderChapters(chapterList)[chapterCounter]}{" "}
-          <Button
-            variant="contained"
-            className={classes.prevBtn}
-            onClick={prevChapter}
-          >
-            Forrige
-          </Button>
-          <Button variant="contained" onClick={nextChapter}>
-            Neste
-          </Button>
+          <div>
+            <div>{renderButtons(chapterList)}</div>
+            {renderChapters(chapterList)[chapterCounter]}{" "}
+            <Button
+              variant="contained"
+              className={classes.prevBtn}
+              onClick={prevChapter}
+            >
+              Forrige
+            </Button>
+            <Button variant="contained" onClick={nextChapter}>
+              Neste
+            </Button>
+          </div>
         </div>
       )}
     </div>

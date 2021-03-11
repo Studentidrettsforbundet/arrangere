@@ -17,20 +17,6 @@ export const ApplicationForm = (props: any) => {
 
   return (
     <div id="hallo" style={{ width: "100%" }}>
-      <Box display="flex" flexDirection="row" bgcolor="background.paper">
-        <Box p={1} bgcolor="grey.300">
-          Item 1
-        </Box>
-        <Box p={1} bgcolor="grey.300">
-          Item 1
-        </Box>
-        <Box p={1} bgcolor="grey.300">
-          Item 1
-        </Box>
-        <Box p={1} bgcolor="grey.300">
-          Item 1
-        </Box>
-      </Box>
       <Box px={10}>
         <Template></Template>
       </Box>
