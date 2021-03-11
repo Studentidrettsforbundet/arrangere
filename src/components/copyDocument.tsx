@@ -1,5 +1,5 @@
 import { firestore } from "../firebase";
-import { Chapter } from "./Template";
+import { Attribute } from "./Template";
 
 export const copyDoc = async (
   collectionFrom: string,
@@ -7,8 +7,18 @@ export const copyDoc = async (
 ): Promise<boolean> => {
   // document reference
   const docRef = firestore.collection(collectionFrom);
-  let chapterListLocal: Array<Chapter> = [];
+  let chapterListLocal: Array<ChapterWithID> = [];
   let chapterExists: boolean = false;
+
+  type ChapterWithID = {
+    id: string;
+    content: {
+      title: string;
+      desc: string;
+      attributes: Array<Attribute>;
+      priority: number;
+    };
+  };
 
   // copy the document
   const docData = await docRef
@@ -19,10 +29,13 @@ export const copyDoc = async (
           chapterExists = true;
         }
         chapterListLocal.push({
-          title: chapter.data().title,
-          desc: chapter.data().desc,
-          attributes: chapter.data().attributes,
-          priority: chapter.data().priority,
+          id: chapter.id,
+          content: {
+            title: chapter.data().title,
+            desc: chapter.data().desc,
+            attributes: chapter.data().attributes,
+            priority: chapter.data().priority,
+          },
         });
       });
       return chapterExists;
@@ -40,12 +53,12 @@ export const copyDoc = async (
 
   if (docData) {
     // document exists, create the new item
-    chapterListLocal.forEach((chapter, index) => {
-      let newname = "chapter-" + index;
+    chapterListLocal.forEach((chapter) => {
+      let chapterId = chapter.id;
       firestore
         .collection(collectionTo)
         .doc(myId)
-        .set({ [newname]: chapter }, { merge: true })
+        .set({ [chapterId]: chapter.content }, { merge: true })
         .catch((error) => {
           console.error(
             "Error creating document",
