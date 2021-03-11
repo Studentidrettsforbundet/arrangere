@@ -1,7 +1,11 @@
 import { Button } from "@material-ui/core";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { firestore } from "../firebase";
-import { selectedAttributeState } from "../stateManagement/attributesState";
+import {
+  attributesState,
+  selectedAttributeState,
+  selectedAttributeIdState,
+} from "../stateManagement/attributesState";
 import ShortText from "./inputFields/ShortText";
 
 // Generate new document to Firestore with data
@@ -33,6 +37,56 @@ const setData = (docData: any) => {
     });
 };
 
+const getAllAttributesState = () => {
+  const attributesState: any = [];
+};
+
+const getValueInputFields = () => {
+  const db = firestore.collection("testCollection");
+  const doc_id = "wM8RmJ5PVIJ90e9biJYC";
+
+  const attributeIdList: Array<String> = [];
+  let attributeName: string = "";
+
+  //const attribute_id = "attributet som vi får fra input-feltet";
+  const input_number = "nummeret til input feltet som vi også får fra staten";
+
+  db.doc(doc_id)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        let data: any = doc.data();
+        let count: number = 0;
+        // for hvert kapittel
+        for (const key in data) {
+          const chapter = data[key];
+          // attributes-feltet i databasen
+          const attributes = chapter.attributes;
+          for (let attribute in attributes) {
+            attributeName = attribute;
+            console.log(attribute);
+            const inputFields = attributes[attribute].input_fields;
+            for (let inputField in inputFields) {
+              // må finne ut hvor mange inputfelter vi har
+              count++;
+              //console.log(attributes[attribute].input_fields[inputField]);
+            }
+            console.log(count);
+
+            for (let i = 0; i <= count; i++) {
+              const attributeId = attributeName + i.toString();
+              attributeIdList.push(attributeId);
+            }
+            count = 0;
+          }
+        }
+        console.log(attributeIdList);
+      } else {
+        console.log("Doc does not exists");
+      }
+    });
+};
+
 const FirebaseStorage = () => {
   const selectedAttribute = useRecoilValue(selectedAttributeState);
 
@@ -58,6 +112,8 @@ const FirebaseStorage = () => {
       <Button onClick={() => setData(docData)}>
         Oppdater dokument i testCollection i Firestore
       </Button>
+
+      <Button onClick={() => getValueInputFields()}>Hent et dokument</Button>
     </div>
   );
 };
