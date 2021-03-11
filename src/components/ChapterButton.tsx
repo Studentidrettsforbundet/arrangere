@@ -1,6 +1,5 @@
-import { Button } from "@material-ui/core";
+import { Button, Box } from "@material-ui/core";
 import { FC } from "react";
-import Box from "@material-ui/core/Box";
 
 type ButtonProps = {
   title: string;
