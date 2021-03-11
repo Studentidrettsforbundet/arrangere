@@ -1,11 +1,9 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
 import { Link } from "react-router-dom";
-import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
 import { currentUserState } from "../stateManagement/userAuth";
 import { auth } from "../firebase";
-import { Typography } from "@material-ui/core";
+import { Typography, Button, Box } from "@material-ui/core";
 
 export default function UserProfile() {
   const currentUser = useRecoilValue(currentUserState);
