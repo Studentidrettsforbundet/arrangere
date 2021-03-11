@@ -5,6 +5,7 @@ import {
   attributesState,
   selectedAttributeIdState,
 } from "../../stateManagement/attributesState";
+import { Fullscreen } from "@material-ui/icons";
 
 type ShortTextProps = {
   desc: string;

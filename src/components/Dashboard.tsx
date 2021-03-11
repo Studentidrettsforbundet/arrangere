@@ -8,6 +8,7 @@ import DrawerBar from "./DrawerBar";
 import Home from "./Home";
 import UserProfile from "./UserProfile";
 import { ApplicationForm } from "./ApplicationForm";
+import { Typography } from "@material-ui/core";
 
 export default function Dashboard() {
   const currentUser = useRecoilValue(currentUserState);
@@ -17,7 +18,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "row", padding: 20 }}>
+    <div style={{ display: "flex", flexDirection: "row" }}>
       <BrowserRouter>
         <DrawerBar />
         <Route exact path="/" component={Home} />

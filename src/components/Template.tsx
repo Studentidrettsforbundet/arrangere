@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { firestore } from "../firebase";
 import ChapterWrapper from "./ChapterWrapper";
 import { choosenApplicationState } from "../stateManagement/choosenApplication";
 import { InputField } from "./inputFields/InputWrapper";
 import Button from "@material-ui/core/Button";
+import { useStyles } from "../style/chapters";
 
 export type Chapter = {
   title: string;
@@ -23,7 +24,7 @@ const Template = () => {
   const [loading, setLoading] = useState(true);
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
   const choosenApplicationForm = useRecoilValue(choosenApplicationState);
-
+  const classes = useStyles();
   const [chapterCounter, setChapterCounter] = useState(0);
 
   useEffect(() => {
@@ -88,7 +89,11 @@ const Template = () => {
       ) : (
         <div>
           {renderChapters(chapterList)[chapterCounter]}{" "}
-          <Button variant="contained" onClick={prevChapter}>
+          <Button
+            variant="contained"
+            className={classes.prevBtn}
+            onClick={prevChapter}
+          >
             Forrige
           </Button>
           <Button variant="contained" onClick={nextChapter}>

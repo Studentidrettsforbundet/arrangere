@@ -2,11 +2,11 @@ import { FC } from "react";
 import { Typography } from "@material-ui/core";
 import { Chapter } from "./Template";
 import InputWrapper, { InputField } from "./inputFields/InputWrapper";
+import { useStyles } from "../style/chapters";
 
 type ChapterProps = {
   chapter: Chapter;
 };
-
 const renderAttributes = (attributes: any) => {
   const inputWrappers: any = [];
   let inputFields: Array<InputField> = [];
@@ -41,11 +41,16 @@ const renderAttributes = (attributes: any) => {
 };
 
 const ChapterWrapper: FC<ChapterProps> = ({ chapter }) => {
+  const classes = useStyles();
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       <Typography variant="h4">{chapter.title}</Typography>
-      <Typography variant="h6">{chapter.desc}</Typography>
-      <div>{renderAttributes(chapter.attributes)}</div>
+      <Typography gutterBottom={true} variant="h6">
+        {chapter.desc}
+      </Typography>
+      <div className={classes.chapter}>
+        {renderAttributes(chapter.attributes)}
+      </div>
     </div>
   );
 };
