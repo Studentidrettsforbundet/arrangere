@@ -31,7 +31,7 @@ export const ApplicationForm = (props: any) => {
           Item 1
         </Box>
       </Box>
-      <Box px={10}>
+      <Box px={15} py={8}>
         <Template></Template>
       </Box>
     </div>
