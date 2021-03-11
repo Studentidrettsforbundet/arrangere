@@ -1,4 +1,3 @@
-import { Typography } from "@material-ui/core";
 import Template from "./Template";
 import { useSetRecoilState } from "recoil";
 import { choosenApplicationState } from "../stateManagement/choosenApplication";
@@ -17,25 +16,7 @@ export const ApplicationForm = (props: any) => {
 
   return (
     <div id="hallo" style={{ width: "100%" }}>
-<<<<<<< HEAD
-      <Box px={10}>
-=======
-      <Box display="flex" flexDirection="row" bgcolor="background.paper">
-        <Box p={1} bgcolor="grey.300">
-          Item 1
-        </Box>
-        <Box p={1} bgcolor="grey.300">
-          Item 1
-        </Box>
-        <Box p={1} bgcolor="grey.300">
-          Item 1
-        </Box>
-        <Box p={1} bgcolor="grey.300">
-          Item 1
-        </Box>
-      </Box>
-      <Box px={15} py={8}>
->>>>>>> 87e3e6273cecd157ac4b306c1456626aa4da2dc0
+      <Box px={15} pb={8}>
         <Template></Template>
       </Box>
     </div>

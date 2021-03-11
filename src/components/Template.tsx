@@ -62,13 +62,11 @@ const Template = () => {
     chapterListLocal = [];
     setLoading(false);
   }
-  const titles: Array<string> = [];
 
   const renderChapters = (chapterList: Array<Chapter>) => {
     const chapters: any = [];
     chapterList.map((chapter: Chapter) => {
       chapters.push(<ChapterWrapper key={chapter.title} chapter={chapter} />);
-      titles.push(chapter.title);
     });
     chapterList.sort((a: Chapter, b: Chapter) => a.priority - b.priority);
     return chapters;
@@ -93,7 +91,6 @@ const Template = () => {
       setChapterCounter(chapterCounter - 1);
     }
   };
-  console.log(titles);
   return (
     <div>
       {loading ? (

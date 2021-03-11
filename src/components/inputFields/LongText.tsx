@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { TextField, Typography } from "@material-ui/core";
+import Box from "@material-ui/core/Box";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   attributesState,
@@ -23,7 +24,7 @@ const LongText: FC<LongTextProps> = ({ desc, id }) => {
   console.log(selectedID);
 
   return (
-    <div className="longTextContainer">
+    <Box py={2}>
       <Typography>{desc}</Typography>
       <TextField
         id="outlined-basic"
@@ -43,7 +44,7 @@ const LongText: FC<LongTextProps> = ({ desc, id }) => {
         }}
         variant="outlined"
       />
-    </div>
+    </Box>
   );
 };
 export default LongText;

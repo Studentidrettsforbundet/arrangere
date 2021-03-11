@@ -2,8 +2,10 @@ import React from "react";
 import { useRecoilValue } from "recoil";
 import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
 import { currentUserState } from "../stateManagement/userAuth";
 import { auth } from "../firebase";
+import { Typography } from "@material-ui/core";
 
 export default function UserProfile() {
   const currentUser = useRecoilValue(currentUserState);
@@ -26,11 +28,17 @@ export default function UserProfile() {
   }
 
   return (
-    <div>
-      <p>Brukerprofil {user}</p>
-      <Button component={Link} to="/login" onClick={handleLogout}>
+    <Box p={10}>
+      <Typography variant="h4"> Min Profil</Typography>
+      <p>Din epostadresse: {user}</p>
+      <Button
+        variant="contained"
+        component={Link}
+        to="/login"
+        onClick={handleLogout}
+      >
         Logg ut
       </Button>
-    </div>
+    </Box>
   );
 }

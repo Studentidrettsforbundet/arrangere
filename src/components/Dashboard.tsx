@@ -8,7 +8,6 @@ import DrawerBar from "./DrawerBar";
 import Home from "./Home";
 import UserProfile from "./UserProfile";
 import { ApplicationForm } from "./ApplicationForm";
-import { Typography } from "@material-ui/core";
 
 export default function Dashboard() {
   const currentUser = useRecoilValue(currentUserState);
