@@ -1,12 +1,19 @@
-import React from "react";
 import { useRecoilValue } from "recoil";
 import { Link } from "react-router-dom";
-import Button from "@material-ui/core/Button";
+import {
+  Button,
+  Card,
+  CardContent,
+  Container,
+  Typography,
+} from "@material-ui/core";
 import { currentUserState } from "../stateManagement/userAuth";
 import { auth } from "../firebase";
+import { useStyles } from "../style/userProfile";
 
 export default function UserProfile() {
   const currentUser = useRecoilValue(currentUserState);
+  const classes = useStyles();
 
   let user: string | null = "ingen bruker";
   if (currentUser != null) {
@@ -26,11 +33,32 @@ export default function UserProfile() {
   }
 
   return (
-    <div>
-      <p>Brukerprofil {user}</p>
-      <Button component={Link} to="/login" onClick={handleLogout}>
-        Logg ut
-      </Button>
-    </div>
+    <Container className={classes.container}>
+      <Card className={classes.root}>
+        <CardContent className={classes.content}>
+          <Typography variant="h6" className={classes.formfield}>
+            Brukerprofil
+          </Typography>
+          <Typography variant="body1" className={classes.formfield}>
+            Email: {currentUser?.email}
+          </Typography>
+          <Typography variant="body1" className={classes.formfield}>
+            Telefon:
+          </Typography>
+          <Typography variant="body1" className={classes.formfield}>
+            Idrettsklubb:
+          </Typography>
+          <Typography variant="body1" className={classes.formfield}>
+            Organisasjonsnummer:
+          </Typography>
+          <Typography variant="body1" className={classes.formfield}>
+            Organisasjonens kontonummer:
+          </Typography>
+        </CardContent>
+        <Button component={Link} to="/login" onClick={handleLogout}>
+          Logg ut
+        </Button>
+      </Card>
+    </Container>
   );
 }
