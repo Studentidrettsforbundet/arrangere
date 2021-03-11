@@ -16,9 +16,6 @@ export const ApplicationForm = (props: any) => {
 
   return (
     <>
-      <Typography gutterBottom variant="h5" component="h2">
-        {title}
-      </Typography>
       <Template></Template>
     </>
   );
