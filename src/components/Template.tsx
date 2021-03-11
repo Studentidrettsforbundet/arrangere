@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { firestore } from "../firebase";
 import ChapterWrapper from "./ChapterWrapper";
 import { choosenApplicationState } from "../stateManagement/choosenApplication";
 import { InputField } from "./inputFields/InputWrapper";
 import Button from "@material-ui/core/Button";
+import { useStyles } from "../style/chapters";
+import ChapterButton from "./ChapterButton";
 
 export type Chapter = {
   title: string;
@@ -21,9 +23,10 @@ export type Attribute = {
 
 const Template = () => {
   const [loading, setLoading] = useState(true);
+
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
   const choosenApplicationForm = useRecoilValue(choosenApplicationState);
-
+  const classes = useStyles();
   const [chapterCounter, setChapterCounter] = useState(0);
 
   useEffect(() => {
@@ -69,6 +72,14 @@ const Template = () => {
     return chapters;
   };
 
+  const renderButtons = (chapterList: Array<Chapter>) => {
+    const chapterButtons: any = [];
+    chapterList.map((chapter: Chapter) => {
+      chapterButtons.push(<ChapterButton title={chapter.title} />);
+    });
+    return chapterButtons;
+  };
+
   const nextChapter = () => {
     if (chapterCounter < chapterList.length - 1) {
       setChapterCounter(chapterCounter + 1);
@@ -80,20 +91,26 @@ const Template = () => {
       setChapterCounter(chapterCounter - 1);
     }
   };
-
   return (
     <div>
       {loading ? (
         <p>Laster inn..</p>
       ) : (
         <div>
-          {renderChapters(chapterList)[chapterCounter]}{" "}
-          <Button variant="contained" onClick={prevChapter}>
-            Forrige
-          </Button>
-          <Button variant="contained" onClick={nextChapter}>
-            Neste
-          </Button>
+          <div>
+            <div>{renderButtons(chapterList)}</div>
+            {renderChapters(chapterList)[chapterCounter]}{" "}
+            <Button
+              variant="contained"
+              className={classes.prevBtn}
+              onClick={prevChapter}
+            >
+              Forrige
+            </Button>
+            <Button variant="contained" onClick={nextChapter}>
+              Neste
+            </Button>
+          </div>
         </div>
       )}
     </div>
