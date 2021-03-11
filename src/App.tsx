@@ -42,7 +42,7 @@ function App() {
 
   return (
     <ThemeProvider theme={studentidrettTheme}>
-      <div style={{ display: "flex", flexDirection: "row" }}>
+      <div style={{ display: "flex", flexDirection: "column" }}>
         <BrowserRouter>
           <Switch>
             <Route exact path="/login" component={Login} />
