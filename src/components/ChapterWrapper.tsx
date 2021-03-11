@@ -10,7 +10,7 @@ type ChapterProps = {
 const renderAttributes = (attributes: any) => {
   const inputWrappers: any = [];
   let inputFields: Array<InputField> = [];
-  let idNr: number = 0;
+  let idNr: number = 1;
   if (attributes) {
     Object.keys(attributes).forEach((attribute: string) => {
       Object.keys(attributes[attribute].input_fields).forEach(
