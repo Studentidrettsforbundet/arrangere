@@ -1,6 +1,5 @@
 import { FC } from "react";
-import { TextField, Typography } from "@material-ui/core";
-import Box from "@material-ui/core/Box";
+import { TextField, Typography, Box } from "@material-ui/core";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   attributesState,
