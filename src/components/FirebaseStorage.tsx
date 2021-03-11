@@ -1,5 +1,12 @@
 import { Button } from "@material-ui/core";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useEffect, useState } from "react";
+import {
+  atom,
+  useRecoilCallback,
+  useRecoilState,
+  useRecoilValue,
+  useSetRecoilState,
+} from "recoil";
 import { firestore } from "../firebase";
 import {
   attributesState,
@@ -37,58 +44,68 @@ const setData = (docData: any) => {
     });
 };
 
-const getAllAttributesState = () => {
-  const attributesState: any = [];
-};
+const FirebaseStorage = () => {
+  const [attributeList, setAttributesList] = useState<any>([]);
 
-const getValueInputFields = () => {
   const db = firestore.collection("testCollection");
   const doc_id = "wM8RmJ5PVIJ90e9biJYC";
 
-  const attributeIdList: Array<String> = [];
   let attributeName: string = "";
 
-  //const attribute_id = "attributet som vi får fra input-feltet";
-  const input_number = "nummeret til input feltet som vi også får fra staten";
-
-  db.doc(doc_id)
-    .get()
-    .then((doc) => {
-      if (doc.exists) {
-        let data: any = doc.data();
-        let count: number = 0;
-        // for hvert kapittel
-        for (const key in data) {
-          const chapter = data[key];
-          // attributes-feltet i databasen
-          const attributes = chapter.attributes;
-          for (let attribute in attributes) {
-            attributeName = attribute;
-            console.log(attribute);
-            const inputFields = attributes[attribute].input_fields;
-            for (let inputField in inputFields) {
-              // må finne ut hvor mange inputfelter vi har
-              count++;
-              //console.log(attributes[attribute].input_fields[inputField]);
-            }
-            console.log(count);
-
-            for (let i = 0; i <= count; i++) {
-              const attributeId = attributeName + i.toString();
-              attributeIdList.push(attributeId);
-            }
-            count = 0;
-          }
-        }
-        console.log(attributeIdList);
-      } else {
-        console.log("Doc does not exists");
-      }
-    });
-};
-
-const FirebaseStorage = () => {
   const selectedAttribute = useRecoilValue(selectedAttributeState);
+  console.log(selectedAttribute);
+
+  useEffect(() => {
+    getInputFieldsFromApplicationDocument();
+  });
+
+  async function getInputFieldsFromApplicationDocument() {
+    const attributesListLocal: Array<Array<Object>> = [];
+
+    await db
+      .doc(doc_id)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          let data: any = doc.data();
+          let count: number = 0;
+          // for hvert kapittel
+          for (const key in data) {
+            const chapter = data[key];
+            // attributes-feltet i databasen
+            const attributes = chapter.attributes;
+            for (let attribute in attributes) {
+              attributeName = attribute;
+              //console.log(attribute);
+              const inputFields = attributes[attribute].input_fields;
+              for (let inputField in inputFields) {
+                // må finne ut hvor mange inputfelter vi har
+                const inputFieldObject =
+                  attributes[attribute].input_fields[inputField];
+                attributesListLocal.push([
+                  attributeName + count.toString(),
+                  inputFieldObject,
+                ]);
+                count++;
+              }
+              count = 0;
+            }
+          }
+        } else {
+          console.log("Doc does not exists");
+          throw new Error("No document.");
+        }
+      })
+      .catch((error) => {
+        console.log("Error getting document: ", error);
+      });
+    setAttributesList(attributesListLocal);
+  }
+
+  console.log(attributeList);
+  attributeList.map((inputfield: any) => {
+    console.log(inputfield);
+  });
 
   const docData = {
     value: selectedAttribute?.value,
@@ -98,11 +115,11 @@ const FirebaseStorage = () => {
     <div>
       <ShortText
         desc="Input-feltet her skal lagres i Firestore"
-        id="input1"
+        id="general0"
       ></ShortText>
       <ShortText
         desc="Input-feltet her skal lagres i Firestore"
-        id="input2"
+        id="general1"
       ></ShortText>
 
       <Button onClick={() => addDocToFirebase(docData)}>
@@ -113,7 +130,9 @@ const FirebaseStorage = () => {
         Oppdater dokument i testCollection i Firestore
       </Button>
 
-      <Button onClick={() => getValueInputFields()}>Hent et dokument</Button>
+      <Button onClick={() => getInputFieldsFromApplicationDocument()}>
+        Hent en søknad og lagre en value
+      </Button>
     </div>
   );
 };
