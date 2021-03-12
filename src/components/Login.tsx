@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { currentUserState } from "../stateManagement/userAuth";
 import {
@@ -35,8 +35,17 @@ const LogIn = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const [loading, setLoading] = useState(false);
-  const setError = useSetRecoilState(errorState);
   const error = useRecoilValue(errorStateSelector);
+  const setError = useSetRecoilState(errorState);
+
+  const isInitialMount = useRef(true);
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      setError("");
+    }
+  });
 
   if (currentUser != null) {
     return <Redirect to="/" />;
@@ -56,7 +65,6 @@ const LogIn = () => {
         passwordRef.current!.value
       )
       .then(() => {
-        setError("");
         history.push("/");
       })
       .catch((error) => {

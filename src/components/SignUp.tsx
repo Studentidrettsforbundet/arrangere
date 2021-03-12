@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Button,
   Card,
@@ -37,8 +37,17 @@ const SignUp = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
   const passwordConfirmRef = useRef<HTMLInputElement>(null);
 
-  const setError = useSetRecoilState(errorState);
   const error = useRecoilValue(errorStateSelector);
+  const setError = useSetRecoilState(errorState);
+
+  const isInitialMount = useRef(true);
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      setError("");
+    }
+  });
 
   if (currentUser != null) {
     return <Redirect to="/" />;
@@ -65,7 +74,6 @@ const SignUp = () => {
         passwordRef.current!.value
       )
       .then(() => {
-        setError("");
         history.push("/");
       })
       .catch((err: any) => {
