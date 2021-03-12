@@ -20,7 +20,10 @@ import {
   useHistory,
 } from "react-router-dom";
 import { auth } from "../firebase";
-import { currentUserState } from "../stateManagement/userAuth";
+import {
+  currentUserState,
+  loadingUserState,
+} from "../stateManagement/userAuth";
 import { useStyles } from "../style/authentication";
 import {
   errorState,
@@ -39,6 +42,7 @@ const SignUp = () => {
 
   const error = useRecoilValue(errorStateSelector);
   const setError = useSetRecoilState(errorState);
+  const userLoading = useRecoilValue(loadingUserState);
 
   const isInitialMount = useRef(true);
 
@@ -49,7 +53,7 @@ const SignUp = () => {
     }
   });
 
-  if (currentUser != null) {
+  if (currentUser != null && !userLoading) {
     return <Redirect to="/" />;
   }
 

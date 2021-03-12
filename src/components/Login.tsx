@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { currentUserState } from "../stateManagement/userAuth";
+import {
+  currentUserState,
+  loadingUserState,
+} from "../stateManagement/userAuth";
 import {
   errorState,
   errorStateSelector,
@@ -35,6 +38,7 @@ const LogIn = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const [loading, setLoading] = useState(false);
+  const userLoading = useRecoilValue(loadingUserState);
   const error = useRecoilValue(errorStateSelector);
   const setError = useSetRecoilState(errorState);
 
@@ -47,7 +51,7 @@ const LogIn = () => {
     }
   });
 
-  if (currentUser != null) {
+  if (currentUser != null && !userLoading) {
     return <Redirect to="/" />;
   }
 

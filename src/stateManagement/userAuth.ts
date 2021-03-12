@@ -5,5 +5,9 @@ import { sessionStorageEffect } from "./sessionstorageRecoil";
 export const currentUserState = atom<firebase.User | null>({
   key: "currentUserState",
   default: null,
-  effects_UNSTABLE: [sessionStorageEffect("current_user")],
+});
+
+export const loadingUserState = atom<boolean>({
+  key: "loadingUserState",
+  default: true,
 });
