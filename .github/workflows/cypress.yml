@@ -11,6 +11,7 @@ jobs:
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests@- uses: actions/setup-node@v1
       - uses: actions/setup-node@v1
+      - run: npm ci
       - run: npm start & wait-on http://localhost:3000
       - name: Setup emulators & run tests
         run: |
