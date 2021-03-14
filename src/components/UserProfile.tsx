@@ -6,6 +6,7 @@ import {
   CardContent,
   Container,
   Typography,
+  Box,
 } from "@material-ui/core";
 import { currentUserState } from "../stateManagement/userAuth";
 import { auth } from "../firebase";
@@ -33,10 +34,34 @@ export default function UserProfile() {
   }
 
   return (
+    /* <Box p={20}>
+      <Typography variant="h4" className={classes.formfield}>
+        Min profil
+      </Typography>
+      <Typography variant="subtitle1" className={classes.formfield}>
+        Email: {currentUser?.email}
+      </Typography>
+      <Typography variant="subtitle1" className={classes.formfield}>
+        Telefon:
+      </Typography>
+      <Typography variant="subtitle1" className={classes.formfield}>
+        Idrettsklubb:
+      </Typography>
+      <Typography variant="subtitle1" className={classes.formfield}>
+        Organisasjonsnummer:
+      </Typography>
+      <Typography variant="subtitle1" className={classes.formfield}>
+        Organisasjonens kontonummer:
+      </Typography>
+    </Box> */
     <Container className={classes.container}>
       <Card className={classes.root}>
         <CardContent className={classes.content}>
-          <Typography variant="h6" className={classes.formfield}>
+          <Typography
+            variant="h6"
+            className={classes.formfield}
+            color="secondary"
+          >
             Brukerprofil
           </Typography>
           <Typography variant="body1" className={classes.formfield}>

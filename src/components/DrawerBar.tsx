@@ -12,9 +12,23 @@ import {
   List,
   ListItem,
   ListItemText,
+  Button,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { useStyles } from "../style/drawerBar";
+import { auth } from "../firebase";
+
+function handleLogout(e: any) {
+  e.preventDefault();
+  auth
+    .signOut()
+    .then(function () {
+      console.log("signout complete");
+    })
+    .catch((error) => {
+      console.log("Kunne ikke logge ut");
+    });
+}
 
 export default function DrawerBar() {
   const classes = useStyles();
@@ -56,6 +70,15 @@ export default function DrawerBar() {
               </ListItemIcon>
               <ListItemText primary="Søknader" />
             </ListItem>
+            <Button
+              variant="contained"
+              className={classes.logout}
+              component={Link}
+              to="/login"
+              onClick={handleLogout}
+            >
+              Logg ut
+            </Button>
           </List>
         </Drawer>
       </div>

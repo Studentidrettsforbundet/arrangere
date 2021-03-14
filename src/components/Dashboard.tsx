@@ -17,7 +17,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "row", padding: 20 }}>
+    <div style={{ display: "flex", flexDirection: "row" }}>
       <BrowserRouter>
         <DrawerBar />
         <Route exact path="/" component={Home} />
