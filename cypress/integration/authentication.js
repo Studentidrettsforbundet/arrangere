@@ -46,7 +46,7 @@ describe("Sign up", () => {
     cy.get("nav").contains("Brukerprofil").click();
     cy.location("pathname", { timeout: 10000 }).should("eq", "/userprofile");
 
-    cy.get(".MuiButton-text").click();
+    cy.get('[href="/login"]').click();
 
     cy.location("pathname", { timeout: 10000 }).should("eq", "/login");
   });
@@ -96,7 +96,7 @@ describe("Sign up", () => {
 
       cy.title().should("eq", "Søknadsportal");
       cy.get("nav").contains("Brukerprofil").click();
-      cy.get(".MuiButton-text").click();
+      cy.get('[href="/login"]').click();
     });
   });
 });
