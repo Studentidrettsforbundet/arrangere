@@ -10,7 +10,17 @@ import {
 } from "../stateManagement/errorHandling";
 import { auth } from "../firebase";
 import Alert from "@material-ui/lab/Alert";
-import { Container, Typography, Link, FormControl, Button, TextField, CardContent, CardActions, Card } from "@material-ui/core";
+import {
+  Container,
+  Typography,
+  Link,
+  FormControl,
+  Button,
+  TextField,
+  CardContent,
+  CardActions,
+  Card,
+} from "@material-ui/core";
 import logo from "../images/logo-sort.png";
 import {
   BrowserRouter as Router,
