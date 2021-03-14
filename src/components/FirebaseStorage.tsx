@@ -1,4 +1,5 @@
 import { Button } from "@material-ui/core";
+import React from "react";
 import { useEffect, useState } from "react";
 import {
   atom,
@@ -44,68 +45,105 @@ const setData = (docData: any) => {
     });
 };
 
-const FirebaseStorage = () => {
-  const [attributeList, setAttributesList] = useState<any>([]);
+// change to loadFieldsFromStorage()
+async function getInputFieldsFromApplicationDocument() {
+  const attributesListLocal: Array<any> = [];
 
   const db = firestore.collection("testCollection");
   const doc_id = "wM8RmJ5PVIJ90e9biJYC";
 
   let attributeName: string = "";
 
+  let doc = await db.doc(doc_id).get();
+
+  if (!doc.exists) {
+    console.log("Doc does not exists");
+    throw new Error("No document.");
+  }
+
+  let data: any = doc.data();
+  let count: number = 0;
+
+  // for hvert kapittel
+  for (const key in data) {
+    const chapter = data[key];
+    // attributes-feltet i databasen
+    const attributes = chapter.attributes;
+    for (let attribute in attributes) {
+      attributeName = attribute;
+      //console.log(attribute);
+      const inputFields = attributes[attribute].input_fields;
+      for (let inputField in inputFields) {
+        // må finne ut hvor mange inputfelter vi har
+        const inputFieldObject = attributes[attribute].input_fields[inputField];
+        attributesListLocal.push([
+          attributeName + (count + 1).toString(),
+          inputFieldObject,
+        ]);
+        count++;
+      }
+      count = 0;
+    }
+  }
+  return attributesListLocal;
+}
+
+function is_numeric(str: string) {
+  return /^\d+$/.test(str);
+}
+
+function getFieldToBeUpdated(
+  attributeID: string | undefined,
+  value: string | undefined
+) {
+  let chapter: string = "";
+  let inputNr: string = "";
+
+  // Finne ut hvilken attributt + input som skal bli oppdatert
+  attributeID?.split("").forEach((character) => {
+    if (is_numeric(character)) {
+      inputNr += character;
+    } else {
+      chapter += character;
+    }
+  });
+
+  const setData = (chapter: string, inputNr: string) => {
+    let data: any = {};
+    data[
+      `${chapter}.attributes.${chapter}.input_fields.input${inputNr}.value`
+    ] = value;
+
+    firestore
+      .collection("testCollection")
+      .doc("wM8RmJ5PVIJ90e9biJYC")
+      .update(
+        data,
+        { merge: true }
+        //`${chapter}).attributes.${chapter}.input_fields.input${inputNr}.value`: value,
+      )
+      .then(() => {
+        console.log("Field updated!");
+      })
+      .catch((error) => {
+        console.log("Error occured: ", error);
+      });
+  };
+
+  getInputFieldsFromApplicationDocument().then((attribute) => {
+    attribute.forEach((field) => {
+      if (field[0] == attributeID) {
+        setData(chapter, inputNr);
+      }
+    });
+  });
+}
+
+const FirebaseStorage = () => {
   const selectedAttribute = useRecoilValue(selectedAttributeState);
   console.log(selectedAttribute);
 
-  useEffect(() => {
-    getInputFieldsFromApplicationDocument();
-  });
-
-  async function getInputFieldsFromApplicationDocument() {
-    const attributesListLocal: Array<Array<Object>> = [];
-
-    await db
-      .doc(doc_id)
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          let data: any = doc.data();
-          let count: number = 0;
-          // for hvert kapittel
-          for (const key in data) {
-            const chapter = data[key];
-            // attributes-feltet i databasen
-            const attributes = chapter.attributes;
-            for (let attribute in attributes) {
-              attributeName = attribute;
-              //console.log(attribute);
-              const inputFields = attributes[attribute].input_fields;
-              for (let inputField in inputFields) {
-                // må finne ut hvor mange inputfelter vi har
-                const inputFieldObject =
-                  attributes[attribute].input_fields[inputField];
-                attributesListLocal.push([
-                  attributeName + count.toString(),
-                  inputFieldObject,
-                ]);
-                count++;
-              }
-              count = 0;
-            }
-          }
-        } else {
-          console.log("Doc does not exists");
-          throw new Error("No document.");
-        }
-      })
-      .catch((error) => {
-        console.log("Error getting document: ", error);
-      });
-    setAttributesList(attributesListLocal);
-  }
-
-  console.log(attributeList);
-  attributeList.map((inputfield: any) => {
-    console.log(inputfield);
-  });
+  getFieldToBeUpdated(selectedAttribute?.id, selectedAttribute?.value);
 
   const docData = {
     value: selectedAttribute?.value,
@@ -115,11 +153,11 @@ const FirebaseStorage = () => {
     <div>
       <ShortText
         desc="Input-feltet her skal lagres i Firestore"
-        id="general0"
+        id="general1"
       ></ShortText>
       <ShortText
         desc="Input-feltet her skal lagres i Firestore"
-        id="general1"
+        id="general2"
       ></ShortText>
 
       <Button onClick={() => addDocToFirebase(docData)}>

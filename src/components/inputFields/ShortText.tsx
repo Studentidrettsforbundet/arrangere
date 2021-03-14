@@ -18,9 +18,9 @@ const ShortText: FC<ShortTextProps> = ({ desc, id }) => {
 
   const selectedAttribute = useRecoilValue(selectedAttributeState);
   const selectedID = useRecoilValue(selectedAttributeIdState);
-  console.log(selectedAttribute?.value);
 
   console.log(selectedAttribute);
+  console.log(selectedID);
 
   return (
     <div className="shortTextContainer">
