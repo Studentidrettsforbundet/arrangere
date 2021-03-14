@@ -12,7 +12,6 @@ jobs:
       # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v2
-        with:
-          emulator: npm run emulator
-          start: npm start
-          cypress: npm run cypress
+        run: npm run emulator
+        run: npm start
+        run: npm run cypress
