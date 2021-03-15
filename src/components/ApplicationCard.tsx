@@ -35,7 +35,6 @@ export const ApplicationCard = (props: Props) => {
           component={RouterLink}
           to={{
             pathname: props.to,
-            state: { title: props.title, template: props.template },
           }}
           size="small"
           color="primary"

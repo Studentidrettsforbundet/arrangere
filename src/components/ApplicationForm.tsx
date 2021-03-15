@@ -5,13 +5,21 @@ import { useEffect } from "react";
 import Box from "@material-ui/core/Box";
 
 export const ApplicationForm = (props: any) => {
-  let title = props.location.state.title;
-  let template = props.location.state.template;
-
   const setChoosenApplicationForm = useSetRecoilState(choosenApplicationState);
 
+  let url = window.location.href;
+  var str_sub = url.substr(url.lastIndexOf("/") + 1);
+
   useEffect(() => {
-    setChoosenApplicationForm(template);
+    if (str_sub == "studentnm") {
+      setChoosenApplicationForm("snmTemplate");
+    }
+    if (str_sub == "studentleker") {
+      setChoosenApplicationForm("slTemplate");
+    }
+    if (str_sub == "studentcup") {
+      setChoosenApplicationForm("scTemplate");
+    }
   });
 
   return (
