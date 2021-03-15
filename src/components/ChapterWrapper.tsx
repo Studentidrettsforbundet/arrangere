@@ -6,11 +6,14 @@ import { useStyles } from "../style/chapters";
 
 type ChapterProps = {
   chapter: Chapter;
+  chapterName: string;
 };
-const renderAttributes = (attributes: any) => {
+const renderAttributes = (attributes: any, chapterName: string) => {
   const inputWrappers: any = [];
   let inputFields: Array<InputField> = [];
   let idNr: number = 0;
+  let attributeName: string;
+
   if (attributes) {
     Object.keys(attributes).forEach((attribute: string) => {
       Object.keys(attributes[attribute].input_fields).forEach(
@@ -23,11 +26,16 @@ const renderAttributes = (attributes: any) => {
           idNr++;
         }
       );
+      attributeName = Object.keys(attributes)[0];
+
       inputWrappers.push(
         <InputWrapper
-          key={attributes[attribute].title}
+          key={attributeName}
+          attributeName={attributeName}
           title={attributes[attribute].title}
+          button={attributes[attribute].button}
           mainDesc={attributes[attribute].desc}
+          chapterName={chapterName}
           inputFields={inputFields}
         />
       );
@@ -40,7 +48,7 @@ const renderAttributes = (attributes: any) => {
   return inputWrappers;
 };
 
-const ChapterWrapper: FC<ChapterProps> = ({ chapter }) => {
+const ChapterWrapper: FC<ChapterProps> = ({ chapter, chapterName }) => {
   const classes = useStyles();
   return (
     <div style={{ width: "100%" }}>
@@ -49,7 +57,7 @@ const ChapterWrapper: FC<ChapterProps> = ({ chapter }) => {
         {chapter.desc}
       </Typography>
       <div className={classes.chapter}>
-        {renderAttributes(chapter.attributes)}
+        {renderAttributes(chapter.attributes, chapterName)}
       </div>
     </div>
   );

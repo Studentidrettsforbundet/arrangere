@@ -9,6 +9,7 @@ import { useStyles } from "../style/chapters";
 import ChapterButton from "./ChapterButton";
 
 export type Chapter = {
+  chapterName: string;
   title: string;
   desc: string;
   attributes: Array<Attribute>;
@@ -19,6 +20,7 @@ export type Attribute = {
   title: string;
   mainDesc: string;
   inputFields: Array<InputField>;
+  button?: string;
 };
 
 const Template = () => {
@@ -44,6 +46,7 @@ const Template = () => {
         snapshot.docs.forEach((chapter) => {
           if (chapter.exists) {
             chapterListLocal.push({
+              chapterName: chapter.id,
               title: chapter.data().title,
               desc: chapter.data().desc,
               attributes: chapter.data().attributes,
@@ -59,14 +62,22 @@ const Template = () => {
         console.log("Error getting document: ", error);
       });
     setChapterList(chapterListLocal);
+
     chapterListLocal = [];
     setLoading(false);
   }
 
   const renderChapters = (chapterList: Array<Chapter>) => {
     const chapters: any = [];
+
     chapterList.map((chapter: Chapter) => {
-      chapters.push(<ChapterWrapper key={chapter.title} chapter={chapter} />);
+      chapters.push(
+        <ChapterWrapper
+          key={chapter.title}
+          chapterName={chapter.chapterName}
+          chapter={chapter}
+        />
+      );
     });
     chapterList.sort((a: Chapter, b: Chapter) => a.priority - b.priority);
     return chapters;
