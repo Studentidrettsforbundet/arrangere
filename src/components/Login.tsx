@@ -1,22 +1,16 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { currentUserState } from "../stateManagement/userAuth";
+import {
+  currentUserState,
+  loadingUserState,
+} from "../stateManagement/userAuth";
 import {
   errorState,
   errorStateSelector,
 } from "../stateManagement/errorHandling";
 import { auth } from "../firebase";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import TextField from "@material-ui/core/TextField";
 import Alert from "@material-ui/lab/Alert";
-import Button from "@material-ui/core/Button";
-import FormControl from "@material-ui/core/FormControl";
-import { Typography } from "@material-ui/core";
-import { Container } from "@material-ui/core";
-import { Link } from "@material-ui/core";
-
+import { Container, Typography, Link, FormControl, Button, TextField, CardContent, CardActions, Card } from "@material-ui/core";
 import logo from "../images/logo-sort.png";
 import {
   BrowserRouter as Router,
@@ -35,10 +29,20 @@ const LogIn = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const [loading, setLoading] = useState(false);
-  const setError = useSetRecoilState(errorState);
+  const userLoading = useRecoilValue(loadingUserState);
   const error = useRecoilValue(errorStateSelector);
+  const setError = useSetRecoilState(errorState);
 
-  if (currentUser != null) {
+  const isInitialMount = useRef(true);
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      setError("");
+    }
+  });
+
+  if (currentUser != null && !userLoading) {
     return <Redirect to="/" />;
   }
 
@@ -56,7 +60,6 @@ const LogIn = () => {
         passwordRef.current!.value
       )
       .then(() => {
-        setError("");
         history.push("/");
       })
       .catch((error) => {

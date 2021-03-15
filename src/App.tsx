@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { auth } from "./firebase";
-import { currentUserState } from "./stateManagement/userAuth";
+import { currentUserState, loadingUserState } from "./stateManagement/userAuth";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Dashboard from "./components/Dashboard";
@@ -30,6 +30,8 @@ const studentidrettTheme = createMuiTheme({
 
 function App() {
   const setCurrentUser = useSetRecoilState(currentUserState);
+  const [loading, setLoading] = useRecoilState(loadingUserState);
+
   useEffect(() => {
     return auth.onAuthStateChanged((user: any) => {
       if (user != null) {
@@ -37,19 +39,24 @@ function App() {
       } else {
         setCurrentUser(null);
       }
+      setLoading(false);
     });
   }, []);
 
   return (
     <ThemeProvider theme={studentidrettTheme}>
-      <div style={{ display: "flex", flexDirection: "row", padding: 20 }}>
-        <BrowserRouter>
-          <Switch>
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/signup" component={SignUp} />
-            <Dashboard></Dashboard>
-          </Switch>
-        </BrowserRouter>
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        {loading ? (
+          <p></p>
+        ) : (
+          <BrowserRouter>
+            <Switch>
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/signup" component={SignUp} />
+              <Dashboard></Dashboard>
+            </Switch>
+          </BrowserRouter>
+        )}
       </div>
     </ThemeProvider>
   );

@@ -31,7 +31,7 @@ const Date: FC<DateProps> = ({ desc, id }) => {
       <form className={classes.container} noValidate>
         <TextField
           id="date"
-          label="Dato"
+          label="Velg en dato"
           type="date"
           defaultValue="2021-01-01"
           onFocus={() => setSelectedAttribute(id)}
