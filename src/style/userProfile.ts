@@ -14,12 +14,23 @@ export const useStyles = makeStyles({
         maxWidth: 800,
         padding: 30,
       },
+      contentGrid: {
+        marginLeft: "100",
+      },
+      header: {
+        marginBottom: "10px",
+      },
+      contentHeader: {
+        marginTop: "30px",
+      },
       content: {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
+        marginTop: "5px"
       },
-      formfield: {
-        margin: "15px",
+      divider: {
+        marginBottom: "15px"
       },
+      icon: {
+        width: "80px",
+        height: "100px"
+      }
 });

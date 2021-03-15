@@ -1,16 +1,10 @@
 import { useRecoilValue } from "recoil";
-import { Link } from "react-router-dom";
-import {
-  Button,
-  Card,
-  CardContent,
-  Container,
-  Typography,
-  Box,
-} from "@material-ui/core";
+import { Typography, Box, Divider, Grid } from "@material-ui/core";
 import { currentUserState } from "../stateManagement/userAuth";
 import { auth } from "../firebase";
 import { useStyles } from "../style/userProfile";
+import React from "react";
+import { PersonOutline } from "@material-ui/icons";
 
 export default function UserProfile() {
   const currentUser = useRecoilValue(currentUserState);
@@ -34,56 +28,69 @@ export default function UserProfile() {
   }
 
   return (
-    /* <Box p={20}>
-      <Typography variant="h4" className={classes.formfield}>
-        Min profil
-      </Typography>
-      <Typography variant="subtitle1" className={classes.formfield}>
-        Email: {currentUser?.email}
-      </Typography>
-      <Typography variant="subtitle1" className={classes.formfield}>
-        Telefon:
-      </Typography>
-      <Typography variant="subtitle1" className={classes.formfield}>
-        Idrettsklubb:
-      </Typography>
-      <Typography variant="subtitle1" className={classes.formfield}>
-        Organisasjonsnummer:
-      </Typography>
-      <Typography variant="subtitle1" className={classes.formfield}>
-        Organisasjonens kontonummer:
-      </Typography>
-    </Box> */
-    <Container className={classes.container}>
-      <Card className={classes.root}>
-        <CardContent className={classes.content}>
-          <Typography
-            variant="h6"
-            className={classes.formfield}
-            color="secondary"
-          >
-            Brukerprofil
+    <Box p={20} width={1}>
+      <Grid container direction="row" spacing={3}>
+        <Grid container direction="row" alignItems="center">
+          <Grid xs={1}>
+            <PersonOutline className={classes.icon}></PersonOutline>
+          </Grid>
+          <Grid xs={9}>
+            <Typography className={classes.header} variant="h4">
+              Min profil
+            </Typography>
+            <Divider className={classes.divider} variant="fullWidth" />
+          </Grid>
+        </Grid>
+        <Grid xs={1}></Grid>
+        <Grid className={classes.contentGrid} xs={9}>
+          <Typography variant="subtitle1" className={classes.contentHeader}>
+            Email:
           </Typography>
-          <Typography variant="body1" className={classes.formfield}>
-            Email: {currentUser?.email}
+          <Typography variant="subtitle2" className={classes.content}>
+            {currentUser?.email}
           </Typography>
-          <Typography variant="body1" className={classes.formfield}>
+          <Typography variant="subtitle1" className={classes.contentHeader}>
             Telefon:
           </Typography>
-          <Typography variant="body1" className={classes.formfield}>
+          <Typography variant="subtitle1" className={classes.contentHeader}>
             Idrettsklubb:
           </Typography>
-          <Typography variant="body1" className={classes.formfield}>
+          <Typography variant="subtitle1" className={classes.contentHeader}>
             Organisasjonsnummer:
           </Typography>
-          <Typography variant="body1" className={classes.formfield}>
+          <Typography variant="subtitle1" className={classes.contentHeader}>
             Organisasjonens kontonummer:
           </Typography>
-        </CardContent>
-        <Button component={Link} to="/login" onClick={handleLogout}>
-          Logg ut
-        </Button>
-      </Card>
-    </Container>
+        </Grid>
+      </Grid>
+    </Box>
   );
+}
+
+{
+  /* <div className={classes.root}>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>xs=12</Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.paper}>xs=6</Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.paper}>xs=6</Paper>
+        </Grid>
+        <Grid item xs={3}>
+          <Paper className={classes.paper}>xs=3</Paper>
+        </Grid>
+        <Grid item xs={3}>
+          <Paper className={classes.paper}>xs=3</Paper>
+        </Grid>
+        <Grid item xs={3}>
+          <Paper className={classes.paper}>xs=3</Paper>
+        </Grid>
+        <Grid item xs={3}>
+          <Paper className={classes.paper}>xs=3</Paper>
+        </Grid>
+      </Grid>
+    </div> */
 }
