@@ -7,7 +7,7 @@ import { auth } from "../firebase";
 import firebase from "firebase";
 
 export default function UserProfile() {
-  let [organizationName, setOrganizationName] = useState<any>();
+  let [organizationName, setOrganizationName] = useState<String>();
   const currentUser = useRecoilValue(currentUserState);
   var db = firebase.firestore();
   let email: string | null = "ingen bruker";
