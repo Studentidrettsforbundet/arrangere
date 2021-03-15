@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { firestore } from "../firebase";
 import { InfoLongText } from "./InfoLongText";
 import { InfoLongTextProps } from "./InfoLongText";
+import { Typography, Box } from "@material-ui/core";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -59,10 +60,11 @@ export default function Home() {
   };
 
   return (
-    <div>
-      <br />
-      <h1>Velkommen til Norges studenidrettsforbunds søknadsportal</h1>
-      {renderChapters(chapterList)}
-    </div>
+    <Box p={10}>
+      <Typography variant="h4">
+        Velkommen til Norges studenidrettsforbunds søknadsportal
+      </Typography>
+      <Box py={2}>{renderChapters(chapterList)}</Box>
+    </Box>
   );
 }

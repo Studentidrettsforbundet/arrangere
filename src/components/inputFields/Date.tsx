@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { useStyles } from "./inputStyles";
-import { Typography, TextField } from "@material-ui/core";
+import { Typography, TextField, Box } from "@material-ui/core";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   attributesState,
@@ -26,9 +26,9 @@ const Date: FC<DateProps> = ({ desc, id }) => {
   console.log(selectedID);
 
   return (
-    <div className="dateContainer">
+    <Box py={2}>
       <Typography>{desc}</Typography>
-      <form className={classes.container} noValidate>
+      <form noValidate>
         <TextField
           id="date"
           label="Velg en dato"
@@ -48,7 +48,7 @@ const Date: FC<DateProps> = ({ desc, id }) => {
           }}
         />
       </form>
-    </div>
+    </Box>
   );
 };
 export default Date;
