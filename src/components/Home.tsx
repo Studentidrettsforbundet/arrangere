@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { firestore } from "../firebase";
-import { InfoLongText } from "./informationFields/InfoLongText";
-import { InfoLongTextProps } from "./informationFields/InfoLongText";
+import { InfoLongText } from "./InfoLongText";
+import { InfoLongTextProps } from "./InfoLongText";
 
 // import FirebaseStorage from "./FirebaseStorage";
 
@@ -22,7 +22,6 @@ export default function Home() {
       .then((snapshot) => {
         snapshot.docs.forEach((chapter) => {
           if (chapter.exists) {
-            console.log("Data: ", chapter.data().title);
             chapterListLocal.push({
               title: chapter.data().title,
               desc: chapter.data().desc,
