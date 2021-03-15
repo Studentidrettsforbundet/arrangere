@@ -20,7 +20,7 @@ type AttributesList = {
   attribute: Array<Array<Object>>;
 };
 
-async function loadFieldsFromStorage(collection: string, doc: string) {
+async function loadFieldsFromStorage(collection: string, document: string) {
   const attributesList: Array<AttributesList> = [];
 
   const collectionID = "testCollection";
@@ -126,8 +126,6 @@ const FirebaseStorage = () => {
     collection,
     doc
   );
-
-  return <div></div>;
 };
 
 export default FirebaseStorage;

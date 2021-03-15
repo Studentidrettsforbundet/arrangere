@@ -15,10 +15,11 @@ export const ApplicationForm = (props: any) => {
     setChoosenApplicationForm(template);
   });
 
+  FirebaseStorage();
+
   return (
     <>
       <Template></Template>
-      <FirebaseStorage></FirebaseStorage>
     </>
   );
 };
