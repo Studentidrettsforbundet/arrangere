@@ -1,10 +1,8 @@
-import { Button } from "@material-ui/core";
 import { useRecoilValue } from "recoil";
 import { firestore } from "../firebase";
 import { selectedAttributeState } from "../stateManagement/attributesState";
-import ShortText from "./inputFields/ShortText";
+import { choosenApplicationState } from "../stateManagement/choosenApplication";
 
-// Generate new document to Firestore with data
 const addDocToFirebase = (docData: any) => {
   firestore
     .collection("snmApplications")
@@ -17,48 +15,116 @@ const addDocToFirebase = (docData: any) => {
     });
 };
 
-// Update a single field in the doc
-const setData = (docData: any) => {
+type AttributesList = {
+  id: string;
+  attribute: Array<Array<Object>>;
+};
+
+async function loadFieldsFromStorage(collection: string, document: string) {
+  const attributesList: Array<AttributesList> = [];
+
+  const collectionID = "testCollection";
+  const docID = "wM8RmJ5PVIJ90e9biJYC";
+
+  let doc = await firestore.collection(collectionID).doc(docID).get();
+
+  if (!doc.exists) {
+    console.log("Doc does not exists");
+    throw new Error("No document.");
+  }
+
+  let docData: any = doc.data();
+  let attributeNr: number = 1;
+  let attributeName: string = "";
+
+  for (const key in docData) {
+    const attributes = docData[key].attributes;
+    for (let attribute in attributes) {
+      attributeName = attribute;
+      const inputFields = attributes[attribute].input_fields;
+      for (let inputField in inputFields) {
+        const inputFieldObject = attributes[attribute].input_fields[inputField];
+        attributesList.push({
+          id: attributeName + attributeNr.toString(),
+          attribute: inputFieldObject,
+        });
+        attributeNr++;
+      }
+      attributeNr = 1;
+    }
+  }
+  return attributesList;
+}
+
+function is_numeric(str: string) {
+  return /^\d+$/.test(str);
+}
+
+const setData = (
+  chapter: string,
+  inputNr: string,
+  value: string | undefined
+) => {
+  let data: any = {};
+  data[
+    `${chapter}.attributes.${chapter}.input_fields.input${inputNr}.value`
+  ] = value;
+
   firestore
     .collection("testCollection")
-    .doc("pzYKnYEpVdAMCbPaPDbG")
-    .update({
-      "chapter-1.attributes.comments.input_fields.input1.value": docData,
-    })
+    .doc("wM8RmJ5PVIJ90e9biJYC")
+    .update(data, { merge: true })
     .then(() => {
       console.log("Field updated!");
     })
     .catch((error) => {
-      console.error("Error updating field: ", error);
+      console.log("Error occured: ", error);
+      throw new Error("Could not update field.");
     });
 };
 
+function saveFieldToStorage(
+  attributeID: string | undefined,
+  value: string | undefined,
+  collection: string,
+  doc: string
+) {
+  let chapter: string = "";
+  let inputNr: string = "";
+
+  attributeID?.split("").forEach((character) => {
+    if (is_numeric(character)) {
+      inputNr += character;
+    } else {
+      chapter += character;
+    }
+  });
+
+  loadFieldsFromStorage(collection, doc).then((attribute) => {
+    attribute.forEach((field) => {
+      if (field.id == attributeID) {
+        setData(chapter, inputNr, value);
+      }
+    });
+  });
+}
+
 const FirebaseStorage = () => {
   const selectedAttribute = useRecoilValue(selectedAttributeState);
+  let collection = useRecoilValue(choosenApplicationState);
+  collection += "Applications";
 
-  const docData = {
-    value: selectedAttribute?.value,
-  };
+  // TODO render right document
+  let doc: string = "";
 
-  return (
-    <div>
-      <ShortText
-        desc="Input-feltet her skal lagres i Firestore"
-        id="input1"
-      ></ShortText>
-      <ShortText
-        desc="Input-feltet her skal lagres i Firestore"
-        id="input2"
-      ></ShortText>
+  console.log(selectedAttribute);
+  console.log(collection);
 
-      <Button onClick={() => addDocToFirebase(docData)}>
-        Lagre dokument til Firestore
-      </Button>
-
-      <Button onClick={() => setData(docData)}>
-        Oppdater dokument i testCollection i Firestore
-      </Button>
-    </div>
+  saveFieldToStorage(
+    selectedAttribute?.id,
+    selectedAttribute?.value,
+    collection,
+    doc
   );
 };
 

@@ -2,6 +2,7 @@ import Template from "./Template";
 import { useSetRecoilState } from "recoil";
 import { choosenApplicationState } from "../stateManagement/choosenApplication";
 import { useEffect } from "react";
+import FirebaseStorage from "./FirebaseStorage";
 import Box from "@material-ui/core/Box";
 
 export const ApplicationForm = (props: any) => {
@@ -13,6 +14,8 @@ export const ApplicationForm = (props: any) => {
   useEffect(() => {
     setChoosenApplicationForm(template);
   });
+
+  FirebaseStorage();
 
   return (
     <div id="hallo" style={{ width: "100%" }}>

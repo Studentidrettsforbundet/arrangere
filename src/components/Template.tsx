@@ -38,7 +38,7 @@ const Template = () => {
     let chapterListLocal: Array<Chapter> = [];
 
     await firestore
-      .collection(choosenApplicationForm)
+      .collection(choosenApplicationForm + "Template")
       .get()
       .then((snapshot) => {
         snapshot.docs.forEach((chapter) => {
