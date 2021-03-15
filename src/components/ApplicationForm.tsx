@@ -13,13 +13,13 @@ export const ApplicationForm = (props: any) => {
 
   useEffect(() => {
     if (str_sub == "studentnm") {
-      setChoosenApplicationForm("snmTemplate");
+      setChoosenApplicationForm("snm");
     }
     if (str_sub == "studentleker") {
-      setChoosenApplicationForm("slTemplate");
+      setChoosenApplicationForm("sl");
     }
     if (str_sub == "studentcup") {
-      setChoosenApplicationForm("scTemplate");
+      setChoosenApplicationForm("sc");
     }
   });
 
