@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { TextField, Typography } from "@material-ui/core";
+import { TextField, Typography, Box } from "@material-ui/core";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   attributesState,
@@ -23,7 +23,7 @@ const ShortText: FC<ShortTextProps> = ({ desc, id }) => {
   console.log(selectedID);
 
   return (
-    <div className="shortTextContainer">
+    <Box py={2}>
       <Typography>{desc}</Typography>
       <TextField
         id="outlined-basic"
@@ -38,7 +38,7 @@ const ShortText: FC<ShortTextProps> = ({ desc, id }) => {
           })
         }
       />
-    </div>
+    </Box>
   );
 };
 export default ShortText;

@@ -1,9 +1,9 @@
-import { Typography } from "@material-ui/core";
 import Template from "./Template";
 import { useSetRecoilState } from "recoil";
 import { choosenApplicationState } from "../stateManagement/choosenApplication";
 import { useEffect } from "react";
 import FirebaseStorage from "./FirebaseStorage";
+import Box from "@material-ui/core/Box";
 
 export const ApplicationForm = (props: any) => {
   let title = props.location.state.title;
@@ -18,8 +18,10 @@ export const ApplicationForm = (props: any) => {
   FirebaseStorage();
 
   return (
-    <>
-      <Template></Template>
-    </>
+    <div id="hallo" style={{ width: "100%" }}>
+      <Box px={15} pb={8}>
+        <Template></Template>
+      </Box>
+    </div>
   );
 };

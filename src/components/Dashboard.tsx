@@ -1,6 +1,6 @@
 import React from "react";
 import { Route } from "react-router";
-import { BrowserRouter, Redirect, Switch } from "react-router-dom";
+import { BrowserRouter, Redirect } from "react-router-dom";
 import { ChooseApplication } from "./ChooseApplication";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "../stateManagement/userAuth";
@@ -17,7 +17,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "row", padding: 20 }}>
+    <div style={{ display: "flex", flexDirection: "row" }}>
       <BrowserRouter>
         <DrawerBar />
         <Route exact path="/" component={Home} />

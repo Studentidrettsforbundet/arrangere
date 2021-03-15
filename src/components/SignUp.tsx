@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Button,
   Card,
@@ -20,14 +20,19 @@ import {
   useHistory,
 } from "react-router-dom";
 import { auth } from "../firebase";
-import { currentUserState } from "../stateManagement/userAuth";
+import {
+  currentUserState,
+  loadingUserState,
+} from "../stateManagement/userAuth";
 import { useStyles } from "../style/authentication";
 import {
   errorState,
   errorStateSelector,
 } from "../stateManagement/errorHandling";
+import firebase from "firebase";
 
 const SignUp = () => {
+  var db = firebase.firestore();
   const classes = useStyles();
   const history = useHistory();
   const currentUser = useRecoilValue(currentUserState);
@@ -37,10 +42,20 @@ const SignUp = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
   const passwordConfirmRef = useRef<HTMLInputElement>(null);
 
-  const setError = useSetRecoilState(errorState);
   const error = useRecoilValue(errorStateSelector);
+  const setError = useSetRecoilState(errorState);
+  const userLoading = useRecoilValue(loadingUserState);
 
-  if (currentUser != null) {
+  const isInitialMount = useRef(true);
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      setError("");
+    }
+  });
+
+  if (currentUser != null && !userLoading) {
     return <Redirect to="/" />;
   }
 
@@ -64,8 +79,15 @@ const SignUp = () => {
         emailRef.current!.value,
         passwordRef.current!.value
       )
+      .then((cred) => {
+        if (cred.user != null) {
+          return db.collection("user").doc(cred.user.uid).set({
+            organization: "",
+            email: emailRef.current!.value,
+          });
+        }
+      })
       .then(() => {
-        setError("");
         history.push("/");
       })
       .catch((err: any) => {
