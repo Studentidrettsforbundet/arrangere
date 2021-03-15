@@ -14,7 +14,7 @@ export default function UserProfile() {
 
   useEffect(() => {
     if (currentUser != null) {
-      db.collection("users")
+      db.collection("user")
         .doc(currentUser.uid)
         .get()
         .then((doc) => {

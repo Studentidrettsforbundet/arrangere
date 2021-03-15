@@ -68,7 +68,7 @@ const SignUp = () => {
       )
       .then((cred) => {
         if (cred.user != null) {
-          return db.collection("users").doc(cred.user.uid).set({
+          return db.collection("user").doc(cred.user.uid).set({
             organization: "",
             email: emailRef.current!.value,
           });
