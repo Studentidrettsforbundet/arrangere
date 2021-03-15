@@ -2,14 +2,15 @@ import { FC } from "react";
 import { Typography } from "@material-ui/core";
 import { Chapter } from "./Template";
 import InputWrapper, { InputField } from "./inputFields/InputWrapper";
+import { useStyles } from "../style/chapters";
 
 type ChapterProps = {
   chapter: Chapter;
 };
-
 const renderAttributes = (attributes: any) => {
   const inputWrappers: any = [];
   let inputFields: Array<InputField> = [];
+  let idNr: number = 0;
   if (attributes) {
     Object.keys(attributes).forEach((attribute: string) => {
       Object.keys(attributes[attribute].input_fields).forEach(
@@ -17,8 +18,9 @@ const renderAttributes = (attributes: any) => {
           inputFields.push({
             type: attributes[attribute].input_fields[inputField].type,
             desc: attributes[attribute].input_fields[inputField].desc,
+            id: attribute + idNr,
           });
-          console.log(attribute);
+          idNr++;
         }
       );
       inputWrappers.push(
@@ -30,6 +32,7 @@ const renderAttributes = (attributes: any) => {
         />
       );
       inputFields = [];
+      idNr = 0;
     });
   } else {
     console.log("No attributes!");
@@ -38,11 +41,16 @@ const renderAttributes = (attributes: any) => {
 };
 
 const ChapterWrapper: FC<ChapterProps> = ({ chapter }) => {
+  const classes = useStyles();
   return (
-    <div>
-      <Typography variant="h2">{chapter.title}</Typography>
-      <Typography variant="h4">{chapter.desc}</Typography>
-      <div>{renderAttributes(chapter.attributes)}</div>
+    <div style={{ width: "100%" }}>
+      <Typography variant="h4">{chapter.title}</Typography>
+      <Typography gutterBottom={true} variant="h6">
+        {chapter.desc}
+      </Typography>
+      <div className={classes.chapter}>
+        {renderAttributes(chapter.attributes)}
+      </div>
     </div>
   );
 };

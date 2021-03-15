@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
+import React from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { Link } from "react-router-dom";
-import Button from "@material-ui/core/Button";
 import { currentUserState } from "../stateManagement/userAuth";
 import { auth } from "../firebase";
 import firebase from "firebase";
+import { Typography, Button, Box } from "@material-ui/core";
+import { errorState } from "../stateManagement/errorHandling";
 
 export default function UserProfile() {
   let [organizationName, setOrganizationName] = useState<String>();
@@ -37,22 +39,26 @@ export default function UserProfile() {
     e.preventDefault();
     auth
       .signOut()
-      .then(function () {
-        console.log("signout complete");
-      })
+      .then(function () {})
       .catch((error) => {
         console.log("Kunne ikke logge ut");
       });
   }
 
   return (
-    <div>
+    <Box p={10}>
+      <Typography variant="h4"> Min Profil</Typography>
+  
       <p>Brukerprofil {email}</p>
       <p>Organisasjon {organizationName}</p>
-
-      <Button component={Link} to="/login" onClick={handleLogout}>
+      <Button
+        variant="contained"
+        component={Link}
+        to="/login"
+        onClick={handleLogout}
+      >
         Logg ut
       </Button>
-    </div>
+    </Box>
   );
 }
