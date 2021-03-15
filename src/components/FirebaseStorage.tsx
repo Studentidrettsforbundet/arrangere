@@ -1,105 +1,97 @@
-import { Button } from "@material-ui/core";
-import React from "react";
-import { useEffect, useState } from "react";
-import {
-  atom,
-  useRecoilCallback,
-  useRecoilState,
-  useRecoilValue,
-  useSetRecoilState,
-} from "recoil";
+import { useRecoilValue } from "recoil";
 import { firestore } from "../firebase";
-import {
-  attributesState,
-  selectedAttributeState,
-  selectedAttributeIdState,
-} from "../stateManagement/attributesState";
-import ShortText from "./inputFields/ShortText";
+import { selectedAttributeState } from "../stateManagement/attributesState";
+import { choosenApplicationState } from "../stateManagement/choosenApplication";
 
-// Generate new document to Firestore with data
-const addDocToFirebase = (docData: any) => {
-  firestore
-    .collection("snmApplications")
-    .add(docData)
-    .then((docRef) => {
-      console.log("Document written with ID: ", docRef.id);
-    })
-    .catch((error) => {
-      console.error("Error adding document: ", error);
-    });
+// const addDocToFirebase = (docData: any) => {
+//   firestore
+//     .collection("snmApplications")
+//     .add(docData)
+//     .then((docRef) => {
+//       console.log("Document written with ID: ", docRef.id);
+//     })
+//     .catch((error) => {
+//       console.error("Error adding document: ", error);
+//     });
+// };
+
+type AttributesList = {
+  id: string;
+  attribute: Array<Array<Object>>;
 };
 
-// Update a single field in the doc
-const setData = (docData: any) => {
-  firestore
-    .collection("testCollection")
-    .doc("pzYKnYEpVdAMCbPaPDbG")
-    .update({
-      "chapter-1.attributes.comments.input_fields.input1.value": docData,
-    })
-    .then(() => {
-      console.log("Field updated!");
-    })
-    .catch((error) => {
-      console.error("Error updating field: ", error);
-    });
-};
+async function loadFieldsFromStorage(collection: string, doc: string) {
+  const attributesList: Array<AttributesList> = [];
 
-// change to loadFieldsFromStorage()
-async function getInputFieldsFromApplicationDocument() {
-  const attributesListLocal: Array<any> = [];
+  const collectionID = "testCollection";
+  const docID = "wM8RmJ5PVIJ90e9biJYC";
 
-  const db = firestore.collection("testCollection");
-  const doc_id = "wM8RmJ5PVIJ90e9biJYC";
-
-  let attributeName: string = "";
-
-  let doc = await db.doc(doc_id).get();
+  let doc = await firestore.collection(collectionID).doc(docID).get();
 
   if (!doc.exists) {
     console.log("Doc does not exists");
     throw new Error("No document.");
   }
 
-  let data: any = doc.data();
-  let count: number = 0;
+  let docData: any = doc.data();
+  let attributeNr: number = 1;
+  let attributeName: string = "";
 
-  // for hvert kapittel
-  for (const key in data) {
-    const chapter = data[key];
-    // attributes-feltet i databasen
-    const attributes = chapter.attributes;
+  for (const key in docData) {
+    const attributes = docData[key].attributes;
     for (let attribute in attributes) {
       attributeName = attribute;
-      //console.log(attribute);
       const inputFields = attributes[attribute].input_fields;
       for (let inputField in inputFields) {
-        // må finne ut hvor mange inputfelter vi har
         const inputFieldObject = attributes[attribute].input_fields[inputField];
-        attributesListLocal.push([
-          attributeName + (count + 1).toString(),
-          inputFieldObject,
-        ]);
-        count++;
+        attributesList.push({
+          id: attributeName + attributeNr.toString(),
+          attribute: inputFieldObject,
+        });
+        attributeNr++;
       }
-      count = 0;
+      attributeNr = 1;
     }
   }
-  return attributesListLocal;
+  return attributesList;
 }
 
 function is_numeric(str: string) {
   return /^\d+$/.test(str);
 }
 
-function getFieldToBeUpdated(
-  attributeID: string | undefined,
+const setData = (
+  chapter: string,
+  inputNr: string,
   value: string | undefined
+) => {
+  let data: any = {};
+  data[
+    `${chapter}.attributes.${chapter}.input_fields.input${inputNr}.value`
+  ] = value;
+
+  firestore
+    .collection("testCollection")
+    .doc("wM8RmJ5PVIJ90e9biJYC")
+    .update(data, { merge: true })
+    .then(() => {
+      console.log("Field updated!");
+    })
+    .catch((error) => {
+      console.log("Error occured: ", error);
+      throw new Error("Could not update field.");
+    });
+};
+
+function saveFieldToStorage(
+  attributeID: string | undefined,
+  value: string | undefined,
+  collection: string,
+  doc: string
 ) {
   let chapter: string = "";
   let inputNr: string = "";
 
-  // Finne ut hvilken attributt + input som skal bli oppdatert
   attributeID?.split("").forEach((character) => {
     if (is_numeric(character)) {
       inputNr += character;
@@ -108,32 +100,10 @@ function getFieldToBeUpdated(
     }
   });
 
-  const setData = (chapter: string, inputNr: string) => {
-    let data: any = {};
-    data[
-      `${chapter}.attributes.${chapter}.input_fields.input${inputNr}.value`
-    ] = value;
-
-    firestore
-      .collection("testCollection")
-      .doc("wM8RmJ5PVIJ90e9biJYC")
-      .update(
-        data,
-        { merge: true }
-        //`${chapter}).attributes.${chapter}.input_fields.input${inputNr}.value`: value,
-      )
-      .then(() => {
-        console.log("Field updated!");
-      })
-      .catch((error) => {
-        console.log("Error occured: ", error);
-      });
-  };
-
-  getInputFieldsFromApplicationDocument().then((attribute) => {
+  loadFieldsFromStorage(collection, doc).then((attribute) => {
     attribute.forEach((field) => {
-      if (field[0] == attributeID) {
-        setData(chapter, inputNr);
+      if (field.id == attributeID) {
+        setData(chapter, inputNr, value);
       }
     });
   });
@@ -141,38 +111,23 @@ function getFieldToBeUpdated(
 
 const FirebaseStorage = () => {
   const selectedAttribute = useRecoilValue(selectedAttributeState);
+  let collection = useRecoilValue(choosenApplicationState);
+  collection += "Applications";
+
+  // TODO render right document
+  let doc: string = "";
+
   console.log(selectedAttribute);
+  console.log(collection);
 
-  getFieldToBeUpdated(selectedAttribute?.id, selectedAttribute?.value);
-
-  const docData = {
-    value: selectedAttribute?.value,
-  };
-
-  return (
-    <div>
-      <ShortText
-        desc="Input-feltet her skal lagres i Firestore"
-        id="general1"
-      ></ShortText>
-      <ShortText
-        desc="Input-feltet her skal lagres i Firestore"
-        id="general2"
-      ></ShortText>
-
-      <Button onClick={() => addDocToFirebase(docData)}>
-        Lagre dokument til Firestore
-      </Button>
-
-      <Button onClick={() => setData(docData)}>
-        Oppdater dokument i testCollection i Firestore
-      </Button>
-
-      <Button onClick={() => getInputFieldsFromApplicationDocument()}>
-        Hent en søknad og lagre en value
-      </Button>
-    </div>
+  saveFieldToStorage(
+    selectedAttribute?.id,
+    selectedAttribute?.value,
+    collection,
+    doc
   );
+
+  return <div></div>;
 };
 
 export default FirebaseStorage;
