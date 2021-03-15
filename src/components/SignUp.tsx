@@ -29,8 +29,10 @@ import {
   errorState,
   errorStateSelector,
 } from "../stateManagement/errorHandling";
+import firebase from "firebase";
 
 const SignUp = () => {
+  var db = firebase.firestore();
   const classes = useStyles();
   const history = useHistory();
   const currentUser = useRecoilValue(currentUserState);
@@ -77,6 +79,14 @@ const SignUp = () => {
         emailRef.current!.value,
         passwordRef.current!.value
       )
+      .then((cred) => {
+        if (cred.user != null) {
+          return db.collection("user").doc(cred.user.uid).set({
+            organization: "",
+            email: emailRef.current!.value,
+          });
+        }
+      })
       .then(() => {
         history.push("/");
       })
