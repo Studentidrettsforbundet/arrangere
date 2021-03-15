@@ -1,6 +1,5 @@
 import { FC } from "react";
-import { Typography } from "@material-ui/core";
-import { useStyles } from "./inputStyles";
+import { Typography, Box } from "@material-ui/core";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   attributesState,
@@ -14,8 +13,6 @@ type FileUploadProps = {
 };
 
 const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
-  const classes = useStyles();
-
   const [attribute, setAttribute] = useRecoilState(attributesState(id));
   const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
 
@@ -26,26 +23,23 @@ const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
   console.log(selectedID);
 
   return (
-    <div className="uploadContainer">
-      <div className={classes.root}>
-        <Typography>{desc}</Typography>
-        <input
-          accept="image/*"
-          className={classes.input}
-          id="contained-button-file"
-          multiple
-          type="file"
-          onFocus={() => setSelectedAttribute(id)}
-          onChange={(event) =>
-            setAttribute({
-              ...attribute,
-              value: event.target.value,
-              id: selectedID,
-            })
-          }
-        />
-      </div>
-    </div>
+    <Box py={2}>
+      <Typography>{desc}</Typography>
+      <input
+        accept="image/*"
+        id="contained-button-file"
+        multiple
+        type="file"
+        onFocus={() => setSelectedAttribute(id)}
+        onChange={(event) =>
+          setAttribute({
+            ...attribute,
+            value: event.target.value,
+            id: selectedID,
+          })
+        }
+      />
+    </Box>
   );
 };
 export default FileUpload;

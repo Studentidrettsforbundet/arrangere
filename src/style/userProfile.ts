@@ -15,7 +15,7 @@ export const useStyles = makeStyles({
         padding: 30,
       },
       contentGrid: {
-        marginLeft: "100",
+
       },
       header: {
         marginBottom: "10px",
