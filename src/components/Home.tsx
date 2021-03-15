@@ -1,8 +1,5 @@
-import { Button } from "@material-ui/core";
-import React from "react";
 import { useEffect, useState } from "react";
 import { firestore } from "../firebase";
-import { copyDoc } from "./copyDocument";
 import { InfoLongText } from "./InfoLongText";
 import { InfoLongTextProps } from "./InfoLongText";
 
@@ -65,9 +62,6 @@ export default function Home() {
       <br />
       <h1>Velkommen til Norges studenidrettsforbunds søknadsportal</h1>
       {renderChapters(chapterList)}
-      <Button onClick={() => copyDoc("snmTemplate", "testCollection")}>
-        Lag nytt dokument
-      </Button>
     </div>
   );
 }

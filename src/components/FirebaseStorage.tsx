@@ -122,9 +122,6 @@ const FirebaseStorage = () => {
   // TODO render right document
   let doc: string = "";
 
-  console.log(selectedAttribute);
-  console.log(collection);
-
   saveFieldToStorage(
     selectedAttribute?.id,
     selectedAttribute?.value,
