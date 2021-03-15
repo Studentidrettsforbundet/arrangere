@@ -29,7 +29,9 @@
     "eject": "react-scripts eject",
     "format": "npx prettier --write src",
     "emulator": "firebase emulators:start",
-    "cypress": "npx cypress open"
+    "cy:open": "npx cypress open",
+    "cy:run": "npx cypress run",
+    "testCypress": "start-server-and-test start http://localhost:3000 cy:run"
   },
   "eslintConfig": {
     "extends": [
@@ -52,6 +54,7 @@
   "devDependencies": {
     "@types/react-router-dom": "^5.1.7",
     "cypress": "^6.6.0",
-    "prettier": "2.2.1"
+    "prettier": "2.2.1",
+    "start-server-and-test": "^1.12.0"
   }
 }
