@@ -77,7 +77,7 @@ const Template = () => {
     chapterList.map((chapter: Chapter) => {
       chapterButtons.push(<ChapterButton title={chapter.title} />);
     });
-    return chapterButtons;
+    return chapterButtons[chapterCounter];
   };
 
   const nextChapter = () => {
