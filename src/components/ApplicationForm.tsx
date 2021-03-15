@@ -26,7 +26,7 @@ export const ApplicationForm = (props: any) => {
   FirebaseStorage();
 
   return (
-    <div id="hallo" style={{ width: "100%" }}>
+    <div style={{ width: "100%" }}>
       <Box px={15} pb={8}>
         <Template></Template>
       </Box>

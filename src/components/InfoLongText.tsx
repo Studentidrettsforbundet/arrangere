@@ -4,8 +4,8 @@ import {
   AccordionSummary,
   AccordionDetails,
   Typography,
+  Box,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 export type InfoLongTextProps = {
@@ -14,17 +14,9 @@ export type InfoLongTextProps = {
   title: string;
 };
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    margin: "0.5%",
-  },
-}));
-
 export const InfoLongText: FC<InfoLongTextProps> = ({ desc, title }) => {
-  const classes = useStyles();
   return (
-    <div className={classes.root}>
+    <Box py={0.5}>
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -37,6 +29,6 @@ export const InfoLongText: FC<InfoLongTextProps> = ({ desc, title }) => {
           <Typography>{desc}</Typography>
         </AccordionDetails>
       </Accordion>
-    </div>
+    </Box>
   );
 };
