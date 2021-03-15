@@ -2,17 +2,28 @@ import Template from "./Template";
 import { useSetRecoilState } from "recoil";
 import { choosenApplicationState } from "../stateManagement/choosenApplication";
 import { useEffect } from "react";
+import FirebaseStorage from "./FirebaseStorage";
 import Box from "@material-ui/core/Box";
 
 export const ApplicationForm = (props: any) => {
-  let title = props.location.state.title;
-  let template = props.location.state.template;
-
   const setChoosenApplicationForm = useSetRecoilState(choosenApplicationState);
 
+  let url = window.location.href;
+  var str_sub = url.substr(url.lastIndexOf("/") + 1);
+
   useEffect(() => {
-    setChoosenApplicationForm(template);
+    if (str_sub == "studentnm") {
+      setChoosenApplicationForm("snm");
+    }
+    if (str_sub == "studentleker") {
+      setChoosenApplicationForm("sl");
+    }
+    if (str_sub == "studentcup") {
+      setChoosenApplicationForm("sc");
+    }
   });
+
+  FirebaseStorage();
 
   return (
     <div id="hallo" style={{ width: "100%" }}>

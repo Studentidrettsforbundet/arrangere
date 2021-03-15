@@ -1,9 +1,8 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import { firestore } from "../firebase";
 import { InfoLongText } from "./InfoLongText";
 import { InfoLongTextProps } from "./InfoLongText";
-
-// import FirebaseStorage from "./FirebaseStorage";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -63,7 +62,7 @@ export default function Home() {
     <div>
       <br />
       <h1>Velkommen til Norges studenidrettsforbunds søknadsportal</h1>
-      {renderChapters(chapterList)} {/* <FirebaseStorage></FirebaseStorage> */}
+      {renderChapters(chapterList)}
     </div>
   );
 }
