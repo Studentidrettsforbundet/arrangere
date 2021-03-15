@@ -3,17 +3,17 @@ import { firestore } from "../firebase";
 import { selectedAttributeState } from "../stateManagement/attributesState";
 import { choosenApplicationState } from "../stateManagement/choosenApplication";
 
-// const addDocToFirebase = (docData: any) => {
-//   firestore
-//     .collection("snmApplications")
-//     .add(docData)
-//     .then((docRef) => {
-//       console.log("Document written with ID: ", docRef.id);
-//     })
-//     .catch((error) => {
-//       console.error("Error adding document: ", error);
-//     });
-// };
+const addDocToFirebase = (docData: any) => {
+  firestore
+    .collection("snmApplications")
+    .add(docData)
+    .then((docRef) => {
+      console.log("Document written with ID: ", docRef.id);
+    })
+    .catch((error) => {
+      console.error("Error adding document: ", error);
+    });
+};
 
 type AttributesList = {
   id: string;
