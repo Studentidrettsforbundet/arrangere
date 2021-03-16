@@ -1,22 +1,29 @@
-import { FC } from "react";
-import { Typography } from "@material-ui/core";
+import React, { Attributes, FC } from "react";
+import { Button, ButtonBase, Typography } from "@material-ui/core";
 import { Chapter } from "./Template";
 import InputWrapper, { InputField } from "./inputFields/InputWrapper";
 import { useStyles } from "../style/chapters";
+import { copyAttribute } from "./inputFields/inputButtonFunctions";
 
 type ChapterProps = {
   chapter: Chapter;
   chapterName: string;
 };
-const renderAttributes = (attributes: any, chapterName: string) => {
+const renderAttributes = (
+  attributes: any,
+  buttons: Array<string>,
+  chapterName: string
+) => {
   const inputWrappers: any = [];
   let inputFields: Array<InputField> = [];
   let idNr: number = 0;
-  let attributeName: string;
 
   if (attributes) {
-    Object.keys(attributes).forEach((attribute: string) => {
+    Object.keys(attributes).forEach((attribute: string, index: number) => {
+      let attributeName = Object.keys(attributes)[index];
       Object.keys(attributes[attribute].input_fields).forEach(
+        //let attributeName = Object.keys(chapter.attributes)[0];
+
         (inputField: string) => {
           inputFields.push({
             type: attributes[attribute].input_fields[inputField].type,
@@ -26,17 +33,16 @@ const renderAttributes = (attributes: any, chapterName: string) => {
           idNr++;
         }
       );
-      attributeName = Object.keys(attributes)[0];
 
       inputWrappers.push(
         <InputWrapper
-          key={attributeName}
-          attributeName={attributeName}
+          key={attributes[attribute].title}
           title={attributes[attribute].title}
-          button={attributes[attribute].button}
           mainDesc={attributes[attribute].desc}
-          chapterName={chapterName}
           inputFields={inputFields}
+          buttons={buttons}
+          chapterName={chapterName}
+          attributeName={attributeName}
         />
       );
       inputFields = [];
@@ -57,7 +63,7 @@ const ChapterWrapper: FC<ChapterProps> = ({ chapter, chapterName }) => {
         {chapter.desc}
       </Typography>
       <div className={classes.chapter}>
-        {renderAttributes(chapter.attributes, chapterName)}
+        {renderAttributes(chapter.attributes, chapter.buttons, chapterName)}
       </div>
     </div>
   );

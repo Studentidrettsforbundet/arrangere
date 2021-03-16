@@ -14,13 +14,13 @@ export type Chapter = {
   desc: string;
   attributes: Array<Attribute>;
   priority: number;
+  buttons: Array<string>;
 };
 
 export type Attribute = {
   title: string;
   mainDesc: string;
   inputFields: Array<InputField>;
-  button?: string;
 };
 
 const Template = () => {
@@ -47,6 +47,7 @@ const Template = () => {
           if (chapter.exists) {
             chapterListLocal.push({
               chapterName: chapter.id,
+              buttons: chapter.data().buttons,
               title: chapter.data().title,
               desc: chapter.data().desc,
               attributes: chapter.data().attributes,

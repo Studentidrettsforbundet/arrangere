@@ -1,5 +1,12 @@
 import React, { FC } from "react";
-import { Typography, Button } from "@material-ui/core";
+import {
+  Typography,
+  Button,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+} from "@material-ui/core";
 import Date from "./Date";
 import FileUpload from "./FileUpload";
 import LongText from "./LongText";
@@ -8,6 +15,8 @@ import RadioButton from "./RadioButton";
 import ShortText from "./ShortText";
 import Time from "./Time";
 import { copyAttribute } from "./inputButtonFunctions";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { spacing } from "@material-ui/system";
 
 export type InputField = {
   type: string;
@@ -18,11 +27,11 @@ export type InputField = {
 type InputWrapperProps = {
   title: string;
   mainDesc: string;
-  button: string;
   key: string;
-  attributeName: string;
   inputFields: Array<InputField>;
+  buttons: Array<string>;
   chapterName: string;
+  attributeName: string;
 };
 
 const componentList = [
@@ -73,35 +82,78 @@ const InputWrapper: FC<InputWrapperProps> = ({
   title,
   mainDesc,
   inputFields,
-  button,
-  attributeName,
+  buttons,
   chapterName,
+  attributeName,
 }) => {
   let attributebutton;
-  if (button != null) {
-    attributebutton = (
-      <Button
-        onClick={() =>
-          copyAttribute(
-            "scTemplate",
-            "testCollection",
-            attributeName,
-            chapterName
-          )
-        }
-        variant="outlined"
-      >
-        {attributeName}
-      </Button>
-    );
+  let isCollapse = false;
+  let haveMainDesc = false;
+  if (mainDesc != null) {
+    haveMainDesc = true;
   }
-
+  if (buttons != null) {
+    buttons.forEach((button) => {
+      if (button.includes(attributeName)) {
+        attributebutton = (
+          <Box m={0.5} mb={1}>
+            <Button
+              onClick={() =>
+                copyAttribute(
+                  "scTemplate",
+                  "testCollection",
+                  attributeName,
+                  chapterName
+                )
+              }
+              variant="outlined"
+            >
+              Legg til felt
+            </Button>
+          </Box>
+        );
+        isCollapse = true;
+      }
+    });
+  }
   return (
     <div style={{ width: "100%" }}>
-      <Typography variant="h6">{title}</Typography>
-      <Typography variant="subtitle1">{mainDesc}</Typography>
-      <div>{generateComponents(inputFields)}</div>
-      {attributebutton}
+      {isCollapse ? (
+        <div>
+          <Box pb={2}>
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <Typography variant="h6">{title}</Typography>
+              </AccordionSummary>
+
+              {haveMainDesc ? (
+                <Box px={2}>
+                  <Typography variant="subtitle1">{mainDesc}</Typography>
+                </Box>
+              ) : (
+                ""
+              )}
+
+              <AccordionDetails>
+                <div style={{ width: "100%" }}>
+                  {generateComponents(inputFields)}
+                </div>
+              </AccordionDetails>
+            </Accordion>
+          </Box>
+          {attributebutton}
+        </div>
+      ) : (
+        <div>
+          <Typography variant="h6">{title}</Typography>
+          <Typography variant="subtitle1">{mainDesc}</Typography>
+          <div>{generateComponents(inputFields)}</div>
+        </div>
+      )}
     </div>
   );
 };

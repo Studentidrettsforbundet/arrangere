@@ -1,41 +1,81 @@
-import { Attributes } from "react";
 import { firestore } from "../../firebase";
-import { attributesState } from "../../stateManagement/attributesState";
-import { Attribute } from "../Template";
 
 export const copyAttribute = async (
   collectionFrom: string,
   collectionTo: string,
   attributeName: string,
-  chapter: string
-) => {
-  // document reference
-  const docRef = firestore.collection(collectionFrom);
-  let attributeslist: Array<Attribute> = [];
-  let chapterExists: boolean = false;
+  chapterName: string
+): Promise<boolean> => {
+  let docExists: boolean = false;
+  let newAttribute: any;
 
-  const attribute = firestore
-    .collection(collectionFrom)
-    .doc(`${chapter}`)
-    .get();
-  console.log("attribute", (await attribute).data());
-
-  const ref = firestore.collection(collectionTo).doc();
-
-  let data: any = {};
-  data[`${chapter}.attributes.activity3`] = (
-    await attribute
-  ).data()!.attributes.activity1;
-
-  firestore
+  const collectionFromRef = firestore
     .collection(collectionTo)
-    .doc("vGEccVpkhpQeAKoRZGfc")
-    .update(data, { merge: true })
+    .doc("vGEccVpkhpQeAKoRZGfc");
+  const collectionToRef = firestore
+    .collection(collectionFrom)
+    .doc(`${chapterName}`);
+
+  let length;
+  // get length of the attributelist in the application to know what id to give the new activity
+  const attributesInApplication = await collectionFromRef
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        docExists = true;
+      }
+      let att = doc.data()![chapterName].attributes;
+      let counter = 1;
+
+      Object.keys(att).forEach((attribute) => {
+        if (attribute.includes(attributeName)) {
+          counter++;
+        }
+      });
+      length = counter;
+      return docExists;
+    })
     .catch((error) => {
       console.error(
-        "Error creating document",
+        "Error reading from document",
+        `${collectionFrom}`,
+        JSON.stringify(error)
+      );
+    });
+
+  const attributeInTemplate = await collectionToRef
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        docExists = true;
+      }
+      newAttribute = doc.data()!.attributes;
+      return docExists;
+    })
+    .catch((error) => {
+      console.error(
+        "Error reading from document",
         `${collectionTo}`,
         JSON.stringify(error)
       );
     });
+
+  if (attributesInApplication && attributeInTemplate) {
+    let data: any = {};
+    data[`${chapterName}.attributes.${attributeName}${length}`] =
+      newAttribute[attributeName];
+    firestore
+      .collection(collectionTo)
+      .doc("vGEccVpkhpQeAKoRZGfc")
+      .update(data, { merge: true })
+      .catch((error) => {
+        console.error(
+          "Error updating document",
+          `${collectionTo}`,
+          JSON.stringify(error)
+        );
+      });
+    return true;
+  }
+  return false;
 };
