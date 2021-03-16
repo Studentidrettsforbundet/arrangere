@@ -47,23 +47,27 @@ export default function UserProfile() {
   }
 
   async function retriveOrganizationInfo() {
-    setLoading(true);
-    await db
-      .collection("organizations")
-      .doc(organizationName)
-      .get()
-      .then((doc) => {
-        const orgData = doc?.data();
-        if (!orgData) {
-          console.log("no data here");
-          return null;
-        } else {
-          console.log(orgData);
-          setOrganizationNumber(orgData.account_number);
-          setOrganizationAccountNumber(orgData.organization_number);
-        }
-      });
-    setLoading(false);
+    if (organizationName != "") {
+      //setLoading(true);
+      await db
+        .collection("organizations")
+        .doc(organizationName)
+        .get()
+        .then((doc) => {
+          const orgData = doc?.data();
+          if (!orgData) {
+            console.log("no data here");
+            setOrganizationNumber("");
+            setOrganizationAccountNumber("");
+            return null;
+          } else {
+            console.log(orgData);
+            setOrganizationNumber(orgData.account_number);
+            setOrganizationAccountNumber(orgData.organization_number);
+          }
+        });
+      setLoading(false);
+    }
   }
 
   return (
