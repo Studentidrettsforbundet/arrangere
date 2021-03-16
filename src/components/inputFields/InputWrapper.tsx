@@ -12,12 +12,14 @@ export type InputField = {
   type: string;
   desc: string;
   id: string;
+  priority: number;
 };
 
 type InputWrapperProps = {
   title: string;
   mainDesc: string;
   inputFields: Array<InputField>;
+  priority: number;
 };
 
 const componentList = [
@@ -40,7 +42,7 @@ const getComponentToBeRendered = (type: string) => {
   ComponentName = defaultComponent;
 
   componentList.map((component) => {
-    if (component.type == type) {
+    if (component.type === type) {
       ComponentName = component.ComponentName;
     }
   });
