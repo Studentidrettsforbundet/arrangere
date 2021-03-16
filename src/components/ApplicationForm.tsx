@@ -27,7 +27,7 @@ export const ApplicationForm = (props: any) => {
 
   return (
     <div style={{ width: "100%" }}>
-      <Box px={15} pb={8}>
+      <Box pb={8}>
         <Template></Template>
       </Box>
     </div>

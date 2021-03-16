@@ -24,7 +24,7 @@ async function loadFieldsFromStorage(collection: string, document: string) {
   const attributesList: Array<AttributesList> = [];
 
   const collectionID = "testCollection";
-  const docID = "wM8RmJ5PVIJ90e9biJYC";
+  const docID = "vGEccVpkhpQeAKoRZGfc";
 
   let doc = await firestore.collection(collectionID).doc(docID).get();
 
@@ -72,7 +72,7 @@ const setData = (
 
   firestore
     .collection("testCollection")
-    .doc("wM8RmJ5PVIJ90e9biJYC")
+    .doc("vGEccVpkhpQeAKoRZGfc")
     .update(data, { merge: true })
     .then(() => {
       console.log("Field updated!");

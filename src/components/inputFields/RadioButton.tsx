@@ -25,8 +25,8 @@ const RadioButton: FC<RadioProps> = ({ desc, id }) => {
   const selectedAttribute = useRecoilValue(selectedAttributeState);
   const selectedID = useRecoilValue(selectedAttributeIdState);
 
-  console.log(selectedAttribute);
-  console.log(selectedID);
+  //console.log(selectedAttribute);
+  //console.log(selectedID);
 
   return (
     <div className="radioContainer">
