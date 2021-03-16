@@ -27,16 +27,12 @@ export const copyDoc = async (
           chapterExists = true;
         }
         chapterListLocal.push({
-
           id: chapter.id,
           content: {
-            chapterName: Object.keys(chapter)[0],
             title: chapter.data().title,
             desc: chapter.data().desc,
             attributes: chapter.data().attributes,
             priority: chapter.data().priority,
-            buttons: chapter.data().buttons,
-
           },
         });
       });
