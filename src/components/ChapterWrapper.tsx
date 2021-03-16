@@ -34,21 +34,24 @@ const ChapterWrapper = (props: ChapterProps) => {
     }
     setAttributeList(attributeListLocal);
     setLoading(false);
+    //console.log("list: ", attributeList[0].title);
   };
 
   const renderInputFields = (attributeList: any) => {
     const inputWrappers: any = [];
     let inputFields: Array<InputField> = [];
     attributeList.map((attribute: Attribute) => {
+      console.log("attributes: ", attributeList);
+
       //console.log(attribute.title);
-      /* Object.keys(attribute).forEach((inputField: string) => {
+
+      Object.keys(attribute).forEach((inputField: InputField) => {
         inputFields.push({
-          type: attribute.inputFields.type,
-          desc: attributes[attribute].input_fields[inputField].desc,
-          priority: attributes[attribute].input_fields[inputField].priority,
-          id: attribute + idNr,
+          type: inputFields.type,
+          desc: inputField.desc,
+          priority: inputField.priority,
         });
-      }); */
+      });
       inputWrappers.push(
         <InputWrapper
           key={attribute.title}
@@ -58,31 +61,8 @@ const ChapterWrapper = (props: ChapterProps) => {
           priority={attribute.priority}
         />
       );
-      inputFields = [];
-
-      console.log(inputWrappers);
-      /* Object.keys(inputFields).forEach((inputField: string) => {
-        console.log(inputField); */
-      /* inputFields.push({
-          type: inputField.type,
-          desc: attributes[attribute].input_fields[inputField].desc,
-          priority: attributes[attribute].input_fields[inputField].priority,
-          id: attribute + idNr,
-        });
-        idNr++; 
-      inputWrappers.push(
-        <InputWrapper
-          key={attributes[attribute].title}
-          title={attributes[attribute].title}
-          mainDesc={attributes[attribute].desc}
-          inputFields={inputFields}
-          priority={attributes[attribute].priority}
-        />
-      );
 
       inputFields = [];
-      idNr = 0;
- */
     });
   };
   return (
