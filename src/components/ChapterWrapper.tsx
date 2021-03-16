@@ -15,13 +15,10 @@ const ChapterWrapper = (props: ChapterProps) => {
   const classes = useStyles();
 
   useEffect(() => {
-    renderAttributes(chapter.attributes);
-    if (!loading) {
-      renderInputFields(attributeList);
-    }
+    attributesToList(chapter.attributes);
   }, [loading]);
 
-  const renderAttributes = (attributes: any) => {
+  const attributesToList = (attributes: any) => {
     setLoading(true);
     const attributeListLocal: any = [];
     if (attributes) {
@@ -39,60 +36,41 @@ const ChapterWrapper = (props: ChapterProps) => {
   const renderInputFields = (attributeList: any) => {
     const inputWrappers: any = [];
     let inputFields: Array<InputField> = [];
-    attributeList.map((attribute: Attribute) => {
-      //console.log(attribute.title);
-      /* Object.keys(attribute).forEach((inputField: string) => {
+    let idNr: number = 1;
+    attributeList.map((attribute: any) => {
+      Object.keys(attribute.input_fields).forEach((inputField: string) => {
         inputFields.push({
-          type: attribute.inputFields.type,
-          desc: attributes[attribute].input_fields[inputField].desc,
-          priority: attributes[attribute].input_fields[inputField].priority,
+          type: attribute.input_fields[inputField].type,
+          desc: attribute.input_fields[inputField].desc,
+          priority: attribute.input_fields[inputField].priority,
           id: attribute + idNr,
         });
-      }); */
+      });
+      idNr++;
+      inputFields.sort((a: any, b: any) => a.priority - b.priority);
       inputWrappers.push(
         <InputWrapper
           key={attribute.title}
           title={attribute.title}
-          mainDesc={attribute.mainDesc}
+          mainDesc={attribute.desc}
           inputFields={inputFields}
           priority={attribute.priority}
         />
       );
       inputFields = [];
-
-      console.log(inputWrappers);
-      /* Object.keys(inputFields).forEach((inputField: string) => {
-        console.log(inputField); */
-      /* inputFields.push({
-          type: inputField.type,
-          desc: attributes[attribute].input_fields[inputField].desc,
-          priority: attributes[attribute].input_fields[inputField].priority,
-          id: attribute + idNr,
-        });
-        idNr++; 
-      inputWrappers.push(
-        <InputWrapper
-          key={attributes[attribute].title}
-          title={attributes[attribute].title}
-          mainDesc={attributes[attribute].desc}
-          inputFields={inputFields}
-          priority={attributes[attribute].priority}
-        />
-      );
-
-      inputFields = [];
       idNr = 0;
- */
     });
+    return inputWrappers;
   };
+
   return (
     <div style={{ width: "100%" }}>
-      {/* <Typography variant="h4">{chapter.title}</Typography>
+      <Typography variant="h4">{chapter.title}</Typography>
       <Typography gutterBottom={true} variant="h6">
         {chapter.desc}
-      </Typography> */}
+      </Typography>
       <div className={classes.chapter}></div>
-      <div></div>
+      <div>{renderInputFields(attributeList)}</div>
     </div>
   );
 };
