@@ -1,17 +1,25 @@
 import { firestore } from "../firebase";
-import { Chapter } from "./Template";
+import { Attribute } from "./Template";
+
+type ChapterWithID = {
+  id: string;
+  content: {
+    title: string;
+    desc: string;
+    attributes: Array<Attribute>;
+    priority: number;
+  };
+};
 
 export const copyDoc = async (
   collectionFrom: string,
   collectionTo: string
 ): Promise<boolean> => {
-  // document reference
-  const docRef = firestore.collection(collectionFrom);
-  let chapterListLocal: Array<Chapter> = [];
+  const docFromRef = firestore.collection(collectionFrom);
+  let chapterListLocal: Array<ChapterWithID> = [];
   let chapterExists: boolean = false;
 
-  // copy the document
-  const docData = await docRef
+  const docData = await docFromRef
     .get()
     .then((doc) => {
       doc.forEach((chapter) => {
@@ -19,12 +27,17 @@ export const copyDoc = async (
           chapterExists = true;
         }
         chapterListLocal.push({
-          chapterName: Object.keys(chapter)[0],
-          title: chapter.data().title,
-          desc: chapter.data().desc,
-          attributes: chapter.data().attributes,
-          priority: chapter.data().priority,
-          buttons: chapter.data().buttons,
+
+          id: chapter.id,
+          content: {
+            chapterName: Object.keys(chapter)[0],
+            title: chapter.data().title,
+            desc: chapter.data().desc,
+            attributes: chapter.data().attributes,
+            priority: chapter.data().priority,
+            buttons: chapter.data().buttons,
+
+          },
         });
       });
       return chapterExists;
@@ -37,17 +50,17 @@ export const copyDoc = async (
       );
     });
 
-  const ref = firestore.collection(collectionTo).doc();
-  let myId = ref.id;
+  const docToRef = firestore.collection(collectionTo).doc();
+  let newDocId = docToRef.id;
 
   if (docData) {
-    // document exists, create the new item
-    chapterListLocal.forEach((chapter, index) => {
-      let newname = "chapter-" + index;
+    chapterListLocal.forEach((chapter) => {
+      let chapterId = chapter.id;
       firestore
         .collection(collectionTo)
-        .doc(myId)
-        .set({ [newname]: chapter }, { merge: true })
+        .doc(newDocId)
+        .set({ [chapterId]: chapter.content }, { merge: true })
+        .then(() => console.log("New document created with id:", newDocId))
         .catch((error) => {
           console.error(
             "Error creating document",

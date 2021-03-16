@@ -16,14 +16,11 @@ const renderAttributes = (
 ) => {
   const inputWrappers: any = [];
   let inputFields: Array<InputField> = [];
-  let idNr: number = 0;
-
+  let idNr: number = 1;
   if (attributes) {
     Object.keys(attributes).forEach((attribute: string, index: number) => {
       let attributeName = Object.keys(attributes)[index];
       Object.keys(attributes[attribute].input_fields).forEach(
-        //let attributeName = Object.keys(chapter.attributes)[0];
-
         (inputField: string) => {
           inputFields.push({
             type: attributes[attribute].input_fields[inputField].type,
@@ -46,7 +43,7 @@ const renderAttributes = (
         />
       );
       inputFields = [];
-      idNr = 0;
+      idNr = 1;
     });
   } else {
     console.log("No attributes!");

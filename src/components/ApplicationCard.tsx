@@ -8,7 +8,10 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { choosenApplicationState } from "../stateManagement/choosenApplication";
 import { useStyles } from "../style/cards";
+import { copyDoc } from "./copyDocument";
 
 type Props = {
   image: string;
@@ -19,6 +22,11 @@ type Props = {
 
 export const ApplicationCard = (props: Props) => {
   const classes = useStyles();
+
+  const collection = useRecoilValue(choosenApplicationState);
+  console.log(collection);
+  const collectionFrom = collection + "Template";
+  const collectionTo = collection + "Applications";
 
   return (
     <Card className={classes.root}>
@@ -35,10 +43,11 @@ export const ApplicationCard = (props: Props) => {
           component={RouterLink}
           to={{
             pathname: props.to,
-            state: { title: props.title, template: props.template },
+            state: { template: props.template },
           }}
           size="small"
           color="primary"
+          onClick={() => copyDoc(collectionFrom, collectionTo)}
         >
           Ny søknad
         </Button>
