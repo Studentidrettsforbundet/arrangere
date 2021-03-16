@@ -11,8 +11,8 @@ import Time from "./Time";
 export type InputField = {
   type: string;
   desc: string;
-  id: string;
   priority: number;
+  id: string;
 };
 
 type InputWrapperProps = {

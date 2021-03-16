@@ -31,6 +31,7 @@ const ChapterWrapper = (props: ChapterProps) => {
     }
     setAttributeList(attributeListLocal);
     setLoading(false);
+    //console.log("list: ", attributeList[0].title);
   };
 
   const renderInputFields = (attributeList: any) => {
