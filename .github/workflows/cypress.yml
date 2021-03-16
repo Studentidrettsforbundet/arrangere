@@ -14,5 +14,5 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Run tests
-        run: firebase emulators:exec --only auth --project REACT_APP_FIREBASE_PROJECT_ID 'npm run testCypress'
+        run: firebase emulators:exec --only auth --project fake-project-id 'npm run testCypress'
 
