@@ -1,22 +1,37 @@
 import { useEffect, useState } from "react";
-import React from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { Link } from "react-router-dom";
-import { currentUserState } from "../stateManagement/userAuth";
-import { auth } from "../firebase";
 import firebase from "firebase";
-import { Typography, Button, Box } from "@material-ui/core";
-import { errorState } from "../stateManagement/errorHandling";
+import { useRecoilValue } from "recoil";
+import { currentUserState } from "../stateManagement/userAuth";
+import { useStyles } from "../style/userProfile";
+import {
+  Typography,
+  Box,
+  Divider,
+  Grid,
+  CircularProgress,
+} from "@material-ui/core";
 
 export default function UserProfile() {
-  let [organizationName, setOrganizationName] = useState<String>();
+  const [loading, setLoading] = useState(false);
   const currentUser = useRecoilValue(currentUserState);
+  let [organizationName, setOrganizationName] = useState<any>();
+  let [
+    organizationAccountNumber,
+    setOrganizationAccountNumber,
+  ] = useState<String>();
+  let [organizationNumber, setOrganizationNumber] = useState<String>();
+  const classes = useStyles();
   var db = firebase.firestore();
-  let email: string | null = "ingen bruker";
 
   useEffect(() => {
+    retriveOrganizationName();
+    retriveOrganizationInfo();
+  }, [organizationName]);
+
+  async function retriveOrganizationName() {
     if (currentUser != null) {
-      db.collection("user")
+      await db
+        .collection("user")
         .doc(currentUser.uid)
         .get()
         .then((doc) => {
@@ -29,36 +44,80 @@ export default function UserProfile() {
           }
         });
     }
-  });
-
-  if (currentUser != null) {
-    email = currentUser.email;
   }
 
-  function handleLogout(e: any) {
-    e.preventDefault();
-    auth
-      .signOut()
-      .then(function () {})
-      .catch((error) => {
-        console.log("Kunne ikke logge ut");
-      });
+  async function retriveOrganizationInfo() {
+    if (organizationName != "") {
+      //setLoading(true);
+      await db
+        .collection("organizations")
+        .doc(organizationName)
+        .get()
+        .then((doc) => {
+          const orgData = doc?.data();
+          if (!orgData) {
+            console.log("no data here");
+            setOrganizationNumber("");
+            setOrganizationAccountNumber("");
+            return null;
+          } else {
+            console.log(orgData);
+            setOrganizationNumber(orgData.account_number);
+            setOrganizationAccountNumber(orgData.organization_number);
+          }
+        });
+      setLoading(false);
+    }
   }
 
   return (
-    <Box p={10}>
-      <Typography variant="h4"> Min Profil</Typography>
-  
-      <p>Brukerprofil {email}</p>
-      <p>Organisasjon {organizationName}</p>
-      <Button
-        variant="contained"
-        component={Link}
-        to="/login"
-        onClick={handleLogout}
-      >
-        Logg ut
-      </Button>
+    <Box p={12} width={1}>
+      <Grid container direction="row" alignItems="center">
+        <Grid item xs={10}>
+          <Typography className={classes.header} variant="h4">
+            Min profil:
+          </Typography>
+          <Divider className={classes.divider} variant="fullWidth" />
+        </Grid>
+      </Grid>
+      {loading ? (
+        <Grid container direction="row" alignItems="center">
+          <Grid item sm={2}></Grid>
+          <Grid className={classes.contentGrid} item xs={12}>
+            <p>Laster inn..</p>
+            <CircularProgress />
+          </Grid>
+        </Grid>
+      ) : (
+        <Grid container direction="row" alignItems="center">
+          <Grid className={classes.contentGrid} item xs={10}>
+            <Typography variant="subtitle1" className={classes.contentHeader}>
+              Email:
+            </Typography>
+            <Typography variant="subtitle2" className={classes.content}>
+              {currentUser?.email}
+            </Typography>
+            <Typography variant="subtitle1" className={classes.contentHeader}>
+              Idrettsklubb:
+            </Typography>
+            <Typography variant="subtitle2" className={classes.content}>
+              {organizationName}
+            </Typography>
+            <Typography variant="subtitle1" className={classes.contentHeader}>
+              Organisasjonsnummer:
+            </Typography>
+            <Typography variant="subtitle2" className={classes.content}>
+              {organizationNumber}
+            </Typography>
+            <Typography variant="subtitle1" className={classes.contentHeader}>
+              Organisasjonens kontonummer:
+            </Typography>
+            <Typography variant="subtitle2" className={classes.content}>
+              {organizationAccountNumber}
+            </Typography>
+          </Grid>
+        </Grid>
+      )}
     </Box>
   );
 }

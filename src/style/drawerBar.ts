@@ -27,5 +27,12 @@ export const useStyles = makeStyles((theme: Theme) =>
       height: 22,
       margin: 10,
     },
+    logout: {
+      position: "fixed",
+      bottom: 0,
+      textAlign: "center",
+      paddingBottom: 10,
+      width: 300,
+    }
   })
 );
