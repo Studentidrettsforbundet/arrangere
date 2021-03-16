@@ -115,7 +115,7 @@ const Template = () => {
       ) : (
         <div>
           <div>
-            <div>{renderButtons(chapterList)}</div>
+            <Box className={classes.nav}>{renderButtons(chapterList)}</Box>
             <Box px={15} pt={6}>
               {renderChapters(chapterList)[chapterCounter]}{" "}
               <Button

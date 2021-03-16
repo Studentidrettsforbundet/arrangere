@@ -22,12 +22,21 @@ const ChapterButton: FC<ButtonProps> = ({ title, priority }) => {
 
   if (title == currentChapter) {
     return (
-      <Button onClick={navToChapter} variant="contained">
+      <Button
+        color="secondary"
+        size="large"
+        onClick={navToChapter}
+        style={{ fontWeight: "bold" }}
+      >
         {title}
       </Button>
     );
   }
-  return <Button onClick={navToChapter}> {title} </Button>;
+  return (
+    <Button size="large" onClick={navToChapter}>
+      {title}
+    </Button>
+  );
 };
 
 export default ChapterButton;
