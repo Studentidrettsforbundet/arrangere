@@ -59,7 +59,7 @@ const ChapterWrapper = (props: ChapterProps) => {
         />
       );
       inputFields = [];
-      idNr = 0;
+      idNr = 1;
     });
     return inputWrappers;
   };
