@@ -10,7 +10,6 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   attributesState,
   selectedAttributeIdState,
-  selectedAttributeState,
 } from "../../stateManagement/attributesState";
 
 type RadioProps = {
@@ -22,7 +21,6 @@ const RadioButton: FC<RadioProps> = ({ desc, id }) => {
   const [attribute, setAttribute] = useRecoilState(attributesState(id));
   const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
 
-  const selectedAttribute = useRecoilValue(selectedAttributeState);
   const selectedID = useRecoilValue(selectedAttributeIdState);
 
   return (

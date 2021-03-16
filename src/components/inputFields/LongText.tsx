@@ -4,7 +4,6 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   attributesState,
   selectedAttributeIdState,
-  selectedAttributeState,
 } from "../../stateManagement/attributesState";
 
 type LongTextProps = {
@@ -15,8 +14,6 @@ type LongTextProps = {
 const LongText: FC<LongTextProps> = ({ desc, id }) => {
   const [attribute, setAttribute] = useRecoilState(attributesState(id));
   const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
-
-  const selectedAttribute = useRecoilValue(selectedAttributeState);
   const selectedID = useRecoilValue(selectedAttributeIdState);
   return (
     <Box py={2}>
