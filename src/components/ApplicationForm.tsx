@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import FirebaseStorage from "./FirebaseStorage";
 import Box from "@material-ui/core/Box";
 
-export const ApplicationForm = (props: any) => {
+export const ApplicationForm = () => {
   const setChoosenApplicationForm = useSetRecoilState(choosenApplicationState);
 
   let url = window.location.href;

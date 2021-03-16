@@ -23,6 +23,7 @@ export type Attribute = {
   title: string;
   mainDesc: string;
   inputFields: Array<InputField>;
+  priority: number;
 };
 
 const Template = () => {
@@ -82,6 +83,7 @@ const Template = () => {
     chapterList.map((chapter: Chapter) => {
       chapters.push(<ChapterWrapper key={chapter.title} chapter={chapter} />);
     });
+    //console.log(chapterList);
     chapterList.sort((a: Chapter, b: Chapter) => a.priority - b.priority);
     setCurrentChapterState(chapterList[chapterCounter].title);
     return chapters;

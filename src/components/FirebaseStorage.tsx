@@ -3,20 +3,9 @@ import { firestore } from "../firebase";
 import { selectedAttributeState } from "../stateManagement/attributesState";
 import { choosenApplicationState } from "../stateManagement/choosenApplication";
 
-const addDocToFirebase = (docData: any) => {
-  firestore
-    .collection("snmApplications")
-    .add(docData)
-    .then((docRef) => {
-      console.log("Document written with ID: ", docRef.id);
-    })
-    .catch((error) => {
-      console.error("Error adding document: ", error);
-    });
-};
-
 type AttributesList = {
   id: string;
+  chapter: string;
   attribute: Array<Array<Object>>;
 };
 
@@ -36,8 +25,10 @@ async function loadFieldsFromStorage(collection: string, document: string) {
   let docData: any = doc.data();
   let attributeNr: number = 1;
   let attributeName: string = "";
+  let chapterName: string = "";
 
   for (const key in docData) {
+    chapterName = key;
     const attributes = docData[key].attributes;
     for (let attribute in attributes) {
       attributeName = attribute;
@@ -46,6 +37,7 @@ async function loadFieldsFromStorage(collection: string, document: string) {
         const inputFieldObject = attributes[attribute].input_fields[inputField];
         attributesList.push({
           id: attributeName + attributeNr.toString(),
+          chapter: chapterName,
           attribute: inputFieldObject,
         });
         attributeNr++;
@@ -62,12 +54,13 @@ function is_numeric(str: string) {
 
 const setData = (
   chapter: string,
+  attribute: string,
   inputNr: string,
   value: string | undefined
 ) => {
   let data: any = {};
   data[
-    `${chapter}.attributes.${chapter}.input_fields.input${inputNr}.value`
+    `${chapter}.attributes.${attribute}.input_fields.input${inputNr}.value`
   ] = value;
 
   firestore
@@ -89,21 +82,21 @@ function saveFieldToStorage(
   collection: string,
   doc: string
 ) {
-  let chapter: string = "";
+  let attributeName: string = "";
   let inputNr: string = "";
 
   attributeID?.split("").forEach((character) => {
     if (is_numeric(character)) {
       inputNr += character;
     } else {
-      chapter += character;
+      attributeName += character;
     }
   });
 
   loadFieldsFromStorage(collection, doc).then((attribute) => {
     attribute.forEach((field) => {
       if (field.id == attributeID) {
-        setData(chapter, inputNr, value);
+        setData(field.chapter, attributeName, inputNr, value);
       }
     });
   });
@@ -116,9 +109,6 @@ const FirebaseStorage = () => {
 
   // TODO render right document
   let doc: string = "";
-
-  console.log(selectedAttribute);
-  console.log(collection);
 
   saveFieldToStorage(
     selectedAttribute?.id,
