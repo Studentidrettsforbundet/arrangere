@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import React, { useEffect, useRef, useState } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { firestore } from "../firebase";
 import ChapterWrapper from "./ChapterWrapper";
 import {
+  chapterCounterState,
   choosenApplicationState,
   currentChapterState,
 } from "../stateManagement/choosenApplication";
@@ -25,17 +26,26 @@ export type Attribute = {
 };
 
 const Template = () => {
+  const classes = useStyles();
+  const isInitialMount = useRef(true);
   const [loading, setLoading] = useState(true);
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
   const choosenApplicationForm = useRecoilValue(choosenApplicationState);
-  //const currentChapter = useRecoilValue(currentChapterState);
   const setCurrentChapterState = useSetRecoilState(currentChapterState);
-  const classes = useStyles();
-  const [chapterCounter, setChapterCounter] = useState(0);
+  const [chapterCounter, setChapterCounter] = useRecoilState(
+    chapterCounterState
+  );
 
   useEffect(() => {
     generateApplicationForm();
   }, [choosenApplicationForm]);
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      setChapterCounter(0);
+    }
+  });
 
   async function generateApplicationForm() {
     setLoading(true);
@@ -80,7 +90,9 @@ const Template = () => {
   const renderButtons = (chapterList: Array<Chapter>) => {
     const chapterButtons: any = [];
     chapterList.map((chapter: Chapter) => {
-      chapterButtons.push(<ChapterButton title={chapter.title} />);
+      chapterButtons.push(
+        <ChapterButton title={chapter.title} priority={chapter.priority} />
+      );
     });
     return chapterButtons;
   };
