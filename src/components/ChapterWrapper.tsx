@@ -66,7 +66,9 @@ const ChapterWrapper = (props: ChapterProps) => {
 
   return (
     <div style={{ width: "100%" }}>
-      <Typography variant="h4">{chapter.title}</Typography>
+      <Typography style={{ color: "#00adee" }} variant="h4">
+        {chapter.title}
+      </Typography>
       <Typography gutterBottom={true} variant="h6">
         {chapter.desc}
       </Typography>
