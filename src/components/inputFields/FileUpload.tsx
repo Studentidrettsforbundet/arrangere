@@ -24,9 +24,10 @@ const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
   const selectedID = useRecoilValue(selectedAttributeIdState);
 
   const saveFile = async (event: any) => {
-    const file = event.target.files;
-    const fileLocation = firebase.storage().ref("files").child(selectedID);
-    fileLocation.put(file);
+    const file = event.target.files[0];
+    const fileLocation = firebase.storage().ref("files").child(file.name);
+    console.log("id: ", selectedID);
+    await fileLocation.put(file);
     console.log("file attribute saved: ", file);
   };
 
