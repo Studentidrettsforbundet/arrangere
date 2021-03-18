@@ -9,13 +9,15 @@ type AttributesList = {
   attribute: Array<Array<Object>>;
 };
 
-async function loadFieldsFromStorage(collection: string, document: string) {
+async function loadFieldsFromStorage(collectionID: string, docID: string) {
   const attributesList: Array<AttributesList> = [];
 
-  const collectionID = "testCollection";
-  const docID = "vGEccVpkhpQeAKoRZGfc";
-
-  let doc = await firestore.collection(collectionID).doc(docID).get();
+  let doc = await firestore
+    .collection(collectionID + "Applications")
+    .doc(docID)
+    .get();
+  console.log("collectiondID to be saved to:", collectionID);
+  console.log("docId to be saved to", docID);
 
   if (!doc.exists) {
     console.log("Doc does not exists");
@@ -56,7 +58,9 @@ const setData = (
   chapter: string,
   attribute: string,
   inputNr: string,
-  value: string | undefined
+  value: string | undefined,
+  collectionID: string,
+  docID: string
 ) => {
   let data: any = {};
   data[
@@ -64,8 +68,8 @@ const setData = (
   ] = value;
 
   firestore
-    .collection("testCollection")
-    .doc("vGEccVpkhpQeAKoRZGfc")
+    .collection(collectionID + "Applications")
+    .doc(docID)
     .update(data, { merge: true })
     .then(() => {
       console.log("Field updated!");
@@ -79,8 +83,8 @@ const setData = (
 function saveFieldToStorage(
   attributeID: string | undefined,
   value: string | undefined,
-  collection: string,
-  doc: string
+  collectionID: string,
+  docID: string
 ) {
   let attributeName: string = "";
   let inputNr: string = "";
@@ -93,29 +97,35 @@ function saveFieldToStorage(
     }
   });
 
-  loadFieldsFromStorage(collection, doc).then((attribute) => {
+  loadFieldsFromStorage(collectionID, docID).then((attribute) => {
     attribute.forEach((field) => {
       if (field.id == attributeID) {
-        setData(field.chapter, attributeName, inputNr, value);
+        setData(
+          field.chapter,
+          attributeName,
+          inputNr,
+          value,
+          collectionID,
+          docID
+        );
       }
     });
   });
 }
 
-const FirebaseStorage = () => {
-  const selectedAttribute = useRecoilValue(selectedAttributeState);
-  let collection = useRecoilValue(choosenApplicationState);
-  collection += "Applications";
+export default saveFieldToStorage;
 
-  // TODO render right document
-  let doc: string = "";
+// const FirebaseStorage = (docID: string) => {
+//   const selectedAttribute = useRecoilValue(selectedAttributeState);
+//   let collection = useRecoilValue(choosenApplicationState);
+//   collection += "Applications";
 
-  saveFieldToStorage(
-    selectedAttribute?.id,
-    selectedAttribute?.value,
-    collection,
-    doc
-  );
-};
+//   saveFieldToStorage(
+//     selectedAttribute?.id,
+//     selectedAttribute?.value,
+//     collection,
+//     docID
+//   );
+// };
 
-export default FirebaseStorage;
+// export default FirebaseStorage;
