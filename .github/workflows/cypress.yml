@@ -16,4 +16,5 @@ jobs:
       - name: Run tests
         env:
           FIREBASE_PROJECT_ID: ${{secrets.FIREBASE_PROJECT_ID}}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: firebase emulators:exec --only auth --project $FIREBASE_PROJECT_ID 'npm run testCypress'
