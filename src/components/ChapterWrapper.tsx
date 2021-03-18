@@ -11,18 +11,16 @@ type ChapterProps = {
   chapterName: string;
 };
 
-type AttributesObject = {
-  name: string,
-  attributes: Attribute[]
-}
-
+type AttributeObject = {
+  name: string;
+  attribute: Attribute[];
+};
 
 const ChapterWrapper = (props: ChapterProps) => {
   let chapter = props.chapter;
   let chapterName = props.chapterName;
   const [loading, setLoading] = useState(true);
-  const [attributeList, setAttributeList] = useState<AttributesObject[]>([]);
-  const [attributeName, setAttributeName] = useState<string>("")
+  const [attributeList, setAttributeList] = useState<AttributeObject[]>([]);
   const classes = useStyles();
 
   useEffect(() => {
@@ -32,12 +30,12 @@ const ChapterWrapper = (props: ChapterProps) => {
   const attributesToList = (attributes: any) => {
     setLoading(true);
     const attributeListLocal: any = [];
+    const attributeListName: Array<string> = [];
     if (attributes) {
       Object.keys(attributes).forEach((attribute: string, index: number) => {
-        setAttributeName(Object.keys(attributes)[index]);
         attributeListLocal.push({
           name: Object.keys(attributes)[index],
-          attributes: attributes[attribute]
+          attribute: attributes[attribute],
         });
         attributeListLocal.sort((a: any, b: any) => a.priority - b.priority);
       });
@@ -47,34 +45,40 @@ const ChapterWrapper = (props: ChapterProps) => {
     setAttributeList(attributeListLocal);
 
     setLoading(false);
-    //console.log("list: ", attributeList[0].title);
   };
 
-  const renderInputFields = (attributeList: Array<AttributesObject>, buttons: Array<string>, chapterName: string, attributeName: string) => {
+  const renderInputFields = (
+    attributeList: Array<AttributeObject>,
+    buttons: Array<string>,
+    chapterName: string
+  ) => {
     const inputWrappers: any = [];
     let inputFields: Array<InputField> = [];
     let idNr: number = 1;
-    attributeList.map((attributesObject: any) => {
-      Object.keys(attributesObject.attributes.attribute.input_fields).forEach((inputField: string) => {
-        inputFields.push({
-          type: attribute.input_fields[inputField].type,
-          desc: attribute.input_fields[inputField].desc,
-          priority: attribute.input_fields[inputField].priority,
-          id: attribute + idNr,
-        });
-      });
+    attributeList.map((attributeObject: any) => {
+      Object.keys(attributeObject.attribute.input_fields).forEach(
+        (inputField: string) => {
+          inputFields.push({
+            type: attributeObject.attribute.input_fields[inputField].type,
+            desc: attributeObject.attribute.input_fields[inputField].desc,
+            priority:
+              attributeObject.attribute.input_fields[inputField].priority,
+            id: attributeObject.attribute + idNr,
+          });
+        }
+      );
       idNr++;
       inputFields.sort((a: any, b: any) => a.priority - b.priority);
       inputWrappers.push(
         <InputWrapper
           chapterName={chapterName}
-          attributeName={attributeName}
+          attributeName={attributeObject.name}
           buttons={buttons}
-          key={attribute.title}
-          title={attribute.title}
-          mainDesc={attribute.desc}
+          key={attributeObject.attribute.title}
+          title={attributeObject.attribute.title}
+          mainDesc={attributeObject.attribute.desc}
           inputFields={inputFields}
-          priority={attribute.priority}
+          priority={attributeObject.attribute.priority}
         />
       );
       inputFields = [];
@@ -83,7 +87,6 @@ const ChapterWrapper = (props: ChapterProps) => {
     return inputWrappers;
   };
 
-  console.log("buttons", chapter.buttons)
   return (
     <div style={{ width: "100%" }}>
       <Typography style={{ color: "#00adee" }} variant="h4">
@@ -93,7 +96,9 @@ const ChapterWrapper = (props: ChapterProps) => {
         {chapter.desc}
       </Typography>
       <div className={classes.chapter}></div>
-      <div>{renderInputFields(attributeList, chapter.buttons, chapterName, attributeName)}</div>
+      <div>
+        {renderInputFields(attributeList, chapter.buttons, chapterName)}
+      </div>
     </div>
   );
 };
