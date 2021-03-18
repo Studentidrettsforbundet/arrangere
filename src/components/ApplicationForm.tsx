@@ -1,20 +1,21 @@
 import Template from "./Template";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { choosenApplicationState } from "../stateManagement/choosenApplication";
-import { useEffect, useState } from "react";
-import saveFieldToStorage from "./FirebaseStorage";
+import { useEffect } from "react";
+import saveFieldToDocument from "./FirebaseStorage";
 import Box from "@material-ui/core/Box";
-import { ChapterWithID } from "./copyDocument";
-import AddDocToUser from "./copyDocument";
-import { firestore } from "../firebase";
+import addDocToUser from "./copyDocument";
 import { selectedAttributeState } from "../stateManagement/attributesState";
-import { documentIDState } from "./ApplicationCard";
+import { documentState } from "./ApplicationCard";
+import { currentUserState } from "../stateManagement/userAuth";
+import { Button } from "@material-ui/core";
 
 export const ApplicationForm = () => {
   const setChoosenApplicationForm = useSetRecoilState(choosenApplicationState);
   const selectedAttribute = useRecoilValue(selectedAttributeState);
   let collection = useRecoilValue(choosenApplicationState);
-  const newDocId = useRecoilValue(documentIDState);
+  const newDocId = useRecoilValue(documentState);
+  const user = useRecoilValue(currentUserState);
 
   let url = window.location.href;
   var str_sub = url.substr(url.lastIndexOf("/") + 1);
@@ -23,18 +24,21 @@ export const ApplicationForm = () => {
     setApplicationForm();
   }, []);
 
-  useEffect(() => {
-    if (newDocId.length != 0) {
-      saveFieldToStorage(
-        selectedAttribute?.id,
-        selectedAttribute?.value,
-        collection,
-        newDocId
-      );
-    }
-  }, [newDocId, selectedAttribute]);
+  /* 
+  TODO: right now saveFieldToDocument are rendered before AddDocToUser
+  meaning the docID might be empty, and an error will occur
+  */
 
-  AddDocToUser(newDocId);
+  // useEffect(() => {
+  //   if (newDocId.length != 0) {
+  //     saveFieldToDocument(
+  //       selectedAttribute?.id,
+  //       selectedAttribute?.value,
+  //       collection,
+  //       newDocId
+  //     );
+  //   }
+  // }, [newDocId, selectedAttribute]);
 
   function setApplicationForm() {
     if (str_sub == "studentnm") {
@@ -52,6 +56,18 @@ export const ApplicationForm = () => {
     <div style={{ width: "100%" }}>
       <Box px={15} pb={8}>
         <Template></Template>
+        <Button
+          onClick={() =>
+            saveFieldToDocument(
+              selectedAttribute?.id,
+              selectedAttribute?.value,
+              collection,
+              newDocId
+            )
+          }
+        >
+          Lagre
+        </Button>
       </Box>
     </div>
   );

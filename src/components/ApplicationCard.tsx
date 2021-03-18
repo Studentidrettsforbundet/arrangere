@@ -7,49 +7,35 @@ import {
   CardMedia,
   Typography,
 } from "@material-ui/core";
-import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import {
-  atom,
-  useRecoilState,
-  useRecoilValue,
-  useSetRecoilState,
-} from "recoil";
+import { atom, useRecoilState, useRecoilValue } from "recoil";
 import { firestore } from "../firebase";
-import { selectedAttributeState } from "../stateManagement/attributesState";
 import { choosenApplicationState } from "../stateManagement/choosenApplication";
 import { localStorageEffect } from "../stateManagement/localstorageRecoil";
 import { useStyles } from "../style/cards";
 import AddDocToUser, { ChapterWithID } from "./copyDocument";
 
-type Props = {
+type CardProps = {
   image: string;
   title: string;
   to: string;
   template: string;
 };
 
-export const documentIDState = atom<string>({
-  key: "documentIDState",
+export const documentState = atom<string>({
+  key: "documentState",
   default: "",
   effects_UNSTABLE: [localStorageEffect("docID")],
 });
 
-export const ApplicationCard = (props: Props) => {
+export const ApplicationCard = (props: CardProps) => {
   const classes = useStyles();
-  const [loading, setLoading] = useState(true);
 
-  const [newDocId, setNewDocId] = useState("");
-  const setChoosenApplicationForm = useSetRecoilState(choosenApplicationState);
-  const [docID, setDocID] = useRecoilState(documentIDState);
+  const [docID, setDocID] = useRecoilState(documentState);
 
-  const selectedAttribute = useRecoilValue(selectedAttributeState);
   let collection = useRecoilValue(choosenApplicationState);
 
-  console.log(collection);
-
   async function copyDoc(collectionFrom: string, collectionTo: string) {
-    setLoading(true);
     const docFromRef = firestore.collection(collectionFrom);
     let chapterListLocal: Array<ChapterWithID> = [];
     let chapterExists: boolean = false;
@@ -81,7 +67,7 @@ export const ApplicationCard = (props: Props) => {
         );
       });
 
-    const docToRef = await firestore.collection(collectionTo).doc();
+    const docToRef = firestore.collection(collectionTo).doc();
     let newDocId = docToRef.id;
 
     if (docData) {
@@ -104,7 +90,6 @@ export const ApplicationCard = (props: Props) => {
       });
       setDocID(newDocId);
     }
-    setLoading(false);
   }
 
   return (

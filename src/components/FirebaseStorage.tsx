@@ -1,7 +1,4 @@
-import { useRecoilValue } from "recoil";
 import { firestore } from "../firebase";
-import { selectedAttributeState } from "../stateManagement/attributesState";
-import { choosenApplicationState } from "../stateManagement/choosenApplication";
 
 type AttributesList = {
   id: string;
@@ -9,18 +6,13 @@ type AttributesList = {
   attribute: Array<Array<Object>>;
 };
 
-async function loadFieldsFromStorage(collectionID: string, docID: string) {
+async function loadFieldsFromDocument(collectionID: string, docID: string) {
   const attributesList: Array<AttributesList> = [];
 
-  console.log("collection to be saved to: ", collectionID + "Applications");
-  console.log("doc to be saved to:", docID);
-
-  let doc = await firestore
+  const doc = await firestore
     .collection(collectionID + "Applications")
     .doc(docID)
     .get();
-  console.log("collectiondID to be saved to:", collectionID);
-  console.log("docId to be saved to", docID);
 
   if (!doc.exists) {
     console.log("Doc does not exists");
@@ -83,7 +75,7 @@ const setData = (
     });
 };
 
-function saveFieldToStorage(
+function saveFieldToDocument(
   attributeID: string | undefined,
   value: string | undefined,
   collectionID: string,
@@ -100,7 +92,7 @@ function saveFieldToStorage(
     }
   });
 
-  loadFieldsFromStorage(collectionID, docID).then((attribute) => {
+  loadFieldsFromDocument(collectionID, docID).then((attribute) => {
     attribute.forEach((field) => {
       if (field.id == attributeID) {
         setData(
@@ -116,19 +108,4 @@ function saveFieldToStorage(
   });
 }
 
-export default saveFieldToStorage;
-
-// const FirebaseStorage = (docID: string) => {
-//   const selectedAttribute = useRecoilValue(selectedAttributeState);
-//   let collection = useRecoilValue(choosenApplicationState);
-//   collection += "Applications";
-
-//   saveFieldToStorage(
-//     selectedAttribute?.id,
-//     selectedAttribute?.value,
-//     collection,
-//     docID
-//   );
-// };
-
-// export default FirebaseStorage;
+export default saveFieldToDocument;
