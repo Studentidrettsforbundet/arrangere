@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Typography, Box } from "@material-ui/core";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
@@ -16,20 +16,17 @@ const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
   const [attribute, setAttribute] = useRecoilState(attributesState(id));
   const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
   const selectedID = useRecoilValue(selectedAttributeIdState);
+  const [selectedFileName, setSelectedFileName] = useState("");
 
   const saveFile = async (event: any) => {
-    // const file = event.target.files[0];
     const files = event.target.files;
     for (let file of files) {
       const fileLocation = firebase.storage().ref("files").child(file.name);
       fileLocation.put(file);
       console.log("file saved: ", file.name);
+      console.log("file id: ", selectedID);
+      //setSelectedFileName(event.target.file.name);
     }
-
-    // const fileLocation = firebase.storage().ref("files").child(file.name);
-    // console.log("id: ", selectedID);
-    // await fileLocation.put(file);
-    // console.log("file attribute saved: ", file);
   };
 
   const handleChange = (event: any) => {
@@ -52,7 +49,11 @@ const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
         onFocus={() => setSelectedAttribute(id)}
         onChange={(event) => handleChange(event)}
       />
+      <span className="classes.selectedFileName">{selectedFileName}</span>
     </Box>
   );
 };
 export default FileUpload;
+function setState(arg0: { selectedFileName: any }) {
+  throw new Error("Function not implemented.");
+}
