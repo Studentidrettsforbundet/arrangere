@@ -117,22 +117,24 @@ const Template = () => {
       ) : (
         <div>
           <div>
-            <div className="chapterButtons">
+            <div role="navigation" className="chapterButtons">
               <Box className={classes.nav}>{renderButtons(chapterList)}</Box>
             </div>
-            <Box px={15} pt={6}>
-              {renderChapters(chapterList)[chapterCounter]}{" "}
-              <Button
-                variant="contained"
-                className={classes.prevBtn}
-                onClick={prevChapter}
-              >
-                Forrige
-              </Button>
-              <Button variant="contained" onClick={nextChapter}>
-                Neste
-              </Button>
-            </Box>
+            <div role="main">
+              <Box px={15} pt={6}>
+                {renderChapters(chapterList)[chapterCounter]}{" "}
+                <Button
+                  variant="contained"
+                  className={classes.prevBtn}
+                  onClick={prevChapter}
+                >
+                  Forrige
+                </Button>
+                <Button variant="contained" onClick={nextChapter}>
+                  Neste
+                </Button>
+              </Box>
+            </div>
           </div>
         </div>
       )}
