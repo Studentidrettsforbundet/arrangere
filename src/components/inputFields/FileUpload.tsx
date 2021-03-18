@@ -1,11 +1,6 @@
 import { FC } from "react";
 import { Typography, Box } from "@material-ui/core";
-import {
-  DefaultValue,
-  useRecoilState,
-  useRecoilValue,
-  useSetRecoilState,
-} from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   attributesState,
   selectedAttributeIdState,
@@ -20,15 +15,21 @@ type FileUploadProps = {
 const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
   const [attribute, setAttribute] = useRecoilState(attributesState(id));
   const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
-
   const selectedID = useRecoilValue(selectedAttributeIdState);
 
   const saveFile = async (event: any) => {
-    const file = event.target.files[0];
-    const fileLocation = firebase.storage().ref("files").child(file.name);
-    console.log("id: ", selectedID);
-    await fileLocation.put(file);
-    console.log("file attribute saved: ", file);
+    // const file = event.target.files[0];
+    const files = event.target.files;
+    for (let file of files) {
+      const fileLocation = firebase.storage().ref("files").child(file.name);
+      fileLocation.put(file);
+      console.log("file saved: ", file.name);
+    }
+
+    // const fileLocation = firebase.storage().ref("files").child(file.name);
+    // console.log("id: ", selectedID);
+    // await fileLocation.put(file);
+    // console.log("file attribute saved: ", file);
   };
 
   const handleChange = (event: any) => {
