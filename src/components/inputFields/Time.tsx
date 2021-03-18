@@ -5,7 +5,6 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   attributesState,
   selectedAttributeIdState,
-  selectedAttributeState,
 } from "../../stateManagement/attributesState";
 
 type TimeProps = {
@@ -17,11 +16,7 @@ const Time: FC<TimeProps> = ({ desc, id }) => {
   const [attribute, setAttribute] = useRecoilState(attributesState(id));
   const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
 
-  const selectedAttribute = useRecoilValue(selectedAttributeState);
   const selectedID = useRecoilValue(selectedAttributeIdState);
-
-  console.log(selectedAttribute);
-  console.log(selectedID);
 
   const classes = useStyles();
   return (

@@ -17,10 +17,12 @@ import Time from "./Time";
 import { copyAttribute } from "./inputButtonFunctions";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { spacing } from "@material-ui/system";
+import { attributesState } from "../../stateManagement/attributesState";
 
 export type InputField = {
   type: string;
   desc: string;
+  priority: number;
   id: string;
 };
 
@@ -32,6 +34,7 @@ type InputWrapperProps = {
   buttons: Array<string>;
   chapterName: string;
   attributeName: string;
+  priority: number;
 };
 
 const componentList = [
@@ -54,7 +57,7 @@ const getComponentToBeRendered = (type: string) => {
   ComponentName = defaultComponent;
 
   componentList.map((component) => {
-    if (component.type == type) {
+    if (component.type === type) {
       ComponentName = component.ComponentName;
     }
   });
@@ -86,6 +89,8 @@ const InputWrapper: FC<InputWrapperProps> = ({
   chapterName,
   attributeName,
 }) => {
+  console.log("att name in wrapper", attributeName)
+
   let attributebutton;
   let isCollapse = false;
   let haveMainDesc = false;
@@ -135,8 +140,8 @@ const InputWrapper: FC<InputWrapperProps> = ({
                   <Typography variant="subtitle1">{mainDesc}</Typography>
                 </Box>
               ) : (
-                ""
-              )}
+                  ""
+                )}
 
               <AccordionDetails>
                 <div style={{ width: "100%" }}>
@@ -148,12 +153,12 @@ const InputWrapper: FC<InputWrapperProps> = ({
           {attributebutton}
         </div>
       ) : (
-        <div>
-          <Typography variant="h6">{title}</Typography>
-          <Typography variant="subtitle1">{mainDesc}</Typography>
-          <div>{generateComponents(inputFields)}</div>
-        </div>
-      )}
+          <div>
+            <Typography variant="h6">{title}</Typography>
+            <Typography variant="subtitle1">{mainDesc}</Typography>
+            <div>{generateComponents(inputFields)}</div>
+          </div>
+        )}
     </div>
   );
 };
