@@ -12,6 +12,9 @@ type AttributesList = {
 async function loadFieldsFromStorage(collectionID: string, docID: string) {
   const attributesList: Array<AttributesList> = [];
 
+  console.log("collection to be saved to: ", collectionID + "Applications");
+  console.log("doc to be saved to:", docID);
+
   let doc = await firestore
     .collection(collectionID + "Applications")
     .doc(docID)
