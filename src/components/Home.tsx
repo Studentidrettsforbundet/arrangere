@@ -33,6 +33,7 @@ export default function Home() {
         });
       })
       .catch((error) => {
+        // There is no need to propage the entire error directly to the user.
         console.log("Error getting document: ", error);
       });
     setChapterList(chapterListLocal);

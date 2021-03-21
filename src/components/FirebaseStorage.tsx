@@ -12,6 +12,7 @@ type AttributesList = {
 async function loadFieldsFromStorage(collection: string, document: string) {
   const attributesList: Array<AttributesList> = [];
 
+  // remember to fix this :)
   const collectionID = "testCollection";
   const docID = "vGEccVpkhpQeAKoRZGfc";
 
@@ -23,10 +24,11 @@ async function loadFieldsFromStorage(collection: string, document: string) {
   }
 
   let docData: any = doc.data();
-  let attributeNr: number = 1;
-  let attributeName: string = "";
-  let chapterName: string = "";
+  let attributeNr = 1;
+  let attributeName;
+  let chapterName;
 
+  // Potential for simplification?
   for (const key in docData) {
     chapterName = key;
     const attributes = docData[key].attributes;
@@ -48,6 +50,7 @@ async function loadFieldsFromStorage(collection: string, document: string) {
   return attributesList;
 }
 
+// This function should not live here, but rather a utils-file. The principle of least surprise is a good guideline :)
 function is_numeric(str: string) {
   return /^\d+$/.test(str);
 }
@@ -63,6 +66,7 @@ const setData = (
     `${chapter}.attributes.${attribute}.input_fields.input${inputNr}.value`
   ] = value;
 
+  // Remember this
   firestore
     .collection("testCollection")
     .doc("vGEccVpkhpQeAKoRZGfc")

@@ -2,7 +2,7 @@
 
 ## Description
 
-This application is an application portal for the Norwegian Student Sports Association (NST) where users can apply to arrange the events SNM, SC and SL.
+This application is an application portal for the Norwegian Association of University Sports where users can apply to arrange the events SNM, SC and SL.
 
 ## Installation and Setup Instructions
 

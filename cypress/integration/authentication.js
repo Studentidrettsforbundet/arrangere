@@ -1,5 +1,5 @@
 /// <reference types="Cypress" />
-
+// Great work here guys! This looks really good!
 describe("Sign up", () => {
   it("should fill signup form with weak password and not redirect", () => {
     cy.visit("/signup");

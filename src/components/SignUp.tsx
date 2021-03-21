@@ -31,8 +31,11 @@ import {
 } from "../stateManagement/errorHandling";
 import firebase from "firebase";
 
+
+// I think it would be beneficial to split this code into several files. 180 lines in a single file is a (minor) code
+// smell in my opinion.
 const SignUp = () => {
-  var db = firebase.firestore();
+  const db = firebase.firestore();
   const classes = useStyles();
   const history = useHistory();
   const currentUser = useRecoilValue(currentUserState);
@@ -97,6 +100,8 @@ const SignUp = () => {
     setLoading(false);
   };
 
+  // This variable is not in use at the moment, so it should be removed. If it should be used a ternary operator
+  // communicates intent more clearly as it couples declaration and initialization.
   let alertContainer;
   if (error.status != "") {
     alertContainer = (
@@ -106,6 +111,7 @@ const SignUp = () => {
     );
   }
 
+  // Consider move some of these into separate components
   return (
     <Container className={classes.container}>
       <Card className={classes.root}>

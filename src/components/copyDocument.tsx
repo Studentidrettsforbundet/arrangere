@@ -17,15 +17,17 @@ export const copyDoc = async (
 ): Promise<boolean> => {
   const docFromRef = firestore.collection(collectionFrom);
   let chapterListLocal: Array<ChapterWithID> = [];
-  let chapterExists: boolean = false;
+  // It is not necessary to explicitly state the type when the compiler can infer it
+  let chapterExists = false;
 
   const docData = await docFromRef
     .get()
     .then((doc) => {
       doc.forEach((chapter) => {
-        if (chapter.exists) {
-          chapterExists = true;
-        }
+        // Could this work as a simplification?
+        chapterExists = chapter.exists;
+
+        // Is it necessary to loop over all chapters and only get the relevant info? Does the benefit outweigh the cost?
         chapterListLocal.push({
           id: chapter.id,
           content: {
@@ -36,9 +38,12 @@ export const copyDoc = async (
           },
         });
       });
+      // do you only return this for the last chapter?
       return chapterExists;
     })
     .catch((error) => {
+      // NB! Logging to the console is something you should be really careful with! You can leak sensitive data or
+      // create security vulnerabilities when you use data directly from your code.
       console.error(
         "Error reading document",
         `${collectionFrom}/`,
@@ -49,6 +54,7 @@ export const copyDoc = async (
   const docToRef = firestore.collection(collectionTo).doc();
   let newDocId = docToRef.id;
 
+  // Consider the need for logging doc IDs to the console.
   if (docData) {
     chapterListLocal.forEach((chapter) => {
       let chapterId = chapter.id;

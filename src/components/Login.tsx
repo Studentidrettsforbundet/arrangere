@@ -78,6 +78,7 @@ const LogIn = () => {
     );
   }
 
+  // Personally I would refactor some of these blocks into separate components
   return (
     <Container className={classes.container}>
       <Card className={classes.root}>

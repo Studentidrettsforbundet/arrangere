@@ -13,7 +13,7 @@ const NmForm = () => {
   const [data, setData] = useRecoilState(NMdataState);
 
   var docRef = firestore.collection("Søknadsmal").doc("NM");
-
+  // Remove dead code
   /*  async function getNMDocument() {
     await docRef
       .get()
@@ -59,6 +59,8 @@ const NmForm = () => {
           let type: string = "";
           let desc: string = "";
 
+          // This cumbersome way of handling data just does not seem quite right. We can discuss this in more detail in
+          // a meeting
           Object.keys(doc.data()!).forEach((attribute: string) => {
             const InputFieldsObj = doc.data()![attribute];
             console.log("InputFieldsObj", InputFieldsObj);

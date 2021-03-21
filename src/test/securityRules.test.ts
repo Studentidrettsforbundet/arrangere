@@ -3,6 +3,7 @@ require('dotenv').config()
 import * as assert from "assert";
 import * as firebase from "@firebase/testing";
 
+// Testing of Firebase rules clearly needs a lot of work
 describe("Our app", () => {
   it("Math", () => {
     assert.equal(2 + 2, 4);
@@ -19,4 +20,3 @@ describe("Our app", () => {
     await firebase.assertSucceeds(testDoc.get());
   });
 });
-

@@ -3,6 +3,8 @@ import { Route, Switch, BrowserRouter } from "react-router-dom";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { auth } from "./firebase";
+// I get this error message here:
+//    Module '"./stateManagement/userAuth"' has no exported member 'loadingUserState'.
 import { currentUserState, loadingUserState } from "./stateManagement/userAuth";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
