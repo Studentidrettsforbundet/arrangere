@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { Typography, Box } from "@material-ui/core";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
@@ -16,16 +16,19 @@ const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
   const [attribute, setAttribute] = useRecoilState(attributesState(id));
   const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
   const selectedID = useRecoilValue(selectedAttributeIdState);
-  const [selectedFileName, setSelectedFileName] = useState("");
 
   const saveFile = async (event: any) => {
     const files = event.target.files;
     for (let file of files) {
-      const fileLocation = firebase.storage().ref("files").child(file.name);
+      const fileLocation = firebase
+        .storage()
+        .ref("files")
+        .child("documentID") //Legg docID her
+        .child(file.name);
       fileLocation.put(file);
       console.log("file saved: ", file.name);
-      console.log("file id: ", selectedID);
       //setSelectedFileName(event.target.file.name);
+      console.log("currend doc ID" + "");
     }
   };
 
@@ -49,7 +52,6 @@ const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
         onFocus={() => setSelectedAttribute(id)}
         onChange={(event) => handleChange(event)}
       />
-      <span className="classes.selectedFileName">{selectedFileName}</span>
     </Box>
   );
 };
