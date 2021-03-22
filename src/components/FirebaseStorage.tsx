@@ -57,6 +57,7 @@ const setData = (
   collectionID: string,
   docID: string
 ) => {
+  console.log("chapter", chapter);
   let data: any = {};
   data[
     `${chapter}.attributes.${attribute}.input_fields.input${inputNr}.value`
@@ -83,7 +84,10 @@ function saveFieldToDocument(
 ) {
   let attributeName: string = "";
   let inputNr: string = "";
-
+  console.log("attributeID", attributeID);
+  console.log("value", value);
+  console.log("collectionID", collectionID);
+  console.log("docID", docID);
   attributeID?.split("").forEach((character) => {
     if (is_numeric(character)) {
       inputNr += character;
@@ -95,6 +99,7 @@ function saveFieldToDocument(
   loadFieldsFromDocument(collectionID, docID).then((attribute) => {
     attribute.forEach((field) => {
       if (field.id == attributeID) {
+        console.log("hei");
         setData(
           field.chapter,
           attributeName,

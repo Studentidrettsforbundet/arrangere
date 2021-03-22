@@ -1,10 +1,8 @@
-import React, { Attributes, FC } from "react";
-import { Button, ButtonBase, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { Attribute, Chapter } from "./Template";
 import InputWrapper, { InputField } from "./inputFields/InputWrapper";
 import { useStyles } from "../style/chapters";
-import { copyAttribute } from "./inputFields/inputButtonFunctions";
 
 type ChapterProps = {
   chapter: Chapter;
@@ -63,7 +61,7 @@ const ChapterWrapper = (props: ChapterProps) => {
             desc: attributeObject.attribute.input_fields[inputField].desc,
             priority:
               attributeObject.attribute.input_fields[inputField].priority,
-            id: attributeObject.attribute + idNr,
+            id: attributeObject.name + idNr,
           });
         }
       );
