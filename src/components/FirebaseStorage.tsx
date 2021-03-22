@@ -57,7 +57,6 @@ const setData = (
   collectionID: string,
   docID: string
 ) => {
-  console.log("chapter", chapter);
   let data: any = {};
   data[
     `${chapter}.attributes.${attribute}.input_fields.input${inputNr}.value`
@@ -96,7 +95,6 @@ function saveFieldToDocument(
   loadFieldsFromDocument(collectionID, docID).then((attribute) => {
     attribute.forEach((field) => {
       if (field.id == attributeID) {
-        console.log("hei");
         setData(
           field.chapter,
           attributeName,
