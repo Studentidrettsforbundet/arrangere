@@ -4,7 +4,6 @@ import { choosenApplicationState } from "../stateManagement/choosenApplication";
 import { useEffect } from "react";
 import saveFieldToDocument from "./FirebaseStorage";
 import Box from "@material-ui/core/Box";
-import addDocToUser from "./copyDocument";
 import { selectedAttributeState } from "../stateManagement/attributesState";
 import { documentState } from "./ApplicationCard";
 import { currentUserState } from "../stateManagement/userAuth";
@@ -15,7 +14,6 @@ export const ApplicationForm = () => {
   const selectedAttribute = useRecoilValue(selectedAttributeState);
   let collection = useRecoilValue(choosenApplicationState);
   const newDocId = useRecoilValue(documentState);
-  const user = useRecoilValue(currentUserState);
 
   let url = window.location.href;
   var str_sub = url.substr(url.lastIndexOf("/") + 1);

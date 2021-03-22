@@ -13,7 +13,7 @@ import { firestore } from "../firebase";
 import { choosenApplicationState } from "../stateManagement/choosenApplication";
 import { localStorageEffect } from "../stateManagement/localstorageRecoil";
 import { useStyles } from "../style/cards";
-import AddDocToUser, { ChapterWithID } from "./copyDocument";
+import { ChapterWithID } from "./copyDocument";
 
 type CardProps = {
   image: string;

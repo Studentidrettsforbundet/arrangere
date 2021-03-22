@@ -1,6 +1,4 @@
-import { useRecoilValue } from "recoil";
 import { firestore } from "../firebase";
-import { currentUserState } from "../stateManagement/userAuth";
 import { Attribute } from "./Template";
 
 export type ChapterWithID = {
