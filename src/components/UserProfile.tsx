@@ -71,53 +71,53 @@ export default function UserProfile() {
   }
 
   return (
-    <Box p={12} width={1}>
-      <Grid container direction="row" alignItems="center">
-        <Grid item xs={10}>
-          <Typography className={classes.header} variant="h4">
-            Min profil:
-          </Typography>
-          <Divider className={classes.divider} variant="fullWidth" />
-        </Grid>
-      </Grid>
-      {loading ? (
+    <div role="main">
+      <Box p={12} width={1}>
         <Grid container direction="row" alignItems="center">
-          <Grid item sm={2}></Grid>
-          <Grid className={classes.contentGrid} item xs={12}>
-            <p>Laster inn..</p>
-            <CircularProgress />
+          <Grid item xs={10}>
+            <Typography className={classes.header} variant="h1">
+              Min profil:
+            </Typography>
+            <Divider className={classes.divider} variant="fullWidth" />
           </Grid>
         </Grid>
-      ) : (
-        <Grid container direction="row" alignItems="center">
-          <Grid className={classes.contentGrid} item xs={10}>
-            <Typography variant="subtitle1" className={classes.contentHeader}>
-              Email:
-            </Typography>
-            <Typography variant="subtitle2" className={classes.content}>
-              {currentUser?.email}
-            </Typography>
-            <Typography variant="subtitle1" className={classes.contentHeader}>
-              Idrettsklubb:
-            </Typography>
-            <Typography variant="subtitle2" className={classes.content}>
-              {organizationName}
-            </Typography>
-            <Typography variant="subtitle1" className={classes.contentHeader}>
-              Organisasjonsnummer:
-            </Typography>
-            <Typography variant="subtitle2" className={classes.content}>
-              {organizationNumber}
-            </Typography>
-            <Typography variant="subtitle1" className={classes.contentHeader}>
-              Organisasjonens kontonummer:
-            </Typography>
-            <Typography variant="subtitle2" className={classes.content}>
-              {organizationAccountNumber}
-            </Typography>
+        {loading ? (
+          <Grid container direction="row" alignItems="center">
+            <Grid item sm={2}></Grid>
+            <Grid className={classes.contentGrid} item xs={12}>
+              <p>Laster inn..</p>
+              <CircularProgress />
+            </Grid>
           </Grid>
-        </Grid>
-      )}
-    </Box>
+        ) : (
+          <Grid container direction="row" alignItems="center">
+            <Grid className={classes.contentGrid} item xs={10}>
+              <Typography className={classes.contentHeader}>Email:</Typography>
+              <Typography className={classes.content}>
+                {currentUser?.email}
+              </Typography>
+              <Typography className={classes.contentHeader}>
+                Idrettsklubb:
+              </Typography>
+              <Typography className={classes.content}>
+                {organizationName}
+              </Typography>
+              <Typography className={classes.contentHeader}>
+                Organisasjonsnummer:
+              </Typography>
+              <Typography className={classes.content}>
+                {organizationNumber}
+              </Typography>
+              <Typography className={classes.contentHeader}>
+                Organisasjonens kontonummer:
+              </Typography>
+              <Typography className={classes.content}>
+                {organizationAccountNumber}
+              </Typography>
+            </Grid>
+          </Grid>
+        )}
+      </Box>
+    </div>
   );
 }

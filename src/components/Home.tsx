@@ -59,11 +59,13 @@ export default function Home() {
   };
 
   return (
-    <Box p={10}>
-      <Typography variant="h4">
-        Velkommen til Norges studenidrettsforbunds søknadsportal
-      </Typography>
-      <Box py={2}>{renderChapters(chapterList)}</Box>
-    </Box>
+    <div role="main">
+      <Box p={10}>
+        <Typography variant="h1">
+          Velkommen til Norges studenidrettsforbunds søknadsportal
+        </Typography>
+        <Box py={2}>{renderChapters(chapterList)}</Box>
+      </Box>
+    </div>
   );
 }

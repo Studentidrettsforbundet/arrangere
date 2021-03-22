@@ -6,7 +6,10 @@ import Student_Cup_logo from "./../images/studentcup-1.png";
 
 export const ChooseApplication = () => {
   return (
-    <div style={{ padding: 40 }}>
+    <div role="main" style={{ padding: 40 }}>
+      <Typography gutterBottom align="center" variant="h1">
+        Søknader
+      </Typography>
       <Typography gutterBottom variant="h5" component="h2">
         Opprette ny søknad
       </Typography>

@@ -24,6 +24,11 @@ const studentidrettTheme = createMuiTheme({
     },
   },
   typography: {
+    h1: {
+      fontSize: "2.125rem",
+      fontWeight: 400,
+      lineHeight: "1.235",
+    },
     // fontFamily: "KofiPureSerif",
   },
 });
