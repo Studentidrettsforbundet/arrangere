@@ -9,5 +9,10 @@ export const useStyles = makeStyles((theme: Theme) =>
     prevBtn: {
       marginRight: 20,
     },
+    nav: {
+      top: 0,
+      backgroundColor: "#e9edf2",
+      textAlign: "center",
+    },
   })
 );

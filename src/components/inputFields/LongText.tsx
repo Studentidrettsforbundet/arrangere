@@ -15,7 +15,6 @@ const LongText: FC<LongTextProps> = ({ desc, id }) => {
   const [attribute, setAttribute] = useRecoilState(attributesState(id));
   const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
   const selectedID = useRecoilValue(selectedAttributeIdState);
-
   return (
     <Box py={2}>
       <Typography>{desc}</Typography>
