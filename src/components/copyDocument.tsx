@@ -1,7 +1,7 @@
 import { firestore } from "../firebase";
 import { Attribute } from "./Template";
 
-type ChapterWithID = {
+export type ChapterWithID = {
   id: string;
   content: {
     title: string;
@@ -11,61 +11,34 @@ type ChapterWithID = {
   };
 };
 
-export const copyDoc = async (
-  collectionFrom: string,
-  collectionTo: string
-): Promise<boolean> => {
-  const docFromRef = firestore.collection(collectionFrom);
-  let chapterListLocal: Array<ChapterWithID> = [];
-  let chapterExists: boolean = false;
+export async function getNumberOfApplications(userID: string) {
+  let counter: number = 0;
+  const doc = await firestore.collection("user").doc(userID).get();
 
-  const docData = await docFromRef
-    .get()
-    .then((doc) => {
-      doc.forEach((chapter) => {
-        if (chapter.exists) {
-          chapterExists = true;
-        }
-        chapterListLocal.push({
-          id: chapter.id,
-          content: {
-            title: chapter.data().title,
-            desc: chapter.data().desc,
-            attributes: chapter.data().attributes,
-            priority: chapter.data().priority,
-          },
-        });
-      });
-      return chapterExists;
-    })
-    .catch((error) => {
-      console.error(
-        "Error reading document",
-        `${collectionFrom}/`,
-        JSON.stringify(error)
-      );
-    });
-
-  const docToRef = firestore.collection(collectionTo).doc();
-  let newDocId = docToRef.id;
-
-  if (docData) {
-    chapterListLocal.forEach((chapter) => {
-      let chapterId = chapter.id;
-      firestore
-        .collection(collectionTo)
-        .doc(newDocId)
-        .set({ [chapterId]: chapter.content }, { merge: true })
-        .then(() => console.log("New document created with id:", newDocId))
-        .catch((error) => {
-          console.error(
-            "Error creating document",
-            `${collectionTo}`,
-            JSON.stringify(error)
-          );
-        });
-    });
-    return true;
+  const docData: any = doc.data();
+  for (const application in docData.applications) {
+    counter++;
   }
-  return false;
+  return counter;
+}
+
+const addDocToUser = async (userID: string, docID: string) => {
+  let applicationNr: string = "";
+  await getNumberOfApplications(userID).then(
+    (counter) => (applicationNr = counter.toString())
+  );
+
+  console.log(applicationNr);
+
+  let data: any = {};
+  data[`applications.application${applicationNr}`] = docID;
+
+  firestore
+    .collection("user")
+    .doc(userID)
+    .update(data, { merge: true })
+    .then(() => console.log("Field updated!"))
+    .catch((error) => console.log(error));
 };
+
+export default addDocToUser;

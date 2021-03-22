@@ -1,7 +1,4 @@
-import { useRecoilValue } from "recoil";
 import { firestore } from "../firebase";
-import { selectedAttributeState } from "../stateManagement/attributesState";
-import { choosenApplicationState } from "../stateManagement/choosenApplication";
 
 type AttributesList = {
   id: string;
@@ -9,13 +6,13 @@ type AttributesList = {
   attribute: Array<Array<Object>>;
 };
 
-async function loadFieldsFromStorage(collection: string, document: string) {
+async function loadFieldsFromDocument(collectionID: string, docID: string) {
   const attributesList: Array<AttributesList> = [];
 
-  const collectionID = "testCollection";
-  const docID = "vGEccVpkhpQeAKoRZGfc";
-
-  let doc = await firestore.collection(collectionID).doc(docID).get();
+  const doc = await firestore
+    .collection(collectionID + "Applications")
+    .doc(docID)
+    .get();
 
   if (!doc.exists) {
     console.log("Doc does not exists");
@@ -56,7 +53,9 @@ const setData = (
   chapter: string,
   attribute: string,
   inputNr: string,
-  value: string | undefined
+  value: string | undefined,
+  collectionID: string,
+  docID: string
 ) => {
   let data: any = {};
   data[
@@ -64,8 +63,8 @@ const setData = (
   ] = value;
 
   firestore
-    .collection("testCollection")
-    .doc("vGEccVpkhpQeAKoRZGfc")
+    .collection(collectionID + "Applications")
+    .doc(docID)
     .update(data, { merge: true })
     .then(() => {
       console.log("Field updated!");
@@ -76,11 +75,11 @@ const setData = (
     });
 };
 
-function saveFieldToStorage(
+function saveFieldToDocument(
   attributeID: string | undefined,
   value: string | undefined,
-  collection: string,
-  doc: string
+  collectionID: string,
+  docID: string
 ) {
   let attributeName: string = "";
   let inputNr: string = "";
@@ -93,29 +92,20 @@ function saveFieldToStorage(
     }
   });
 
-  loadFieldsFromStorage(collection, doc).then((attribute) => {
+  loadFieldsFromDocument(collectionID, docID).then((attribute) => {
     attribute.forEach((field) => {
       if (field.id == attributeID) {
-        setData(field.chapter, attributeName, inputNr, value);
+        setData(
+          field.chapter,
+          attributeName,
+          inputNr,
+          value,
+          collectionID,
+          docID
+        );
       }
     });
   });
 }
 
-const FirebaseStorage = () => {
-  const selectedAttribute = useRecoilValue(selectedAttributeState);
-  let collection = useRecoilValue(choosenApplicationState);
-  collection += "Applications";
-
-  // TODO render right document
-  let doc: string = "";
-
-  saveFieldToStorage(
-    selectedAttribute?.id,
-    selectedAttribute?.value,
-    collection,
-    doc
-  );
-};
-
-export default FirebaseStorage;
+export default saveFieldToDocument;

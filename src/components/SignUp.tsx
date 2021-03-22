@@ -84,6 +84,7 @@ const SignUp = () => {
           return db.collection("user").doc(cred.user.uid).set({
             organization: "",
             email: emailRef.current!.value,
+            applications: {},
           });
         }
       })
