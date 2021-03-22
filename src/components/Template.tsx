@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 import { firestore } from "../firebase";
 import ChapterWrapper from "./ChapterWrapper";
 import {
@@ -129,20 +129,24 @@ const Template = () => {
       ) : (
         <div>
           <div>
-            <Box className={classes.nav}>{renderButtons(chapterList)}</Box>
-            <Box px={15} pt={6}>
-              {renderChapters(chapterList)[chapterCounter]}{" "}
-              <Button
-                variant="contained"
-                className={classes.prevBtn}
-                onClick={prevChapter}
-              >
-                Forrige
-              </Button>
-              <Button variant="contained" onClick={nextChapter}>
-                Neste
-              </Button>
-            </Box>
+            <div role="navigation" className="chapterButtons">
+              <Box className={classes.nav}>{renderButtons(chapterList)}</Box>
+            </div>
+            <div role="main">
+              <Box px={15} pt={6}>
+                {renderChapters(chapterList)[chapterCounter]}{" "}
+                <Button
+                  variant="contained"
+                  className={classes.prevBtn}
+                  onClick={prevChapter}
+                >
+                  Forrige
+                </Button>
+                <Button variant="contained" onClick={nextChapter}>
+                  Neste
+                </Button>
+              </Box>
+            </div>
           </div>
         </div>
       )}

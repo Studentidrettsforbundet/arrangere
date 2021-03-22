@@ -45,11 +45,7 @@ export default function DrawerBar() {
           }}
           anchor="left"
         >
-          <List
-            component="nav"
-            aria-labelledby="nested-list-subheader"
-            className={classes.root}
-          >
+          <List component="nav" className={classes.root}>
             <CardMedia className={classes.media} image={StudentidrettLogo} />
             <ListItem button component={Link} to="/">
               <ListItemIcon>
