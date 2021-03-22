@@ -6,6 +6,7 @@ import {
   selectedAttributeIdState,
 } from "../../stateManagement/attributesState";
 import firebase from "firebase";
+import { documentState } from "../ApplicationCard";
 
 type FileUploadProps = {
   desc: string;
@@ -16,6 +17,7 @@ const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
   const [attribute, setAttribute] = useRecoilState(attributesState(id));
   const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
   const selectedID = useRecoilValue(selectedAttributeIdState);
+  const docID = useRecoilValue(documentState);
 
   const saveFile = async (event: any) => {
     const files = event.target.files;
@@ -23,12 +25,11 @@ const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
       const fileLocation = firebase
         .storage()
         .ref("files")
-        .child("documentID") //Legg docID her
+        .child(docID)
         .child(file.name);
       fileLocation.put(file);
       console.log("file saved: ", file.name);
-      //setSelectedFileName(event.target.file.name);
-      console.log("currend doc ID" + "");
+      console.log("current doc ID" + docID);
     }
   };
 
