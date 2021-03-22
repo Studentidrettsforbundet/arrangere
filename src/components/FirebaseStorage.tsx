@@ -84,10 +84,7 @@ function saveFieldToDocument(
 ) {
   let attributeName: string = "";
   let inputNr: string = "";
-  console.log("attributeID", attributeID);
-  console.log("value", value);
-  console.log("collectionID", collectionID);
-  console.log("docID", docID);
+
   attributeID?.split("").forEach((character) => {
     if (is_numeric(character)) {
       inputNr += character;
