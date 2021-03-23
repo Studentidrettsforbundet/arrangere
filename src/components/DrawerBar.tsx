@@ -39,7 +39,6 @@ export default function DrawerBar() {
   const currentUser = useRecoilValue(currentUserState);
   const userRole = useRecoilValue(userRoleState);
   var db = firebase.firestore();
-  console.log(userRole);
 
   return (
     <div className={classes.root}>
