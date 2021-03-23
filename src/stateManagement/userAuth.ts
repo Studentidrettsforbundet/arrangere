@@ -11,3 +11,8 @@ export const loadingUserState = atom<boolean>({
   key: "loadingUserState",
   default: true,
 });
+
+export const userRoleState = atom<string>({
+  key: "userRoleState",
+  default: "",
+});
