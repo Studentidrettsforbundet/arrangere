@@ -3,6 +3,7 @@ import { TextField, Typography, Box, Button } from "@material-ui/core";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   attributesState,
+  inputFieldListState,
   selectedAttributeIdState,
 } from "../../stateManagement/attributesState";
 import { firestore } from "../../firebase";
@@ -16,15 +17,61 @@ export type InputFieldProps = {
   chapterName: string;
 };
 
+export type InputObject = {
+  id: string;
+  value: string;
+};
+
 const ShortText: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
   const [attribute, setAttribute] = useRecoilState(attributesState(id));
   const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
   const selectedID = useRecoilValue(selectedAttributeIdState);
   const docID = useRecoilValue(documentState);
   const collection = useRecoilValue(choosenApplicationState);
-  const docRef = useDocRef();
+  const [inputFieldList, setInputFieldList] = useRecoilState(
+    inputFieldListState
+  );
 
-  const [value, setValue] = useState("");
+  const handleChange = (value: string) => {
+    let inputFieldListLocal = inputFieldList;
+
+    const found = inputFieldListLocal.some(
+      (inputObject) => inputObject.id == id
+    );
+
+    if (!found || inputFieldListLocal.length == 0) {
+      inputFieldListLocal.push({ id: id, value: value });
+    }
+
+    if (found) {
+      inputFieldListLocal.map((inputObject) => {
+        for (const key of Object.keys(inputObject)) {
+          if (key == id) {
+            inputObject[key] = value;
+          }
+        }
+      });
+    }
+
+    setInputFieldList(inputFieldListLocal);
+    console.log(inputFieldList);
+
+    // inputFieldList.forEach((inputObject) => {
+    //   console.log("innenfor", inputObject.id);
+    //   if (inputObject.id == id) {
+    //     inputObject.value = value;
+    //   } else {
+    //     console.log("inne i else");
+    //     setInputFieldList((oldInputFieldList: Array<InputObject>) => [
+    //       ...oldInputFieldList,
+    //       {
+    //         id: id,
+    //         value: value,
+    //       },
+    //     ]);
+    //   }
+    // });
+  };
 
   return (
     <Box py={2}>
@@ -33,9 +80,10 @@ const ShortText: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
         id="outlined-basic"
         variant="outlined"
         fullWidth
-        onChange={(event) => {
-          setValue(event.target.value);
+        onChange={(e) => {
+          handleChange(e.target.value);
         }}
+
         // onFocus={() => setSelectedAttribute(id)}
         // onChange={(event) =>
         //   setAttribute({
@@ -45,9 +93,9 @@ const ShortText: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
         //   })
         // }
       />
-      <Button onClick={() => saveInput(id, value, chapterName, docRef)}>
+      {/* <Button onClick={() => saveInput(id, value, chapterName, docRef)}>
         Lagre felt
-      </Button>
+      </Button> */}
     </Box>
   );
 };

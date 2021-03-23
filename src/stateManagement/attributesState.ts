@@ -1,6 +1,16 @@
 import { selector } from "recoil";
 import { atom, atomFamily } from "recoil";
 
+export type InputObject = {
+  id: string;
+  value: string;
+};
+
+export const inputFieldListState = atom<Array<any>>({
+  key: "inputFieldListState",
+  default: [],
+});
+
 export const attributesState = atomFamily({
   key: "attributesState",
   default: () => ({
