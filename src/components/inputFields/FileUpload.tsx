@@ -27,20 +27,24 @@ const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
         .storage()
         .ref("files")
         .child(docID)
-        .child(file.name);
+        .child(file.name); //TODO: set unique file IDs
       fileLocation.put(file);
       console.log("file saved: ", file.name);
-      console.log("current doc ID" + docID);
+      console.log("current doc ID " + docID);
     }
   };
 
   const handleChange = (event: any) => {
     saveFile(event);
+
+    //TODO: figure out why this function is not running
     setAttribute({
       ...attribute,
       value: event.target.value,
       id: selectedID,
     });
+    console.log("attribute ", attribute);
+    console.log("event target value: ", event.target.value);
   };
 
   return (
