@@ -7,7 +7,6 @@ import {
 } from "../../stateManagement/attributesState";
 import firebase from "firebase";
 import { documentState } from "../ApplicationCard";
-import { FileCopyRounded } from "@material-ui/icons";
 
 type FileUploadProps = {
   desc: string;
@@ -19,36 +18,37 @@ const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
   const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
   const selectedID = useRecoilValue(selectedAttributeIdState);
   const docID = useRecoilValue(documentState);
-  console.log("utenfor ID", docID);
 
-  const saveFile = async (event: any) => {
-    const files = event.target.files;
-    for (let file of files) {
-      const fileLocation = firebase
-        .storage()
-        .ref("files")
-        .child(docID)
-        .child(file.name); //TODO: set unique file IDs
-      fileLocation.put(file);
-      console.log("file saved: ", file.name);
-      console.log("current doc ID " + docID);
+  const saveFile = async (target: HTMLInputElement) => {
+    var files = target.files;
+    var file;
+    if (files != null) {
+      for (var i = 0; i < files.length; i++) {
+        file = files.item(i);
+        const fileLocation = firebase
+          .storage()
+          .ref("files")
+          .child(docID)
+          .child(file!.name); //TODO: set unique file IDs
+        fileLocation.put(file!);
+        console.log("file saved: ", file!.name);
+        console.log("current doc ID: " + docID);
+      }
     }
   };
 
   const handleChange = (event: React.ChangeEvent) => {
-    const target = event.target as HTMLTextAreaElement;
+    var target = event.target as HTMLInputElement;
+    console.log("target value: ", target.value);
+    saveFile(target);
     setAttribute({
       ...attribute,
       value: target.value,
       id: selectedID,
     });
-    saveFile(event);
-
-    //TODO: figure out why this function is not running
-
-    console.log("attribute ", attribute);
-    console.log("event target value: ", target.value);
+    console.log("attribute value inni: ", attribute.value);
   };
+  console.log("attribute value utenfor: ", attribute.value);
 
   return (
     <Box py={2}>
@@ -65,6 +65,6 @@ const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
   );
 };
 export default FileUpload;
-function setState(arg0: { selectedFileName: any }) {
+function setState(arg0: { selectedFileName: string }) {
   throw new Error("Function not implemented.");
 }
