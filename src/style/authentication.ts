@@ -37,4 +37,7 @@ export const useStyles = makeStyles({
   text: {
     margin: "10px",
   },
+  checkbox: {
+    margin: "3px",
+  },
 });
