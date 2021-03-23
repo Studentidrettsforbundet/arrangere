@@ -18,6 +18,7 @@ const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
   const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
   const selectedID = useRecoilValue(selectedAttributeIdState);
   const docID = useRecoilValue(documentState);
+  console.log("utenfor ID", docID);
 
   const saveFile = async (event: any) => {
     const files = event.target.files;
