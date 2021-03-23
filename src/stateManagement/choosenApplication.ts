@@ -16,3 +16,8 @@ export const chapterCounterState = atom<number>({
   key: "chapterCounterState",
   default: 0,
 });
+
+export const previousChapterState = atom<string>({
+  key: "previousChapterState",
+  default: "",
+});

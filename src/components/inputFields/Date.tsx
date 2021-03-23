@@ -4,21 +4,24 @@ import { Typography, TextField, Box } from "@material-ui/core";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   attributesState,
+  inputFieldObjectState,
   selectedAttributeIdState,
 } from "../../stateManagement/attributesState";
+import { InputFieldProps } from "./ShortText";
 
-type DateProps = {
-  desc: string;
-  id: string;
-};
-
-const Date: FC<DateProps> = ({ desc, id }) => {
+const Date: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
   const classes = useStyles();
+  const [inputFieldObject, setInputFieldList] = useRecoilState(
+    inputFieldObjectState
+  );
 
-  const [attribute, setAttribute] = useRecoilState(attributesState(id));
-  const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
-
-  const selectedID = useRecoilValue(selectedAttributeIdState);
+  const handleChange = (value: string) => {
+    let inputFieldObjectLocal = Object.assign({}, inputFieldObject);
+    Object.assign(inputFieldObjectLocal, { [id]: value });
+    Object.assign(inputFieldObjectLocal, { chapterName: chapterName });
+    setInputFieldList(inputFieldObjectLocal);
+    console.log(inputFieldObject);
+  };
 
   return (
     <Box py={2}>
@@ -29,14 +32,9 @@ const Date: FC<DateProps> = ({ desc, id }) => {
           label="Velg en dato"
           type="date"
           defaultValue="2021-01-01"
-          onFocus={() => setSelectedAttribute(id)}
-          onChange={(event) =>
-            setAttribute({
-              ...attribute,
-              value: event.target.value,
-              id: selectedID,
-            })
-          }
+          onChange={(e) => {
+            handleChange(e.target.value);
+          }}
           className={classes.textField}
           InputLabelProps={{
             shrink: true,

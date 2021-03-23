@@ -3,7 +3,7 @@ import { TextField, Typography, Box, Button } from "@material-ui/core";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   attributesState,
-  inputFieldListState,
+  inputFieldObjectState,
   selectedAttributeIdState,
 } from "../../stateManagement/attributesState";
 import { firestore } from "../../firebase";
@@ -18,15 +18,16 @@ export type InputFieldProps = {
 };
 
 const ShortText: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
-  const [inputFieldList, setInputFieldList] = useRecoilState(
-    inputFieldListState
+  const [inputFieldObject, setInputFieldList] = useRecoilState(
+    inputFieldObjectState
   );
 
   const handleChange = (value: string) => {
-    let inputFieldListLocal = Object.assign({}, inputFieldList);
-    Object.assign(inputFieldListLocal, { [id]: value });
-    setInputFieldList(inputFieldListLocal);
-    console.log(inputFieldList);
+    let inputFieldObjectLocal = Object.assign({}, inputFieldObject);
+    Object.assign(inputFieldObjectLocal, { [id]: value });
+    Object.assign(inputFieldObjectLocal, { chapterName: chapterName });
+    setInputFieldList(inputFieldObjectLocal);
+    console.log(inputFieldObject);
   };
 
   return (

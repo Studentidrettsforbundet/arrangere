@@ -3,6 +3,13 @@ import { useEffect, useState } from "react";
 import { Attribute, Chapter } from "./Template";
 import InputWrapper, { InputField } from "./inputFields/InputWrapper";
 import { useStyles } from "../style/chapters";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { inputFieldObjectState } from "../stateManagement/attributesState";
+import { saveInput, useDocRef } from "./inputFields/saveInputFields";
+import {
+  currentChapterState,
+  chapterCounterState,
+} from "../stateManagement/choosenApplication";
 
 type ChapterProps = {
   chapter: Chapter;
@@ -19,10 +26,23 @@ const ChapterWrapper = (props: ChapterProps) => {
   let chapterName = props.chapterName;
   const [loading, setLoading] = useState(true);
   const [attributeList, setAttributeList] = useState<AttributeObject[]>([]);
+  const docRef = useDocRef();
+  const [inputFieldObject, setInputFieldObject] = useRecoilState(
+    inputFieldObjectState
+  );
+  const currentChapter = useRecoilValue(currentChapterState);
+  const [chapterCounter, setChapterCounter] = useRecoilState(
+    chapterCounterState
+  );
+
   const classes = useStyles();
+
+  console.log("cuirrentc", currentChapter + " " + chapterCounter);
 
   useEffect(() => {
     attributesToList(chapter.attributes);
+    saveInput(docRef, inputFieldObject);
+    setInputFieldObject({});
   }, [loading]);
 
   const attributesToList = (attributes: any) => {

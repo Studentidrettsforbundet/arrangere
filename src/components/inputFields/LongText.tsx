@@ -3,14 +3,24 @@ import { TextField, Typography, Box } from "@material-ui/core";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   attributesState,
+  inputFieldObjectState,
   selectedAttributeIdState,
 } from "../../stateManagement/attributesState";
 import { InputFieldProps } from "./ShortText";
 
 const LongText: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
-  const [attribute, setAttribute] = useRecoilState(attributesState(id));
-  const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
-  const selectedID = useRecoilValue(selectedAttributeIdState);
+  const [inputFieldObject, setInputFieldList] = useRecoilState(
+    inputFieldObjectState
+  );
+
+  const handleChange = (value: string) => {
+    let inputFieldObjectLocal = Object.assign({}, inputFieldObject);
+    Object.assign(inputFieldObjectLocal, { [id]: value });
+    Object.assign(inputFieldObjectLocal, { chapterName: chapterName });
+    setInputFieldList(inputFieldObjectLocal);
+    console.log(inputFieldObject);
+  };
+
   return (
     <Box py={2}>
       <Typography>{desc}</Typography>
@@ -19,14 +29,9 @@ const LongText: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
         fullWidth
         multiline
         rows={4}
-        onFocus={() => setSelectedAttribute(id)}
-        onChange={(event) =>
-          setAttribute({
-            ...attribute,
-            value: event.target.value,
-            id: selectedID,
-          })
-        }
+        onChange={(e) => {
+          handleChange(e.target.value);
+        }}
         InputLabelProps={{
           shrink: true,
         }}

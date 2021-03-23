@@ -6,18 +6,22 @@ import {
   FormControl,
   FormLabel,
 } from "@material-ui/core/";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import {
-  attributesState,
-  selectedAttributeIdState,
-} from "../../stateManagement/attributesState";
+import { useRecoilState } from "recoil";
+import { inputFieldObjectState } from "../../stateManagement/attributesState";
 import { InputFieldProps } from "./ShortText";
 
 const RadioButton: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
-  const [attribute, setAttribute] = useRecoilState(attributesState(id));
-  const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
+  const [inputFieldObject, setInputFieldList] = useRecoilState(
+    inputFieldObjectState
+  );
 
-  const selectedID = useRecoilValue(selectedAttributeIdState);
+  const handleChange = (value: string) => {
+    let inputFieldObjectLocal = Object.assign({}, inputFieldObject);
+    Object.assign(inputFieldObjectLocal, { [id]: value });
+    Object.assign(inputFieldObjectLocal, { chapterName: chapterName });
+    setInputFieldList(inputFieldObjectLocal);
+    console.log(inputFieldObject);
+  };
 
   return (
     <div className="radioContainer">
@@ -28,27 +32,17 @@ const RadioButton: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
             value="Ja"
             control={<Radio />}
             label="Ja"
-            onFocus={() => setSelectedAttribute(id)}
-            onChange={() =>
-              setAttribute({
-                ...attribute,
-                value: "Ja",
-                id: selectedID,
-              })
-            }
+            onChange={() => {
+              handleChange("Ja");
+            }}
           />
           <FormControlLabel
             value="Nei"
             control={<Radio />}
             label="Nei"
-            onFocus={() => setSelectedAttribute(id)}
-            onChange={() =>
-              setAttribute({
-                ...attribute,
-                value: "Nei",
-                id: selectedID,
-              })
-            }
+            onChange={() => {
+              handleChange("Nei");
+            }}
           />
         </RadioGroup>
       </FormControl>

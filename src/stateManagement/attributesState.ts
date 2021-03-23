@@ -1,7 +1,7 @@
 import { selector } from "recoil";
 import { atom, atomFamily } from "recoil";
 
-export const inputFieldListState = atom({
+export const inputFieldObjectState = atom({
   key: "inputFieldListState",
   default: {},
 });

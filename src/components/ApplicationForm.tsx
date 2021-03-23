@@ -24,6 +24,7 @@ export const ApplicationForm = () => {
   TODO: right now saveFieldToDocument are rendered before AddDocToUser
   meaning the docID might be empty, and an error will occur
   */
+  /*
 
   useEffect(() => {
     if (newDocId != " ") {
@@ -35,6 +36,8 @@ export const ApplicationForm = () => {
       );
     }
   }, [newDocId, selectedAttribute]);
+
+  */
 
   function setApplicationForm() {
     if (str_sub == "studentnm") {

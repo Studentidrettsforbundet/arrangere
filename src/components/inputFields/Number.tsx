@@ -3,15 +3,23 @@ import { TextField, Typography, Box } from "@material-ui/core";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   attributesState,
+  inputFieldObjectState,
   selectedAttributeIdState,
 } from "../../stateManagement/attributesState";
 import { InputFieldProps } from "./ShortText";
 
 const Number: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
-  const [attribute, setAttribute] = useRecoilState(attributesState(id));
-  const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
+  const [inputFieldObject, setInputFieldList] = useRecoilState(
+    inputFieldObjectState
+  );
 
-  const selectedID = useRecoilValue(selectedAttributeIdState);
+  const handleChange = (value: string) => {
+    let inputFieldObjectLocal = Object.assign({}, inputFieldObject);
+    Object.assign(inputFieldObjectLocal, { [id]: value });
+    Object.assign(inputFieldObjectLocal, { chapterName: chapterName });
+    setInputFieldList(inputFieldObjectLocal);
+    console.log(inputFieldObject);
+  };
 
   return (
     <Box py={2}>
@@ -21,14 +29,9 @@ const Number: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
         variant="outlined"
         fullWidth
         type="number"
-        onFocus={() => setSelectedAttribute(id)}
-        onChange={(event) =>
-          setAttribute({
-            ...attribute,
-            value: event.target.value,
-            id: selectedID,
-          })
-        }
+        onChange={(e) => {
+          handleChange(e.target.value);
+        }}
       />
     </Box>
   );
