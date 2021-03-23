@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import { Typography, Box } from "@material-ui/core";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
@@ -7,6 +7,7 @@ import {
 } from "../../stateManagement/attributesState";
 import firebase from "firebase";
 import { documentState } from "../ApplicationCard";
+import { FileCopyRounded } from "@material-ui/icons";
 
 type FileUploadProps = {
   desc: string;
@@ -34,17 +35,19 @@ const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
     }
   };
 
-  const handleChange = (event: any) => {
+  const handleChange = (event: React.ChangeEvent) => {
+    const target = event.target as HTMLTextAreaElement;
+    setAttribute({
+      ...attribute,
+      value: target.value,
+      id: selectedID,
+    });
     saveFile(event);
 
     //TODO: figure out why this function is not running
-    setAttribute({
-      ...attribute,
-      value: event.target.value,
-      id: selectedID,
-    });
+
     console.log("attribute ", attribute);
-    console.log("event target value: ", event.target.value);
+    console.log("event target value: ", target.value);
   };
 
   return (
