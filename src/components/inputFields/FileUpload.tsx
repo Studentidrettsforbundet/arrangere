@@ -5,13 +5,9 @@ import {
   attributesState,
   selectedAttributeIdState,
 } from "../../stateManagement/attributesState";
+import { InputFieldProps } from "./ShortText";
 
-type FileUploadProps = {
-  desc: string;
-  id: string;
-};
-
-const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
+const FileUpload: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
   const [attribute, setAttribute] = useRecoilState(attributesState(id));
   const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
 

@@ -11,13 +11,9 @@ import {
   attributesState,
   selectedAttributeIdState,
 } from "../../stateManagement/attributesState";
+import { InputFieldProps } from "./ShortText";
 
-type RadioProps = {
-  desc: string;
-  id: string;
-};
-
-const RadioButton: FC<RadioProps> = ({ desc, id }) => {
+const RadioButton: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
   const [attribute, setAttribute] = useRecoilState(attributesState(id));
   const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
 

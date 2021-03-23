@@ -28,7 +28,6 @@ const ChapterWrapper = (props: ChapterProps) => {
   const attributesToList = (attributes: any) => {
     setLoading(true);
     const attributeListLocal: any = [];
-    const attributeListName: Array<string> = [];
     if (attributes) {
       Object.keys(attributes).forEach((attribute: string, index: number) => {
         attributeListLocal.push({
@@ -63,9 +62,9 @@ const ChapterWrapper = (props: ChapterProps) => {
               attributeObject.attribute.input_fields[inputField].priority,
             id: attributeObject.name + idNr,
           });
+          idNr++;
         }
       );
-      idNr++;
       inputFields.sort((a: any, b: any) => a.priority - b.priority);
       inputWrappers.push(
         <InputWrapper

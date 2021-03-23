@@ -6,13 +6,9 @@ import {
   attributesState,
   selectedAttributeIdState,
 } from "../../stateManagement/attributesState";
+import { InputFieldProps } from "./ShortText";
 
-type TimeProps = {
-  desc: string;
-  id: string;
-};
-
-const Time: FC<TimeProps> = ({ desc, id }) => {
+const Time: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
   const [attribute, setAttribute] = useRecoilState(attributesState(id));
   const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
 

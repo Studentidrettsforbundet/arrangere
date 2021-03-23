@@ -5,13 +5,9 @@ import {
   attributesState,
   selectedAttributeIdState,
 } from "../../stateManagement/attributesState";
+import { InputFieldProps } from "./ShortText";
 
-type LongTextProps = {
-  desc: string;
-  id: string;
-};
-
-const LongText: FC<LongTextProps> = ({ desc, id }) => {
+const LongText: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
   const [attribute, setAttribute] = useRecoilState(attributesState(id));
   const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
   const selectedID = useRecoilValue(selectedAttributeIdState);

@@ -53,7 +53,11 @@ const defaultComponent = () => {
 };
 
 const getComponentToBeRendered = (type: string) => {
-  let ComponentName: React.FC<{ desc: string; id: string }>;
+  let ComponentName: React.FC<{
+    desc: string;
+    id: string;
+    chapterName: string;
+  }>;
   ComponentName = defaultComponent;
 
   componentList.map((component) => {
@@ -65,21 +69,24 @@ const getComponentToBeRendered = (type: string) => {
   return ComponentName;
 };
 
-const generateComponents = (inputFields: Array<InputField>) => {
+const generateComponents = (
+  inputFields: Array<InputField>,
+  chapterName: string
+) => {
   const components: any = [];
   inputFields.map((inputField: any, i) => {
     const Component = getComponentToBeRendered(inputField.type);
     components.push(
-      <Component key={i} desc={inputField.desc} id={inputField.id}></Component>
+      <Component
+        key={i}
+        desc={inputField.desc}
+        id={inputField.id}
+        chapterName={chapterName}
+      ></Component>
     );
   });
   return components;
 };
-
-/*
-let url = window.location.href;
-var str_sub = url.substr(url.lastIndexOf("/") + 1);
-*/
 
 const InputWrapper: FC<InputWrapperProps> = ({
   title,
@@ -143,7 +150,7 @@ const InputWrapper: FC<InputWrapperProps> = ({
 
               <AccordionDetails>
                 <div style={{ width: "100%" }}>
-                  {generateComponents(inputFields)}
+                  {generateComponents(inputFields, chapterName)}
                 </div>
               </AccordionDetails>
             </Accordion>
@@ -154,7 +161,7 @@ const InputWrapper: FC<InputWrapperProps> = ({
         <div>
           <Typography variant="h6">{title}</Typography>
           <Typography variant="subtitle1">{mainDesc}</Typography>
-          <div>{generateComponents(inputFields)}</div>
+          <div>{generateComponents(inputFields, chapterName)}</div>
         </div>
       )}
     </div>
