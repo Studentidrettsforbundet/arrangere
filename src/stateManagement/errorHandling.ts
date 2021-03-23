@@ -15,6 +15,7 @@ export enum ErrorText {
   GENERAL = "Noe gikk galt",
   WEAK_PASSWORD = "Passordet må bestå av minst seks bokstaver eller tegn",
   LOGIN = "E-post eller passord er feil",
+  PRIVACY_POLICY = "Du må samtykke til NSIs gjeldende personvernspolicy",
   NONE = "",
 }
 
@@ -45,6 +46,8 @@ export const errorStateSelector = selector<ErrorTypes>({
         return { status: ErrorStatus.OTHER, text: ErrorText.REQUIRED };
       case "login":
         return { status: ErrorStatus.OTHER, text: ErrorText.LOGIN };
+      case "privacy":
+        return { status: ErrorStatus.OTHER, text: ErrorText.PRIVACY_POLICY };
       case "":
         return { status: ErrorStatus.NONE, text: ErrorText.NONE };
       default:
