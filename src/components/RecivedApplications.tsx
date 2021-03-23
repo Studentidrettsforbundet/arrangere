@@ -1,3 +1,10 @@
 export default function RecivedApplications() {
-    return (<p>du er admin</p>);
+  return (
+    <div>
+      <h1>Innsendte søknader</h1>
+      <h2>Student-NM</h2>
+      <h2>Studentleker</h2>
+      <h2>Student-Cup</h2>
+    </div>
+  );
 }
