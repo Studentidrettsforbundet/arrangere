@@ -1,6 +1,11 @@
-import React, { FC } from "react";
-import { Typography, Box } from "@material-ui/core";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import React, { FC, useState } from "react";
+import { Typography, Box, Link } from "@material-ui/core";
+import {
+  snapshot_UNSTABLE,
+  useRecoilState,
+  useRecoilValue,
+  useSetRecoilState,
+} from "recoil";
 import {
   attributesState,
   selectedAttributeIdState,
@@ -18,6 +23,7 @@ const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
   const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
   const selectedID = useRecoilValue(selectedAttributeIdState);
   const docID = useRecoilValue(documentState);
+  const [url, setUrl] = useState(null);
 
   const saveFile = async (target: HTMLInputElement) => {
     var files = target.files;
@@ -33,6 +39,15 @@ const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
         fileLocation.put(file!);
         console.log("file saved: ", file!.name);
         console.log("current doc ID: " + docID);
+
+        //TODO: Fix "Premission denied, code 403"
+        fileLocation
+          .getDownloadURL()
+          .then((url) => {
+            setUrl(url);
+            console.log("File url: ", url);
+          })
+          .catch(Error);
       }
     }
   };
@@ -61,6 +76,7 @@ const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
         onFocus={() => setSelectedAttribute(id)}
         onChange={(event) => handleChange(event)}
       />
+      <Link>{url}</Link>
     </Box>
   );
 };
