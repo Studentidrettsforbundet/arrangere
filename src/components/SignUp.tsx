@@ -83,6 +83,7 @@ const SignUp = () => {
         if (cred.user != null) {
           return db.collection("user").doc(cred.user.uid).set({
             organization: "",
+            role: "",
             email: emailRef.current!.value,
             applications: {},
           });

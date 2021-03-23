@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import StudentidrettLogo from "./../images/studentidrett-logo-sort.png";
 import AppsOutlinedIcon from "@material-ui/icons/AppsOutlined";
 import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
+
 import {
   CssBaseline,
   CardMedia,
@@ -17,6 +18,10 @@ import {
 import { Link } from "react-router-dom";
 import { useStyles } from "../style/drawerBar";
 import { auth } from "../firebase";
+import { useRecoilValue } from "recoil";
+import { currentUserState } from "../stateManagement/userAuth";
+import firebase from "firebase";
+
 
 function handleLogout(e: any) {
   e.preventDefault();
@@ -32,6 +37,32 @@ function handleLogout(e: any) {
 
 export default function DrawerBar() {
   const classes = useStyles();
+  const currentUser = useRecoilValue(currentUserState);
+  let [userRole, setUserRole] = useState<any>();
+  var db = firebase.firestore();
+
+  useEffect(() => {
+    getUserRole();
+  }, [userRole]);
+
+
+  async function getUserRole() {
+    if (currentUser != null) {
+      await db
+        .collection("user")
+        .doc(currentUser.uid)
+        .get()
+        .then((doc) => {
+          const data = doc?.data();
+          if (!data) {
+            console.log("no data here");
+            return null;
+          } else {
+            setUserRole(data.role);
+          }
+        });
+    }
+  }
 
   return (
     <div className={classes.root}>
@@ -66,6 +97,10 @@ export default function DrawerBar() {
               </ListItemIcon>
               <ListItemText primary="Søknader" />
             </ListItem>
+            {userRole == "admin" ? <ListItem button component={Link} to="/submitted">
+              < ListItemIcon ><DescriptionOutlinedIcon />
+              </ListItemIcon><ListItemText primary="Innsendte søknader" />
+            </ListItem> : " "}
             <Button
               variant="contained"
               className={classes.logout}
@@ -77,7 +112,8 @@ export default function DrawerBar() {
             </Button>
           </List>
         </Drawer>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }
+

@@ -8,6 +8,7 @@ import DrawerBar from "./DrawerBar";
 import Home from "./Home";
 import UserProfile from "./UserProfile";
 import { ApplicationForm } from "./ApplicationForm";
+import RecivedApplications from "./RecivedApplications";
 
 export default function Dashboard() {
   const currentUser = useRecoilValue(currentUserState);
@@ -26,6 +27,7 @@ export default function Dashboard() {
         <Route exact path="/studentnm" component={ApplicationForm} />
         <Route exact path="/studentleker" component={ApplicationForm} />
         <Route exact path="/studentcup" component={ApplicationForm} />
+        <Route path="/submitted" component={RecivedApplications} />
       </BrowserRouter>
     </div>
   );
