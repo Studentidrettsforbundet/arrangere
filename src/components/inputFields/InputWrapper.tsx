@@ -16,8 +16,6 @@ import ShortText from "./ShortText";
 import Time from "./Time";
 import { copyAttribute } from "./inputButtonFunctions";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { spacing } from "@material-ui/system";
-import { attributesState } from "../../stateManagement/attributesState";
 
 export type InputField = {
   type: string;
