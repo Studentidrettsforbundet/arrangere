@@ -2,14 +2,7 @@ import { FC } from "react";
 import { TextField, Typography, Box } from "@material-ui/core";
 import { useRecoilState } from "recoil";
 import { inputFieldObjectState } from "../../stateManagement/attributesState";
-
 import { addFieldInputObject } from "./saveInputFields";
-
-export type InputFieldProps = {
-  desc: string;
-  id: string;
-  chapterName: string;
-};
 
 const ShortText: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
   const [inputFieldObject, setInputFieldList] = useRecoilState(

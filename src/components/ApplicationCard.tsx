@@ -8,12 +8,11 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
-import { atom, useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { firestore } from "../firebase";
 import { documentState } from "../stateManagement/attributesState";
 import { choosenApplicationState } from "../stateManagement/choosenApplication";
 import { useStyles } from "../style/cards";
-import { ChapterWithID } from "./copyDocument";
 
 type CardProps = {
   image: string;
@@ -25,7 +24,7 @@ type CardProps = {
 export const ApplicationCard = (props: CardProps) => {
   const classes = useStyles();
 
-  const [docID, setDocID] = useRecoilState(documentState);
+  const setDocID = useSetRecoilState(documentState);
 
   let collection = useRecoilValue(choosenApplicationState);
 

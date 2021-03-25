@@ -8,7 +8,6 @@ import {
 } from "@material-ui/core/";
 import { useRecoilState } from "recoil";
 import { inputFieldObjectState } from "../../stateManagement/attributesState";
-import { InputFieldProps } from "./ShortText";
 
 const RadioButton: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
   const [inputFieldObject, setInputFieldList] = useRecoilState(

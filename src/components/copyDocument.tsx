@@ -1,15 +1,4 @@
 import { firestore } from "../firebase";
-import { Attribute } from "./Template";
-
-export type ChapterWithID = {
-  id: string;
-  content: {
-    title: string;
-    desc: string;
-    attributes: Array<Attribute>;
-    priority: number;
-  };
-};
 
 export async function getNumberOfApplications(userID: string) {
   let counter: number = 0;

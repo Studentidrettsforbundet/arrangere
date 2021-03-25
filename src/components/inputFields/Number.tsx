@@ -2,7 +2,6 @@ import { FC } from "react";
 import { TextField, Typography, Box } from "@material-ui/core";
 import { useRecoilState } from "recoil";
 import { inputFieldObjectState } from "../../stateManagement/attributesState";
-import { InputFieldProps } from "./ShortText";
 import { addFieldInputObject } from "./saveInputFields";
 
 const Number: FC<InputFieldProps> = ({ desc, id, chapterName }) => {

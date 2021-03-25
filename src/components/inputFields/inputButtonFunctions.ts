@@ -14,7 +14,6 @@ export const copyAttribute = async (
     .doc(`${chapterName}`);
 
   let length;
-  // get length of the attributelist in the application to know what id to give the new activity
   const attributesInApplication = await docRef
     .get()
     .then((doc: any) => {
