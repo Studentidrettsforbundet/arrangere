@@ -82,6 +82,7 @@ const generateComponents = (
         chapterName={chapterName}
       ></Component>
     );
+    console.log(inputField.id);
   });
   return components;
 };

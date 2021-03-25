@@ -9,9 +9,6 @@ import { documentState } from "./ApplicationCard";
 
 export const ApplicationForm = () => {
   const setChoosenApplicationForm = useSetRecoilState(choosenApplicationState);
-  const selectedAttribute = useRecoilValue(selectedAttributeState);
-  let collection = useRecoilValue(choosenApplicationState);
-  const newDocId = useRecoilValue(documentState);
 
   let url = window.location.href;
   var str_sub = url.substr(url.lastIndexOf("/") + 1);
@@ -19,25 +16,6 @@ export const ApplicationForm = () => {
   useEffect(() => {
     setApplicationForm();
   }, []);
-
-  /* 
-  TODO: right now saveFieldToDocument are rendered before AddDocToUser
-  meaning the docID might be empty, and an error will occur
-  */
-  /*
-
-  useEffect(() => {
-    if (newDocId != " ") {
-      saveFieldToDocument(
-        selectedAttribute?.id,
-        selectedAttribute?.value,
-        collection,
-        newDocId
-      );
-    }
-  }, [newDocId, selectedAttribute]);
-
-  */
 
   function setApplicationForm() {
     if (str_sub == "studentnm") {

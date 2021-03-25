@@ -27,7 +27,6 @@ const ShortText: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
     Object.assign(inputFieldObjectLocal, { [id]: value });
     Object.assign(inputFieldObjectLocal, { chapterName: chapterName });
     setInputFieldList(inputFieldObjectLocal);
-    console.log(inputFieldObject);
   };
 
   return (

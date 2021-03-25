@@ -1,4 +1,4 @@
-import { Typography } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { Attribute, Chapter } from "./Template";
 import InputWrapper, { InputField } from "./inputFields/InputWrapper";
@@ -10,6 +10,7 @@ import {
   currentChapterState,
   chapterCounterState,
 } from "../stateManagement/choosenApplication";
+import { is_numeric } from "./utils";
 
 type ChapterProps = {
   chapter: Chapter;
@@ -37,8 +38,6 @@ const ChapterWrapper = (props: ChapterProps) => {
 
   const classes = useStyles();
 
-  console.log("cuirrentc", currentChapter + " " + chapterCounter);
-
   useEffect(() => {
     attributesToList(chapter.attributes);
     saveInput(docRef, inputFieldObject);
@@ -60,7 +59,6 @@ const ChapterWrapper = (props: ChapterProps) => {
       console.log("No attributes!");
     }
     setAttributeList(attributeListLocal);
-
     setLoading(false);
   };
 
@@ -71,18 +69,23 @@ const ChapterWrapper = (props: ChapterProps) => {
   ) => {
     const inputWrappers: any = [];
     let inputFields: Array<InputField> = [];
-    let idNr: number = 1;
+    let inputNr: string = "";
     attributeList.map((attributeObject: any) => {
       Object.keys(attributeObject.attribute.input_fields).forEach(
         (inputField: string) => {
+          inputField.split("").forEach((character: any) => {
+            if (is_numeric(character)) {
+              inputNr += character;
+            }
+          });
           inputFields.push({
             type: attributeObject.attribute.input_fields[inputField].type,
             desc: attributeObject.attribute.input_fields[inputField].desc,
             priority:
               attributeObject.attribute.input_fields[inputField].priority,
-            id: attributeObject.name + idNr,
+            id: attributeObject.name + inputNr,
           });
-          idNr++;
+          inputNr = "";
         }
       );
       inputFields.sort((a: any, b: any) => a.priority - b.priority);
@@ -99,7 +102,6 @@ const ChapterWrapper = (props: ChapterProps) => {
         />
       );
       inputFields = [];
-      idNr = 1;
     });
     return inputWrappers;
   };
@@ -116,6 +118,12 @@ const ChapterWrapper = (props: ChapterProps) => {
       <div>
         {renderInputFields(attributeList, chapter.buttons, chapterName)}
       </div>
+      <Button
+        variant="contained"
+        onClick={() => saveInput(docRef, inputFieldObject)}
+      >
+        Lagre
+      </Button>
     </div>
   );
 };
