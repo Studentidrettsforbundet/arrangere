@@ -1,7 +1,7 @@
 import { useRecoilValue } from "recoil";
 import { firestore } from "../../firebase";
+import { documentState } from "../../stateManagement/attributesState";
 import { choosenApplicationState } from "../../stateManagement/choosenApplication";
-import { documentState } from "../ApplicationCard";
 
 function is_numeric(str: string) {
   return /^\d+$/.test(str);
@@ -10,8 +10,10 @@ function is_numeric(str: string) {
 export function useDocRef() {
   const docID = useRecoilValue(documentState);
   const collection = useRecoilValue(choosenApplicationState);
-  let docRef = firestore.collection(collection + "Applications").doc(docID);
-  return docRef;
+  if (docID && collection) {
+    let docRef = firestore.collection(collection + "Applications").doc(docID);
+    return docRef;
+  }
 }
 
 export const saveInput = (docRef: any, inputFieldObject: any) => {

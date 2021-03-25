@@ -10,8 +10,8 @@ import {
 import { Link as RouterLink } from "react-router-dom";
 import { atom, useRecoilState, useRecoilValue } from "recoil";
 import { firestore } from "../firebase";
+import { documentState } from "../stateManagement/attributesState";
 import { choosenApplicationState } from "../stateManagement/choosenApplication";
-import { localStorageEffect } from "../stateManagement/localstorageRecoil";
 import { useStyles } from "../style/cards";
 import { ChapterWithID } from "./copyDocument";
 
@@ -21,12 +21,6 @@ type CardProps = {
   to: string;
   template: string;
 };
-
-export const documentState = atom<string>({
-  key: "documentState",
-  default: "",
-  effects_UNSTABLE: [localStorageEffect("docID")],
-});
 
 export const ApplicationCard = (props: CardProps) => {
   const classes = useStyles();

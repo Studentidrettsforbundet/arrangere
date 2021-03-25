@@ -37,8 +37,6 @@ const ChapterWrapper = (props: ChapterProps) => {
 
   const classes = useStyles();
 
-  console.log("cuirrentc", currentChapter + " " + chapterCounter);
-
   useEffect(() => {
     attributesToList(chapter.attributes);
     saveInput(docRef, inputFieldObject);

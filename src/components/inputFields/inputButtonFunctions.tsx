@@ -35,7 +35,7 @@ export const copyAttribute = async (
     .catch((error: string) => {
       console.error(
         "Error reading from document",
-        `${template}`,
+        `${docRef}`,
         JSON.stringify(error)
       );
     });
@@ -62,5 +62,6 @@ export const copyAttribute = async (
     });
     return true;
   }
+
   return false;
 };
