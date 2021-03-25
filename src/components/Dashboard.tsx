@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Route } from "react-router";
 import { BrowserRouter, Redirect } from "react-router-dom";
 import { ChooseApplication } from "./ChooseApplication";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { currentUserState, userRoleState } from "../stateManagement/userAuth";
 import DrawerBar from "./DrawerBar";
 import Home from "./Home";
@@ -31,7 +31,6 @@ export default function Dashboard() {
         .then((doc) => {
           const data = doc?.data();
           if (!data) {
-            console.log("no data here");
             return null;
           } else {
             setUserRole(data.role);
