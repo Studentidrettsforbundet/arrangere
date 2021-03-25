@@ -1,8 +1,9 @@
 import { FC } from "react";
 import { Typography, Box } from "@material-ui/core";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { inputFieldObjectState } from "../../stateManagement/attributesState";
 import { InputFieldProps } from "./ShortText";
+import { addFieldInputObject } from "./saveInputFields";
 
 const FileUpload: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
   const [inputFieldObject, setInputFieldList] = useRecoilState(
@@ -10,11 +11,8 @@ const FileUpload: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
   );
 
   const handleChange = (value: string) => {
-    let inputFieldObjectLocal = Object.assign({}, inputFieldObject);
-    Object.assign(inputFieldObjectLocal, { [id]: value });
-    Object.assign(inputFieldObjectLocal, { chapterName: chapterName });
-    setInputFieldList(inputFieldObjectLocal);
-    console.log(inputFieldObject);
+    let object = addFieldInputObject(value, chapterName, inputFieldObject, id);
+    setInputFieldList(object);
   };
 
   return (

@@ -1,11 +1,8 @@
 import Template from "./Template";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { choosenApplicationState } from "../stateManagement/choosenApplication";
 import { useEffect } from "react";
-import saveFieldToDocument from "./FirebaseStorage";
 import Box from "@material-ui/core/Box";
-import { selectedAttributeState } from "../stateManagement/attributesState";
-import { documentState } from "./ApplicationCard";
 
 export const ApplicationForm = () => {
   const setChoosenApplicationForm = useSetRecoilState(choosenApplicationState);
