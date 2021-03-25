@@ -2,10 +2,7 @@ import { useRecoilValue } from "recoil";
 import { firestore } from "../../firebase";
 import { documentState } from "../../stateManagement/attributesState";
 import { choosenApplicationState } from "../../stateManagement/choosenApplication";
-
-function is_numeric(str: string) {
-  return /^\d+$/.test(str);
-}
+import { is_numeric } from "../utils";
 
 export function useDocRef() {
   const docID = useRecoilValue(documentState);
@@ -18,7 +15,6 @@ export function useDocRef() {
 
 export const saveInput = (docRef: any, inputFieldObject: any) => {
   Object.entries(inputFieldObject).forEach(([key, value]) => {
-    console.log("chapterName", key);
     if (key != "chapterName") {
       let attributeName: string = "";
       let inputNr: string = "";

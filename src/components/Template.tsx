@@ -11,6 +11,7 @@ import { InputField } from "./inputFields/InputWrapper";
 import { Box, Button } from "@material-ui/core/";
 import { useStyles } from "../style/chapters";
 import ChapterButton from "./ChapterButton";
+import { saveInput } from "./inputFields/saveInputFields";
 
 export type Chapter = {
   chapterName: string;
@@ -40,15 +41,12 @@ const Template = () => {
   );
 
   useEffect(() => {
-    generateApplicationForm();
-  }, [choosenApplicationForm]);
-
-  useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
       setChapterCounter(0);
     }
-  });
+    generateApplicationForm();
+  }, [choosenApplicationForm]);
 
   async function generateApplicationForm() {
     setLoading(true);
@@ -95,7 +93,6 @@ const Template = () => {
         />
       );
     });
-    //console.log(chapterList);
     chapterList.sort((a: Chapter, b: Chapter) => a.priority - b.priority);
     setCurrentChapterState(chapterList[chapterCounter].title);
     return chapters;
@@ -122,6 +119,7 @@ const Template = () => {
       setChapterCounter(chapterCounter - 1);
     }
   };
+
   return (
     <div>
       {loading ? (
