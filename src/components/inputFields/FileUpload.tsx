@@ -1,16 +1,12 @@
 import React, { FC, useState } from "react";
 import { Typography, Box, Link } from "@material-ui/core";
-import {
-  snapshot_UNSTABLE,
-  useRecoilState,
-  useRecoilValue,
-  useSetRecoilState,
-} from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   attributesState,
   selectedAttributeIdState,
 } from "../../stateManagement/attributesState";
 import firebase from "firebase";
+import { v4 as uuid } from "uuid";
 import { documentState } from "../ApplicationCard";
 
 type FileUploadProps = {
@@ -31,17 +27,18 @@ const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
     if (files != null) {
       for (var i = 0; i < files.length; i++) {
         file = files.item(i);
-        const fileLocation = firebase
+        const fileId = uuid();
+        const fileRef = firebase
           .storage()
           .ref("files")
           .child(docID)
-          .child(file!.name); //TODO: set unique file IDs
-        fileLocation.put(file!);
-        console.log("file saved: ", file!.name);
+          .child(fileId);
+        fileRef.put(file!);
+        console.log("file ", file!.name, " saved, with ID: ", fileId);
         console.log("current doc ID: " + docID);
 
         //TODO: Fix "Premission denied, code 403"
-        fileLocation
+        fileRef
           .getDownloadURL()
           .then((url) => {
             setUrl(url);
