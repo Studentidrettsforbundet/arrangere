@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import StudentidrettLogo from "./../images/studentidrett-logo-sort.png";
 import AppsOutlinedIcon from "@material-ui/icons/AppsOutlined";
 import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
+
 import {
   CssBaseline,
   CardMedia,
@@ -17,6 +18,9 @@ import {
 import { Link } from "react-router-dom";
 import { useStyles } from "../style/drawerBar";
 import { auth } from "../firebase";
+import { useRecoilValue } from "recoil";
+import { currentUserState, userRoleState } from "../stateManagement/userAuth";
+import firebase from "firebase";
 
 function handleLogout(e: any) {
   e.preventDefault();
@@ -32,6 +36,9 @@ function handleLogout(e: any) {
 
 export default function DrawerBar() {
   const classes = useStyles();
+  const currentUser = useRecoilValue(currentUserState);
+  const userRole = useRecoilValue(userRoleState);
+  var db = firebase.firestore();
 
   return (
     <div className={classes.root}>
@@ -66,6 +73,16 @@ export default function DrawerBar() {
               </ListItemIcon>
               <ListItemText primary="Søknader" />
             </ListItem>
+            {userRole == "admin" ? (
+              <ListItem button component={Link} to="/recivedApplications">
+                <ListItemIcon>
+                  <DescriptionOutlinedIcon />
+                </ListItemIcon>
+                <ListItemText primary="Innsendte søknader" />
+              </ListItem>
+            ) : (
+              " "
+            )}
             <Button
               variant="contained"
               className={classes.logout}

@@ -1,26 +1,22 @@
 import { firestore } from "../../firebase";
 
 export const copyAttribute = async (
-  collectionFrom: string,
-  collectionTo: string,
+  template: string,
+  docRef: any,
   attributeName: string,
   chapterName: string
 ): Promise<boolean> => {
   let docExists: boolean = false;
   let newAttribute: any;
 
-  const collectionFromRef = firestore
-    .collection(collectionTo)
-    .doc("vGEccVpkhpQeAKoRZGfc");
   const collectionToRef = firestore
-    .collection(collectionFrom)
+    .collection(template + "Template")
     .doc(`${chapterName}`);
 
   let length;
-  // get length of the attributelist in the application to know what id to give the new activity
-  const attributesInApplication = await collectionFromRef
+  const attributesInApplication = await docRef
     .get()
-    .then((doc) => {
+    .then((doc: any) => {
       if (doc.exists) {
         docExists = true;
       }
@@ -35,10 +31,10 @@ export const copyAttribute = async (
       length = counter;
       return docExists;
     })
-    .catch((error) => {
+    .catch((error: string) => {
       console.error(
         "Error reading from document",
-        `${collectionFrom}`,
+        `${docRef}`,
         JSON.stringify(error)
       );
     });
@@ -53,29 +49,18 @@ export const copyAttribute = async (
       return docExists;
     })
     .catch((error) => {
-      console.error(
-        "Error reading from document",
-        `${collectionTo}`,
-        JSON.stringify(error)
-      );
+      console.error("Error reading from document", JSON.stringify(error));
     });
 
   if (attributesInApplication && attributeInTemplate) {
     let data: any = {};
     data[`${chapterName}.attributes.${attributeName}${length}`] =
       newAttribute[attributeName];
-    firestore
-      .collection(collectionTo)
-      .doc("vGEccVpkhpQeAKoRZGfc")
-      .update(data, { merge: true })
-      .catch((error) => {
-        console.error(
-          "Error updating document",
-          `${collectionTo}`,
-          JSON.stringify(error)
-        );
-      });
+    docRef.update(data, { merge: true }).catch((error: string) => {
+      console.error("Error updating document", JSON.stringify(error));
+    });
     return true;
   }
+
   return false;
 };

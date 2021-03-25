@@ -1,26 +1,24 @@
 import React, { FC, useState } from "react";
 import { Typography, Box, Link } from "@material-ui/core";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import {
-  attributesState,
-  selectedAttributeIdState,
-} from "../../stateManagement/attributesState";
+
 import firebase from "firebase";
 import { v4 as uuid } from "uuid";
-import { documentState } from "../ApplicationCard";
+import { documentState } from "../../stateManagement/attributesState";
 
-type FileUploadProps = {
-  desc: string;
-  id: string;
-};
+import { inputFieldObjectState } from "../../stateManagement/attributesState";
+import { addFieldInputObject } from "./saveInputFields";
 
-const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
-  const [attribute, setAttribute] = useRecoilState(attributesState(id));
-  const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
-  const selectedID = useRecoilValue(selectedAttributeIdState);
+const FileUpload: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
+  // const [attribute, setAttribute] = useRecoilState(attributesState(id));
+  // const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
+  // const selectedID = useRecoilValue(selectedAttributeIdState);
   const docID = useRecoilValue(documentState);
   const [fileUrl, setFileUrl] = useState();
   const [fileName, setFileName] = useState("");
+  const [inputFieldObject, setInputFieldList] = useRecoilState(
+    inputFieldObjectState
+  );
 
   const saveFile = async (target: HTMLInputElement) => {
     var files = target.files;
@@ -57,6 +55,10 @@ const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
     //   id: selectedID,
     // });
   };
+  // const handleChange = (value: string) => {
+  //   let object = addFieldInputObject(value, chapterName, inputFieldObject, id);
+  //   setInputFieldList(object);
+  // };
 
   return (
     <Box py={2}>
@@ -66,8 +68,9 @@ const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
         id="contained-button-file"
         multiple
         type="file"
-        onFocus={() => setSelectedAttribute(id)}
-        onChange={(event) => handleChange(event)}
+        // onChange={(e) => {
+        //   handleChange(e.target.value);
+        // }}
       />
       <a href={fileUrl} download>
         {fileName}

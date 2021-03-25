@@ -37,7 +37,6 @@ export default function UserProfile() {
         .then((doc) => {
           const data = doc?.data();
           if (!data) {
-            console.log("no data here");
             return null;
           } else {
             setOrganizationName(data.organization);
@@ -56,7 +55,6 @@ export default function UserProfile() {
         .then((doc) => {
           const orgData = doc?.data();
           if (!orgData) {
-            console.log("no data here");
             setOrganizationNumber("");
             setOrganizationAccountNumber("");
             return null;
