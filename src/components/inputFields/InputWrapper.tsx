@@ -61,7 +61,7 @@ const getComponentToBeRendered = (type: string) => {
   }>;
   ComponentName = defaultComponent;
 
-  componentList.map((component) => {
+  componentList.forEach((component) => {
     if (component.type === type) {
       ComponentName = component.ComponentName;
     }
@@ -148,8 +148,8 @@ const InputWrapper: FC<InputWrapperProps> = ({
                   <Typography variant="subtitle1">{mainDesc}</Typography>
                 </Box>
               ) : (
-                  ""
-                )}
+                ""
+              )}
 
               <AccordionDetails>
                 <div style={{ width: "100%" }}>

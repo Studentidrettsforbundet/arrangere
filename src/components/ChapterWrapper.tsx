@@ -85,7 +85,9 @@ const ChapterWrapper = (props: ChapterProps) => {
           chapterName={chapterName}
           attributeName={attributeObject.name}
           buttons={buttons}
-          key={attributeObject.attribute.title}
+          key={
+            attributeObject.attribute.name + attributeObject.attribute.priority
+          }
           title={attributeObject.attribute.title}
           mainDesc={attributeObject.attribute.desc}
           inputFields={inputFields}

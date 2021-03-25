@@ -100,9 +100,13 @@ const Template = () => {
 
   const renderButtons = (chapterList: Array<Chapter>) => {
     const chapterButtons: any = [];
-    chapterList.map((chapter: Chapter) => {
+    chapterList.map((chapter: Chapter, index) => {
       chapterButtons.push(
-        <ChapterButton title={chapter.title} priority={chapter.priority} />
+        <ChapterButton
+          key={chapter.priority}
+          title={chapter.title}
+          priority={chapter.priority}
+        />
       );
     });
     return chapterButtons;
