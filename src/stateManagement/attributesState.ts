@@ -1,30 +1,14 @@
 import { selector } from "recoil";
 import { atom, atomFamily } from "recoil";
+import { localStorageEffect } from "./localstorageRecoil";
 
 export const inputFieldObjectState = atom({
   key: "inputFieldListState",
   default: {},
 });
 
-export const attributesState = atomFamily({
-  key: "attributesState",
-  default: () => ({
-    id: "",
-    value: "",
-  }),
-});
-
-export const selectedAttributeIdState = atom({
-  key: "selectedAttributeIdState",
+export const documentState = atom<string>({
+  key: "documentState",
   default: "",
-});
-
-export const selectedAttributeState = selector({
-  key: "selectedAttributeState",
-  get: ({ get }) => {
-    const id = get(selectedAttributeIdState);
-    if (id.length > 0) {
-      return get(attributesState(id));
-    }
-  },
+  effects_UNSTABLE: [localStorageEffect("docID")],
 });

@@ -1,7 +1,7 @@
 import { useRecoilValue } from "recoil";
 import { firestore } from "../../firebase";
+import { documentState } from "../../stateManagement/attributesState";
 import { choosenApplicationState } from "../../stateManagement/choosenApplication";
-import { documentState } from "../ApplicationCard";
 import { is_numeric } from "../utils";
 
 export function useDocRef() {

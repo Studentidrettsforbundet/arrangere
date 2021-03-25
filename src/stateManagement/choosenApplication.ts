@@ -4,7 +4,7 @@ import { localStorageEffect } from "./localstorageRecoil";
 export const choosenApplicationState = atom<string>({
   key: "applicationState",
   default: "",
-  effects_UNSTABLE: [localStorageEffect("template")],
+  effects_UNSTABLE: [localStorageEffect("collection")],
 });
 
 export const currentChapterState = atom<string>({
