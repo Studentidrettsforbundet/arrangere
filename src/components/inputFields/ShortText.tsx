@@ -1,15 +1,9 @@
-import { FC, useState } from "react";
-import { TextField, Typography, Box, Button } from "@material-ui/core";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import {
-  attributesState,
-  inputFieldObjectState,
-  selectedAttributeIdState,
-} from "../../stateManagement/attributesState";
-import { firestore } from "../../firebase";
-import { documentState } from "../ApplicationCard";
-import { choosenApplicationState } from "../../stateManagement/choosenApplication";
-import { saveInput, useDocRef } from "./saveInputFields";
+import { FC } from "react";
+import { TextField, Typography, Box } from "@material-ui/core";
+import { useRecoilState } from "recoil";
+import { inputFieldObjectState } from "../../stateManagement/attributesState";
+
+import { addFieldInputObject } from "./saveInputFields";
 
 export type InputFieldProps = {
   desc: string;
@@ -23,11 +17,8 @@ const ShortText: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
   );
 
   const handleChange = (value: string) => {
-    let inputFieldObjectLocal = Object.assign({}, inputFieldObject);
-    Object.assign(inputFieldObjectLocal, { [id]: value });
-    Object.assign(inputFieldObjectLocal, { chapterName: chapterName });
-    setInputFieldList(inputFieldObjectLocal);
-    console.log(inputFieldObject);
+    let object = addFieldInputObject(value, chapterName, inputFieldObject, id);
+    setInputFieldList(object);
   };
 
   return (
@@ -37,7 +28,7 @@ const ShortText: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
         id="outlined-basic"
         variant="outlined"
         fullWidth
-        onChange={(e) => {
+        onBlur={(e) => {
           handleChange(e.target.value);
         }}
       />

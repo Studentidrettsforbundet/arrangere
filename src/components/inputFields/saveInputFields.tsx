@@ -3,12 +3,6 @@ import { firestore } from "../../firebase";
 import { choosenApplicationState } from "../../stateManagement/choosenApplication";
 import { documentState } from "../ApplicationCard";
 
-type Props = {
-  id: string;
-  value: string;
-  chapterName: string;
-};
-
 function is_numeric(str: string) {
   return /^\d+$/.test(str);
 }
@@ -33,9 +27,6 @@ export const saveInput = (docRef: any, inputFieldObject: any) => {
           attributeName += character;
         }
       });
-      console.log("attributename", attributeName);
-      console.log("inputnr", inputNr);
-      console.log("value", value);
 
       let data: any = {};
       data[
@@ -52,4 +43,17 @@ export const saveInput = (docRef: any, inputFieldObject: any) => {
         });
     }
   });
+};
+
+export const addFieldInputObject = (
+  value: string,
+  chapterName: string,
+  inputFieldObject: Object,
+  id: string
+) => {
+  let inputFieldObjectLocal = Object.assign({}, inputFieldObject);
+  Object.assign(inputFieldObjectLocal, { [id]: value });
+  Object.assign(inputFieldObjectLocal, { chapterName: chapterName });
+  console.log(inputFieldObjectLocal);
+  return inputFieldObjectLocal;
 };

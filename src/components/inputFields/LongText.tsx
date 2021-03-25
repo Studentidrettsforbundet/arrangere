@@ -1,12 +1,9 @@
 import { FC } from "react";
 import { TextField, Typography, Box } from "@material-ui/core";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import {
-  attributesState,
-  inputFieldObjectState,
-  selectedAttributeIdState,
-} from "../../stateManagement/attributesState";
+import { useRecoilState } from "recoil";
+import { inputFieldObjectState } from "../../stateManagement/attributesState";
 import { InputFieldProps } from "./ShortText";
+import { addFieldInputObject } from "./saveInputFields";
 
 const LongText: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
   const [inputFieldObject, setInputFieldList] = useRecoilState(
@@ -14,11 +11,8 @@ const LongText: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
   );
 
   const handleChange = (value: string) => {
-    let inputFieldObjectLocal = Object.assign({}, inputFieldObject);
-    Object.assign(inputFieldObjectLocal, { [id]: value });
-    Object.assign(inputFieldObjectLocal, { chapterName: chapterName });
-    setInputFieldList(inputFieldObjectLocal);
-    console.log(inputFieldObject);
+    let object = addFieldInputObject(value, chapterName, inputFieldObject, id);
+    setInputFieldList(object);
   };
 
   return (
@@ -29,7 +23,7 @@ const LongText: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
         fullWidth
         multiline
         rows={4}
-        onChange={(e) => {
+        onBlur={(e) => {
           handleChange(e.target.value);
         }}
         InputLabelProps={{

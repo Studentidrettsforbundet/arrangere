@@ -1,13 +1,10 @@
 import { FC } from "react";
 import { useStyles } from "./inputStyles";
 import { Typography, TextField, Box } from "@material-ui/core";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import {
-  attributesState,
-  inputFieldObjectState,
-  selectedAttributeIdState,
-} from "../../stateManagement/attributesState";
+import { useRecoilState } from "recoil";
+import { inputFieldObjectState } from "../../stateManagement/attributesState";
 import { InputFieldProps } from "./ShortText";
+import { addFieldInputObject } from "./saveInputFields";
 
 const Date: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
   const classes = useStyles();
@@ -16,11 +13,8 @@ const Date: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
   );
 
   const handleChange = (value: string) => {
-    let inputFieldObjectLocal = Object.assign({}, inputFieldObject);
-    Object.assign(inputFieldObjectLocal, { [id]: value });
-    Object.assign(inputFieldObjectLocal, { chapterName: chapterName });
-    setInputFieldList(inputFieldObjectLocal);
-    console.log(inputFieldObject);
+    let object = addFieldInputObject(value, chapterName, inputFieldObject, id);
+    setInputFieldList(object);
   };
 
   return (
@@ -32,7 +26,7 @@ const Date: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
           label="Velg en dato"
           type="date"
           defaultValue="2021-01-01"
-          onChange={(e) => {
+          onBlur={(e) => {
             handleChange(e.target.value);
           }}
           className={classes.textField}
