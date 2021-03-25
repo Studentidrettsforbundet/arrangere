@@ -75,4 +75,5 @@ const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
     </Box>
   );
 };
+
 export default FileUpload;
