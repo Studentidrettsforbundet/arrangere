@@ -3,13 +3,9 @@ import { useEffect, useState } from "react";
 import { Attribute, Chapter } from "./Template";
 import InputWrapper, { InputField } from "./inputFields/InputWrapper";
 import { useStyles } from "../style/chapters";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { inputFieldObjectState } from "../stateManagement/attributesState";
 import { saveInput, useDocRef } from "./inputFields/saveInputFields";
-import {
-  currentChapterState,
-  chapterCounterState,
-} from "../stateManagement/choosenApplication";
 import { is_numeric } from "./utils";
 
 type ChapterProps = {
@@ -31,16 +27,11 @@ const ChapterWrapper = (props: ChapterProps) => {
   const [inputFieldObject, setInputFieldObject] = useRecoilState(
     inputFieldObjectState
   );
-  const currentChapter = useRecoilValue(currentChapterState);
-  const [chapterCounter, setChapterCounter] = useRecoilState(
-    chapterCounterState
-  );
 
   const classes = useStyles();
 
   useEffect(() => {
     attributesToList(chapter.attributes);
-    saveInput(docRef, inputFieldObject);
     setInputFieldObject({});
   }, [loading]);
 

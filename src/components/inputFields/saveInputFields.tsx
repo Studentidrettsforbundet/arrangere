@@ -7,8 +7,10 @@ import { is_numeric } from "../utils";
 export function useDocRef() {
   const docID = useRecoilValue(documentState);
   const collection = useRecoilValue(choosenApplicationState);
-  let docRef = firestore.collection(collection + "Applications").doc(docID);
-  return docRef;
+  if (docID && collection) {
+    let docRef = firestore.collection(collection + "Applications").doc(docID);
+    return docRef;
+  }
 }
 
 export const saveInput = (docRef: any, inputFieldObject: any) => {
