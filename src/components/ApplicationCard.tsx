@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { firestore } from "../firebase";
 import { documentState } from "../stateManagement/attributesState";
 import { choosenApplicationState } from "../stateManagement/choosenApplication";
@@ -25,8 +25,6 @@ export const ApplicationCard = (props: CardProps) => {
   const classes = useStyles();
 
   const setDocID = useSetRecoilState(documentState);
-
-  let collection = useRecoilValue(choosenApplicationState);
 
   async function copyDoc(collectionFrom: string, collectionTo: string) {
     const docFromRef = firestore.collection(collectionFrom);
@@ -71,7 +69,12 @@ export const ApplicationCard = (props: CardProps) => {
           .doc(newDocId)
           .set({ [chapterId]: chapter.content }, { merge: true })
           .then(() => {
-            console.log("New document created with id:", newDocId);
+            console.log(
+              "New document created with id: " +
+                newDocId +
+                " in collection " +
+                collectionTo
+            );
           })
           .catch((error) => {
             console.error(
@@ -105,7 +108,10 @@ export const ApplicationCard = (props: CardProps) => {
           size="small"
           color="primary"
           onClick={() =>
-            copyDoc(collection + "Template", collection + "Applications")
+            copyDoc(
+              props.template + "Template",
+              props.template + "Applications"
+            )
           }
         >
           Ny søknad
