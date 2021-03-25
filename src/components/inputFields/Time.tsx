@@ -1,24 +1,21 @@
 import { FC } from "react";
 import { useStyles } from "./inputStyles";
 import { Typography, TextField, Box } from "@material-ui/core";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import {
-  attributesState,
-  selectedAttributeIdState,
-} from "../../stateManagement/attributesState";
+import { useRecoilState } from "recoil";
+import { inputFieldObjectState } from "../../stateManagement/attributesState";
+import { addFieldInputObject } from "./saveInputFields";
 
-type TimeProps = {
-  desc: string;
-  id: string;
-};
-
-const Time: FC<TimeProps> = ({ desc, id }) => {
-  const [attribute, setAttribute] = useRecoilState(attributesState(id));
-  const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
-
-  const selectedID = useRecoilValue(selectedAttributeIdState);
-
+const Time: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
+  const [inputFieldObject, setInputFieldList] = useRecoilState(
+    inputFieldObjectState
+  );
   const classes = useStyles();
+
+  const handleChange = (value: string) => {
+    let object = addFieldInputObject(value, chapterName, inputFieldObject, id);
+    setInputFieldList(object);
+  };
+
   return (
     <Box py={2}>
       <Typography>{desc}</Typography>
@@ -28,14 +25,9 @@ const Time: FC<TimeProps> = ({ desc, id }) => {
           label="Tidspunkt"
           type="time"
           defaultValue="12:00"
-          onFocus={() => setSelectedAttribute(id)}
-          onChange={(event) =>
-            setAttribute({
-              ...attribute,
-              value: event.target.value,
-              id: selectedID,
-            })
-          }
+          onChange={(e) => {
+            handleChange(e.target.value);
+          }}
           className={classes.textField}
           InputLabelProps={{
             shrink: true,
