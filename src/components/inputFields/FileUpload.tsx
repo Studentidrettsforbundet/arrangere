@@ -19,7 +19,8 @@ const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
   const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
   const selectedID = useRecoilValue(selectedAttributeIdState);
   const docID = useRecoilValue(documentState);
-  const [url, setUrl] = useState(null);
+  const [fileUrl, setFileUrl] = useState();
+  const [fileName, setFileName] = useState("");
 
   const saveFile = async (target: HTMLInputElement) => {
     var files = target.files;
@@ -28,23 +29,20 @@ const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
       for (var i = 0; i < files.length; i++) {
         file = files.item(i);
         const fileId = uuid();
-        const fileRef = firebase
+        setFileName(file!.name);
+
+        const storageRef = firebase
           .storage()
           .ref("files")
           .child(docID)
           .child(fileId);
-        fileRef.put(file!);
+        await storageRef.put(file!);
         console.log("file ", file!.name, " saved, with ID: ", fileId);
         console.log("current doc ID: " + docID);
 
-        //TODO: Fix "Premission denied, code 403"
-        fileRef
-          .getDownloadURL()
-          .then((url) => {
-            setUrl(url);
-            console.log("File url: ", url);
-          })
-          .catch(Error);
+        storageRef.getDownloadURL().then((url) => {
+          setFileUrl(url);
+        });
       }
     }
   };
@@ -53,14 +51,12 @@ const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
     var target = event.target as HTMLInputElement;
     console.log("target value: ", target.value);
     saveFile(target);
-    setAttribute({
-      ...attribute,
-      value: target.value,
-      id: selectedID,
-    });
-    console.log("attribute value inni: ", attribute.value);
+    // setAttribute({
+    //   ...attribute,
+    //   value: target.value,
+    //   id: selectedID,
+    // });
   };
-  console.log("attribute value utenfor: ", attribute.value);
 
   return (
     <Box py={2}>
@@ -73,11 +69,10 @@ const FileUpload: FC<FileUploadProps> = ({ desc, id }) => {
         onFocus={() => setSelectedAttribute(id)}
         onChange={(event) => handleChange(event)}
       />
-      <Link>{url}</Link>
+      <a href={fileUrl} download>
+        {fileName}
+      </a>
     </Box>
   );
 };
 export default FileUpload;
-function setState(arg0: { selectedFileName: string }) {
-  throw new Error("Function not implemented.");
-}
