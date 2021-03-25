@@ -16,6 +16,9 @@ import ShortText from "./ShortText";
 import Time from "./Time";
 import { copyAttribute } from "./inputButtonFunctions";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { useDocRef } from "./saveInputFields";
+import { useRecoilValue } from "recoil";
+import { choosenApplicationState } from "../../stateManagement/choosenApplication";
 
 export type InputField = {
   type: string;
@@ -94,6 +97,8 @@ const InputWrapper: FC<InputWrapperProps> = ({
   chapterName,
   attributeName,
 }) => {
+  const docRef = useDocRef();
+  const chosenApplication = useRecoilValue(choosenApplicationState);
   let attributebutton;
   let isCollapse = false;
   let haveMainDesc = false;
@@ -108,8 +113,8 @@ const InputWrapper: FC<InputWrapperProps> = ({
             <Button
               onClick={() =>
                 copyAttribute(
-                  "scTemplate",
-                  "testCollection",
+                  chosenApplication,
+                  docRef,
                   attributeName,
                   chapterName
                 )
