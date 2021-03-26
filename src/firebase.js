@@ -5,7 +5,8 @@ import "firebase/auth";
 const firebaseConfig = {
   apiKey: "AIzaSyC3VrrCu2PeD4nQMDSCHsaZQ1rhUE7U03Y",
   authDomain: "arrangere-a8fca.firebaseapp.com",
-  databaseURL: "https://arrangere-a8fca-default-rtdb.europe-west1.firebasedatabase.app",
+  databaseURL:
+    "https://arrangere-a8fca-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "arrangere-a8fca",
   storageBucket: "arrangere-a8fca.appspot.com",
   messagingSenderId: "453649241479",
