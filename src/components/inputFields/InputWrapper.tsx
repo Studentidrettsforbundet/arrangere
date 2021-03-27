@@ -164,7 +164,7 @@ const InputWrapper: FC<InputWrapperProps> = ({
         <div>
           <Typography variant="h6">{title}</Typography>
           {haveMainDesc ? (
-            <Box px={2}>
+            <Box>
               <Typography variant="subtitle1">{mainDesc}</Typography>
             </Box>
           ) : (
