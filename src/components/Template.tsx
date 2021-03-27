@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { firestore } from "../firebase";
 import ChapterWrapper from "./ChapterWrapper";
@@ -8,7 +8,7 @@ import {
   currentChapterState,
 } from "../stateManagement/choosenApplication";
 import { InputField } from "./inputFields/InputWrapper";
-import { Box, Button } from "@material-ui/core/";
+import { Box, Button, Grid } from "@material-ui/core/";
 import { useStyles } from "../style/chapters";
 import ChapterButton from "./ChapterButton";
 import { saveInput } from "./inputFields/saveInputFields";
@@ -71,11 +71,11 @@ const Template = () => {
             throw new Error("No document.");
           }
         });
+        setChapterList(chapterListLocal);
       })
       .catch((error) => {
         console.log("Error getting document: ", error);
       });
-    setChapterList(chapterListLocal);
 
     chapterListLocal = [];
     setLoading(false);
@@ -83,7 +83,6 @@ const Template = () => {
 
   const renderChapters = (chapterList: Array<Chapter>) => {
     const chapters: any = [];
-
     chapterList.map((chapter: Chapter) => {
       chapters.push(
         <ChapterWrapper
@@ -102,7 +101,11 @@ const Template = () => {
     const chapterButtons: any = [];
     chapterList.map((chapter: Chapter) => {
       chapterButtons.push(
-        <ChapterButton title={chapter.title} priority={chapter.priority} />
+        <ChapterButton
+          key={chapter.title}
+          title={chapter.title}
+          priority={chapter.priority}
+        />
       );
     });
     return chapterButtons;
@@ -133,16 +136,23 @@ const Template = () => {
             <div role="main">
               <Box px={15} pt={6}>
                 {renderChapters(chapterList)[chapterCounter]}{" "}
-                <Button
-                  variant="contained"
-                  className={classes.prevBtn}
-                  onClick={prevChapter}
+                <Grid
+                  container
+                  direction="row"
+                  justify="space-between"
+                  alignItems="center"
                 >
-                  Forrige
-                </Button>
-                <Button variant="contained" onClick={nextChapter}>
-                  Neste
-                </Button>
+                  <Button
+                    variant="contained"
+                    className={classes.prevBtn}
+                    onClick={prevChapter}
+                  >
+                    Forrige
+                  </Button>
+                  <Button variant="contained" onClick={nextChapter}>
+                    Neste
+                  </Button>
+                </Grid>
               </Box>
             </div>
           </div>

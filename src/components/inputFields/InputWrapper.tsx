@@ -148,8 +148,8 @@ const InputWrapper: FC<InputWrapperProps> = ({
                   <Typography variant="subtitle1">{mainDesc}</Typography>
                 </Box>
               ) : (
-                  ""
-                )}
+                ""
+              )}
 
               <AccordionDetails>
                 <div style={{ width: "100%" }}>
@@ -163,7 +163,13 @@ const InputWrapper: FC<InputWrapperProps> = ({
       ) : (
         <div>
           <Typography variant="h6">{title}</Typography>
-          <Typography variant="subtitle1">{mainDesc}</Typography>
+          {haveMainDesc ? (
+            <Box px={2}>
+              <Typography variant="subtitle1">{mainDesc}</Typography>
+            </Box>
+          ) : (
+            ""
+          )}
           <div>{generateComponents(inputFields, chapterName)}</div>
         </div>
       )}
