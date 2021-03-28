@@ -8,7 +8,7 @@ import DrawerBar from "./DrawerBar";
 import Home from "./Home";
 import UserProfile from "./UserProfile";
 import { ApplicationForm } from "./ApplicationForm";
-import RecivedApplications from "./RecivedApplications";
+import RecivedAppPage from "./RecivedAppPage";
 import { useEffect } from "react";
 import firebase from "firebase";
 
@@ -55,11 +55,7 @@ export default function Dashboard() {
         <Route exact path="/studentleker" component={ApplicationForm} />
         <Route exact path="/studentcup" component={ApplicationForm} />
         {userRole == "admin" ? (
-          <Route
-            exact
-            path="/recivedApplications"
-            component={RecivedApplications}
-          />
+          <Route exact path="/recivedApplications" component={RecivedAppPage} />
         ) : (
           " "
         )}

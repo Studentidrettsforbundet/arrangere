@@ -15,10 +15,9 @@ export default function UserProfile() {
   const [loading, setLoading] = useState(false);
   const currentUser = useRecoilValue(currentUserState);
   let [organizationName, setOrganizationName] = useState<any>();
-  let [
-    organizationAccountNumber,
-    setOrganizationAccountNumber,
-  ] = useState<String>();
+  let [organizationAccountNumber, setOrganizationAccountNumber] = useState<
+    String
+  >();
   let [organizationNumber, setOrganizationNumber] = useState<String>();
   const classes = useStyles();
   var db = firebase.firestore();
