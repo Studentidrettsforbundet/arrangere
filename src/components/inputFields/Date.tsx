@@ -1,54 +1,40 @@
 import { FC } from "react";
 import { useStyles } from "./inputStyles";
-import { Typography, TextField } from "@material-ui/core";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import {
-  attributesState,
-  selectedAttributeIdState,
-  selectedAttributeState,
-} from "../../stateManagement/attributesState";
+import { Typography, TextField, Box } from "@material-ui/core";
+import { useRecoilState } from "recoil";
+import { inputFieldObjectState } from "../../stateManagement/attributesState";
+import { addFieldInputObject } from "./saveInputFields";
 
-type DateProps = {
-  desc: string;
-  id: string;
-};
-
-const Date: FC<DateProps> = ({ desc, id }) => {
+const Date: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
   const classes = useStyles();
+  const [inputFieldObject, setInputFieldList] = useRecoilState(
+    inputFieldObjectState
+  );
 
-  const [attribute, setAttribute] = useRecoilState(attributesState(id));
-  const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
-
-  const selectedAttribute = useRecoilValue(selectedAttributeState);
-  const selectedID = useRecoilValue(selectedAttributeIdState);
-
-  console.log(selectedAttribute);
-  console.log(selectedID);
+  const handleChange = (value: string) => {
+    let object = addFieldInputObject(value, chapterName, inputFieldObject, id);
+    setInputFieldList(object);
+  };
 
   return (
-    <div className="dateContainer">
+    <Box py={2}>
       <Typography>{desc}</Typography>
-      <form className={classes.container} noValidate>
+      <form noValidate>
         <TextField
           id="date"
           label="Velg en dato"
           type="date"
           defaultValue="2021-01-01"
-          onFocus={() => setSelectedAttribute(id)}
-          onChange={(event) =>
-            setAttribute({
-              ...attribute,
-              value: event.target.value,
-              id: selectedID,
-            })
-          }
+          onBlur={(e) => {
+            handleChange(e.target.value);
+          }}
           className={classes.textField}
           InputLabelProps={{
             shrink: true,
           }}
         />
       </form>
-    </div>
+    </Box>
   );
 };
 export default Date;

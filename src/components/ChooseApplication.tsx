@@ -6,7 +6,10 @@ import Student_Cup_logo from "./../images/studentcup-1.png";
 
 export const ChooseApplication = () => {
   return (
-    <div style={{ padding: 40 }}>
+    <div role="main" style={{ padding: 40 }}>
+      <Typography gutterBottom align="center" variant="h1">
+        Søknader
+      </Typography>
       <Typography gutterBottom variant="h5" component="h2">
         Opprette ny søknad
       </Typography>
@@ -21,19 +24,19 @@ export const ChooseApplication = () => {
           image={Student_NM_logo}
           title="Søknadskjema for student-NM"
           to="/studentnm"
-          template="snmTemplate"
+          template="snm"
         />
         <ApplicationCard
           image={Studentleker_logo}
           title="Søknadskjema for studentleker"
           to="/studentleker"
-          template="slTemplate"
+          template="sl"
         />
         <ApplicationCard
           image={Student_Cup_logo}
           title="Søknadskjema for student-Cup"
           to="/studentcup"
-          template="scTemplate"
+          template="sc"
         />
       </div>
 

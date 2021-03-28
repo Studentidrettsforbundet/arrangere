@@ -6,27 +6,19 @@ import {
   FormControl,
   FormLabel,
 } from "@material-ui/core/";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import {
-  attributesState,
-  selectedAttributeIdState,
-  selectedAttributeState,
-} from "../../stateManagement/attributesState";
+import { useRecoilState } from "recoil";
+import { inputFieldObjectState } from "../../stateManagement/attributesState";
+import { addFieldInputObject } from "./saveInputFields";
 
-type RadioProps = {
-  desc: string;
-  id: string;
-};
+const RadioButton: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
+  const [inputFieldObject, setInputFieldList] = useRecoilState(
+    inputFieldObjectState
+  );
 
-const RadioButton: FC<RadioProps> = ({ desc, id }) => {
-  const [attribute, setAttribute] = useRecoilState(attributesState(id));
-  const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
-
-  const selectedAttribute = useRecoilValue(selectedAttributeState);
-  const selectedID = useRecoilValue(selectedAttributeIdState);
-
-  console.log(selectedAttribute);
-  console.log(selectedID);
+  const handleChange = (value: string) => {
+    let object = addFieldInputObject(value, chapterName, inputFieldObject, id);
+    setInputFieldList(object);
+  };
 
   return (
     <div className="radioContainer">
@@ -37,27 +29,17 @@ const RadioButton: FC<RadioProps> = ({ desc, id }) => {
             value="Ja"
             control={<Radio />}
             label="Ja"
-            onFocus={() => setSelectedAttribute(id)}
-            onChange={() =>
-              setAttribute({
-                ...attribute,
-                value: "Ja",
-                id: selectedID,
-              })
-            }
+            onChange={() => {
+              handleChange("Ja");
+            }}
           />
           <FormControlLabel
             value="Nei"
             control={<Radio />}
             label="Nei"
-            onFocus={() => setSelectedAttribute(id)}
-            onChange={() =>
-              setAttribute({
-                ...attribute,
-                value: "Nei",
-                id: selectedID,
-              })
-            }
+            onChange={() => {
+              handleChange("Nei");
+            }}
           />
         </RadioGroup>
       </FormControl>

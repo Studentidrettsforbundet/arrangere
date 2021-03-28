@@ -4,8 +4,10 @@ import {
   Card,
   CardActions,
   CardContent,
+  Checkbox,
   Container,
   FormControl,
+  FormControlLabel,
   Link,
   TextField,
   Typography,
@@ -29,13 +31,16 @@ import {
   errorState,
   errorStateSelector,
 } from "../stateManagement/errorHandling";
+import firebase from "firebase";
 
 const SignUp = () => {
+  var db = firebase.firestore();
   const classes = useStyles();
   const history = useHistory();
   const currentUser = useRecoilValue(currentUserState);
 
   const [loading, setLoading] = useState(false);
+  const [checked, setChecked] = useState(false);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const passwordConfirmRef = useRef<HTMLInputElement>(null);
@@ -57,6 +62,10 @@ const SignUp = () => {
     return <Redirect to="/" />;
   }
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+  };
+
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
@@ -70,6 +79,9 @@ const SignUp = () => {
     if (passwordRef.current!.value !== passwordConfirmRef.current!.value) {
       return setError("not-match");
     }
+    if (!checked) {
+      return setError("privacy");
+    }
 
     setLoading(true);
     auth
@@ -77,6 +89,16 @@ const SignUp = () => {
         emailRef.current!.value,
         passwordRef.current!.value
       )
+      .then((cred) => {
+        if (cred.user != null) {
+          return db.collection("user").doc(cred.user.uid).set({
+            organization: "",
+            role: "",
+            email: emailRef.current!.value,
+            applications: {},
+          });
+        }
+      })
       .then(() => {
         history.push("/");
       })
@@ -88,7 +110,7 @@ const SignUp = () => {
   };
 
   let alertContainer;
-  if (error.status != "") {
+  if (error.status !== "") {
     alertContainer = (
       <Alert className={classes.formfield} severity="error">
         {error.text}
@@ -112,14 +134,14 @@ const SignUp = () => {
                 label="E-post"
                 inputRef={emailRef}
                 variant="outlined"
-                error={error.status == "email"}
+                error={error.status === "email"}
               />
             </FormControl>
             <FormControl className={classes.formfield}>
               <TextField
                 required
                 label="Passord"
-                error={error.status == "password"}
+                error={error.status === "password"}
                 inputRef={passwordRef}
                 variant="outlined"
                 type="password"
@@ -128,13 +150,36 @@ const SignUp = () => {
             <FormControl className={classes.formfield}>
               <TextField
                 required
-                error={error.status == "password"}
+                error={error.status === "password"}
                 label="Gjenta passord"
                 inputRef={passwordConfirmRef}
                 variant="outlined"
                 type="password"
               />
             </FormControl>
+            <FormControlLabel
+              className={classes.checkbox}
+              value="end"
+              control={
+                <Checkbox
+                  color="primary"
+                  checked={checked}
+                  onChange={handleChange}
+                />
+              }
+              label={
+                <div>
+                  <span>
+                    Jeg samtykker til at «arrangere» behandler
+                    personopplysninger på vegne av NSI i henhold til{" "}
+                  </span>
+                  <Link href={"www.studentidrett.no/personvern"}>
+                    NSIs gjeldenede peronvernspolicy
+                  </Link>
+                </div>
+              }
+              labelPlacement="end"
+            />
             {alertContainer}
           </form>
           <CardActions className={classes.content}>
