@@ -33,6 +33,6 @@ export const useStyles = makeStyles((theme: Theme) =>
       textAlign: "center",
       paddingBottom: 10,
       width: 300,
-    }
+    },
   })
 );
