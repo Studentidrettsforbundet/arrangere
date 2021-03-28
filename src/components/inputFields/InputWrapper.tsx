@@ -148,8 +148,8 @@ const InputWrapper: FC<InputWrapperProps> = ({
                   <Typography variant="subtitle1">{mainDesc}</Typography>
                 </Box>
               ) : (
-                  ""
-                )}
+                ""
+              )}
 
               <AccordionDetails>
                 <div style={{ width: "100%" }}>
