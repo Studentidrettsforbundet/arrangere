@@ -7,6 +7,7 @@ import {
 } from "../stateManagement/choosenApplication";
 
 type ButtonProps = {
+  key: number;
   title: string;
   priority: number;
 };
@@ -23,6 +24,7 @@ const ChapterButton: FC<ButtonProps> = ({ title, priority }) => {
   if (title == currentChapter) {
     return (
       <Button
+        key={priority}
         color="secondary"
         size="large"
         onClick={navToChapter}

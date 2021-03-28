@@ -61,7 +61,7 @@ const getComponentToBeRendered = (type: string) => {
   }>;
   ComponentName = defaultComponent;
 
-  componentList.map((component) => {
+  componentList.forEach((component) => {
     if (component.type === type) {
       ComponentName = component.ComponentName;
     }
@@ -163,7 +163,13 @@ const InputWrapper: FC<InputWrapperProps> = ({
       ) : (
         <div>
           <Typography variant="h6">{title}</Typography>
-          <Typography variant="subtitle1">{mainDesc}</Typography>
+          {haveMainDesc ? (
+            <Box>
+              <Typography variant="subtitle1">{mainDesc}</Typography>
+            </Box>
+          ) : (
+            ""
+          )}
           <div>{generateComponents(inputFields, chapterName)}</div>
         </div>
       )}
