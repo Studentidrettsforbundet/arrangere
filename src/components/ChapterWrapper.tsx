@@ -1,5 +1,5 @@
-import { Button, Typography } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { Box, Button, Typography } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
 import { Attribute, Chapter } from "./Template";
 import InputWrapper, { InputField } from "./inputFields/InputWrapper";
 import { useStyles } from "../style/chapters";
@@ -7,6 +7,7 @@ import { useRecoilState } from "recoil";
 import { inputFieldObjectState } from "../stateManagement/attributesState";
 import { saveInput, useDocRef } from "./inputFields/saveInputFields";
 import { is_numeric } from "./utils";
+import { spacing } from "@material-ui/system";
 
 type ChapterProps = {
   chapter: Chapter;
@@ -85,7 +86,9 @@ const ChapterWrapper = (props: ChapterProps) => {
           chapterName={chapterName}
           attributeName={attributeObject.name}
           buttons={buttons}
-          key={attributeObject.attribute.title}
+          key={
+            attributeObject.attribute.name + attributeObject.attribute.priority
+          }
           title={attributeObject.attribute.title}
           mainDesc={attributeObject.attribute.desc}
           inputFields={inputFields}
@@ -97,24 +100,30 @@ const ChapterWrapper = (props: ChapterProps) => {
     return inputWrappers;
   };
 
+  let descContainer = (
+    <Typography gutterBottom={true} variant="h6">
+      {chapter.desc}
+    </Typography>
+  );
+
   return (
     <div style={{ width: "100%" }}>
       <Typography style={{ color: "#00adee" }} variant="h4">
         {chapter.title}
       </Typography>
-      <Typography gutterBottom={true} variant="h6">
-        {chapter.desc}
-      </Typography>
-      <div className={classes.chapter}></div>
+      {chapter.desc != "" ? <div>{descContainer}</div> : <p></p>}
       <div>
         {renderInputFields(attributeList, chapter.buttons, chapterName)}
       </div>
-      <Button
-        variant="contained"
-        onClick={() => saveInput(docRef, inputFieldObject)}
-      >
-        Lagre
-      </Button>
+
+      <Box mt={3} mb={3}>
+        <Button
+          variant="contained"
+          onClick={() => saveInput(docRef, inputFieldObject)}
+        >
+          Lagre
+        </Button>
+      </Box>
     </div>
   );
 };

@@ -21,7 +21,7 @@ export const copyAttribute = async (
         docExists = true;
       }
       let att = doc.data()![chapterName].attributes;
-      let counter = 1;
+      let counter = 0;
 
       Object.keys(att).forEach((attribute) => {
         if (attribute.includes(attributeName)) {

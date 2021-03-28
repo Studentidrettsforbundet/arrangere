@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { firestore } from "../firebase";
 import { documentState } from "../stateManagement/attributesState";
 import { choosenApplicationState } from "../stateManagement/choosenApplication";
@@ -26,9 +26,9 @@ export const ApplicationCard = (props: CardProps) => {
 
   const setDocID = useSetRecoilState(documentState);
 
-  let collection = useRecoilValue(choosenApplicationState);
-
-  async function copyDoc(collectionFrom: string, collectionTo: string) {
+  async function copyDoc(template: string) {
+    let collectionFrom = template + "Template";
+    let collectionTo = template + "Applications";
     const docFromRef = firestore.collection(collectionFrom);
     let chapterListLocal: Array<ChapterWithID> = [];
     let chapterExists: boolean = false;
@@ -71,7 +71,12 @@ export const ApplicationCard = (props: CardProps) => {
           .doc(newDocId)
           .set({ [chapterId]: chapter.content }, { merge: true })
           .then(() => {
-            console.log("New document created with id:", newDocId);
+            console.log(
+              "New document created with id:" +
+                newDocId +
+                "\nIn collection " +
+                template
+            );
           })
           .catch((error) => {
             console.error(
@@ -104,9 +109,7 @@ export const ApplicationCard = (props: CardProps) => {
           }}
           size="small"
           color="primary"
-          onClick={() =>
-            copyDoc(collection + "Template", collection + "Applications")
-          }
+          onClick={() => copyDoc(props.template)}
         >
           Ny søknad
         </Button>
