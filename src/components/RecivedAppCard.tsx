@@ -20,7 +20,7 @@ export const RecivedAppCard = (props: Props) => {
 
   useEffect(() => {
     getSubmittedApplicationsID();
-  }, []);
+  }, [1]);
 
   function getSubmittedApplicationsID() {
     db.collection(props.collectionName)
