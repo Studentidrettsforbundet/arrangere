@@ -11,7 +11,6 @@ import { Link as RouterLink } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { firestore } from "../firebase";
 import { documentState } from "../stateManagement/attributesState";
-import { choosenApplicationState } from "../stateManagement/choosenApplication";
 import { currentUserState } from "../stateManagement/userAuth";
 import { useStyles } from "../style/cards";
 import { addDocToUser } from "./inputFields/addDocToUser";

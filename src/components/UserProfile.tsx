@@ -59,7 +59,6 @@ export default function UserProfile() {
             setOrganizationAccountNumber("");
             return null;
           } else {
-            console.log(orgData);
             setOrganizationNumber(orgData.account_number);
             setOrganizationAccountNumber(orgData.organization_number);
           }
