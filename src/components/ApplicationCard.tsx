@@ -8,11 +8,12 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { firestore } from "../firebase";
 import { documentState } from "../stateManagement/attributesState";
-import { choosenApplicationState } from "../stateManagement/choosenApplication";
+import { currentUserState } from "../stateManagement/userAuth";
 import { useStyles } from "../style/cards";
+import { addDocToUser } from "./inputFields/addDocToUser";
 
 type CardProps = {
   image: string;
@@ -25,6 +26,7 @@ export const ApplicationCard = (props: CardProps) => {
   const classes = useStyles();
 
   const setDocID = useSetRecoilState(documentState);
+  const currentUser = useRecoilValue(currentUserState);
 
   async function copyDoc(template: string) {
     let collectionFrom = template + "Template";
@@ -86,6 +88,7 @@ export const ApplicationCard = (props: CardProps) => {
             );
           });
       });
+      addDocToUser(currentUser!.uid, newDocId);
       setDocID(newDocId);
     }
   }
