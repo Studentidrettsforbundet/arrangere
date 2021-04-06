@@ -129,19 +129,14 @@ const Template = () => {
         <p>Laster inn..</p>
       ) : (
         <div>
-          <div>
-            <div role="navigation" className="chapterButtons">
-              <Box className={classes.nav}>{renderButtons(chapterList)}</Box>
-            </div>
-            <div role="main">
-              <Box px={15} pt={6}>
-                {renderChapters(chapterList)[chapterCounter]}{" "}
-                <Grid
-                  container
-                  direction="row"
-                  justify="space-between"
-                  alignItems="center"
-                >
+          <div role="navigation" className="chapterButtons">
+            <Box className={classes.nav}>{renderButtons(chapterList)}</Box>
+          </div>
+          <div role="main">
+            <Box px={15} pt={6}>
+              {renderChapters(chapterList)[chapterCounter]}{" "}
+              <Box display="flex" mt={3}>
+                <Box width="100%">
                   <Button
                     variant="contained"
                     className={classes.prevBtn}
@@ -149,12 +144,14 @@ const Template = () => {
                   >
                     Forrige
                   </Button>
+                </Box>
+                <Box flexShrink={0}>
                   <Button variant="contained" onClick={nextChapter}>
                     Neste
                   </Button>
-                </Grid>
+                </Box>
               </Box>
-            </div>
+            </Box>
           </div>
         </div>
       )}

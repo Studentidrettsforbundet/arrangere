@@ -88,6 +88,25 @@ export const ApplicationCard = (props: CardProps) => {
             );
           });
       });
+      await firestore
+        .collection(collectionTo)
+        .doc(newDocId)
+        .set({ status: "in progress" }, { merge: true })
+        .then(() => {
+          console.log(
+            "Status field created in doc:" +
+              newDocId +
+              "\nIn collection " +
+              template
+          );
+        })
+        .catch((error) => {
+          console.error(
+            "Error creating document",
+            `${collectionTo}`,
+            JSON.stringify(error)
+          );
+        });
       addDocToUser(currentUser!.uid, newDocId);
       setDocID(newDocId);
     }

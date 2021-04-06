@@ -1,13 +1,19 @@
 import { Box, Button, Typography } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Attribute, Chapter } from "./Template";
 import InputWrapper, { InputField } from "./inputFields/InputWrapper";
 import { useStyles } from "../style/chapters";
-import { useRecoilState } from "recoil";
-import { inputFieldObjectState } from "../stateManagement/attributesState";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  documentState,
+  inputFieldObjectState,
+} from "../stateManagement/attributesState";
 import { saveInput, useDocRef } from "./inputFields/saveInputFields";
 import { is_numeric } from "./utils";
-import { spacing } from "@material-ui/system";
+import { setStatusToSubmitted } from "./inputFields/confirmSubmittedApplication";
+import { Alert } from "@material-ui/lab";
+import { firestore } from "../firebase";
+import { currentUserState } from "../stateManagement/userAuth";
 
 type ChapterProps = {
   chapter: Chapter;
@@ -23,6 +29,9 @@ const ChapterWrapper = (props: ChapterProps) => {
   let chapter = props.chapter;
   let chapterName = props.chapterName;
   const [loading, setLoading] = useState(true);
+  const [submitted, setSubmitted] = useState("in progress");
+  const currentDocID = useRecoilValue(documentState);
+  const currentUserID = useRecoilValue(currentUserState);
   const [attributeList, setAttributeList] = useState<AttributeObject[]>([]);
   const docRef = useDocRef();
   const [inputFieldObject, setInputFieldObject] = useRecoilState(
@@ -100,6 +109,30 @@ const ChapterWrapper = (props: ChapterProps) => {
     return inputWrappers;
   };
 
+  async function applicationExists() {
+    const doc = await firestore
+      .collection("user")
+      .doc(currentUserID!.uid)
+      .get();
+
+    const docData: any = doc.data();
+    for (const application in docData.applications) {
+      if (docData.applications[application] === currentDocID) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  const submitApplication = (docRef: any) => {
+    if (applicationExists()) {
+      setStatusToSubmitted(docRef);
+      setSubmitted("sumbitted");
+    } else {
+      setSubmitted("failed");
+    }
+  };
+
   let descContainer = (
     <Typography gutterBottom={true} variant="h6">
       {chapter.desc}
@@ -115,15 +148,32 @@ const ChapterWrapper = (props: ChapterProps) => {
       <div>
         {renderInputFields(attributeList, chapter.buttons, chapterName)}
       </div>
-
-      <Box mt={3} mb={3}>
-        <Button
-          variant="contained"
-          onClick={() => saveInput(docRef, inputFieldObject)}
-        >
-          Lagre
-        </Button>
+      <Box display="flex">
+        <Box width="100%" mt={3} mb={3}>
+          <Button
+            variant="contained"
+            onClick={() => saveInput(docRef, inputFieldObject)}
+          >
+            Lagre
+          </Button>
+        </Box>
+        <Box flexShrink={0} mt={3} mb={3}>
+          <Button variant="contained" onClick={() => submitApplication(docRef)}>
+            Send inn
+          </Button>
+        </Box>
       </Box>
+      {submitted === "in progress" ? (
+        <p></p>
+      ) : submitted === "failed" ? (
+        <Alert severity="error">
+          Something went wrong submitting the application!
+        </Alert>
+      ) : (
+        <Alert severity="success" onClose={() => {}}>
+          The application is successfully submitted!
+        </Alert>
+      )}
     </div>
   );
 };
