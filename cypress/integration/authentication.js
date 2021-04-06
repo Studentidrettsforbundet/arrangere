@@ -14,6 +14,7 @@ describe("Sign up", () => {
       .last()
       .type("teste")
       .should("have.value", "teste");
+    cy.get("[type='checkbox']").check();
     cy.get("button").click();
     cy.location("pathname", { timeout: 10000 }).should("eq", "/signup");
   });
@@ -24,11 +25,28 @@ describe("Sign up", () => {
     cy.get("[type='text']").type("nybruker");
     cy.get("[type='password']").first().type("teste123");
     cy.get("[type='password']").last().type("teste123");
-
+    cy.get("[type='checkbox']").check();
     cy.get("button").click();
     cy.get("form").should("contain", "Ugyldig e-postadresse");
     cy.location("pathname", { timeout: 10000 }).should("eq", "/signup");
   });
+
+  it("should not check of for GDPR and not redirect", () => {
+    cy.visit("/signup");
+
+    cy.get("[type='text']").type("nybruker@test.no");
+    cy.get("[type='password']").first().type("teste123");
+    cy.get("[type='password']").last().type("teste123");
+    cy.get("button").click();
+
+    cy.get("form").should(
+      "contain",
+      "Du må samtykke til NSIs gjeldende personvernspolicy"
+    );
+
+    cy.location("pathname", { timeout: 10000 }).should("eq", "/signup");
+  });
+
   it("should fill signup form and redirect to homepage", () => {
     cy.visit("/signup");
 
@@ -36,6 +54,7 @@ describe("Sign up", () => {
     cy.get("[type='password']").first().type("teste123");
     cy.get("[type='password']").last().type("teste123");
 
+    cy.get("[type='checkbox']").check();
     cy.get("button").click();
 
     cy.location("pathname", { timeout: 10000 }).should("eq", "/");
@@ -51,7 +70,7 @@ describe("Sign up", () => {
     cy.location("pathname", { timeout: 10000 }).should("eq", "/login");
   });
 
-  describe("Login in", () => {
+  describe("Log in", () => {
     it("should try to log in with wrong password", () => {
       cy.visit("/login");
 
