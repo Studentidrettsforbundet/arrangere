@@ -85,6 +85,7 @@ describe("Sign up", () => {
       cy.location("pathname", { timeout: 10000 }).should("eq", "/login");
       cy.get("form").should("contain", "E-post eller passord er feil");
     });
+
     it("should try to log in with no password", () => {
       cy.visit("/login");
 
