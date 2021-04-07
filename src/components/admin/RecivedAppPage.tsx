@@ -1,5 +1,3 @@
-import firebase from "firebase";
-import { useEffect, useState } from "react";
 import RecivedAppCard from "./RecivedAppCard";
 
 export default function RecivedAppPage() {

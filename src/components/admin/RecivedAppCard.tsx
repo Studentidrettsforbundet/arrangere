@@ -22,28 +22,16 @@ type Props = {
 
 export const RecivedAppCard = (props: Props) => {
   let [applicationIdList, setApplicationIdList] = useState<any>([]);
-  //let [applicationData, setApplicationData] = useState<any>();
-
   const setCurrentApplicationIdState = useSetRecoilState(
     currentApplicationIdState
   );
   const setCurrentCollectionState = useSetRecoilState(currentCollectionState);
-  // const isInitialMount = useRef(true);
-  let docData = useRef();
   const classes = useStyles();
   var db = firebase.firestore();
 
   useEffect(() => {
     getSubmittedApplicationsID();
-  }, [applicationIdList]);
-
-  // useEffect(() => {
-  //   if (isInitialMount.current) {
-  //     getSubmittedApplicationsID();
-  //     isInitialMount.current = false;
-  //     setError("");
-  //   }
-  // });
+  }, []);
 
   function getSubmittedApplicationsID() {
     db.collection(props.collectionName)
@@ -59,55 +47,6 @@ export const RecivedAppCard = (props: Props) => {
       });
     return applicationIdList;
   }
-
-  /** Må skrive kode for å hente ut brukernavn til bruker som har sendt inn søknaden, noe lignende
-   * det under
-   */
-  // function getUsername(applicationList: any) {
-  //   db.collection("user")
-  //     .get()
-  //     .then((querySnapshot) => {
-  //       querySnapshot.forEach((doc) => {
-  //         //console.log(doc.data().applications);
-  //         if (doc.data() != null) {
-  //           console.log(doc.data().applications);
-
-  //             if (doc.data().applications.contains(application)) {
-  //               console.log(doc.data().email);
-  //             } else {
-  //               console.log("no match");
-  //             }
-  //           });
-  //         } else {
-  //           console.log("fail");
-  //         }
-  //       });
-  //     });
-  // }
-
-  // function showApplication(item: string) {
-  //   console.log(item);
-  //   db.collection(props.collectionName)
-  //     .doc(item)
-  //     .get()
-  //     .then((doc) => {
-  //       if (doc.exists) {
-  //         //console.log("Document data:", doc.data());
-  //         //docData = doc.data();
-  //         //setApplicationData(JSON.stringify(doc.data()));
-  //         setApplicationData(doc.data());
-  //         //docData = doc.data();
-  //       } else {
-  //         // doc.data() will be undefined in this case
-  //         console.log("No such document!");
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.log("Error getting document:", error);
-  //     });
-  //   console.log(applicationData);
-  //   return applicationData;
-  // }
 
   return (
     <div style={{ display: "flex" }}>
