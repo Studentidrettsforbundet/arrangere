@@ -1,18 +1,15 @@
 import React, { FC, useState } from "react";
-import { Typography, Box, Link } from "@material-ui/core";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-
+import { Typography, Box } from "@material-ui/core";
+import { useRecoilState, useRecoilValue } from "recoil";
 import firebase from "firebase";
 import { v4 as uuid } from "uuid";
-import { documentState } from "../../stateManagement/attributesState";
-
-import { inputFieldObjectState } from "../../stateManagement/attributesState";
+import {
+  documentState,
+  inputFieldObjectState,
+} from "../../stateManagement/attributesState";
 import { addFieldInputObject } from "./saveInputFields";
 
 const FileUpload: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
-  // const [attribute, setAttribute] = useRecoilState(attributesState(id));
-  // const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
-  // const selectedID = useRecoilValue(selectedAttributeIdState);
   const docID = useRecoilValue(documentState);
   const [fileUrl, setFileUrl] = useState();
   const [fileName, setFileName] = useState("");
@@ -38,27 +35,26 @@ const FileUpload: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
         console.log("file ", file!.name, " saved, with ID: ", fileId);
         console.log("current doc ID: " + docID);
 
-        storageRef.getDownloadURL().then((url) => {
+        await storageRef.getDownloadURL().then((url) => {
           setFileUrl(url);
         });
+        console.log("storageRef: " + storageRef);
+        handleChangeValue(storageRef.toString());
       }
     }
   };
 
   const handleChange = (event: React.ChangeEvent) => {
     var target = event.target as HTMLInputElement;
-    console.log("target value: ", target.value);
     saveFile(target);
-    // setAttribute({
-    //   ...attribute,
-    //   value: target.value,
-    //   id: selectedID,
-    // });
+    // handleChangeValue(target.value);
   };
-  // const handleChange = (value: string) => {
-  //   let object = addFieldInputObject(value, chapterName, inputFieldObject, id);
-  //   setInputFieldList(object);
-  // };
+
+  const handleChangeValue = (value: string) => {
+    let object = addFieldInputObject(value, chapterName, inputFieldObject, id);
+    setInputFieldList(object);
+    console.log("input value: " + value);
+  };
 
   return (
     <Box py={2}>
@@ -68,9 +64,9 @@ const FileUpload: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
         id="contained-button-file"
         multiple
         type="file"
-        // onChange={(e) => {
-        //   handleChange(e.target.value);
-        // }}
+        onChange={(e) => {
+          handleChange(e);
+        }}
       />
       <a href={fileUrl} download>
         {fileName}
