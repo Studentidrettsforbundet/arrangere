@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { Component, FC } from "react";
 import {
   Typography,
   Button,
@@ -14,11 +14,17 @@ import Number from "./Number";
 import RadioButton from "./RadioButton";
 import ShortText from "./ShortText";
 import Time from "./Time";
-import { copyAttribute } from "./inputButtonFunctions";
+import { copyAttribute, numberOfFields } from "./inputButtonFunctions";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { useDocRef } from "./saveInputFields";
 import { useRecoilValue } from "recoil";
 import { choosenApplicationState } from "../../stateManagement/choosenApplication";
+import { ReactComponent } from "*.svg";
+import { useState } from "react";
+import { useEffect } from "react";
+import app, { firestore } from "../../firebase";
+import { documentState } from "../../stateManagement/attributesState";
+import firebase from "firebase";
 
 export type InputField = {
   type: string;
@@ -38,7 +44,7 @@ type InputWrapperProps = {
   priority: number;
 };
 
-const componentList = [
+export const componentList = [
   { type: "short text", ComponentName: ShortText },
   { type: "long text", ComponentName: LongText },
   { type: "radio button", ComponentName: RadioButton },
@@ -98,13 +104,82 @@ const InputWrapper: FC<InputWrapperProps> = ({
   attributeName,
 }) => {
   const docRef = useDocRef();
+  const [newFields, setNewFields] = useState([]);
   const chosenApplication = useRecoilValue(choosenApplicationState);
+  const docID = useRecoilValue(documentState);
+
   let attributebutton;
   let isCollapse = false;
   let haveMainDesc = false;
   if (mainDesc != null) {
     haveMainDesc = true;
   }
+
+  useEffect(() => {
+    createFields(false);
+  }, []);
+
+  const deleteField = async (id: number, docRef: any) => {
+    // @ts-ignore
+    const FieldValue = app.firestore.FieldValue;
+
+    console.log("deleting", chosenApplication, attributeName, id);
+    let data: any = {};
+    data = `${chapterName}.$attributes.${attributeName}${id}`;
+    // docRef.update([data].delete()).catch((error: string) => {
+    // console.error("Error deleting field", JSON.stringify(error));
+    // });
+  };
+  const createFields = async (isUpdated: boolean) => {
+    const accordions: any = [];
+    let counter = await numberOfFields(docRef, attributeName, chapterName);
+    if (isUpdated) {
+      counter++;
+    }
+    let array = Array.from(Array(counter).keys());
+    console.log(counter, "counter");
+    array.map((i) => {
+      accordions.push(
+        <Accordion key={i}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+          >
+            <Typography variant="h6">{i + 1 + ". " + title}</Typography>
+            <Button onClick={() => deleteField(i, docRef)}> Fjern </Button>
+          </AccordionSummary>
+
+          {haveMainDesc ? (
+            <Box px={2}>
+              <Typography variant="subtitle1">{mainDesc}</Typography>
+            </Box>
+          ) : (
+            ""
+          )}
+
+          <AccordionDetails>
+            <div style={{ width: "100%" }}>
+              <div>{generateComponents(inputFields, chapterName)}</div>
+            </div>
+          </AccordionDetails>
+        </Accordion>
+      );
+    });
+
+    console.log(accordions);
+    setNewFields(accordions);
+  };
+
+  const copyField = (
+    template: string,
+    docRef: any,
+    attributeName: string,
+    chapterName: string
+  ) => {
+    copyAttribute(chosenApplication, docRef, attributeName, chapterName);
+    createFields(true);
+  };
+
   if (buttons != null) {
     buttons.forEach((button) => {
       if (button.includes(attributeName)) {
@@ -112,12 +187,7 @@ const InputWrapper: FC<InputWrapperProps> = ({
           <Box m={0.5} mb={1}>
             <Button
               onClick={() =>
-                copyAttribute(
-                  chosenApplication,
-                  docRef,
-                  attributeName,
-                  chapterName
-                )
+                copyField(chosenApplication, docRef, attributeName, chapterName)
               }
               variant="outlined"
             >
@@ -129,34 +199,13 @@ const InputWrapper: FC<InputWrapperProps> = ({
       }
     });
   }
+
   return (
     <div style={{ width: "100%" }}>
       {isCollapse ? (
         <div>
           <Box pb={2}>
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <Typography variant="h6">{title}</Typography>
-              </AccordionSummary>
-
-              {haveMainDesc ? (
-                <Box px={2}>
-                  <Typography variant="subtitle1">{mainDesc}</Typography>
-                </Box>
-              ) : (
-                ""
-              )}
-
-              <AccordionDetails>
-                <div style={{ width: "100%" }}>
-                  {generateComponents(inputFields, chapterName)}
-                </div>
-              </AccordionDetails>
-            </Accordion>
+            <div>{newFields}</div>
           </Box>
           {attributebutton}
         </div>

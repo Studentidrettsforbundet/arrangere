@@ -13,6 +13,19 @@ export const copyAttribute = async (
     .collection(template + "Template")
     .doc(`${chapterName}`);
 
+  const attributeInTemplate = await collectionToRef
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        docExists = true;
+      }
+      newAttribute = doc.data()!.attributes;
+      return docExists;
+    })
+    .catch((error) => {
+      console.error("Error reading from document", JSON.stringify(error));
+    });
+
   let length;
   const attributesInApplication = await docRef
     .get()
@@ -39,19 +52,6 @@ export const copyAttribute = async (
       );
     });
 
-  const attributeInTemplate = await collectionToRef
-    .get()
-    .then((doc) => {
-      if (doc.exists) {
-        docExists = true;
-      }
-      newAttribute = doc.data()!.attributes;
-      return docExists;
-    })
-    .catch((error) => {
-      console.error("Error reading from document", JSON.stringify(error));
-    });
-
   if (attributesInApplication && attributeInTemplate) {
     let data: any = {};
     data[`${chapterName}.attributes.${attributeName}${length}`] =
@@ -63,4 +63,33 @@ export const copyAttribute = async (
   }
 
   return false;
+};
+
+export const numberOfFields = async (
+  docRef: any,
+  attributeName: string,
+  chapterName: string
+) => {
+  let counter = 0;
+  await docRef
+    .get()
+    .then((doc: any) => {
+      let nr = 0;
+      let att = doc.data()![chapterName].attributes;
+      Object.keys(att).forEach((attribute) => {
+        if (attribute.includes(attributeName)) {
+          nr++;
+        }
+      });
+      counter = nr;
+    })
+    .catch((error: string) => {
+      console.error(
+        "Error reading from document",
+        `${docRef}`,
+        JSON.stringify(error)
+      );
+    });
+
+  return counter;
 };

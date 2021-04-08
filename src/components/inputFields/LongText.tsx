@@ -18,7 +18,6 @@ const LongText: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
     <Box py={2}>
       <Typography>{desc}</Typography>
       <TextField
-        id="outlined-basic"
         fullWidth
         multiline
         rows={4}
