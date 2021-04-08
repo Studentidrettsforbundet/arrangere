@@ -14,6 +14,7 @@ import { documentState } from "../stateManagement/attributesState";
 import { currentUserState } from "../stateManagement/userAuth";
 import { useStyles } from "../style/cards";
 import { addDocToUser } from "./inputFields/addDocToUser";
+import DisplayError from "./DisplayError";
 
 type CardProps = {
   image: string;
@@ -55,11 +56,12 @@ export const ApplicationCard = (props: CardProps) => {
         return chapterExists;
       })
       .catch((error) => {
-        console.error(
-          "Error reading document",
-          `${collectionFrom}/`,
-          JSON.stringify(error)
-        );
+         <DisplayError message={error.message} name={error.name}/>
+        // console.error(
+        //   "Error reading document",
+        //   `${collectionFrom}/`,
+        //   JSON.stringify(error)
+        // );
       });
 
     const docToRef = firestore.collection(collectionTo).doc();
@@ -81,11 +83,12 @@ export const ApplicationCard = (props: CardProps) => {
             );
           })
           .catch((error) => {
-            console.error(
-              "Error creating document",
-              `${collectionTo}`,
-              JSON.stringify(error)
-            );
+             <DisplayError message={error.message} name={error.name}/>
+            // console.error(
+            //   "Error creating document",
+            //   `${collectionTo}`,
+            //   JSON.stringify(error)
+            // );
           });
       });
       addDocToUser(currentUser!.uid, newDocId);

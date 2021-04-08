@@ -2,6 +2,7 @@ import { firestore } from "../../firebase";
 
 
 
+
 async function getNumberOfApplications(userID: string) {
   let counter: number = 1;
   const doc = await firestore.collection("user").doc(userID).get();
@@ -23,6 +24,7 @@ export const addDocToUser = async (userID: string, docID: string) => {
     )
   } catch (error) {
     console.log("Errormelding: " + error)
+   
 
   }
 
