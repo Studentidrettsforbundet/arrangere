@@ -32,22 +32,18 @@ const FileUpload: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
           .child(docID)
           .child(fileId);
         await storageRef.put(file!);
-        console.log("file ", file!.name, " saved, with ID: ", fileId);
-        console.log("current doc ID: " + docID);
 
         await storageRef.getDownloadURL().then((url) => {
           setFileUrl(url);
+          handleChangeValue(String(url));
         });
-        console.log("storageRef: " + storageRef);
-        handleChangeValue(storageRef.toString());
       }
     }
   };
 
-  const handleChange = (event: React.ChangeEvent) => {
+  const handleChange = async (event: React.ChangeEvent) => {
     var target = event.target as HTMLInputElement;
     saveFile(target);
-    // handleChangeValue(target.value);
   };
 
   const handleChangeValue = (value: string) => {
@@ -62,7 +58,6 @@ const FileUpload: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
       <input
         accept="pdf"
         id="contained-button-file"
-        multiple
         type="file"
         onChange={(e) => {
           handleChange(e);
