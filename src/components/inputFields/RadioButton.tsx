@@ -38,7 +38,6 @@ const RadioButton: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
     setValue(value);
   };
 
-
   return (
     <div className="radioContainer">
       <FormControl component="fieldset">

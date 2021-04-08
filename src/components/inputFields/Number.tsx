@@ -32,7 +32,6 @@ const Number: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
     setValue(value);
   };
 
-
   return (
     <Box py={2}>
       <Typography>{desc}</Typography>
