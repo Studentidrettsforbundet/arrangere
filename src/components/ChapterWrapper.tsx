@@ -1,5 +1,15 @@
-import { Box, Button, Typography } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Typography,
+} from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
+import React, { useEffect, useState } from "react";
 import { Attribute, Chapter } from "./Template";
 import InputWrapper, { InputField } from "./inputFields/InputWrapper";
 import { useStyles } from "../style/chapters";
@@ -8,12 +18,12 @@ import {
   documentState,
   inputFieldObjectState,
 } from "../stateManagement/attributesState";
-import { saveInput, useDocRef } from "./inputFields/saveInputFields";
-import { is_numeric } from "./utils";
-import { setStatusToSubmitted } from "./inputFields/confirmSubmittedApplication";
-import { Alert } from "@material-ui/lab";
-import { firestore } from "../firebase";
 import { currentUserState } from "../stateManagement/userAuth";
+import { saveInput, useDocRef } from "./inputFields/saveInputFields";
+import { setStatusToSubmitted } from "./inputFields/confirmSubmittedApplication";
+import { firestore } from "../firebase";
+import { useHistory } from "react-router-dom";
+import { is_numeric } from "./utils";
 
 type ChapterProps = {
   chapter: Chapter;
@@ -30,10 +40,12 @@ const ChapterWrapper = (props: ChapterProps) => {
   let chapterName = props.chapterName;
   const [loading, setLoading] = useState(true);
   const [submitted, setSubmitted] = useState("in progress");
+  const [open, setOpen] = React.useState(false);
   const currentDocID = useRecoilValue(documentState);
   const currentUserID = useRecoilValue(currentUserState);
   const [attributeList, setAttributeList] = useState<AttributeObject[]>([]);
   const docRef = useDocRef();
+  const history = useHistory();
   const [inputFieldObject, setInputFieldObject] = useRecoilState(
     inputFieldObjectState
   );
@@ -109,28 +121,39 @@ const ChapterWrapper = (props: ChapterProps) => {
     return inputWrappers;
   };
 
-  async function applicationExists() {
-    const doc = await firestore
-      .collection("user")
-      .doc(currentUserID!.uid)
-      .get();
+  async function applicationExists(docRef: any, userID: string) {
+    if ((await docRef!.get()).exists) {
+      const doc = await firestore
+        .collection("user")
+        .doc(currentUserID!.uid)
+        .get();
 
-    const docData: any = doc.data();
-    for (const application in docData.applications) {
-      if (docData.applications[application] === currentDocID) {
-        return true;
+      const docData: any = doc.data();
+      for (const application in docData.applications) {
+        if (docData.applications[application].id === currentDocID) {
+          setStatusToSubmitted(docRef, userID, application);
+          setSubmitted("submitted");
+          history.push("/applications");
+        }
       }
-    }
-    return false;
-  }
-
-  const submitApplication = (docRef: any) => {
-    if (applicationExists()) {
-      setStatusToSubmitted(docRef);
-      setSubmitted("sumbitted");
+      setSubmitted("failed");
+      handleClose();
     } else {
       setSubmitted("failed");
+      handleClose();
     }
+  }
+
+  const submitApplication = (docRef: any, userID: string) => {
+    applicationExists(docRef, userID);
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   let descContainer = (
@@ -157,22 +180,47 @@ const ChapterWrapper = (props: ChapterProps) => {
             Lagre
           </Button>
         </Box>
-        <Box flexShrink={0} mt={3} mb={3}>
-          <Button variant="contained" onClick={() => submitApplication(docRef)}>
-            Send inn
-          </Button>
-        </Box>
+        {chapterName === "additional" ? (
+          <Box flexShrink={0} mt={3} mb={3}>
+            <Button variant="contained" onClick={handleClickOpen}>
+              Send inn
+            </Button>
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">Send inn søknad</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  Er du sikker på at du vil sende inn søknaden? Har du husket å
+                  lagre?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="primary" autoFocus>
+                  Gå tilbake
+                </Button>
+                <Button
+                  onClick={() => submitApplication(docRef, currentUserID!.uid)}
+                  color="primary"
+                >
+                  Send inn
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </Box>
+        ) : (
+          <Box></Box>
+        )}
       </Box>
-      {submitted === "in progress" ? (
-        <p></p>
-      ) : submitted === "failed" ? (
+      {submitted === "failed" ? (
         <Alert severity="error">
           Something went wrong submitting the application!
         </Alert>
       ) : (
-        <Alert severity="success" onClose={() => {}}>
-          The application is successfully submitted!
-        </Alert>
+        <Box></Box>
       )}
     </div>
   );

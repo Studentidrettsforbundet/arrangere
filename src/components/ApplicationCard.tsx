@@ -107,7 +107,7 @@ export const ApplicationCard = (props: CardProps) => {
             JSON.stringify(error)
           );
         });
-      addDocToUser(currentUser!.uid, newDocId);
+      addDocToUser(currentUser!.uid, newDocId, collectionTo);
       setDocID(newDocId);
     }
   }
