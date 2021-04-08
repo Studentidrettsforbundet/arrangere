@@ -60,40 +60,16 @@ const ShortText: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
       }
     });
     let fieldPath = `${chapterName}.attributes.${attributeName}.input_fields.${input}.value`;
-    // let fieldPath = new FieldPath(
-    //   chapterName,
-    //   "attributes",
-    //   attributeName,
-    //   "input_fields",
-    //   input,
-    //   "value"
-    // );
 
-    await docRef.get(fieldPath);
-    // .then((doc) => {
-    //   if (doc.exists) {
-    //     const docData = doc?.data();
-    //     if (!docData) {
-    //       console.log("No data here");
-    //     }
-
-    //     console.log(fieldPath);
-
-    //     setValue("hei");
-
-    //setValue(docRef.get(fieldPath));
-
-    // console.log(
-    //   "Document data:",
-    //   docData!.general.attributes.general.input_fields.input2.value
-    // );
-    //   } else {
-    //     console.log("No such document!");
-    //   }
-    // })
-    // .catch((error) => {
-    //   console.log("Error getting document:", error);
-    // });
+    await docRef
+      .get()
+      .then((res) => {
+        let value = res.get(fieldPath);
+        setValue(value);
+      })
+      .catch((error) => {
+        console.log("Error in retrieveing value:", error);
+      });
   }
 
   const handleValueChange = (value: any) => {
