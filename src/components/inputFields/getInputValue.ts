@@ -15,7 +15,6 @@ export async function getInputValue(
   let inputNr = splitToInputNr(id);
 
   let fieldPath = `${chapterName}.attributes.${attributeName}.input_fields.input${inputNr}.value`;
-  console.log(fieldPath);
 
   await docRef
     .get()
