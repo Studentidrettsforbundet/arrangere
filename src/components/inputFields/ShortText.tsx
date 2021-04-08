@@ -1,14 +1,9 @@
 import { FC, useEffect, useRef, useState } from "react";
 import { TextField, Typography, Box } from "@material-ui/core";
-import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from "recoil";
-import {
-  documentState,
-  inputFieldObjectState,
-} from "../../stateManagement/attributesState";
+import { useRecoilState } from "recoil";
+import { inputFieldObjectState } from "../../stateManagement/attributesState";
 import { addFieldInputObject, useDocRef } from "./saveInputFields";
-import { is_numeric } from "../utils";
-import { choosenApplicationState } from "../../stateManagement/choosenApplication";
-import { firestore } from "../../firebase";
+import { getInputValue } from "./getInputValue";
 
 const ShortText: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
   const [inputFieldObject, setInputFieldList] = useRecoilState(
@@ -17,11 +12,14 @@ const ShortText: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
 
   const [value, setValue] = useState("");
   const isInitialMount = useRef(true);
+  const docRef = useDocRef();
 
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
-      getValue();
+      getInputValue(docRef, chapterName, id).then((value) => {
+        setValue(value);
+      });
     }
   });
 
@@ -30,49 +28,7 @@ const ShortText: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
     setInputFieldList(object);
   };
 
-  const docRef = useDocRef();
-
-  // const splitID = (id: string) => {
-  //   let attributeName: string = "";
-  //   let inputNr: string = "";
-  //   id.split("").forEach((character) => {
-  //     if (is_numeric(character)) {
-  //       inputNr += character;
-  //     } else {
-  //       attributeName += character;
-  //     }
-  //   });
-  //   return [attributeName, inputNr];
-  // };
-
-  async function getValue() {
-    if (docRef == undefined) {
-      return "";
-    }
-
-    let attributeName: string = "";
-    let input: string = "input";
-    id.split("").forEach((character) => {
-      if (is_numeric(character)) {
-        input += character;
-      } else {
-        attributeName += character;
-      }
-    });
-    let fieldPath = `${chapterName}.attributes.${attributeName}.input_fields.${input}.value`;
-
-    await docRef
-      .get()
-      .then((res) => {
-        let value = res.get(fieldPath);
-        setValue(value);
-      })
-      .catch((error) => {
-        console.log("Error in retrieveing value:", error);
-      });
-  }
-
-  const handleValueChange = (value: any) => {
+  const handleValueChange = (value: string) => {
     setValue(value);
   };
 
