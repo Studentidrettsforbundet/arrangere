@@ -40,7 +40,7 @@ export const ApplicationReview = () => {
   return (
     <ul>
       {applicationData.map((data: any, i: any) => (
-        <li key="i">{JSON.stringify(data.activities)}</li>
+        <li key="i">{JSON.stringify(data)}</li>
       ))}
     </ul>
   );
