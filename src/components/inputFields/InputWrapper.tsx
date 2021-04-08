@@ -6,6 +6,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  Grid,
 } from "@material-ui/core";
 import Date from "./Date";
 import FileUpload from "./FileUpload";
@@ -14,7 +15,7 @@ import Number from "./Number";
 import RadioButton from "./RadioButton";
 import ShortText from "./ShortText";
 import Time from "./Time";
-import { copyAttribute, numberOfFields } from "./inputButtonFunctions";
+import { copyAttribute, createNewAttribute } from "./inputButtonFunctions";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { useDocRef } from "./saveInputFields";
 import { useRecoilValue } from "recoil";
@@ -115,69 +116,80 @@ const InputWrapper: FC<InputWrapperProps> = ({
     haveMainDesc = true;
   }
 
-  useEffect(() => {
-    createFields(false);
-  }, []);
-
-  const deleteField = async (id: number, docRef: any) => {
-    // @ts-ignore
-    const FieldValue = app.firestore.FieldValue;
-
-    console.log("deleting", chosenApplication, attributeName, id);
-    let data: any = {};
-    data = `${chapterName}.$attributes.${attributeName}${id}`;
-    // docRef.update([data].delete()).catch((error: string) => {
-    // console.error("Error deleting field", JSON.stringify(error));
-    // });
-  };
-  const createFields = async (isUpdated: boolean) => {
-    const accordions: any = [];
-    let counter = await numberOfFields(docRef, attributeName, chapterName);
-    if (isUpdated) {
-      counter++;
-    }
-    let array = Array.from(Array(counter).keys());
-    console.log(counter, "counter");
-    array.map((i) => {
-      accordions.push(
-        <Accordion key={i}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-          >
-            <Typography variant="h6">{i + 1 + ". " + title}</Typography>
-            <Button onClick={() => deleteField(i, docRef)}> Fjern </Button>
-          </AccordionSummary>
-
-          {haveMainDesc ? (
-            <Box px={2}>
-              <Typography variant="subtitle1">{mainDesc}</Typography>
-            </Box>
-          ) : (
-            ""
-          )}
-
-          <AccordionDetails>
-            <div style={{ width: "100%" }}>
-              <div>{generateComponents(inputFields, chapterName)}</div>
-            </div>
-          </AccordionDetails>
-        </Accordion>
-      );
+  const deleteField = (attName: string, docRef: any) => {
+    let fieldPath = `${chapterName}.attributes.${attName}`;
+    var removeAttribute = docRef.update({
+      [fieldPath]: firebase.firestore.FieldValue.delete(),
     });
+    if (removeAttribute) {
+      createFields();
+    }
+  };
 
-    console.log(accordions);
+  const createFields = async () => {
+    const accordions: any = [];
+    let attributeObject: { [key: string]: Array<InputField> } = {};
+    attributeObject = await createNewAttribute(
+      docRef,
+      attributeName,
+      chapterName,
+      inputFields
+    );
+
+    Object.entries(attributeObject).forEach(
+      ([attributeName, inputFieldsArray], i) => {
+        accordions.push(
+          <Accordion key={attributeName}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+            >
+              <Grid
+                container
+                direction="row"
+                justify="space-between"
+                alignItems="center"
+              >
+                <Typography variant="h6">{i + 1 + ". " + title}</Typography>
+                <Button
+                  variant="outlined"
+                  onClick={() => deleteField(attributeName, docRef)}
+                >
+                  X
+                </Button>
+              </Grid>
+            </AccordionSummary>
+
+            {haveMainDesc ? (
+              <Box px={2}>
+                <Typography variant="subtitle1">{mainDesc}</Typography>
+              </Box>
+            ) : (
+              ""
+            )}
+
+            <AccordionDetails>
+              <div style={{ width: "100%" }}>
+                <div>{generateComponents(inputFieldsArray, chapterName)}</div>
+              </div>
+            </AccordionDetails>
+          </Accordion>
+        );
+      }
+    );
     setNewFields(accordions);
   };
 
   const copyField = (
-    template: string,
     docRef: any,
     attributeName: string,
     chapterName: string
   ) => {
-    copyAttribute(chosenApplication, docRef, attributeName, chapterName);
-    createFields(true);
+    copyAttribute(chosenApplication, docRef, attributeName, chapterName).then(
+      () => {
+        createFields();
+      }
+    );
   };
 
   if (buttons != null) {
@@ -186,16 +198,15 @@ const InputWrapper: FC<InputWrapperProps> = ({
         attributebutton = (
           <Box m={0.5} mb={1}>
             <Button
-              onClick={() =>
-                copyField(chosenApplication, docRef, attributeName, chapterName)
-              }
+              onClick={() => copyField(docRef, attributeName, chapterName)}
               variant="outlined"
             >
-              Legg til felt
+              Legg til {title}
             </Button>
           </Box>
         );
         isCollapse = true;
+        createFields();
       }
     });
   }

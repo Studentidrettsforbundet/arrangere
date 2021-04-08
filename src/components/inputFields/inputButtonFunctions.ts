@@ -1,4 +1,7 @@
+import { Attributes } from "react";
 import { firestore } from "../../firebase";
+import { is_numeric } from "../utils";
+import { InputField } from "./InputWrapper";
 
 export const copyAttribute = async (
   template: string,
@@ -54,42 +57,67 @@ export const copyAttribute = async (
 
   if (attributesInApplication && attributeInTemplate) {
     let data: any = {};
-    data[`${chapterName}.attributes.${attributeName}${length}`] =
+    let newAttributeName = attributeName + new Date().valueOf();
+
+    data[`${chapterName}.attributes.${newAttributeName}`] =
       newAttribute[attributeName];
     docRef.update(data, { merge: true }).catch((error: string) => {
       console.error("Error updating document", JSON.stringify(error));
     });
+    console.log("attributed created");
     return true;
   }
 
   return false;
 };
 
-export const numberOfFields = async (
+export const createNewAttribute = async (
   docRef: any,
   attributeName: string,
-  chapterName: string
+  chapterName: string,
+  inputFields: Array<InputField>
 ) => {
-  let counter = 0;
+  let attributeObject: { [key: string]: Array<InputField> } = {};
+
   await docRef
     .get()
     .then((doc: any) => {
-      let nr = 0;
       let att = doc.data()![chapterName].attributes;
-      Object.keys(att).forEach((attribute) => {
-        if (attribute.includes(attributeName)) {
-          nr++;
+
+      Object.keys(att).forEach((attribute: any) => {
+        let localInputFields: Array<InputField> = [];
+
+        if (attribute == attributeName) {
+          Object.assign(attributeObject, { [attribute]: inputFields });
         }
+
+        if (attribute.includes(attributeName) && attribute != attributeName) {
+          let inputNr: string = "";
+
+          Object.keys(att[attribute].input_fields).forEach(
+            (inputField: any) => {
+              inputField.split("").forEach((character: any) => {
+                if (is_numeric(character)) {
+                  inputNr += character;
+                }
+              });
+              localInputFields.push({
+                type: att[attribute].input_fields[inputField].type,
+                desc: att[attribute].input_fields[inputField].desc,
+                priority: att[attribute].input_fields[inputField].priority,
+                id: attribute + "-" + inputNr,
+              });
+              inputNr = "";
+            }
+          );
+          Object.assign(attributeObject, { [attribute]: localInputFields });
+        }
+        localInputFields.sort((a: any, b: any) => a.priority - b.priority);
       });
-      counter = nr;
     })
     .catch((error: string) => {
-      console.error(
-        "Error reading from document",
-        `${docRef}`,
-        JSON.stringify(error)
-      );
+      console.error("Error creating", `${docRef}`, JSON.stringify(error));
     });
 
-  return counter;
+  return attributeObject;
 };
