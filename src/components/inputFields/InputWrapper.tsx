@@ -16,8 +16,9 @@ import ShortText from "./ShortText";
 import Time from "./Time";
 import { copyAttribute } from "./inputButtonFunctions";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { spacing } from "@material-ui/system";
-import { attributesState } from "../../stateManagement/attributesState";
+import { useDocRef } from "./saveInputFields";
+import { useRecoilValue } from "recoil";
+import { choosenApplicationState } from "../../stateManagement/choosenApplication";
 
 export type InputField = {
   type: string;
@@ -53,10 +54,14 @@ const defaultComponent = () => {
 };
 
 const getComponentToBeRendered = (type: string) => {
-  let ComponentName: React.FC<{ desc: string; id: string }>;
+  let ComponentName: React.FC<{
+    desc: string;
+    id: string;
+    chapterName: string;
+  }>;
   ComponentName = defaultComponent;
 
-  componentList.map((component) => {
+  componentList.forEach((component) => {
     if (component.type === type) {
       ComponentName = component.ComponentName;
     }
@@ -65,21 +70,24 @@ const getComponentToBeRendered = (type: string) => {
   return ComponentName;
 };
 
-const generateComponents = (inputFields: Array<InputField>) => {
+const generateComponents = (
+  inputFields: Array<InputField>,
+  chapterName: string
+) => {
   const components: any = [];
   inputFields.map((inputField: any, i) => {
     const Component = getComponentToBeRendered(inputField.type);
     components.push(
-      <Component key={i} desc={inputField.desc} id={inputField.id}></Component>
+      <Component
+        key={i}
+        desc={inputField.desc}
+        id={inputField.id}
+        chapterName={chapterName}
+      ></Component>
     );
   });
   return components;
 };
-
-/*
-let url = window.location.href;
-var str_sub = url.substr(url.lastIndexOf("/") + 1);
-*/
 
 const InputWrapper: FC<InputWrapperProps> = ({
   title,
@@ -89,6 +97,8 @@ const InputWrapper: FC<InputWrapperProps> = ({
   chapterName,
   attributeName,
 }) => {
+  const docRef = useDocRef();
+  const chosenApplication = useRecoilValue(choosenApplicationState);
   let attributebutton;
   let isCollapse = false;
   let haveMainDesc = false;
@@ -103,8 +113,8 @@ const InputWrapper: FC<InputWrapperProps> = ({
             <Button
               onClick={() =>
                 copyAttribute(
-                  "scTemplate",
-                  "testCollection",
+                  chosenApplication,
+                  docRef,
                   attributeName,
                   chapterName
                 )
@@ -138,12 +148,12 @@ const InputWrapper: FC<InputWrapperProps> = ({
                   <Typography variant="subtitle1">{mainDesc}</Typography>
                 </Box>
               ) : (
-                  ""
-                )}
+                ""
+              )}
 
               <AccordionDetails>
                 <div style={{ width: "100%" }}>
-                  {generateComponents(inputFields)}
+                  {generateComponents(inputFields, chapterName)}
                 </div>
               </AccordionDetails>
             </Accordion>
@@ -151,12 +161,18 @@ const InputWrapper: FC<InputWrapperProps> = ({
           {attributebutton}
         </div>
       ) : (
-          <div>
-            <Typography variant="h6">{title}</Typography>
-            <Typography variant="subtitle1">{mainDesc}</Typography>
-            <div>{generateComponents(inputFields)}</div>
-          </div>
-        )}
+        <div>
+          <Typography variant="h6">{title}</Typography>
+          {haveMainDesc ? (
+            <Box>
+              <Typography variant="subtitle1">{mainDesc}</Typography>
+            </Box>
+          ) : (
+            ""
+          )}
+          <div>{generateComponents(inputFields, chapterName)}</div>
+        </div>
+      )}
     </div>
   );
 };

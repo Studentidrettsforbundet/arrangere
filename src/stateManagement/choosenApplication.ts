@@ -3,8 +3,8 @@ import { localStorageEffect } from "./localstorageRecoil";
 
 export const choosenApplicationState = atom<string>({
   key: "applicationState",
-  default: "snm",
-  effects_UNSTABLE: [localStorageEffect("template")],
+  default: "",
+  effects_UNSTABLE: [localStorageEffect("collection")],
 });
 
 export const currentChapterState = atom<string>({
@@ -20,11 +20,14 @@ export const chapterCounterState = atom<number>({
 export const currentApplicationIdState = atom<string>({
   key: "currentApplicationIdState",
   default: "",
-})
+});
 
 export const currentCollectionState = atom<string>({
   key: "currentCollectionState",
   default: "",
-})
+});
 
-
+export const previousChapterState = atom<string>({
+  key: "previousChapterState",
+  default: "",
+});

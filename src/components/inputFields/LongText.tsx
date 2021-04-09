@@ -1,20 +1,19 @@
 import { FC } from "react";
 import { TextField, Typography, Box } from "@material-ui/core";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import {
-  attributesState,
-  selectedAttributeIdState,
-} from "../../stateManagement/attributesState";
+import { useRecoilState } from "recoil";
+import { inputFieldObjectState } from "../../stateManagement/attributesState";
+import { addFieldInputObject } from "./saveInputFields";
 
-type LongTextProps = {
-  desc: string;
-  id: string;
-};
+const LongText: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
+  const [inputFieldObject, setInputFieldList] = useRecoilState(
+    inputFieldObjectState
+  );
 
-const LongText: FC<LongTextProps> = ({ desc, id }) => {
-  const [attribute, setAttribute] = useRecoilState(attributesState(id));
-  const setSelectedAttribute = useSetRecoilState(selectedAttributeIdState);
-  const selectedID = useRecoilValue(selectedAttributeIdState);
+  const handleChange = (value: string) => {
+    let object = addFieldInputObject(value, chapterName, inputFieldObject, id);
+    setInputFieldList(object);
+  };
+
   return (
     <Box py={2}>
       <Typography>{desc}</Typography>
@@ -23,14 +22,9 @@ const LongText: FC<LongTextProps> = ({ desc, id }) => {
         fullWidth
         multiline
         rows={4}
-        onFocus={() => setSelectedAttribute(id)}
-        onChange={(event) =>
-          setAttribute({
-            ...attribute,
-            value: event.target.value,
-            id: selectedID,
-          })
-        }
+        onBlur={(e) => {
+          handleChange(e.target.value);
+        }}
         InputLabelProps={{
           shrink: true,
         }}
