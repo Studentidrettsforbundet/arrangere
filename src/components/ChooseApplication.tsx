@@ -11,7 +11,7 @@ export const ChooseApplication = () => {
         Søknader
       </Typography>
       <Typography gutterBottom variant="h5" component="h2">
-        Opprette ny søknad
+        Opprette ny søknad!
       </Typography>
       <div
         style={{
