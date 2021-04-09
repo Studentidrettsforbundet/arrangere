@@ -1,8 +1,5 @@
 import { firestore } from "../../firebase";
 
-
-
-
 async function getNumberOfApplications(userID: string) {
   let counter: number = 1;
   const doc = await firestore.collection("user").doc(userID).get();
@@ -15,17 +12,13 @@ async function getNumberOfApplications(userID: string) {
 }
 
 export const addDocToUser = async (userID: string, docID: string) => {
-  
-
   let applicationNo: number = 0;
   try {
     await getNumberOfApplications(userID).then(
       (counter) => (applicationNo = counter)
-    )
+    );
   } catch (error) {
-    console.log("Errormelding: " + error)
-   
-
+    console.log("Errormelding: " + error);
   }
 
   if (applicationNo == 0) {

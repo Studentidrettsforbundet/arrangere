@@ -56,7 +56,7 @@ export const ApplicationCard = (props: CardProps) => {
         return chapterExists;
       })
       .catch((error) => {
-         <DisplayError message={error.message} name={error.name}/>
+        <DisplayError message={error.message} name={error.name} />;
         // console.error(
         //   "Error reading document",
         //   `${collectionFrom}/`,
@@ -83,7 +83,7 @@ export const ApplicationCard = (props: CardProps) => {
             );
           })
           .catch((error) => {
-             <DisplayError message={error.message} name={error.name}/>
+            <DisplayError message={error.message} name={error.name} />;
             // console.error(
             //   "Error creating document",
             //   `${collectionTo}`,
