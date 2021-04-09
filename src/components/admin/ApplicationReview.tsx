@@ -11,22 +11,7 @@ import {
 import { useStyles } from "../../style/chapters";
 import ChapterWrapper from "../ChapterWrapper";
 import { InputField } from "../inputFields/InputWrapper";
-
-export type Chapter = {
-  chapterName: string;
-  title: string;
-  desc: string;
-  attributes: Array<Attribute>;
-  priority: number;
-  buttons: Array<string>;
-};
-
-export type Attribute = {
-  title: string;
-  mainDesc: string;
-  inputFields: Array<InputField>;
-  priority: number;
-};
+import { Chapter } from "../Template";
 
 export const ApplicationReview = () => {
   const classes = useStyles();
@@ -38,37 +23,17 @@ export const ApplicationReview = () => {
 
   useEffect(() => {
     retriveApplicationData(currentCollection, currentApplicationId);
-    //generateApplicationForm();
-    //renderChapters(chapterList);
   }, [currentApplicationId]);
-
-  // function retriveApplicationData(
-  //   currentCollection: string,
-  //   currentApplicationId: string
-  // ) {
-  //   if (currentCollection != "") {
-  //     db.collection(currentCollection)
-  //       .doc(currentApplicationId)
-  //       .get()
-  //       .then((doc) => {
-  //         doc.forEach((ca))
-  //         if (!doc.data()) {
-  //           console.log("no data here");
-  //           return null;
-  //         } else {
-  //           setApplicationData([...applicationData, doc.data()]);
-  //         }
-  //       });
-  //   } else {
-  //     console.log("currentCollection is empty");
-  //   }
-  // }
 
   async function retriveApplicationData(
     currentCollection: string,
     currentApplicationId: string
   ) {
-    if (currentCollection != "") {
+    if (currentCollection == "") {
+      console.log("currentCollection is empty");
+    } else {
+      let chapterListLocal: Array<Chapter> = [];
+
       await db
         .collection(currentCollection)
         .doc(currentApplicationId)
@@ -79,102 +44,52 @@ export const ApplicationReview = () => {
             console.log("no data here");
             return null;
           } else {
+            for (let chapter in docData) {
+              chapterListLocal.push({
+                chapterName: chapter,
+                title: docData[chapter].title,
+                desc: docData[chapter].desc,
+                attributes: docData[chapter].attributes,
+                priority: docData[chapter].priority,
+                buttons: docData[chapter].buttons,
+              });
+            }
+            setChapterList(chapterListLocal);
+            console.log(chapterListLocal);
+
             setApplicationData([...applicationData, docData]);
           }
         });
-    } else {
-      console.log("currentCollection is empty");
     }
   }
 
-  // async function generateApplicationForm() {
-  //   let chapterListLocal: Array<Chapter> = [];
-
-  //   await firestore
-  //     .collection(currentCollection.replace("Applications", "Template"))
-  //     //.doc(currentApplicationId)
-  //     .get()
-  //     .then((snapshot) => {
-  //       snapshot.docs.forEach((chapter) => {
-  //         // .then((doc) => {
-  //         if (chapter.exists) {
-  //           //     const docData = doc?.data();
-  //           //     if (!docData) {
-  //           //       console.log("no data here");
-  //           //       return null;
-  //           //     } else {
-
-  //           chapterListLocal.push({
-  //             // activities: docData.activities,
-  //             // practical: docData.practical,
-  //             // economy: docData.economy,
-  //             // general: docData.general,
-  //             // additional: docData.additional,
-  //             chapterName: chapter.id,
-  //             buttons: chapter.data().buttons,
-  //             title: chapter.data().title,
-  //             desc: chapter.data().desc,
-  //             attributes: chapter.data().attributes,
-  //             priority: chapter.data().priority,
-  //             // chapterName: chapter.id,
-  //             // title: chapter.data().title,
-  //             // desc: chapter.data().desc,
-  //             // attributes: chapter.data().attributes,
-  //             // priority: chapter.data().priority,
-  //           });
-  //           console.log(chapterListLocal);
-  //         }
-  //         // else {
-  //         //   console.log("No such document!");
-  //         //   throw new Error("No document.");
-  //         // }
-  //       });
-  //     });
-
-  //   setChapterList(chapterListLocal);
-  //   chapterListLocal = [];
-  // }
-
-  // const renderChapters = (chapterList: Array<Chapter>) => {
-  //   const chapters: any = [];
-
-  //   chapterList.map((chapter: Chapter) => {
-  //     chapters.push(
-  //       <ChapterWrapper
-  //         key={chapter.title}
-  //         chapterName={chapter.chapterName}
-  //         chapter={chapter}
-  //       />
-  //     );
-  //   });
-  //   //console.log(chapterList);
-  //   chapterList.sort((a: Chapter, b: Chapter) => a.priority - b.priority);
-  //   return chapters;
-  // };
+  const renderChapters = (chapterList: Array<Chapter>) => {
+    const chapters: any = [];
+    chapterList.map((chapter: Chapter) => {
+      chapters.push(
+        <ChapterWrapper
+          key={chapter.title}
+          chapterName={chapter.chapterName}
+          chapter={chapter}
+        />
+      );
+    });
+    chapterList.sort((a: Chapter, b: Chapter) => a.priority - b.priority);
+    //setCurrentChapterState(chapterList[chapterCounter].title);
+    return chapters;
+  };
 
   return (
-    <>
-      <ul>
+    <div>
+      {/* <ul>
         {applicationData.map((data: any, i: any) => (
           <li key="i">{JSON.stringify(data)}</li>
         ))}
-      </ul>
-      {/* <div>
-        <div>
-          <div>
-            <div role="navigation" className="chapterButtons">
-              <Box className={classes.nav}>{}</Box>
-            </div>
-            <div role="main">
-              <Box px={15} pt={6}>
-                {renderChapters(chapterList)}{" "}
-                <Button variant="contained">Neste</Button>
-              </Box>
-            </div>
-          </div>
-        </div>
-      </div> */}
-    </>
+      </ul> */}
+      <Box px={15} pt={6}>
+        {renderChapters(chapterList)}
+      </Box>
+    </div>
   );
 };
 
