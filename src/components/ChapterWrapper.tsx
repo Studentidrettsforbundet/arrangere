@@ -121,7 +121,7 @@ const ChapterWrapper = (props: ChapterProps) => {
     return inputWrappers;
   };
 
-  async function applicationExists(docRef: any, userID: string) {
+  async function submitApplication(docRef: any, userID: string) {
     if ((await docRef!.get()).exists) {
       const doc = await firestore
         .collection("user")
@@ -143,10 +143,6 @@ const ChapterWrapper = (props: ChapterProps) => {
       handleClose();
     }
   }
-
-  const submitApplication = (docRef: any, userID: string) => {
-    applicationExists(docRef, userID);
-  };
 
   const handleClickOpen = () => {
     setOpen(true);
