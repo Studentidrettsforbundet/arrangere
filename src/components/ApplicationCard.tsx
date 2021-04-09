@@ -15,6 +15,8 @@ import { currentUserState } from "../stateManagement/userAuth";
 import { useStyles } from "../style/cards";
 import { addDocToUser } from "./inputFields/addDocToUser";
 import DisplayError from "./DisplayError";
+import DisplayAlert from "./DisplayAlert";
+import { Alert, AlertTitle } from "@material-ui/lab";
 
 type CardProps = {
   image: string;
@@ -56,7 +58,7 @@ export const ApplicationCard = (props: CardProps) => {
         return chapterExists;
       })
       .catch((error) => {
-         <DisplayError message={error.message} name={error.name}/>
+        <DisplayError message={error.message} title={error.name} />;
         // console.error(
         //   "Error reading document",
         //   `${collectionFrom}/`,
@@ -66,6 +68,11 @@ export const ApplicationCard = (props: CardProps) => {
 
     const docToRef = firestore.collection(collectionTo).doc();
     let newDocId = docToRef.id;
+
+    // const displayAlert = (title: string, message: string) => {
+    //   <DisplayAlert title={title} message={message} />;
+    //   console.log("Display alert er kalt");
+    // };
 
     if (docData) {
       chapterListLocal.forEach(async (chapter) => {
@@ -83,7 +90,7 @@ export const ApplicationCard = (props: CardProps) => {
             );
           })
           .catch((error) => {
-             <DisplayError message={error.message} name={error.name}/>
+            <DisplayError message={error.message} title={error.name} />;
             // console.error(
             //   "Error creating document",
             //   `${collectionTo}`,

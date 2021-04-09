@@ -8,6 +8,8 @@ import { inputFieldObjectState } from "../stateManagement/attributesState";
 import { saveInput, useDocRef } from "./inputFields/saveInputFields";
 import { is_numeric } from "./utils";
 import { spacing } from "@material-ui/system";
+import DisplayError from "./DisplayError";
+import DisplayAlert from "./DisplayAlert";
 
 type ChapterProps = {
   chapter: Chapter;
@@ -106,6 +108,15 @@ const ChapterWrapper = (props: ChapterProps) => {
     </Typography>
   );
 
+  const saveAndAlertUser = () => {
+    try {
+      saveInput(docRef, inputFieldObject);
+      <DisplayAlert title={"Sukess!"} message={"Lagret!"} />;
+    } catch (error) {
+      <DisplayError title={error.name} message={error.message} />;
+    }
+  };
+
   return (
     <div style={{ width: "100%" }}>
       <Typography style={{ color: "#00adee" }} variant="h4">
@@ -119,7 +130,8 @@ const ChapterWrapper = (props: ChapterProps) => {
       <Box mt={3} mb={3}>
         <Button
           variant="contained"
-          onClick={() => saveInput(docRef, inputFieldObject)}
+          // onClick={() => saveInput(docRef, inputFieldObject)}
+          onClick={() => saveAndAlertUser()}
         >
           Lagre
         </Button>
