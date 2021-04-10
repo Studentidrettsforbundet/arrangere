@@ -3,11 +3,10 @@ import React, { useEffect, useState } from "react";
 import { Attribute, Chapter } from "./Template";
 import InputWrapper, { InputField } from "./inputFields/InputWrapper";
 import { useStyles } from "../style/chapters";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { inputFieldObjectState } from "../stateManagement/attributesState";
 import { saveInput, useDocRef } from "./inputFields/saveInputFields";
 import { is_numeric } from "./utils";
-import { spacing } from "@material-ui/system";
 import DisplayError from "./DisplayError";
 import DisplayAlert from "./DisplayAlert";
 
@@ -30,6 +29,7 @@ const ChapterWrapper = (props: ChapterProps) => {
   const [inputFieldObject, setInputFieldObject] = useRecoilState(
     inputFieldObjectState
   );
+  // const inputFieldSaved = useRecoilValue(inputFieldSavedState);
 
   const classes = useStyles();
 
@@ -108,12 +108,19 @@ const ChapterWrapper = (props: ChapterProps) => {
     </Typography>
   );
 
-  const saveAndAlertUser = () => {
+  const [showAlert, setShowAlert] = useState(false);
+  const [showError, setshowError] = useState(false);
+
+  const saveAndAlertUser = async () => {
     try {
       saveInput(docRef, inputFieldObject);
-      <DisplayAlert title={"Sukess!"} message={"Lagret!"} />;
+      setShowAlert(true);
+      // if (inputFieldSaved) {
+      //   setShowAlert(true);
+      //   console.log("Alert");
+      // }
     } catch (error) {
-      <DisplayError title={error.name} message={error.message} />;
+      setshowError(true);
     }
   };
 
@@ -135,6 +142,12 @@ const ChapterWrapper = (props: ChapterProps) => {
         >
           Lagre
         </Button>
+        {showAlert ? (
+          <DisplayAlert title={"Sukess!"} message={"Kapittel lagret!"} />
+        ) : null}
+        {showError ? (
+          <DisplayError title={"Ups!"} message={"Ikke lagret, prøv på nytt."} />
+        ) : null}
       </Box>
     </div>
   );

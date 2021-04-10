@@ -12,3 +12,8 @@ export const documentState = atom<string>({
   default: "",
   effects_UNSTABLE: [localStorageEffect("docID")],
 });
+
+// export const inputFieldSavedState = atom<boolean>({
+//   key: "inputFieldSavedState",
+//   default: false,
+// });
