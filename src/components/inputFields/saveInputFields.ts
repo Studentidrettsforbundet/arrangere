@@ -2,7 +2,6 @@ import { useRecoilCallback, useRecoilValue, useSetRecoilState } from "recoil";
 import { firestore } from "../../firebase";
 import { documentState } from "../../stateManagement/attributesState";
 import { choosenApplicationState } from "../../stateManagement/choosenApplication";
-import { is_numeric } from "../utils";
 
 export function useDocRef() {
   const docID = useRecoilValue(documentState);

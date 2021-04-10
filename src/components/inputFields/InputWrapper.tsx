@@ -18,12 +18,13 @@ import Time from "./Time";
 import { copyAttribute, getListOfAttributes } from "./inputButtonFunctions";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { useDocRef } from "./saveInputFields";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { choosenApplicationState } from "../../stateManagement/choosenApplication";
 import { useState } from "react";
 import { useEffect } from "react";
 import firebase from "firebase";
 import { useStyles2 } from "./inputStyles";
+import { inputFieldObjectState } from "../../stateManagement/attributesState";
 
 export const componentList = [
   { type: "short text", ComponentName: ShortText },
@@ -90,6 +91,9 @@ const InputWrapper: FC<InputWrapperProps> = ({
   const [newFields, setNewFields] = useState<any>([]);
   const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
   const chosenApplication = useRecoilValue(choosenApplicationState);
+  const [inputFieldObject, setInputFieldObject] = useRecoilState(
+    inputFieldObjectState
+  );
 
   let attributebutton;
   let isCollapse = false;
@@ -106,6 +110,7 @@ const InputWrapper: FC<InputWrapperProps> = ({
 
   const deleteField = async (attName: string, docRef: any) => {
     setLoadingDelete(true);
+
     let fieldPath = `${chapterName}.attributes.${attName}`;
     await docRef
       .update({
@@ -115,6 +120,20 @@ const InputWrapper: FC<InputWrapperProps> = ({
       .catch((error: any) => {
         console.log("Could not delete", error);
       });
+
+    const inputFieldObjectLocal = Object.entries(inputFieldObject).reduce(
+      (inputFieldObjectLocal, [key, val]) => {
+        if (key.includes(attName)) {
+          return inputFieldObjectLocal;
+        }
+        return {
+          ...inputFieldObjectLocal,
+          [key]: val,
+        };
+      },
+      {}
+    );
+    setInputFieldObject(inputFieldObjectLocal);
     renderAccordions();
     setLoadingDelete(false);
   };

@@ -48,7 +48,6 @@ export const copyAttribute = async (
           let data: any = {};
           let data2: any = {};
 
-          //let newAttributeName = attributeName + new Date().valueOf();
           let newAttributeName = attributeName + highestPriority;
 
           attributeObjectList = getOneNewAttribute(
