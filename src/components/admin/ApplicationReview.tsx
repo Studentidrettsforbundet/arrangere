@@ -119,36 +119,39 @@ export const ApplicationReview = () => {
   //   return fieldPaths;
   // };
 
-  const renderInputFields = (inputFields: any) => {
-    let inputFieldList: Array<any> = [];
-
+  const renderInputFields = (inputFields: Array<InputField>) => {
+    let inputFieldList: Array<InputField> = [];
     for (const inputField in inputFields) {
       inputFieldList.push(inputFields[inputField]);
     }
 
-    inputFieldList.sort((a: any, b: any) => a.priority - b.priority);
+    inputFieldList.sort(
+      (a: InputField, b: InputField) => a.priority - b.priority
+    );
 
     return (
       <div>
-        {inputFieldList.map((input) => {
+        {inputFieldList.map((inputField) => {
           return (
-            <div>
-              <p>{input.desc}</p>
-              <p style={{ color: "red" }}>{input.value}</p>
-            </div>
+            <Box>
+              <Typography variant="subtitle1">{inputField.desc}</Typography>
+              <Typography style={{ color: "red" }} variant="body2">
+                Svar: {inputField.value}
+              </Typography>
+            </Box>
           );
         })}
       </div>
     );
   };
 
-  const renderAttributes = (attributes: any) => {
+  const renderAttributes = (attributes: Array<Attribute>) => {
     let attributeList: Array<any> = [];
     for (const attribute in attributes) {
       attributeList.push(attributes[attribute]);
     }
 
-    attributeList.sort((a: any, b: any) => a.priority - b.priority);
+    attributeList.sort((a: Attribute, b: Attribute) => a.priority - b.priority);
 
     return (
       <div>
