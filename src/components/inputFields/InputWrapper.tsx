@@ -1,4 +1,4 @@
-import React, { Component, FC } from "react";
+import React, { FC } from "react";
 import {
   Typography,
   Button,
@@ -15,35 +15,15 @@ import Number from "./Number";
 import RadioButton from "./RadioButton";
 import ShortText from "./ShortText";
 import Time from "./Time";
-import { copyAttribute, createNewAttribute } from "./inputButtonFunctions";
+import { copyAttribute, getListOfAttributes } from "./inputButtonFunctions";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { useDocRef } from "./saveInputFields";
 import { useRecoilValue } from "recoil";
 import { choosenApplicationState } from "../../stateManagement/choosenApplication";
-import { ReactComponent } from "*.svg";
 import { useState } from "react";
 import { useEffect } from "react";
-import app, { firestore } from "../../firebase";
-import { documentState } from "../../stateManagement/attributesState";
 import firebase from "firebase";
-
-export type InputField = {
-  type: string;
-  desc: string;
-  priority: number;
-  id: string;
-};
-
-type InputWrapperProps = {
-  title: string;
-  mainDesc: string;
-  key: string;
-  inputFields: Array<InputField>;
-  buttons: Array<string>;
-  chapterName: string;
-  attributeName: string;
-  priority: number;
-};
+import { useStyles2 } from "./inputStyles";
 
 export const componentList = [
   { type: "short text", ComponentName: ShortText },
@@ -86,7 +66,7 @@ const generateComponents = (
     const Component = getComponentToBeRendered(inputField.type);
     components.push(
       <Component
-        key={i}
+        key={i + "" + inputField.id}
         desc={inputField.desc}
         id={inputField.id}
         chapterName={chapterName}
@@ -104,10 +84,12 @@ const InputWrapper: FC<InputWrapperProps> = ({
   chapterName,
   attributeName,
 }) => {
+  const classes = useStyles2();
+
   const docRef = useDocRef();
-  const [newFields, setNewFields] = useState([]);
+  const [newFields, setNewFields] = useState<any>([]);
+  const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
   const chosenApplication = useRecoilValue(choosenApplicationState);
-  const docID = useRecoilValue(documentState);
 
   let attributebutton;
   let isCollapse = false;
@@ -116,48 +98,41 @@ const InputWrapper: FC<InputWrapperProps> = ({
     haveMainDesc = true;
   }
 
-  const deleteField = (attName: string, docRef: any) => {
-    let fieldPath = `${chapterName}.attributes.${attName}`;
-    var removeAttribute = docRef.update({
-      [fieldPath]: firebase.firestore.FieldValue.delete(),
-    });
-    if (removeAttribute) {
-      createFields();
+  useEffect(() => {
+    if (isCollapse) {
+      renderAccordions();
     }
+  }, []);
+
+  const deleteField = async (attName: string, docRef: any) => {
+    setLoadingDelete(true);
+    let fieldPath = `${chapterName}.attributes.${attName}`;
+    await docRef
+      .update({
+        [fieldPath]: firebase.firestore.FieldValue.delete(),
+      })
+      .then(console.log("deleted" + attName))
+      .catch((error: any) => {
+        console.log("Could not delete", error);
+      });
+    renderAccordions();
+    setLoadingDelete(false);
   };
 
-  const createFields = async () => {
-    const accordions: any = [];
-    let attributeObject: { [key: string]: Array<InputField> } = {};
-    attributeObject = await createNewAttribute(
-      docRef,
-      attributeName,
-      chapterName,
-      inputFields
-    );
-
-    Object.entries(attributeObject).forEach(
-      ([attributeName, inputFieldsArray], i) => {
-        accordions.push(
-          <Accordion key={attributeName}>
+  const createAccordion = (
+    name: string,
+    inputFields: Array<InputField>,
+    priority: number
+  ) => {
+    let accordion = (
+      <Grid key={name} container>
+        <Grid item xs={10}>
+          <Accordion className={classes.accordions} key={name}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
             >
-              <Grid
-                container
-                direction="row"
-                justify="space-between"
-                alignItems="center"
-              >
-                <Typography variant="h6">{i + 1 + ". " + title}</Typography>
-                <Button
-                  variant="outlined"
-                  onClick={() => deleteField(attributeName, docRef)}
-                >
-                  X
-                </Button>
-              </Grid>
+              <Typography variant="h6">{title + " " + priority}</Typography>
             </AccordionSummary>
 
             {haveMainDesc ? (
@@ -170,26 +145,69 @@ const InputWrapper: FC<InputWrapperProps> = ({
 
             <AccordionDetails>
               <div style={{ width: "100%" }}>
-                <div>{generateComponents(inputFieldsArray, chapterName)}</div>
+                <div>{generateComponents(inputFields, chapterName)}</div>
               </div>
             </AccordionDetails>
           </Accordion>
-        );
-      }
+        </Grid>
+        <Grid item align-self="center" xs={2}>
+          <Button
+            className={classes.deleteButton}
+            disabled={loadingDelete}
+            variant="outlined"
+            onClick={() => deleteField(name, docRef)}
+          >
+            x
+          </Button>
+        </Grid>
+      </Grid>
     );
-    setNewFields(accordions);
+
+    return accordion;
   };
 
-  const copyField = (
+  const renderAccordions = async () => {
+    let accordions: any = [];
+    await getListOfAttributes(docRef, attributeName, chapterName).then(
+      (attributeObjectList) => {
+        attributeObjectList.forEach((attribute) => {
+          let accordion;
+          Object.entries(attribute).forEach(([key, value]) => {
+            accordion = createAccordion(
+              key,
+              value.input_fields,
+              value.priority
+            );
+          });
+          accordions.push(accordion);
+        });
+        accordions.sort((a: any, b: any) => a.key - b.key);
+
+        setNewFields(accordions);
+      }
+    );
+  };
+
+  const copyField = async (
     docRef: any,
     attributeName: string,
     chapterName: string
   ) => {
-    copyAttribute(chosenApplication, docRef, attributeName, chapterName).then(
-      () => {
-        createFields();
-      }
+    let attributeList = await copyAttribute(
+      chosenApplication,
+      docRef,
+      attributeName,
+      chapterName
     );
+    var accordion;
+
+    Object.entries(attributeList[0]).forEach(([key, value]) => {
+      accordion = createAccordion(key, value.input_fields, value.priority);
+    });
+
+    var accordions = [...newFields];
+    accordions.push(accordion);
+    setNewFields(accordions);
   };
 
   if (buttons != null) {
@@ -206,7 +224,6 @@ const InputWrapper: FC<InputWrapperProps> = ({
           </Box>
         );
         isCollapse = true;
-        createFields();
       }
     });
   }

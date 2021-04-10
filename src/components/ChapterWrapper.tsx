@@ -1,13 +1,11 @@
 import { Box, Button, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { Attribute, Chapter } from "./Template";
-import InputWrapper, { InputField } from "./inputFields/InputWrapper";
+import InputWrapper from "./inputFields/InputWrapper";
 import { useStyles } from "../style/chapters";
 import { useRecoilState } from "recoil";
 import { inputFieldObjectState } from "../stateManagement/attributesState";
 import { saveInput, useDocRef } from "./inputFields/saveInputFields";
 import { is_numeric } from "./utils";
-import { spacing } from "@material-ui/system";
 
 type ChapterProps = {
   chapter: Chapter;
@@ -86,9 +84,7 @@ const ChapterWrapper = (props: ChapterProps) => {
           chapterName={chapterName}
           attributeName={attributeObject.name}
           buttons={buttons}
-          key={
-            attributeObject.attribute.name + attributeObject.attribute.priority
-          }
+          key={attributeObject.name}
           title={attributeObject.attribute.title}
           mainDesc={attributeObject.attribute.desc}
           inputFields={inputFields}
