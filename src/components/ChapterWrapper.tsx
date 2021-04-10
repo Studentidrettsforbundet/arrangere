@@ -10,8 +10,7 @@ import {
 } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import React, { useEffect, useState } from "react";
-import { Attribute, Chapter } from "./Template";
-import InputWrapper, { InputField } from "./inputFields/InputWrapper";
+import InputWrapper from "./inputFields/InputWrapper";
 import { useStyles } from "../style/chapters";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
@@ -96,7 +95,7 @@ const ChapterWrapper = (props: ChapterProps) => {
             desc: attributeObject.attribute.input_fields[inputField].desc,
             priority:
               attributeObject.attribute.input_fields[inputField].priority,
-            id: attributeObject.name + inputNr,
+            id: attributeObject.name + "-" + inputNr,
           });
           inputNr = "";
         }
@@ -107,9 +106,7 @@ const ChapterWrapper = (props: ChapterProps) => {
           chapterName={chapterName}
           attributeName={attributeObject.name}
           buttons={buttons}
-          key={
-            attributeObject.attribute.name + attributeObject.attribute.priority
-          }
+          key={attributeObject.name}
           title={attributeObject.attribute.title}
           mainDesc={attributeObject.attribute.desc}
           inputFields={inputFields}

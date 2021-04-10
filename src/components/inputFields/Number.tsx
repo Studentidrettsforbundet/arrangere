@@ -18,7 +18,6 @@ const Number: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
     <Box py={2}>
       <Typography>{desc}</Typography>
       <TextField
-        id="outlined-basic"
         variant="outlined"
         fullWidth
         type="number"

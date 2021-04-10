@@ -7,27 +7,9 @@ import {
   choosenApplicationState,
   currentChapterState,
 } from "../stateManagement/choosenApplication";
-import { InputField } from "./inputFields/InputWrapper";
 import { Box, Button, Grid } from "@material-ui/core/";
 import { useStyles } from "../style/chapters";
 import ChapterButton from "./ChapterButton";
-import { saveInput } from "./inputFields/saveInputFields";
-
-export type Chapter = {
-  chapterName: string;
-  title: string;
-  desc: string;
-  attributes: Array<Attribute>;
-  priority: number;
-  buttons: Array<string>;
-};
-
-export type Attribute = {
-  title: string;
-  mainDesc: string;
-  inputFields: Array<InputField>;
-  priority: number;
-};
 
 const Template = () => {
   const classes = useStyles();
