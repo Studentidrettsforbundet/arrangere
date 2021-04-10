@@ -24,7 +24,7 @@ const DisplayError: FC<ErrorProps> = ({ title, message }) => {
       <Alert severity="error">
         <AlertTitle>Oisann, det oppsto en feil!</AlertTitle>
         Prøv å last inn siden på nytt.
-        {JSON.stringify(message)}
+        {message}
       </Alert>
     </div>
   );

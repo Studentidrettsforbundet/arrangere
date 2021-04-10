@@ -1,5 +1,4 @@
-import { selector } from "recoil";
-import { atom, atomFamily } from "recoil";
+import { atom } from "recoil";
 import { localStorageEffect } from "./localstorageRecoil";
 
 export const inputFieldObjectState = atom({
@@ -12,8 +11,3 @@ export const documentState = atom<string>({
   default: "",
   effects_UNSTABLE: [localStorageEffect("docID")],
 });
-
-// export const inputFieldSavedState = atom<boolean>({
-//   key: "inputFieldSavedState",
-//   default: false,
-// });

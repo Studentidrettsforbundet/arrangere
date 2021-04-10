@@ -1,9 +1,8 @@
 import { Box, Button, Typography } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Attribute, Chapter } from "./Template";
 import InputWrapper, { InputField } from "./inputFields/InputWrapper";
-import { useStyles } from "../style/chapters";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { inputFieldObjectState } from "../stateManagement/attributesState";
 import { saveInput, useDocRef } from "./inputFields/saveInputFields";
 import { is_numeric } from "./utils";
@@ -29,9 +28,6 @@ const ChapterWrapper = (props: ChapterProps) => {
   const [inputFieldObject, setInputFieldObject] = useRecoilState(
     inputFieldObjectState
   );
-  // const inputFieldSaved = useRecoilValue(inputFieldSavedState);
-
-  const classes = useStyles();
 
   useEffect(() => {
     attributesToList(chapter.attributes);
@@ -115,10 +111,6 @@ const ChapterWrapper = (props: ChapterProps) => {
     try {
       saveInput(docRef, inputFieldObject);
       setShowAlert(true);
-      // if (inputFieldSaved) {
-      //   setShowAlert(true);
-      //   console.log("Alert");
-      // }
     } catch (error) {
       setshowError(true);
     }
