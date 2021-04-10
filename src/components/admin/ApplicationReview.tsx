@@ -120,15 +120,17 @@ export const ApplicationReview = () => {
   // };
 
   const renderInputFields = (inputFields: any) => {
-    let inputs: Array<any> = [];
+    let inputFieldList: Array<any> = [];
 
     for (const inputField in inputFields) {
-      inputs.push(inputFields[inputField]);
+      inputFieldList.push(inputFields[inputField]);
     }
 
-    let i = (
+    inputFieldList.sort((a: any, b: any) => a.priority - b.priority);
+
+    return (
       <div>
-        {inputs.map((input) => {
+        {inputFieldList.map((input) => {
           return (
             <div>
               <p>{input.desc}</p>
@@ -138,21 +140,19 @@ export const ApplicationReview = () => {
         })}
       </div>
     );
-
-    return i;
   };
 
   const renderAttributes = (attributes: any) => {
-    let inputFields: Array<string> = [];
-    let attr: Array<any> = [];
+    let attributeList: Array<any> = [];
     for (const attribute in attributes) {
-      attr.push(attributes[attribute]);
-      inputFields.push(attributes[attribute].input_fields);
+      attributeList.push(attributes[attribute]);
     }
 
-    let attri = (
+    attributeList.sort((a: any, b: any) => a.priority - b.priority);
+
+    return (
       <div>
-        {attr.map((attribute) => {
+        {attributeList.map((attribute) => {
           return (
             <div>
               <h2>{attribute.title}</h2>
@@ -163,11 +163,11 @@ export const ApplicationReview = () => {
         })}
       </div>
     );
-    return attri;
   };
 
   const renderChapters = (chapterList: Array<Chapter>) => {
-    let chapters = (
+    chapterList.sort((a: Chapter, b: Chapter) => a.priority - b.priority);
+    return (
       <div style={{ width: "100%" }}>
         {chapterList.map((chapter: Chapter) => {
           return (
@@ -184,7 +184,6 @@ export const ApplicationReview = () => {
         })}
       </div>
     );
-    return chapters;
   };
 
   return (
