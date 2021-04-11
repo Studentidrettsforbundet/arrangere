@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { firestore } from "../firebase";
 import ChapterWrapper from "./ChapterWrapper";
@@ -7,13 +7,16 @@ import {
   choosenApplicationState,
   currentChapterState,
 } from "../stateManagement/choosenApplication";
-import { Box, Button, Grid } from "@material-ui/core/";
+import { Box, Button } from "@material-ui/core/";
 import { useStyles } from "../style/chapters";
 import ChapterButton from "./ChapterButton";
+import { saveInput, useDocRef } from "./inputFields/saveInputFields";
+import { inputFieldObjectState } from "../stateManagement/attributesState";
 
 const Template = () => {
   const classes = useStyles();
   const isInitialMount = useRef(true);
+  const docRef = useDocRef();
   const [loading, setLoading] = useState(true);
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
   const choosenApplicationForm = useRecoilValue(choosenApplicationState);
@@ -21,6 +24,7 @@ const Template = () => {
   const [chapterCounter, setChapterCounter] = useRecoilState(
     chapterCounterState
   );
+  const inputFieldObject = useRecoilValue(inputFieldObjectState);
 
   useEffect(() => {
     if (isInitialMount.current) {
@@ -53,18 +57,19 @@ const Template = () => {
             throw new Error("No document.");
           }
         });
-        setChapterList(chapterListLocal);
       })
       .catch((error) => {
         console.log("Error getting document: ", error);
       });
 
+    setChapterList(chapterListLocal);
     chapterListLocal = [];
     setLoading(false);
   }
 
   const renderChapters = (chapterList: Array<Chapter>) => {
     const chapters: any = [];
+
     chapterList.map((chapter: Chapter) => {
       chapters.push(
         <ChapterWrapper
@@ -96,12 +101,14 @@ const Template = () => {
   const nextChapter = () => {
     if (chapterCounter < chapterList.length - 1) {
       setChapterCounter(chapterCounter + 1);
+      saveInput(docRef, inputFieldObject);
     }
   };
 
   const prevChapter = () => {
     if (chapterCounter > 0) {
       setChapterCounter(chapterCounter - 1);
+      saveInput(docRef, inputFieldObject);
     }
   };
 
