@@ -37,7 +37,6 @@ const ShortText: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
       <Typography>{desc}</Typography>
 
       <TextField
-        id="outlined-basic"
         variant="outlined"
         value={value}
         onChange={(e) => handleValueChange(e.target.value)}

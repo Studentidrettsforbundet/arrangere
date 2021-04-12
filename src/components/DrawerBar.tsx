@@ -74,7 +74,7 @@ export default function DrawerBar() {
               <ListItemText primary="Søknader" />
             </ListItem>
             {userRole == "admin" ? (
-              <ListItem button component={Link} to="/recivedApplications">
+              <ListItem button component={Link} to="/receivedApplications">
                 <ListItemIcon>
                   <DescriptionOutlinedIcon />
                 </ListItemIcon>
