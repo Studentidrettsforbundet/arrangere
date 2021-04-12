@@ -16,8 +16,7 @@ import { useRecoilValue } from "recoil";
 import { currentUserState } from "../stateManagement/userAuth";
 import { useStyles } from "../style/userProfile";
 import { useEffect, useRef, useState } from "react";
-import ReceivedAppCard from "./admin/ReceivedAppCard";
-import { Link as RouterLink } from "react-router-dom";
+import AppCard from "./admin/AppCard";
 
 export const ChooseApplication = () => {
   const [submittedApplicationIDs, setSubmittedApplicationIDs] = useState<
@@ -59,20 +58,21 @@ export const ChooseApplication = () => {
   }
 
   const renderSubmittedApplications = () => {
-    return (
-      <ReceivedAppCard
-        collectionName="snmApplications"
-        applicationIDs={submittedApplicationIDs}
-      />
+    return submittedApplicationIDs?.map(
+      (submittedApplicationID: string, i: any) => (
+        <AppCard
+          applicationId={submittedApplicationID}
+          collectionName="scApplications"
+        ></AppCard>
+      )
     );
   };
 
   const renderInProgressApplications = () => {
-    return (
-      <ReceivedAppCard
-        collectionName="snmApplications"
-        applicationIDs={inProgressApplicationIDs}
-      />
+    return inProgressApplicationIDs?.map(
+      (submittedApplicationID: string, i: any) => (
+        <AppCard applicationId={submittedApplicationID}></AppCard>
+      )
     );
   };
 
