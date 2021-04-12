@@ -12,6 +12,7 @@ import { Box, Button, Grid } from "@material-ui/core/";
 import { useStyles } from "../style/chapters";
 import ChapterButton from "./ChapterButton";
 import { saveInput } from "./inputFields/saveInputFields";
+import DisplayError from "./DisplayError";
 
 export type Chapter = {
   chapterName: string;
@@ -49,52 +50,60 @@ const Template = () => {
   }, [choosenApplicationForm]);
 
   async function generateApplicationForm() {
-    setLoading(true);
-    let chapterListLocal: Array<Chapter> = [];
+    try {
+      setLoading(true);
+      let chapterListLocal: Array<Chapter> = [];
 
-    await firestore
-      .collection(choosenApplicationForm + "Template")
-      .get()
-      .then((snapshot) => {
-        snapshot.docs.forEach((chapter) => {
-          if (chapter.exists) {
-            chapterListLocal.push({
-              chapterName: chapter.id,
-              buttons: chapter.data().buttons,
-              title: chapter.data().title,
-              desc: chapter.data().desc,
-              attributes: chapter.data().attributes,
-              priority: chapter.data().priority,
-            });
-          } else {
-            console.log("No such document!");
-            throw new Error("No document.");
-          }
+      await firestore
+        .collection(choosenApplicationForm + "Template")
+        .get()
+        .then((snapshot) => {
+          snapshot.docs.forEach((chapter) => {
+            if (chapter.exists) {
+              chapterListLocal.push({
+                chapterName: chapter.id,
+                buttons: chapter.data().buttons,
+                title: chapter.data().title,
+                desc: chapter.data().desc,
+                attributes: chapter.data().attributes,
+                priority: chapter.data().priority,
+              });
+            } else {
+              console.log("No such document!");
+              throw new Error("No document.");
+            }
+          });
+          setChapterList(chapterListLocal);
+        })
+        .catch((error) => {
+          console.log("Error getting document: ", error);
         });
-        setChapterList(chapterListLocal);
-      })
-      .catch((error) => {
-        console.log("Error getting document: ", error);
-      });
 
-    chapterListLocal = [];
-    setLoading(false);
+      chapterListLocal = [];
+      setLoading(false);
+    } catch (error) {
+      console.log("Errormelding: ", error.code);
+    }
   }
 
   const renderChapters = (chapterList: Array<Chapter>) => {
-    const chapters: any = [];
-    chapterList.map((chapter: Chapter) => {
-      chapters.push(
-        <ChapterWrapper
-          key={chapter.title}
-          chapterName={chapter.chapterName}
-          chapter={chapter}
-        />
-      );
-    });
-    chapterList.sort((a: Chapter, b: Chapter) => a.priority - b.priority);
-    setCurrentChapterState(chapterList[chapterCounter].title);
-    return chapters;
+    try {
+      const chapters: any = [];
+      chapterList.map((chapter: Chapter) => {
+        chapters.push(
+          <ChapterWrapper
+            key={chapter.title}
+            chapterName={chapter.chapterName}
+            chapter={chapter}
+          />
+        );
+      });
+      chapterList.sort((a: Chapter, b: Chapter) => a.priority - b.priority);
+      setCurrentChapterState(chapterList[chapterCounter].title);
+      return chapters;
+    } catch (error) {
+      console.log("Errormelding: ", error.code);
+    }
   };
 
   const renderButtons = (chapterList: Array<Chapter>) => {

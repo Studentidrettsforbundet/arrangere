@@ -21,11 +21,12 @@ const DisplayError: FC<ErrorProps> = ({ title, message }) => {
 
   return (
     <div className={classes.root}>
-      <Alert severity="error">
+      <p>Det skjedde en feil, last inn på nytt! </p>
+      {/* <Alert severity="error">
         <AlertTitle>Oisann, det oppsto en feil!</AlertTitle>
         Prøv å last inn siden på nytt.
         {message}
-      </Alert>
+      </Alert> */}
     </div>
   );
 };

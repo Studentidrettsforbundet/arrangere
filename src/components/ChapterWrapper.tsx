@@ -6,8 +6,7 @@ import { useRecoilState } from "recoil";
 import { inputFieldObjectState } from "../stateManagement/attributesState";
 import { saveInput, useDocRef } from "./inputFields/saveInputFields";
 import { is_numeric } from "./utils";
-import DisplayError from "./DisplayError";
-import DisplayAlert from "./DisplayAlert";
+import { Alert } from "@material-ui/lab";
 
 type ChapterProps = {
   chapter: Chapter;
@@ -23,6 +22,8 @@ const ChapterWrapper = (props: ChapterProps) => {
   let chapter = props.chapter;
   let chapterName = props.chapterName;
   const [loading, setLoading] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
+  const [showError, setshowError] = useState(false);
   const [attributeList, setAttributeList] = useState<AttributeObject[]>([]);
   const docRef = useDocRef();
   const [inputFieldObject, setInputFieldObject] = useRecoilState(
@@ -104,12 +105,13 @@ const ChapterWrapper = (props: ChapterProps) => {
     </Typography>
   );
 
-  const [showAlert, setShowAlert] = useState(false);
-  const [showError, setshowError] = useState(false);
-
   const saveAndAlertUser = async () => {
     try {
-      saveInput(docRef, inputFieldObject);
+      try {
+        saveInput(docRef, inputFieldObject);
+      } catch (error) {
+        setshowError(true);
+      }
       setShowAlert(true);
     } catch (error) {
       setshowError(true);
@@ -127,18 +129,28 @@ const ChapterWrapper = (props: ChapterProps) => {
       </div>
 
       <Box mt={3} mb={3}>
-        <Button
-          variant="contained"
-          // onClick={() => saveInput(docRef, inputFieldObject)}
-          onClick={() => saveAndAlertUser()}
-        >
+        <Button variant="contained" onClick={() => saveAndAlertUser()}>
           Lagre
         </Button>
         {showAlert ? (
-          <DisplayAlert title={"Sukess!"} message={"Kapittel lagret!"} />
+          <Alert
+            severity="success"
+            onClose={() => {
+              setShowAlert(false);
+            }}
+          >
+            {"Lagret!"}
+          </Alert>
         ) : null}
         {showError ? (
-          <DisplayError title={"Ups!"} message={"Ikke lagret, prøv på nytt."} />
+          <Alert
+            severity="error"
+            onClose={() => {
+              setShowAlert(false);
+            }}
+          >
+            {"Ups, det skjedde en feil. Ikke lagret!"}
+          </Alert>
         ) : null}
       </Box>
     </div>
