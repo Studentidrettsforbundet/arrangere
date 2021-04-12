@@ -20,10 +20,10 @@ import AppCard from "./admin/AppCard";
 
 export const ChooseApplication = () => {
   const [submittedApplicationIDs, setSubmittedApplicationIDs] = useState<
-    Array<string>
+    Array<any>
   >([]);
   const [inProgressApplicationIDs, setInProgressApplicationIDs] = useState<
-    Array<string>
+    Array<any>
   >([]);
   const classes = useStyles();
   const currentUser = useRecoilValue(currentUserState);
@@ -33,46 +33,49 @@ export const ChooseApplication = () => {
   }, []);
 
   async function getApplications() {
-    let submittedApplicationIDs: Array<string> = [];
-    let inProgressApplicationIDs: Array<string> = [];
+    let submittedApplicationIDs: Array<any> = [];
+    let inProgressApplicationIDs: Array<any> = [];
     if (currentUser != null) {
       const doc = await firestore.collection("user").doc(currentUser.uid).get();
       const docData: any = doc.data();
       for (const applicationID in docData.applications) {
         if (docData.applications[applicationID].id != undefined) {
           if (docData.applications[applicationID].status == "submitted") {
-            submittedApplicationIDs.push(
-              docData.applications[applicationID].id
-            );
+            // Her er det sykt rart at jeg ikke kan sette det som et objekt som er gjort i else under..
+            submittedApplicationIDs.push([
+              docData.applications[applicationID].id,
+              docData.applications[applicationID].collection,
+            ]);
           } else {
-            inProgressApplicationIDs.push(
-              docData.applications[applicationID].id
-            );
+            inProgressApplicationIDs.push({
+              id: docData.applications[applicationID].id,
+              collection: docData.applications[applicationID].collection,
+            });
           }
         }
       }
     }
+    console.log(submittedApplicationIDs);
     setSubmittedApplicationIDs(submittedApplicationIDs);
     setInProgressApplicationIDs(inProgressApplicationIDs);
   }
 
   const renderSubmittedApplications = () => {
-    return submittedApplicationIDs?.map(
-      (submittedApplicationID: string, i: any) => (
-        <AppCard
-          applicationId={submittedApplicationID}
-          collectionName="scApplications"
-        ></AppCard>
-      )
-    );
+    return submittedApplicationIDs?.map((applicationID: any, i: any) => (
+      <AppCard
+        applicationId={applicationID[0]}
+        collectionName={applicationID[1]}
+      ></AppCard>
+    ));
   };
 
   const renderInProgressApplications = () => {
-    return inProgressApplicationIDs?.map(
-      (submittedApplicationID: string, i: any) => (
-        <AppCard applicationId={submittedApplicationID}></AppCard>
-      )
-    );
+    return inProgressApplicationIDs?.map((applicationID: any, i: any) => (
+      <AppCard
+        applicationId={applicationID.id}
+        collectionName={applicationID.collection}
+      ></AppCard>
+    ));
   };
 
   return (

@@ -16,7 +16,7 @@ import {
 
 type Props = {
   applicationId: string;
-  collectionName?: any;
+  collectionName: string;
 };
 
 export default function AppCard(props: Props) {
