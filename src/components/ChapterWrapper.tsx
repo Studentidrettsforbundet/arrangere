@@ -24,7 +24,7 @@ import { firestore } from "../firebase";
 import { useHistory } from "react-router-dom";
 import { is_numeric } from "./utils";
 
-const ChapterWrapper = (props: ChapterProps) => {
+const ChapterWrapper = (props: ChapterWithName) => {
   let chapter = props.chapter;
   let chapterName = props.chapterName;
   const [loading, setLoading] = useState(true);
