@@ -20,7 +20,7 @@ type Props = {
   collectionName: string;
 };
 
-export const RecivedAppCard = (props: Props) => {
+export const ReceivedAppCard = (props: Props) => {
   let [applicationIdList, setApplicationIdList] = useState<any>([]);
   const setCurrentApplicationIdState = useSetRecoilState(
     currentApplicationIdState
@@ -90,4 +90,4 @@ export const RecivedAppCard = (props: Props) => {
   );
 };
 
-export default RecivedAppCard;
+export default ReceivedAppCard;

@@ -7,8 +7,7 @@ import {
   currentCollectionState,
 } from "../../stateManagement/choosenApplication";
 import { useStyles } from "../../style/chapters";
-import { InputField } from "../inputFields/InputWrapper";
-import { Chapter, Attribute } from "../Template";
+import InputField from "../inputFields/InputWrapper";
 
 export const ApplicationReview = () => {
   const classes = useStyles();

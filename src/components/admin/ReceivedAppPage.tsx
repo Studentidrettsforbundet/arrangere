@@ -1,6 +1,6 @@
 import ReceivedAppCard from "./ReceivedAppCard";
 
-export default function RecivedAppPage() {
+export default function ReceivedAppPage() {
   return (
     <div>
       <h1>Innsendte søknader</h1>
