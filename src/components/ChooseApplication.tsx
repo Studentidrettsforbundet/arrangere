@@ -17,6 +17,7 @@ import { currentUserState } from "../stateManagement/userAuth";
 import { useStyles } from "../style/userProfile";
 import { useEffect, useRef, useState } from "react";
 import AppCard from "./admin/AppCard";
+import { Link as RouterLink } from "react-router-dom";
 
 export const ChooseApplication = () => {
   const [submittedApplicationIDs, setSubmittedApplicationIDs] = useState<
@@ -55,7 +56,6 @@ export const ChooseApplication = () => {
         }
       }
     }
-    console.log(submittedApplicationIDs);
     setSubmittedApplicationIDs(submittedApplicationIDs);
     setInProgressApplicationIDs(inProgressApplicationIDs);
   }
@@ -63,6 +63,7 @@ export const ChooseApplication = () => {
   const renderSubmittedApplications = () => {
     return submittedApplicationIDs?.map((applicationID: any, i: any) => (
       <AppCard
+        to="/application"
         applicationId={applicationID[0]}
         collectionName={applicationID[1]}
       ></AppCard>
@@ -72,6 +73,7 @@ export const ChooseApplication = () => {
   const renderInProgressApplications = () => {
     return inProgressApplicationIDs?.map((applicationID: any, i: any) => (
       <AppCard
+        to="/edit"
         applicationId={applicationID.id}
         collectionName={applicationID.collection}
       ></AppCard>

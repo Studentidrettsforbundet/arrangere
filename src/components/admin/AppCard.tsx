@@ -17,6 +17,7 @@ import {
 type Props = {
   applicationId: string;
   collectionName: string;
+  to: string;
 };
 
 export default function AppCard(props: Props) {
@@ -55,7 +56,11 @@ export default function AppCard(props: Props) {
               setCurrentCollectionState(props.collectionName);
             }}
             to={{
-              pathname: "/application",
+              pathname: props.to,
+              state: {
+                applicationID: props.applicationId,
+                collection: props.collectionName,
+              },
             }}
           >
             Vis søknad

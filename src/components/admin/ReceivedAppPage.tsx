@@ -59,6 +59,7 @@ export default function ReceivedAppPage() {
       {snmApplicationIDs.map((applicationID: string) => {
         return (
           <AppCard
+            to="/application"
             applicationId={applicationID}
             collectionName="snmApplications"
           />
@@ -69,6 +70,7 @@ export default function ReceivedAppPage() {
       {slApplicationIDs.map((applicationID: string) => {
         return (
           <AppCard
+            to="/application"
             applicationId={applicationID}
             collectionName="slpplications"
           />
@@ -78,6 +80,7 @@ export default function ReceivedAppPage() {
       {scApplicationIDs.map((applicationID: string) => {
         return (
           <AppCard
+            to="/application"
             applicationId={applicationID}
             collectionName="scApplications"
           />
