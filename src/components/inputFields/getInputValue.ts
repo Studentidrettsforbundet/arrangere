@@ -1,5 +1,3 @@
-import { splitToAttributeName, splitToInputNr } from "../utils";
-
 export async function getInputValue(
   docRef: any,
   chapterName: string,
@@ -11,8 +9,9 @@ export async function getInputValue(
     return value;
   }
 
-  let attributeName = splitToAttributeName(id);
-  let inputNr = splitToInputNr(id);
+  let newKey = id.split("-");
+  let attributeName = newKey[0];
+  let inputNr = newKey[1];
 
   let fieldPath = `${chapterName}.attributes.${attributeName}.input_fields.input${inputNr}.value`;
 

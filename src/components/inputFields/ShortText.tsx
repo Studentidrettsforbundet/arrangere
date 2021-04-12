@@ -9,7 +9,6 @@ const ShortText: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
   const [inputFieldObject, setInputFieldList] = useRecoilState(
     inputFieldObjectState
   );
-
   const [value, setValue] = useState("");
   const isInitialMount = useRef(true);
   const docRef = useDocRef();
