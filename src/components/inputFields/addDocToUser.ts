@@ -11,26 +11,32 @@ async function getNumberOfApplications(userID: string) {
   return counter;
 }
 
-export const addDocToUser = async (userID: string, docID: string) => {
-  let applicationNo: number = 0;
-  try {
-    await getNumberOfApplications(userID).then(
-      (counter) => (applicationNo = counter)
-    );
-  } catch (error) {
-    console.log("Errormelding: " + error);
-  }
+export const addDocToUser = async (
+  userID: string,
+  docID: string,
+  collectionTo: string
+) => {
+  let applicationNr: number = 0;
 
-  if (applicationNo == 0) {
+  await getNumberOfApplications(userID).then(
+    (counter) => (applicationNr = counter)
+  );
+
+  var applicationData = {
+    id: docID,
+    status: "in progress",
+    collection: collectionTo,
+  };
+  if (applicationNr == 0) {
     firestore
       .collection("user")
       .doc(userID)
-      .set({ applications: { application1: docID } })
+      .set({ applications: { application1: applicationData } })
       .then(() => console.log("Document added to user!"))
       .catch((error) => console.log(error));
   } else {
     let data: any = {};
-    data[`applications.application${applicationNo}`] = docID;
+    data[`applications.application${applicationNr}`] = applicationData;
 
     firestore
       .collection("user")

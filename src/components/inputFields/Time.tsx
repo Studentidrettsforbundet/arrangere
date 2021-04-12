@@ -1,19 +1,38 @@
-import { FC } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { useStyles } from "./inputStyles";
 import { Typography, TextField, Box } from "@material-ui/core";
 import { useRecoilState } from "recoil";
 import { inputFieldObjectState } from "../../stateManagement/attributesState";
-import { addFieldInputObject } from "./saveInputFields";
+import { addFieldInputObject, useDocRef } from "./saveInputFields";
+import { getInputValue } from "./getInputValue";
 
 const Time: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
+  const classes = useStyles();
+
   const [inputFieldObject, setInputFieldList] = useRecoilState(
     inputFieldObjectState
   );
-  const classes = useStyles();
+
+  const [value, setValue] = useState("");
+  const isInitialMount = useRef(true);
+  const docRef = useDocRef();
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      getInputValue(docRef, chapterName, id).then((value) => {
+        setValue(value);
+      });
+    }
+  });
 
   const handleChange = (value: string) => {
     let object = addFieldInputObject(value, chapterName, inputFieldObject, id);
     setInputFieldList(object);
+  };
+
+  const handleValueChange = (value: string) => {
+    setValue(value);
   };
 
   return (
@@ -25,7 +44,9 @@ const Time: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
           label="Tidspunkt"
           type="time"
           defaultValue="12:00"
-          onChange={(e) => {
+          value={value}
+          onChange={(e) => handleValueChange(e.target.value)}
+          onBlur={(e) => {
             handleChange(e.target.value);
           }}
           className={classes.textField}

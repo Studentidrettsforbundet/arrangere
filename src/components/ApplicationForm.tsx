@@ -12,7 +12,7 @@ export const ApplicationForm = () => {
 
   useEffect(() => {
     setApplicationForm();
-  }, []);
+  }, [url]);
 
   function setApplicationForm() {
     if (str_sub == "studentnm") {
