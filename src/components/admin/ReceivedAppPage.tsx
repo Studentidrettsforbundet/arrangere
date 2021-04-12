@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { firestore } from "../../firebase";
-import ReceivedAppCard from "./ReceivedAppCard";
+import AdminApplications from "./AdminApplications";
 
 export default function ReceivedAppPage() {
   let [snmApplicationIDs, setSnmApplicationIDs] = useState<any>([]);
