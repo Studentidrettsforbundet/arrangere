@@ -1,4 +1,12 @@
-import { Box, Divider, Typography } from "@material-ui/core/";
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Divider,
+  Typography,
+} from "@material-ui/core/";
 import { ApplicationCard } from "./ApplicationCard";
 import Student_NM_logo from "./../images/student_NM.png";
 import Studentleker_logo from "./../images/studentleker-1.png";
@@ -7,7 +15,9 @@ import { firestore } from "../firebase";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "../stateManagement/userAuth";
 import { useStyles } from "../style/userProfile";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import ReceivedAppCard from "./admin/ReceivedAppCard";
+import { Link as RouterLink } from "react-router-dom";
 
 export const ChooseApplication = () => {
   const [submittedApplicationIDs, setSubmittedApplicationIDs] = useState<
@@ -30,37 +40,40 @@ export const ChooseApplication = () => {
       const doc = await firestore.collection("user").doc(currentUser.uid).get();
       const docData: any = doc.data();
       for (const applicationID in docData.applications) {
-        if (docData.applications[applicationID].status == "submitted") {
-          submittedApplicationIDs.push(applicationID);
-        } else {
-          inProgressApplicationIDs.push(docData.applications[applicationID].id);
+        if (docData.applications[applicationID].id != undefined) {
+          if (docData.applications[applicationID].status == "submitted") {
+            submittedApplicationIDs.push(
+              docData.applications[applicationID].id
+            );
+          } else {
+            inProgressApplicationIDs.push(
+              docData.applications[applicationID].id
+            );
+          }
         }
       }
     }
+    console.log(inProgressApplicationIDs);
     setSubmittedApplicationIDs(submittedApplicationIDs);
     setInProgressApplicationIDs(inProgressApplicationIDs);
   }
 
-  const renderSubmittedApplications = (applicationsIDs: Array<string>) => {
-    const applicationIDs = applicationsIDs.map(
-      (applicationID: any, index: number) => (
-        <Box>
-          <Typography className={classes.content}>{applicationID}</Typography>
-        </Box>
-      )
+  const renderSubmittedApplications = () => {
+    return (
+      <ReceivedAppCard
+        collectionName="snmApplications"
+        applicationIDs={submittedApplicationIDs}
+      />
     );
-    return applicationsIDs;
   };
 
-  const renderInProgressApplications = (applicationsIDs: Array<string>) => {
-    const applicationIDs = applicationsIDs.map(
-      (applicationID: any, index: number) => (
-        <Box>
-          <Typography className={classes.content}>{applicationID}</Typography>
-        </Box>
-      )
+  const renderInProgressApplications = () => {
+    return (
+      <ReceivedAppCard
+        collectionName="snmApplications"
+        applicationIDs={inProgressApplicationIDs}
+      />
     );
-    return applicationsIDs;
   };
 
   return (
@@ -105,11 +118,11 @@ export const ChooseApplication = () => {
       <Typography gutterBottom variant="h5" component="h2">
         Mine påbegynte søknader
       </Typography>
-      <Box>{renderInProgressApplications(inProgressApplicationIDs)}</Box>
+      <Box>{renderInProgressApplications()}</Box>
       <Typography gutterBottom variant="h5" component="h2">
         Mine innsendte søknader
       </Typography>
-      <Box>{renderSubmittedApplications(submittedApplicationIDs)}</Box>
+      <Box>{renderSubmittedApplications()}</Box>
     </div>
   );
 };

@@ -18,6 +18,7 @@ import {
 
 type Props = {
   collectionName: string;
+  applicationIDs?: Array<string>;
 };
 
 export const ReceivedAppCard = (props: Props) => {
@@ -27,30 +28,10 @@ export const ReceivedAppCard = (props: Props) => {
   );
   const setCurrentCollectionState = useSetRecoilState(currentCollectionState);
   const classes = useStyles();
-  var db = firebase.firestore();
-
-  useEffect(() => {
-    getSubmittedApplicationsID();
-  }, []);
-
-  function getSubmittedApplicationsID() {
-    db.collection(props.collectionName)
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          //console.log(`${doc.id}`);
-          setApplicationIdList((applicationIdList: any) => [
-            ...applicationIdList,
-            `${doc.id}`,
-          ]);
-        });
-      });
-    return applicationIdList;
-  }
 
   return (
     <div style={{ display: "flex" }}>
-      {applicationIdList.map((applicationId: any, i: any) => (
+      {props.applicationIDs?.map((applicationId: string, i: any) => (
         <Card className={classes.root}>
           <CardContent>
             <Typography
