@@ -4,16 +4,10 @@ import { useRecoilState } from "recoil";
 import { inputFieldObjectState } from "../../stateManagement/attributesState";
 import { addFieldInputObject } from "./saveInputFields";
 
-const ShortText: FC<InputFieldProps> = ({ desc, id, chapterName, value }) => {
-  const [val, setVal] = useState("");
-
+const ShortText: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
   const [inputFieldObject, setInputFieldList] = useRecoilState(
     inputFieldObjectState
   );
-
-  useEffect(() => {
-    setVal(value);
-  });
 
   const handleChange = (value: string) => {
     let object = addFieldInputObject(value, chapterName, inputFieldObject, id);
@@ -26,7 +20,6 @@ const ShortText: FC<InputFieldProps> = ({ desc, id, chapterName, value }) => {
       <TextField
         id="outlined-basic"
         variant="outlined"
-        value={val}
         fullWidth
         onBlur={(e) => {
           handleChange(e.target.value);

@@ -14,5 +14,4 @@ type InputFieldProps = {
   desc: string;
   id: string;
   chapterName: string;
-  value: string;
 };

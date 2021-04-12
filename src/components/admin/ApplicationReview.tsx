@@ -1,6 +1,7 @@
 import { Box, Button, Typography } from "@material-ui/core";
 import { DockRounded } from "@material-ui/icons";
 import firebase from "firebase";
+import { AnyCnameRecord } from "node:dns";
 import React, { constructor, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { firestore } from "../../firebase";
@@ -120,7 +121,7 @@ export const ApplicationReview = () => {
   // };
 
   const renderInputFields = (inputFields: Array<InputField>) => {
-    let inputFieldList: Array<InputField> = [];
+    let inputFieldList: Array<any> = [];
     for (const inputField in inputFields) {
       inputFieldList.push(inputFields[inputField]);
     }

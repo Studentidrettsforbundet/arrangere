@@ -25,7 +25,6 @@ export type InputField = {
   desc: string;
   priority: number;
   id: string;
-  value: string;
 };
 
 type InputWrapperProps = {
@@ -59,7 +58,6 @@ const getComponentToBeRendered = (type: string) => {
     desc: string;
     id: string;
     chapterName: string;
-    value: string;
   }>;
   ComponentName = defaultComponent;
 
@@ -85,7 +83,6 @@ const generateComponents = (
         desc={inputField.desc}
         id={inputField.id}
         chapterName={chapterName}
-        value={inputField.value}
       ></Component>
     );
   });

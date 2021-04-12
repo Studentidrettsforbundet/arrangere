@@ -76,7 +76,6 @@ const ChapterWrapper = (props: ChapterProps) => {
             priority:
               attributeObject.attribute.input_fields[inputField].priority,
             id: attributeObject.name + inputNr,
-            value: attributeObject.attribute.input_fields[inputField].value,
           });
           inputNr = "";
         }
