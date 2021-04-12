@@ -9,7 +9,7 @@ import Home from "./Home";
 import UserProfile from "./UserProfile";
 import { ApplicationForm } from "./ApplicationForm";
 import { ApplicationReview } from "./admin/ApplicationReview";
-import RecivedAppPage from "./admin/RecivedAppPage";
+import ReceivedAppPage from "./admin/ReceivedAppPage";
 import { useEffect } from "react";
 import firebase from "firebase";
 
@@ -58,8 +58,8 @@ export default function Dashboard() {
           <>
             <Route
               exact
-              path="/recivedApplications"
-              component={RecivedAppPage}
+              path="/receivedApplications"
+              component={ReceivedAppPage}
             />
             <Route exact path="/application" component={ApplicationReview} />
           </>

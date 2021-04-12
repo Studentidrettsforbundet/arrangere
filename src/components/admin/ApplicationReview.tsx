@@ -1,16 +1,12 @@
-import { Box, Button, Typography } from "@material-ui/core";
-import { DockRounded } from "@material-ui/icons";
+import { Box, Typography } from "@material-ui/core";
 import firebase from "firebase";
-import { AnyCnameRecord } from "node:dns";
-import React, { constructor, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { firestore } from "../../firebase";
 import {
   currentApplicationIdState,
   currentCollectionState,
 } from "../../stateManagement/choosenApplication";
 import { useStyles } from "../../style/chapters";
-import ChapterWrapper from "../ChapterWrapper";
 import { InputField } from "../inputFields/InputWrapper";
 import { Chapter, Attribute } from "../Template";
 
