@@ -23,6 +23,12 @@ type InputField = {
   id: string;
 };
 
+type InfoLongTextProps = {
+  desc: string;
+  priority: number;
+  title: string;
+};
+
 type InputWrapperProps = {
   title: string;
   mainDesc: string;
@@ -48,4 +54,36 @@ type Attribute = {
   mainDesc: string;
   inputFields: Array<InputField>;
   priority: number;
+};
+
+type CardProps = {
+  image: string;
+  title: string;
+  to: string;
+  template: string;
+};
+
+type ButtonProps = {
+  key: number;
+  title: string;
+  priority: number;
+};
+
+type ChapterProps = {
+  chapter: Chapter;
+  chapterName: string;
+};
+
+type AttributeObject = {
+  name: string;
+  attribute: Attribute[];
+};
+
+type ReceivedApplicationProps = {
+  collectionName: string;
+};
+
+type ErrorTypes = {
+  status: ErrorStatus;
+  text: ErrorText;
 };

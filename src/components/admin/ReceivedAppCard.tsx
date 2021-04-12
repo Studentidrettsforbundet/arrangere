@@ -10,17 +10,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { useStyles } from "../../style/cards";
 import { Link as RouterLink } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import { errorState } from "../../stateManagement/errorHandling";
 import {
   currentApplicationIdState,
   currentCollectionState,
 } from "../../stateManagement/choosenApplication";
 
-type Props = {
-  collectionName: string;
-};
-
-export const ReceivedAppCard = (props: Props) => {
+export const ReceivedAppCard = (props: ReceivedApplicationProps) => {
   let [applicationIdList, setApplicationIdList] = useState<any>([]);
   const setCurrentApplicationIdState = useSetRecoilState(
     currentApplicationIdState

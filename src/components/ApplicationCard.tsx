@@ -15,13 +15,6 @@ import { currentUserState } from "../stateManagement/userAuth";
 import { useStyles } from "../style/cards";
 import { addDocToUser } from "./inputFields/addDocToUser";
 
-type CardProps = {
-  image: string;
-  title: string;
-  to: string;
-  template: string;
-};
-
 export const ApplicationCard = (props: CardProps) => {
   const classes = useStyles();
 

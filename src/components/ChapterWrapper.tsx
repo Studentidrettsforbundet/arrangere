@@ -24,16 +24,6 @@ import { firestore } from "../firebase";
 import { useHistory } from "react-router-dom";
 import { is_numeric } from "./utils";
 
-type ChapterProps = {
-  chapter: Chapter;
-  chapterName: string;
-};
-
-type AttributeObject = {
-  name: string;
-  attribute: Attribute[];
-};
-
 const ChapterWrapper = (props: ChapterProps) => {
   let chapter = props.chapter;
   let chapterName = props.chapterName;
