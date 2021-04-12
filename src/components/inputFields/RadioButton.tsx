@@ -37,18 +37,6 @@ const RadioButton: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
     setInputFieldList(object);
   };
 
-  const handleValueChange = (value: string) => {
-    let radioJa = checkedJa.current;
-    let radioNei = checkedJa.current.setAttribute('checked, '');
-    console.log(radioJa);
-    if (value === "Ja") {
-      //radioJa.setAttribute("checked", "");
-      //legg til checked attributt på formcontrol med id radioJa
-    } else if (value === "Nei") {
-      //legg til checked attributt på formcontrol med id radioNei
-    }
-  };
-
   return (
     <div className="radioContainer">
       <FormControl component="fieldset">
@@ -61,7 +49,6 @@ const RadioButton: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
             label="Ja"
             onChange={() => {
               handleChange("Ja");
-              handleValueChange("Ja");
             }}
           />
           <FormControlLabel
@@ -71,7 +58,6 @@ const RadioButton: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
             label="Nei"
             onChange={() => {
               handleChange("Nei");
-              handleValueChange("Nei");
             }}
           />
         </RadioGroup>
