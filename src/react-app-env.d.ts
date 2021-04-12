@@ -24,12 +24,14 @@ type ChapterWithName = {
   chapterName: string;
 };
 
-type InputFieldProps = {
+//extra info about the inputfield objects passed to the different input field types
+type InputProps = {
   desc: string;
   id: string;
   chapterName: string;
 };
 
+//the actual input field object
 type InputField = {
   type: string;
   desc: string;
