@@ -25,6 +25,7 @@ export default function AppCard(props: Props) {
   );
   const setCurrentCollectionState = useSetRecoilState(currentCollectionState);
   const classes = useStyles();
+
   return (
     <div>
       <Card className={classes.root}>

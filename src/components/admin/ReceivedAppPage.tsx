@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { firestore } from "../../firebase";
-import AdminApplications from "./AdminApplications";
+import AppCard from "./AppCard";
 
 export default function ReceivedAppPage() {
   let [snmApplicationIDs, setSnmApplicationIDs] = useState<any>([]);
@@ -56,20 +56,33 @@ export default function ReceivedAppPage() {
     <div>
       <h1>Innsendte søknader</h1>
       <h2>Student-NM</h2>
-      <ReceivedAppCard
-        collectionName="snmApplications"
-        applicationIDs={snmApplicationIDs}
-      />
+      {snmApplicationIDs.map((applicationID: string) => {
+        return (
+          <AppCard
+            applicationId={applicationID}
+            collectionName="snmApplications"
+          />
+        );
+      })}
+
       <h2>Studentleker</h2>
-      <ReceivedAppCard
-        collectionName="slApplications"
-        applicationIDs={slApplicationIDs}
-      />
+      {slApplicationIDs.map((applicationID: string) => {
+        return (
+          <AppCard
+            applicationId={applicationID}
+            collectionName="slpplications"
+          />
+        );
+      })}
       <h2>Student-Cup</h2>
-      <ReceivedAppCard
-        collectionName="scApplications"
-        applicationIDs={scApplicationIDs}
-      />
+      {scApplicationIDs.map((applicationID: string) => {
+        return (
+          <AppCard
+            applicationId={applicationID}
+            collectionName="scApplications"
+          />
+        );
+      })}
     </div>
   );
 }

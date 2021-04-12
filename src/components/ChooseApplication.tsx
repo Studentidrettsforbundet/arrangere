@@ -52,7 +52,6 @@ export const ChooseApplication = () => {
         }
       }
     }
-    console.log(inProgressApplicationIDs);
     setSubmittedApplicationIDs(submittedApplicationIDs);
     setInProgressApplicationIDs(inProgressApplicationIDs);
   }
