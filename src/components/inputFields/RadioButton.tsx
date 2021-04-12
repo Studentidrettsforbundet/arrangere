@@ -10,6 +10,7 @@ import { useRecoilState } from "recoil";
 import { inputFieldObjectState } from "../../stateManagement/attributesState";
 import { addFieldInputObject, useDocRef } from "./saveInputFields";
 import { getInputValue } from "./getInputValue";
+import React from "react";
 
 const RadioButton: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
   const [inputFieldObject, setInputFieldList] = useRecoilState(
@@ -17,6 +18,8 @@ const RadioButton: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
   );
 
   const [value, setValue] = useState("");
+  const checkedJa = React.createRef();
+  const checkedNei = React.createRef();
   const isInitialMount = useRef(true);
   const docRef = useDocRef();
 
@@ -35,9 +38,16 @@ const RadioButton: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
   };
 
   const handleValueChange = (value: string) => {
-    setValue(value);
+    let radioJa = checkedJa.current;
+    let radioNei = checkedJa.current.setAttribute('checked, '');
+    console.log(radioJa);
+    if (value === "Ja") {
+      //radioJa.setAttribute("checked", "");
+      //legg til checked attributt på formcontrol med id radioJa
+    } else if (value === "Nei") {
+      //legg til checked attributt på formcontrol med id radioNei
+    }
   };
-
 
   return (
     <div className="radioContainer">
@@ -46,18 +56,22 @@ const RadioButton: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
         <RadioGroup name="radio">
           <FormControlLabel
             value="Ja"
+            ref={checkedJa}
             control={<Radio />}
             label="Ja"
             onChange={() => {
               handleChange("Ja");
+              handleValueChange("Ja");
             }}
           />
           <FormControlLabel
             value="Nei"
+            ref={checkedNei}
             control={<Radio />}
             label="Nei"
             onChange={() => {
               handleChange("Nei");
+              handleValueChange("Nei");
             }}
           />
         </RadioGroup>
