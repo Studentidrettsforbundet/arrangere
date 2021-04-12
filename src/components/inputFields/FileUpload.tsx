@@ -1,5 +1,7 @@
-import React, { FC, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { Typography, Box } from "@material-ui/core";
+import { addFieldInputObject, useDocRef } from "./saveInputFields";
+import { getInputValue } from "./getInputValue";
 import { useRecoilState, useRecoilValue } from "recoil";
 import firebase from "firebase";
 import { v4 as uuid } from "uuid";
@@ -7,7 +9,6 @@ import {
   documentState,
   inputFieldObjectState,
 } from "../../stateManagement/attributesState";
-import { addFieldInputObject } from "./saveInputFields";
 
 const FileUpload: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
   const docID = useRecoilValue(documentState);
@@ -16,6 +17,19 @@ const FileUpload: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
   const [inputFieldObject, setInputFieldList] = useRecoilState(
     inputFieldObjectState
   );
+
+  const [value, setValue] = useState("");
+  const isInitialMount = useRef(true);
+  const docRef = useDocRef();
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      getInputValue(docRef, chapterName, id).then((value) => {
+        setValue(value);
+      });
+    }
+  });
 
   const saveFile = async (target: HTMLInputElement) => {
     var files = target.files;
@@ -50,6 +64,10 @@ const FileUpload: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
     let object = addFieldInputObject(value, chapterName, inputFieldObject, id);
     setInputFieldList(object);
     console.log("input value: " + value);
+  };
+
+  const handleValueChange = (value: string) => {
+    setValue(value);
   };
 
   return (
