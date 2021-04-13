@@ -4,6 +4,7 @@ import {
   CardActions,
   CardContent,
   Typography,
+  Box,
 } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
 import firebase from "firebase";
@@ -56,7 +57,10 @@ export const ReceivedAppCard = (props: Props) => {
   return (
     <div>
       {loading ? (
-        <Skeleton />
+        <Box>
+          <Typography variant="subtitle2">Laster inn..</Typography>
+          <Skeleton />
+        </Box>
       ) : (
         <div style={{ display: "flex" }}>
           {applicationIdList.map((applicationId: any, i: any) => (
