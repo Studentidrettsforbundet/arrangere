@@ -19,10 +19,7 @@ import { copyAttribute, getListOfAttributes } from "./inputButtonFunctions";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { useDocRef } from "./saveInputFields";
 import { useRecoilState, useRecoilValue } from "recoil";
-import {
-  choosenApplicationState,
-  currentCollectionState,
-} from "../../stateManagement/choosenApplication";
+import { currentCollectionState } from "../../stateManagement/choosenApplication";
 import { useState } from "react";
 import { useEffect } from "react";
 import firebase from "firebase";

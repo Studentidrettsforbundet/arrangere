@@ -4,7 +4,6 @@ import { firestore } from "../firebase";
 import ChapterWrapper from "./ChapterWrapper";
 import {
   chapterCounterState,
-  choosenApplicationState,
   currentApplicationIdState,
   currentChapterState,
   currentCollectionState,
