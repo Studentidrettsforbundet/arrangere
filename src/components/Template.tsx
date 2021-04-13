@@ -7,7 +7,8 @@ import {
   choosenApplicationState,
   currentChapterState,
 } from "../stateManagement/choosenApplication";
-import { Box, Button } from "@material-ui/core/";
+import { Box, Button, Typography } from "@material-ui/core/";
+import Skeleton from "@material-ui/lab/Skeleton";
 import { useStyles } from "../style/chapters";
 import ChapterButton from "./ChapterButton";
 import { saveInput, useDocRef } from "./inputFields/saveInputFields";
@@ -115,7 +116,10 @@ const Template = () => {
   return (
     <div>
       {loading ? (
-        <p>Laster inn..</p>
+        <Box p={10}>
+          <Typography variant="subtitle2">Laster inn..</Typography>
+          <Skeleton />
+        </Box>
       ) : (
         <div>
           <div role="navigation" className="chapterButtons">
