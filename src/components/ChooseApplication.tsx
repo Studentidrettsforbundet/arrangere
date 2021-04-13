@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Divider,
-  Typography,
-} from "@material-ui/core/";
+import { Box, Divider, Typography } from "@material-ui/core/";
 import { ApplicationCard } from "./ApplicationCard";
 import Student_NM_logo from "./../images/student_NM.png";
 import Studentleker_logo from "./../images/studentleker-1.png";
@@ -63,6 +55,7 @@ export const ChooseApplication = () => {
   const renderSubmittedApplications = () => {
     return submittedApplicationIDs?.map((applicationID: any, i: any) => (
       <AppCard
+        key={i}
         to="/application"
         applicationId={applicationID[0]}
         collectionName={applicationID[1]}
@@ -73,6 +66,7 @@ export const ChooseApplication = () => {
   const renderInProgressApplications = () => {
     return inProgressApplicationIDs?.map((applicationID: any, i: any) => (
       <AppCard
+        key={i}
         to="/edit"
         applicationId={applicationID.id}
         collectionName={applicationID.collection}

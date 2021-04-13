@@ -57,10 +57,11 @@ export default function AppCard(props: Props) {
             }}
             to={{
               pathname: props.to,
-              state: {
-                applicationID: props.applicationId,
-                collection: props.collectionName,
-              },
+              // Tror vi kan bruke dette på noen måte, enn å sende i Recoil
+              // state: {
+              //   applicationID: props.applicationId,
+              //   collection: props.collectionName,
+              // },
             }}
           >
             Vis søknad

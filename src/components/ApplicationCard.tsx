@@ -11,6 +11,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { firestore } from "../firebase";
 import { documentState } from "../stateManagement/attributesState";
+import { currentApplicationIdState } from "../stateManagement/choosenApplication";
 import { currentUserState } from "../stateManagement/userAuth";
 import { useStyles } from "../style/cards";
 import { addDocToUser } from "./inputFields/addDocToUser";
@@ -25,7 +26,7 @@ type CardProps = {
 export const ApplicationCard = (props: CardProps) => {
   const classes = useStyles();
 
-  const setDocID = useSetRecoilState(documentState);
+  const setDocID = useSetRecoilState(currentApplicationIdState);
   const currentUser = useRecoilValue(currentUserState);
 
   async function copyDoc(template: string) {

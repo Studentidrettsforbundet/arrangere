@@ -5,7 +5,9 @@ import ChapterWrapper from "./ChapterWrapper";
 import {
   chapterCounterState,
   choosenApplicationState,
+  currentApplicationIdState,
   currentChapterState,
+  currentCollectionState,
 } from "../stateManagement/choosenApplication";
 import { Box, Button } from "@material-ui/core/";
 import { useStyles } from "../style/chapters";
@@ -19,7 +21,7 @@ const Template = () => {
   const docRef = useDocRef();
   const [loading, setLoading] = useState(true);
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
-  const choosenApplicationForm = useRecoilValue(choosenApplicationState);
+  const choosenApplicationForm = useRecoilValue(currentCollectionState);
   const setCurrentChapterState = useSetRecoilState(currentChapterState);
   const [chapterCounter, setChapterCounter] = useRecoilState(
     chapterCounterState

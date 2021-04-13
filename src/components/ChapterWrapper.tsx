@@ -23,6 +23,7 @@ import { setStatusToSubmitted } from "./inputFields/confirmSubmittedApplication"
 import { firestore } from "../firebase";
 import { useHistory } from "react-router-dom";
 import { is_numeric } from "./utils";
+import { currentApplicationIdState } from "../stateManagement/choosenApplication";
 
 type ChapterProps = {
   chapter: Chapter;
@@ -40,7 +41,7 @@ const ChapterWrapper = (props: ChapterProps) => {
   const [loading, setLoading] = useState(true);
   const [submitted, setSubmitted] = useState("in progress");
   const [open, setOpen] = React.useState(false);
-  const currentDocID = useRecoilValue(documentState);
+  const currentDocID = useRecoilValue(currentApplicationIdState);
   const currentUserID = useRecoilValue(currentUserState);
   const [attributeList, setAttributeList] = useState<AttributeObject[]>([]);
   const docRef = useDocRef();

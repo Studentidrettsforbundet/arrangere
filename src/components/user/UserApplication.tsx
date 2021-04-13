@@ -1,6 +1,11 @@
 import { Box } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  useRecoilCallback,
+  useRecoilState,
+  useRecoilValue,
+  useSetRecoilState,
+} from "recoil";
 import { firestore } from "../../firebase";
 import {
   currentApplicationIdState,
@@ -10,12 +15,18 @@ import ChapterWrapper from "../ChapterWrapper";
 
 export const UserApplication = () => {
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
-  let currentApplicationId: string = useRecoilValue(currentApplicationIdState);
-  let currentCollection: string = useRecoilValue(currentCollectionState);
+  const [currentApplicationId, setCurrentApplicationId] = useRecoilState(
+    currentApplicationIdState
+  );
+  const [currentCollection, setCurrentCollection] = useRecoilState(
+    currentCollectionState
+  );
 
   useEffect(() => {
     retriveApplicationData(currentCollection, currentApplicationId);
-  }, []);
+  }, [currentApplicationId]);
+
+  console.log(currentApplicationId);
 
   async function retriveApplicationData(
     currentCollection: string,
