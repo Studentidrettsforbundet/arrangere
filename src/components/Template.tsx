@@ -11,6 +11,7 @@ import { Box, Button, Typography } from "@material-ui/core/";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { useStyles } from "../style/chapters";
 import ChapterButton from "./ChapterButton";
+import DisplayError from "./DisplayError";
 import { saveInput, useDocRef } from "./inputFields/saveInputFields";
 import { inputFieldObjectState } from "../stateManagement/attributesState";
 
@@ -55,6 +56,7 @@ const Template = () => {
             });
           } else {
             console.log("No such document!");
+            <DisplayError message={""} title={""} />;
             throw new Error("No document.");
           }
         });
