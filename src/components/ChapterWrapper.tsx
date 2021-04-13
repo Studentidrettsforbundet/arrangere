@@ -1,8 +1,4 @@
-import { Attribute, Chapter } from "./Template";
-import InputWrapper, { InputField } from "./inputFields/InputWrapper";
-
 import {
-  Alert, 
   Box,
   Button,
   Dialog,
@@ -12,9 +8,8 @@ import {
   DialogTitle,
   Typography,
 } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
+import Alert from "@material-ui/lab/Alert";
 import React, { useEffect, useState } from "react";
-import InputWrapper from "./inputFields/InputWrapper";
 import { useStyles } from "../style/chapters";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
@@ -23,10 +18,12 @@ import {
 } from "../stateManagement/attributesState";
 import { currentUserState } from "../stateManagement/userAuth";
 import { saveInput, useDocRef } from "./inputFields/saveInputFields";
+import InputWrapper from "./inputFields/InputWrapper";
 import { setStatusToSubmitted } from "./inputFields/confirmSubmittedApplication";
 import { firestore } from "../firebase";
 import { useHistory } from "react-router-dom";
 import { is_numeric } from "./utils";
+import firebase from "firebase";
 
 type ChapterProps = {
   chapter: Chapter;
@@ -161,7 +158,11 @@ const ChapterWrapper = (props: ChapterProps) => {
     </Typography>
   );
 
-  const saveAndAlertUser = async () => {
+  const saveAndAlertUser = async (
+    docRef:
+      | firebase.firestore.DocumentReference<firebase.firestore.DocumentData>
+      | undefined
+  ) => {
     try {
       try {
         saveInput(docRef, inputFieldObject);
@@ -185,32 +186,29 @@ const ChapterWrapper = (props: ChapterProps) => {
       </div>
       <Box display="flex">
         <Box width="100%" mt={3} mb={3}>
-          <Button
-            variant="contained"
-            onClick={() => saveInput(docRef, inputFieldObject)}
-          >
+          <Button variant="contained" onClick={() => saveAndAlertUser(docRef)}>
             Lagre
           </Button>
-           {showAlert ? (
-          <Alert
-            severity="success"
-            onClose={() => {
-              setShowAlert(false);
-            }}
-          >
-            {"Lagret!"}
-          </Alert>
-        ) : null}
-        {showError ? (
-          <Alert
-            severity="error"
-            onClose={() => {
-              setShowAlert(false);
-            }}
-          >
-            {"Ups, det skjedde en feil. Ikke lagret!"}
-          </Alert>
-        ) : null}
+          {showAlert ? (
+            <Alert
+              severity="success"
+              onClose={() => {
+                setShowAlert(false);
+              }}
+            >
+              {"Lagret!"}
+            </Alert>
+          ) : null}
+          {showError ? (
+            <Alert
+              severity="error"
+              onClose={() => {
+                setShowAlert(false);
+              }}
+            >
+              {"Ups, det skjedde en feil. Ikke lagret!"}
+            </Alert>
+          ) : null}
         </Box>
         {chapterName === "additional" ? (
           <Box flexShrink={0} mt={3} mb={3}>
