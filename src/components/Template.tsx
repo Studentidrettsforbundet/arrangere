@@ -11,6 +11,8 @@ import { Box, Button, Typography } from "@material-ui/core/";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { useStyles } from "../style/chapters";
 import ChapterButton from "./ChapterButton";
+import { saveInput } from "./inputFields/saveInputFields";
+import DisplayError from "./DisplayError";
 import { saveInput, useDocRef } from "./inputFields/saveInputFields";
 import { inputFieldObjectState } from "../stateManagement/attributesState";
 
@@ -36,27 +38,33 @@ const Template = () => {
   }, [choosenApplicationForm]);
 
   async function generateApplicationForm() {
-    setLoading(true);
-    let chapterListLocal: Array<Chapter> = [];
+    try {
+      setLoading(true);
+      let chapterListLocal: Array<Chapter> = [];
 
-    await firestore
-      .collection(choosenApplicationForm + "Template")
-      .get()
-      .then((snapshot) => {
-        snapshot.docs.forEach((chapter) => {
-          if (chapter.exists) {
-            chapterListLocal.push({
-              chapterName: chapter.id,
-              buttons: chapter.data().buttons,
-              title: chapter.data().title,
-              desc: chapter.data().desc,
-              attributes: chapter.data().attributes,
-              priority: chapter.data().priority,
-            });
-          } else {
-            console.log("No such document!");
-            throw new Error("No document.");
-          }
+      await firestore
+        .collection(choosenApplicationForm + "Template")
+        .get()
+        .then((snapshot) => {
+          snapshot.docs.forEach((chapter) => {
+            if (chapter.exists) {
+              chapterListLocal.push({
+                chapterName: chapter.id,
+                buttons: chapter.data().buttons,
+                title: chapter.data().title,
+                desc: chapter.data().desc,
+                attributes: chapter.data().attributes,
+                priority: chapter.data().priority,
+              });
+            } else {
+              console.log("No such document!");
+              throw new Error("No document.");
+            }
+          });
+          setChapterList(chapterListLocal);
+        })
+        .catch((error) => {
+          console.log("Error getting document: ", error);
         });
       })
       .catch((error) => {

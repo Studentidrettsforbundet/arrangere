@@ -1,4 +1,8 @@
+import { Attribute, Chapter } from "./Template";
+import InputWrapper, { InputField } from "./inputFields/InputWrapper";
+
 import {
+  Alert, 
   Box,
   Button,
   Dialog,
@@ -38,18 +42,20 @@ const ChapterWrapper = (props: ChapterProps) => {
   let chapter = props.chapter;
   let chapterName = props.chapterName;
   const [loading, setLoading] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
+  const [showError, setshowError] = useState(false);
+
   const [submitted, setSubmitted] = useState("in progress");
   const [open, setOpen] = React.useState(false);
   const currentDocID = useRecoilValue(documentState);
   const currentUserID = useRecoilValue(currentUserState);
+
   const [attributeList, setAttributeList] = useState<AttributeObject[]>([]);
   const docRef = useDocRef();
   const history = useHistory();
   const [inputFieldObject, setInputFieldObject] = useRecoilState(
     inputFieldObjectState
   );
-
-  const classes = useStyles();
 
   useEffect(() => {
     attributesToList(chapter.attributes);
@@ -155,6 +161,19 @@ const ChapterWrapper = (props: ChapterProps) => {
     </Typography>
   );
 
+  const saveAndAlertUser = async () => {
+    try {
+      try {
+        saveInput(docRef, inputFieldObject);
+      } catch (error) {
+        setshowError(true);
+      }
+      setShowAlert(true);
+    } catch (error) {
+      setshowError(true);
+    }
+  };
+
   return (
     <div style={{ width: "100%" }}>
       <Typography style={{ color: "#00adee" }} variant="h4">
@@ -172,6 +191,26 @@ const ChapterWrapper = (props: ChapterProps) => {
           >
             Lagre
           </Button>
+           {showAlert ? (
+          <Alert
+            severity="success"
+            onClose={() => {
+              setShowAlert(false);
+            }}
+          >
+            {"Lagret!"}
+          </Alert>
+        ) : null}
+        {showError ? (
+          <Alert
+            severity="error"
+            onClose={() => {
+              setShowAlert(false);
+            }}
+          >
+            {"Ups, det skjedde en feil. Ikke lagret!"}
+          </Alert>
+        ) : null}
         </Box>
         {chapterName === "additional" ? (
           <Box flexShrink={0} mt={3} mb={3}>
