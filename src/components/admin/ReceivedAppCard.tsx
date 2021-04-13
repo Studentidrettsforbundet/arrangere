@@ -28,12 +28,14 @@ export const ReceivedAppCard = (props: Props) => {
   const setCurrentCollectionState = useSetRecoilState(currentCollectionState);
   const classes = useStyles();
   var db = firebase.firestore();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getSubmittedApplicationsID();
   }, []);
 
   function getSubmittedApplicationsID() {
+    setLoading(true);
     db.collection(props.collectionName)
       .get()
       .then((querySnapshot) => {
@@ -45,47 +47,54 @@ export const ReceivedAppCard = (props: Props) => {
           ]);
         });
       });
+    setLoading(false);
     return applicationIdList;
   }
 
   return (
-    <div style={{ display: "flex" }}>
-      {applicationIdList.map((applicationId: any, i: any) => (
-        <Card className={classes.root}>
-          <CardContent>
-            <Typography
-              className={classes.title}
-              color="textSecondary"
-              gutterBottom
-            >
-              {applicationId}
-            </Typography>
+    <div>
+      {loading ? (
+        <p>Laster inn..</p>
+      ) : (
+        <div style={{ display: "flex" }}>
+          {applicationIdList.map((applicationId: any, i: any) => (
+            <Card className={classes.root}>
+              <CardContent>
+                <Typography
+                  className={classes.title}
+                  color="textSecondary"
+                  gutterBottom
+                >
+                  {applicationId}
+                </Typography>
 
-            <Typography variant="body2" component="p">
-              bruker:
-            </Typography>
-            <Typography variant="body2" component="p">
-              dato:
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button
-              component={RouterLink}
-              variant="outlined"
-              size="small"
-              onClick={() => {
-                setCurrentApplicationIdState(applicationId);
-                setCurrentCollectionState(props.collectionName);
-              }}
-              to={{
-                pathname: "/application",
-              }}
-            >
-              Vis søknad
-            </Button>
-          </CardActions>
-        </Card>
-      ))}
+                <Typography variant="body2" component="p">
+                  bruker:
+                </Typography>
+                <Typography variant="body2" component="p">
+                  dato:
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button
+                  component={RouterLink}
+                  variant="outlined"
+                  size="small"
+                  onClick={() => {
+                    setCurrentApplicationIdState(applicationId);
+                    setCurrentCollectionState(props.collectionName);
+                  }}
+                  to={{
+                    pathname: "/application",
+                  }}
+                >
+                  Vis søknad
+                </Button>
+              </CardActions>
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
