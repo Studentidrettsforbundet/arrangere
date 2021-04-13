@@ -17,6 +17,16 @@ export const chapterCounterState = atom<number>({
   default: 0,
 });
 
+export const currentApplicationIdState = atom<string>({
+  key: "currentApplicationIdState",
+  default: "",
+});
+
+export const currentCollectionState = atom<string>({
+  key: "currentCollectionState",
+  default: "",
+});
+
 export const previousChapterState = atom<string>({
   key: "previousChapterState",
   default: "",

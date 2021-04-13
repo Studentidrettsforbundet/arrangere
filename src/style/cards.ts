@@ -12,4 +12,10 @@ export const useStyles = makeStyles({
   media: {
     height: 30,
   },
+  title: {
+    fontSize: 14,
+  },
+  pos: {
+    marginBottom: 12,
+  },
 });

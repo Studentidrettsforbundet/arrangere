@@ -4597,9 +4597,15 @@
   "version" "0.12.2"
 
 "cypress@^6.8.0":
+<<<<<<< HEAD
   "integrity" "sha512-/RVx6sOhsyTR9sd9v0BHI4tnDZAhsH9rNat7CIKCUEr5VPWxyfGH0EzK4IHhAqAH8vjFcD4U14tPiJXshoUrmQ=="
   "resolved" "https://registry.npmjs.org/cypress/-/cypress-6.9.1.tgz"
   "version" "6.9.1"
+=======
+  "integrity" "sha512-W2e9Oqi7DmF48QtOD0LfsOLVq6ef2hcXZvJXI/E3PgFNmZXEVwBefhAxVCW9yTPortjYA2XkM20KyC4HRkOm9w=="
+  "resolved" "https://registry.npmjs.org/cypress/-/cypress-6.8.0.tgz"
+  "version" "6.8.0"
+>>>>>>> main
   dependencies:
     "@cypress/listr-verbose-renderer" "^0.4.1"
     "@cypress/request" "^2.88.5"
