@@ -15,6 +15,7 @@ import { currentUserState } from "../stateManagement/userAuth";
 import { useStyles } from "../style/cards";
 import { addDocToUser } from "./inputFields/addDocToUser";
 import DisplayError from "./DisplayError";
+import { useImperativeHandle } from "react";
 
 type CardProps = {
   image: string;
@@ -106,6 +107,20 @@ export const ApplicationCard = (props: CardProps) => {
         .catch((error) => {
           console.error(
             "Error creating document",
+            `${collectionTo}`,
+            JSON.stringify(error)
+          );
+        });
+      await firestore
+        .collection(collectionTo)
+        .doc(newDocId)
+        .set({ userId: currentUser?.uid }, { merge: true })
+        .then(() => {
+          console.log("UserId set in document to: " + currentUser?.uid);
+        })
+        .catch((error) => {
+          console.error(
+            "Error creating userId field in",
             `${collectionTo}`,
             JSON.stringify(error)
           );
