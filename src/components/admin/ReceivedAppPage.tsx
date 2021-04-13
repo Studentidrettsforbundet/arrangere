@@ -1,8 +1,9 @@
 import ReceivedAppCard from "./ReceivedAppCard";
+import { Box } from "@material-ui/core/";
 
 export default function ReceivedAppPage() {
   return (
-    <div>
+    <Box px={10} pt={6}>
       <h1>Innsendte søknader</h1>
       <h2>Student-NM</h2>
       <ReceivedAppCard collectionName="snmApplications" />
@@ -10,6 +11,6 @@ export default function ReceivedAppPage() {
       <ReceivedAppCard collectionName="slApplications" />
       <h2>Student-Cup</h2>
       <ReceivedAppCard collectionName="scApplications" />
-    </div>
+    </Box>
   );
 }
