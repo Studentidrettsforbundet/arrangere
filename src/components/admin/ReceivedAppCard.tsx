@@ -5,6 +5,7 @@ import {
   CardContent,
   Typography,
 } from "@material-ui/core";
+import Skeleton from "@material-ui/lab/Skeleton";
 import firebase from "firebase";
 import React, { useEffect, useRef, useState } from "react";
 import { useStyles } from "../../style/cards";
@@ -34,7 +35,7 @@ export const ReceivedAppCard = (props: Props) => {
     getSubmittedApplicationsID();
   }, []);
 
-  function getSubmittedApplicationsID() {
+  async function getSubmittedApplicationsID() {
     setLoading(true);
     db.collection(props.collectionName)
       .get()
@@ -46,15 +47,16 @@ export const ReceivedAppCard = (props: Props) => {
             `${doc.id}`,
           ]);
         });
+        setLoading(false);
       });
-    setLoading(false);
+
     return applicationIdList;
   }
 
   return (
     <div>
       {loading ? (
-        <p>Laster inn..</p>
+        <Skeleton />
       ) : (
         <div style={{ display: "flex" }}>
           {applicationIdList.map((applicationId: any, i: any) => (
