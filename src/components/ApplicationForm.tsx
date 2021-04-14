@@ -1,14 +1,11 @@
 import Template from "./Template";
 import { useRecoilCallback, useSetRecoilState } from "recoil";
-import {
-  choosenApplicationState,
-  currentCollectionState,
-} from "../stateManagement/choosenApplication";
+import { choosenApplicationState } from "../stateManagement/choosenApplication";
 import { useEffect } from "react";
 import Box from "@material-ui/core/Box";
 
 export const ApplicationForm = () => {
-  const setChoosenApplicationForm = useSetRecoilState(currentCollectionState);
+  const setChoosenApplicationForm = useSetRecoilState(choosenApplicationState);
 
   let url = window.location.href;
   var str_sub = url.substr(url.lastIndexOf("/") + 1);

@@ -19,10 +19,7 @@ import { copyAttribute, getListOfAttributes } from "./inputButtonFunctions";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { useDocRef } from "./saveInputFields";
 import { useRecoilState, useRecoilValue } from "recoil";
-import {
-  choosenApplicationState,
-  currentCollectionState,
-} from "../../stateManagement/choosenApplication";
+import { choosenApplicationState } from "../../stateManagement/choosenApplication";
 import { useState } from "react";
 import { useEffect } from "react";
 import firebase from "firebase";
@@ -93,7 +90,7 @@ const InputWrapper: FC<InputWrapperProps> = ({
   const docRef = useDocRef();
   const [newFields, setNewFields] = useState<any>([]);
   const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
-  const chosenApplication = useRecoilValue(currentCollectionState);
+  const chosenApplication = useRecoilValue(choosenApplicationState);
   const [inputFieldObject, setInputFieldObject] = useRecoilState(
     inputFieldObjectState
   );

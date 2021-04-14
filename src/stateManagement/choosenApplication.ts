@@ -20,13 +20,11 @@ export const chapterCounterState = atom<number>({
 export const currentApplicationIdState = atom<string>({
   key: "currentApplicationIdState",
   default: "",
-  effects_UNSTABLE: [localStorageEffect("docID")],
 });
 
 export const currentCollectionState = atom<string>({
   key: "currentCollectionState",
   default: "",
-  effects_UNSTABLE: [localStorageEffect("collection")],
 });
 
 export const previousChapterState = atom<string>({

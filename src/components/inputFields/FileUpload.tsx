@@ -9,10 +9,9 @@ import {
   documentState,
   inputFieldObjectState,
 } from "../../stateManagement/attributesState";
-import { currentApplicationIdState } from "../../stateManagement/choosenApplication";
 
 const FileUpload: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
-  const docID = useRecoilValue(currentApplicationIdState);
+  const docID = useRecoilValue(documentState);
   const [fileUrl, setFileUrl] = useState();
   const [fileName, setFileName] = useState("");
   const [inputFieldObject, setInputFieldList] = useRecoilState(

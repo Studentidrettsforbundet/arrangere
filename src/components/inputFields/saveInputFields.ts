@@ -1,27 +1,23 @@
 import { useRecoilCallback, useRecoilValue, useSetRecoilState } from "recoil";
 import { firestore } from "../../firebase";
 import { documentState } from "../../stateManagement/attributesState";
-import {
-  choosenApplicationState,
-  currentApplicationIdState,
-  currentCollectionState,
-} from "../../stateManagement/choosenApplication";
+import { choosenApplicationState } from "../../stateManagement/choosenApplication";
 
 export function useDocRef() {
-  const docID = useRecoilValue(currentApplicationIdState);
-  const setDocID = useSetRecoilState(currentApplicationIdState);
-  const collection = useRecoilValue(currentCollectionState);
-  const setCollection = useSetRecoilState(currentCollectionState);
+  const docID = useRecoilValue(documentState);
+  const setDocID = useSetRecoilState(documentState);
+  const collection = useRecoilValue(choosenApplicationState);
+  const setCollection = useSetRecoilState(choosenApplicationState);
 
   const changeCollection = useRecoilCallback(
     ({ snapshot }) => (choosenApplication: string) => {
-      snapshot.getLoadable(currentCollectionState);
+      snapshot.getLoadable(choosenApplicationState);
       setCollection(choosenApplication);
     }
   );
 
   const changeDocID = useRecoilCallback(({ snapshot }) => (docID: string) => {
-    snapshot.getLoadable(currentApplicationIdState);
+    snapshot.getLoadable(documentState);
     setDocID(docID);
   });
 
@@ -29,7 +25,7 @@ export function useDocRef() {
   changeDocID(docID);
 
   if (docID && collection) {
-    let docRef = firestore.collection(collection).doc(docID);
+    let docRef = firestore.collection(collection + "Applications").doc(docID);
     return docRef;
   }
 }
