@@ -14,4 +14,4 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Run tests
-        run: firebase emulators:exec --import=arrangereData --only "'auth', 'firestore'" 'npm run testCypress'
+        run: firebase emulators:exec --import=arrangereData --only "'auth', 'firestore'" --project $FIREBASE_PROJECT_ID 'npm run testCypress'
