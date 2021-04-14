@@ -19,11 +19,6 @@ export enum ErrorText {
   NONE = "",
 }
 
-export type ErrorTypes = {
-  status: ErrorStatus;
-  text: ErrorText;
-};
-
 export const errorState = atom<string>({
   key: "errorState",
   default: "",
