@@ -8,12 +8,6 @@ import {
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
-export type InfoLongTextProps = {
-  desc: string;
-  priority: number;
-  title: string;
-};
-
 export const InfoLongText: FC<InfoLongTextProps> = ({ desc, title }) => {
   return (
     <Box py={0.5}>

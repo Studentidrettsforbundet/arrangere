@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import StudentidrettLogo from "./../images/studentidrett-logo-sort.png";
 import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";

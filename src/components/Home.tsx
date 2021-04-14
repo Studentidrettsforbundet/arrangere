@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { firestore } from "../firebase";
 import { InfoLongText } from "./InfoLongText";
-import { InfoLongTextProps } from "./InfoLongText";
 import { Typography, Box } from "@material-ui/core";
 
 export default function Home() {

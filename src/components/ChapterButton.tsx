@@ -8,12 +8,6 @@ import {
 } from "../stateManagement/choosenApplication";
 import { saveInput, useDocRef } from "./inputFields/saveInputFields";
 
-type ButtonProps = {
-  key: number;
-  title: string;
-  priority: number;
-};
-
 const ChapterButton: FC<ButtonProps> = ({ title, priority }) => {
   const currentChapter = useRecoilValue(currentChapterState);
   const [chapterCounter, setChapterCounter] = useRecoilState(
