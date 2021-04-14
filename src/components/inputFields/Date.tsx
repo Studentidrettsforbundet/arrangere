@@ -1,6 +1,6 @@
-import { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { useStyles } from "./inputStyles";
-import { Typography, TextField, Box } from "@material-ui/core";
+import { Typography, TextField, Box, InputLabel } from "@material-ui/core";
 import { useRecoilState } from "recoil";
 import { inputFieldObjectState } from "../../stateManagement/attributesState";
 import { addFieldInputObject, useDocRef } from "./saveInputFields";
@@ -34,12 +34,19 @@ const Date: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
     setValue(value);
   };
 
+  let inputProperties;
+  if (desc == "") {
+    inputProperties = { "aria-label": id };
+  } else {
+    inputProperties = { "aria-label": desc };
+  }
+
   return (
     <Box py={2}>
-      <Typography>{desc}</Typography>
+      <InputLabel>{desc}</InputLabel>
       <form noValidate>
         <TextField
-          id="date"
+          id={id}
           label="Velg en dato"
           type="date"
           defaultValue="2021-01-01"
@@ -52,6 +59,7 @@ const Date: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
           InputLabelProps={{
             shrink: true,
           }}
+          inputProps={inputProperties}
         />
       </form>
     </Box>

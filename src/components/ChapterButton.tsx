@@ -6,6 +6,7 @@ import {
   chapterCounterState,
   currentChapterState,
 } from "../stateManagement/choosenApplication";
+import { useStyles } from "../style/chapters";
 import { saveInput, useDocRef } from "./inputFields/saveInputFields";
 
 type ButtonProps = {
@@ -21,6 +22,7 @@ const ChapterButton: FC<ButtonProps> = ({ title, priority }) => {
   );
   const docRef = useDocRef();
   const inputFieldObject = useRecoilValue(inputFieldObjectState);
+  const classes = useStyles();
 
   const navToChapter = () => {
     setChapterCounter(priority - 1);
@@ -31,17 +33,20 @@ const ChapterButton: FC<ButtonProps> = ({ title, priority }) => {
     return (
       <Button
         key={priority}
-        color="secondary"
+        className={classes.currentButton}
         size="large"
         onClick={navToChapter}
-        style={{ fontWeight: "bold" }}
       >
         {title}
       </Button>
     );
   }
   return (
-    <Button size="large" onClick={navToChapter}>
+    <Button
+      className={classes.chapterButton}
+      size="large"
+      onClick={navToChapter}
+    >
       {title}
     </Button>
   );

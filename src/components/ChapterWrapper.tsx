@@ -12,6 +12,7 @@ import { Alert } from "@material-ui/lab";
 import React, { useEffect, useState } from "react";
 import InputWrapper from "./inputFields/InputWrapper";
 import { useStyles } from "../style/chapters";
+
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   documentState,
@@ -157,10 +158,10 @@ const ChapterWrapper = (props: ChapterProps) => {
 
   return (
     <div style={{ width: "100%" }}>
-      <Typography style={{ color: "#00adee" }} variant="h4">
+      <Typography className={classes.heading} variant="h1">
         {chapter.title}
       </Typography>
-      {chapter.desc != "" ? <div>{descContainer}</div> : <p></p>}
+      {chapter.desc != "" ? <div>{descContainer} </div> : <p></p>}
       <div>
         {renderInputFields(attributeList, chapter.buttons, chapterName)}
       </div>

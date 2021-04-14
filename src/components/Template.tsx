@@ -118,7 +118,11 @@ const Template = () => {
         <p>Laster inn..</p>
       ) : (
         <div>
-          <div role="navigation" className="chapterButtons">
+          <div
+            role="navigation"
+            aria-label="Application"
+            className="chapterButtons"
+          >
             <Box className={classes.nav}>{renderButtons(chapterList)}</Box>
           </div>
           <div role="main">
