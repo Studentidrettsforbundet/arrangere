@@ -1,6 +1,9 @@
 import Template from "./Template";
 import { useRecoilCallback, useSetRecoilState } from "recoil";
-import { currentCollectionState } from "../stateManagement/choosenApplication";
+import {
+  choosenApplicationState,
+  currentCollectionState,
+} from "../stateManagement/choosenApplication";
 import { useEffect } from "react";
 import Box from "@material-ui/core/Box";
 

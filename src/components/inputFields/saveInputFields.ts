@@ -2,6 +2,7 @@ import { useRecoilCallback, useRecoilValue, useSetRecoilState } from "recoil";
 import { firestore } from "../../firebase";
 import { documentState } from "../../stateManagement/attributesState";
 import {
+  choosenApplicationState,
   currentApplicationIdState,
   currentCollectionState,
 } from "../../stateManagement/choosenApplication";
