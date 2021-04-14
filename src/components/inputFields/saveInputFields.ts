@@ -6,7 +6,7 @@ import { choosenApplicationState } from "../../stateManagement/choosenApplicatio
 export function useDocRef() {
   const docID = useRecoilValue(documentState);
   const collection = useRecoilValue(choosenApplicationState);
-  
+
   if (docID && collection) {
     let docRef = firestore.collection(collection + "Applications").doc(docID);
     return docRef;
