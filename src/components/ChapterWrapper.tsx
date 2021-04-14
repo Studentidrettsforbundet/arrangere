@@ -153,18 +153,13 @@ const ChapterWrapper = (props: ChapterProps) => {
     </Typography>
   );
 
-  const saveAndAlertUser = async (
-    docRef:
-      | firebase.firestore.DocumentReference<firebase.firestore.DocumentData>
-      | undefined
-  ) => {
+  const saveAndAlertUser = async (docRef: any) => {
     try {
       try {
         saveInput(docRef, inputFieldObject);
       } catch (error) {
         setShowError(true);
       }
-      console.log("Lagret");
       setShowAlert(true);
     } catch (error) {
       setShowError(true);

@@ -8,16 +8,18 @@ import { Box, Typography } from "@material-ui/core";
 export const ApplicationForm = () => {
   const [choosenApplicationForm, setChoosenApplicationForm] = useState(" ");
   const setCorrectApplicationForm = useSetRecoilState(choosenApplicationState);
+
   let url = window.location.href;
   var str_sub = url.substr(url.lastIndexOf("/") + 1);
 
   useEffect(() => {
     setApplicationForm();
-  }, [url]);
+  }, []);
 
   function setApplicationForm() {
     if (str_sub == "studentnm") {
       setCorrectApplicationForm("snm");
+      console.log("Collection in application", choosenApplicationForm);
       setChoosenApplicationForm("snm");
     }
     if (str_sub == "studentleker") {
