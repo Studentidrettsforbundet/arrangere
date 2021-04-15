@@ -15,7 +15,6 @@ import { currentUserState } from "../stateManagement/userAuth";
 import { useStyles } from "../style/cards";
 import { addDocToUser } from "./inputFields/addDocToUser";
 import DisplayError from "./DisplayError";
-import { useImperativeHandle } from "react";
 
 type CardProps = {
   image: string;
@@ -92,29 +91,17 @@ export const ApplicationCard = (props: CardProps) => {
             // );
           });
       });
+
       await firestore
         .collection(collectionTo)
         .doc(newDocId)
-        .set({ status: "in progress" }, { merge: true })
-        .then(() => {
-          console.log(
-            "Status field created in doc:" +
-              newDocId +
-              "\nIn collection " +
-              template
-          );
-        })
-        .catch((error) => {
-          console.error(
-            "Error creating document",
-            `${collectionTo}`,
-            JSON.stringify(error)
-          );
-        });
-      await firestore
-        .collection(collectionTo)
-        .doc(newDocId)
-        .set({ userId: currentUser?.uid }, { merge: true })
+        .set(
+          {
+            status: "in progress",
+            userId: [currentUser?.uid],
+          },
+          { merge: true }
+        )
         .then(() => {
           console.log("UserId set in document to: " + currentUser?.uid);
         })
