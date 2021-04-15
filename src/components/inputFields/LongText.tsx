@@ -32,12 +32,19 @@ const LongText: FC<InputProps> = ({ desc, id, chapterName }) => {
     setValue(value);
   };
 
+  let inputProperties;
+  if (desc == "") {
+    inputProperties = { "aria-label": id };
+  } else {
+    inputProperties = { "aria-label": desc };
+  }
   return (
     <Box py={2}>
       <Typography>{desc}</Typography>
       <TextField
         fullWidth
         multiline
+        inputProps={inputProperties}
         rows={4}
         value={value}
         onChange={(e) => handleValueChange(e.target.value)}

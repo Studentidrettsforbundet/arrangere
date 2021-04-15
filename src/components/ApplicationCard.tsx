@@ -84,21 +84,23 @@ export const ApplicationCard = (props: CardProps) => {
             // );
           });
       });
+
       await firestore
         .collection(collectionTo)
         .doc(newDocId)
-        .set({ status: "in progress" }, { merge: true })
+        .set(
+          {
+            status: "in progress",
+            userId: [currentUser?.uid],
+          },
+          { merge: true }
+        )
         .then(() => {
-          console.log(
-            "Status field created in doc:" +
-              newDocId +
-              "\nIn collection " +
-              template
-          );
+          console.log("UserId set in document to: " + currentUser?.uid);
         })
         .catch((error) => {
           console.error(
-            "Error creating document",
+            "Error creating userId field in",
             `${collectionTo}`,
             JSON.stringify(error)
           );
@@ -109,7 +111,7 @@ export const ApplicationCard = (props: CardProps) => {
   }
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} style={{ width: 250, padding: 25 }}>
       <CardActionArea>
         <CardMedia className={classes.media} image={props.image} />
         <CardContent>

@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Divider,
-  Typography,
-} from "@material-ui/core/";
+import { Divider, Typography } from "@material-ui/core/";
 import { ApplicationCard } from "./ApplicationCard";
 import Student_NM_logo from "./../images/student_NM.png";
 import Studentleker_logo from "./../images/studentleker-1.png";
@@ -15,9 +7,9 @@ import { firestore } from "../firebase";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "../stateManagement/userAuth";
 import { useStyles } from "../style/userProfile";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import AppCard from "./admin/AppCard";
-import { Link as RouterLink } from "react-router-dom";
+import Grid from "@material-ui/core/Grid";
 
 export const ChooseApplication = () => {
   const [submittedApplicationIDs, setSubmittedApplicationIDs] = useState<
@@ -39,6 +31,7 @@ export const ChooseApplication = () => {
     if (currentUser != null) {
       const doc = await firestore.collection("user").doc(currentUser.uid).get();
       const docData: any = doc.data();
+
       for (const applicationID in docData.applications) {
         if (docData.applications[applicationID].id != undefined) {
           if (docData.applications[applicationID].status == "submitted") {
@@ -54,10 +47,10 @@ export const ChooseApplication = () => {
             });
           }
         }
+        setSubmittedApplicationIDs(submittedApplicationIDs);
+        setInProgressApplicationIDs(inProgressApplicationIDs);
       }
     }
-    setSubmittedApplicationIDs(submittedApplicationIDs);
-    setInProgressApplicationIDs(inProgressApplicationIDs);
   }
 
   const renderSubmittedApplications = () => {
@@ -90,12 +83,12 @@ export const ChooseApplication = () => {
       <Typography gutterBottom variant="h5" component="h2">
         Opprette ny søknad!
       </Typography>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-        }}
+      <Grid
+        container
+        direction="row"
+        justify="space-evenly"
+        alignItems="center"
+        style={{ padding: 30 }}
       >
         <ApplicationCard
           image={Student_NM_logo}
@@ -115,7 +108,7 @@ export const ChooseApplication = () => {
           to="/studentcup"
           template="sc"
         />
-      </div>
+      </Grid>
 
       <br></br>
       <Divider />
@@ -124,11 +117,30 @@ export const ChooseApplication = () => {
       <Typography gutterBottom variant="h5" component="h2">
         Mine påbegynte søknader
       </Typography>
-      <Box>{renderInProgressApplications()}</Box>
+      <Grid
+        container
+        direction="row"
+        justify="flex-start"
+        alignItems="baseline"
+        style={{ padding: 30 }}
+        item
+        xs
+      >
+        {renderInProgressApplications()}
+      </Grid>
       <Typography gutterBottom variant="h5" component="h2">
         Mine innsendte søknader
       </Typography>
-      <Box>{renderSubmittedApplications()}</Box>
+      <Grid
+        container
+        direction="row"
+        justify="flex-start"
+        alignItems="baseline"
+        item
+        xs
+      >
+        {renderSubmittedApplications()}
+      </Grid>
     </div>
   );
 };
