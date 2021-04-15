@@ -89,3 +89,9 @@ type InfoLongTextProps = {
   priority: number;
   title: string;
 };
+
+type AppCardProps = {
+  applicationId: string;
+  collectionName: string;
+  to: string;
+};

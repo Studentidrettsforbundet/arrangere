@@ -16,19 +16,19 @@ export const ApplicationForm = () => {
   }, []);
 
   function setApplicationForm() {
-    if (str_sub == "studentnm") {
+    if (str_sub === "studentnm") {
       setChoosenApplicationForm("snm");
     }
-    if (str_sub == "studentleker") {
+    if (str_sub === "studentleker") {
       setChoosenApplicationForm("sl");
     }
-    if (str_sub == "studentcup") {
+    if (str_sub === "studentcup") {
       setChoosenApplicationForm("sc");
     }
   }
   return (
     <div style={{ width: "100%" }}>
-      {choosenApplicationForm == " " ? (
+      {choosenApplicationForm === " " ? (
         <Box p={10}>
           <Typography variant="subtitle2">Laster inn..</Typography>
           <Skeleton />
