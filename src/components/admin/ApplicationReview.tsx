@@ -72,10 +72,13 @@ export const ApplicationReview = () => {
       <div>
         {inputFieldList.map((inputField) => {
           return (
-            <Box>
-              <Typography variant="subtitle1">{inputField.desc}</Typography>
-              <Typography style={{ color: "red" }} variant="body2">
-                Svar: {inputField.value}
+            <Box pb={3}>
+              <Typography style={{ fontWeight: "bold" }} variant="subtitle1">
+                {inputField.desc}
+              </Typography>
+              <Typography variant="body1">
+                Svar:
+                {inputField.value}
               </Typography>
             </Box>
           );
@@ -130,7 +133,7 @@ export const ApplicationReview = () => {
 
   return (
     <div>
-      <Box px={15} pt={6}>
+      <Box px={10} pt={6}>
         {renderChapters(chapterList)}
       </Box>
     </div>

@@ -1,3 +1,4 @@
+import { Box } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { firestore } from "../../firebase";
 import AppCard from "./AppCard";
@@ -53,7 +54,7 @@ export default function ReceivedAppPage() {
   }
 
   return (
-    <div>
+    <Box px={10} pt={6}>
       <h1>Innsendte søknader</h1>
       <h2>Student-NM</h2>
       {snmApplicationIDs.map((applicationID: string) => {
@@ -86,6 +87,6 @@ export default function ReceivedAppPage() {
           />
         );
       })}
-    </div>
+    </Box>
   );
 }
