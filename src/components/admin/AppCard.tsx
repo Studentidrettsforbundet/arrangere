@@ -10,9 +10,11 @@ import React from "react";
 import { useStyles } from "../../style/cards";
 import { Link as RouterLink } from "react-router-dom";
 import {
+  choosenApplicationState,
   currentApplicationIdState,
   currentCollectionState,
 } from "../../stateManagement/choosenApplication";
+import { documentState } from "../../stateManagement/attributesState";
 
 type Props = {
   applicationId: string;
@@ -21,10 +23,13 @@ type Props = {
 };
 
 export default function AppCard(props: Props) {
-  const setCurrentApplicationIdState = useSetRecoilState(
-    currentApplicationIdState
-  );
-  const setCurrentCollectionState = useSetRecoilState(currentCollectionState);
+  // const setCurrentApplicationIdState = useSetRecoilState(
+  //   currentApplicationIdState
+  // );
+  // const setCurrentCollectionState = useSetRecoilState(currentCollectionState);
+
+  const setCurrentApplicationIdState = useSetRecoilState(documentState);
+  const setCurrentCollectionState = useSetRecoilState(choosenApplicationState);
   const classes = useStyles();
 
   return (
@@ -52,6 +57,7 @@ export default function AppCard(props: Props) {
             variant="outlined"
             size="small"
             onClick={() => {
+              console.log("Props coll name", props.collectionName);
               setCurrentApplicationIdState(props.applicationId);
               setCurrentCollectionState(props.collectionName);
             }}

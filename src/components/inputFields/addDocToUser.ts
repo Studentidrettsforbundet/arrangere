@@ -14,7 +14,7 @@ async function getNumberOfApplications(userID: string) {
 export const addDocToUser = async (
   userID: string,
   docID: string,
-  collectionTo: string
+  collection: string
 ) => {
   let applicationNr: number = 0;
 
@@ -25,7 +25,7 @@ export const addDocToUser = async (
   var applicationData = {
     id: docID,
     status: "in progress",
-    collection: collectionTo,
+    collection: collection,
   };
   if (applicationNr == 0) {
     firestore

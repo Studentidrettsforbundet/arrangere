@@ -1,11 +1,11 @@
 import Template from "./Template";
 import { useRecoilCallback, useSetRecoilState } from "recoil";
 import { choosenApplicationState } from "../stateManagement/choosenApplication";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Box from "@material-ui/core/Box";
 
 export const ApplicationForm = () => {
-  const setChoosenApplicationForm = useSetRecoilState(choosenApplicationState);
+  const [choosenApplicationForm, setChoosenApplicationForm] = useState(" ");
 
   let url = window.location.href;
   var str_sub = url.substr(url.lastIndexOf("/") + 1);
@@ -28,9 +28,13 @@ export const ApplicationForm = () => {
 
   return (
     <div style={{ width: "100%" }}>
-      <Box pb={8}>
-        <Template></Template>
-      </Box>
+      {choosenApplicationForm == " " ? (
+        <p>Laster inn..</p>
+      ) : (
+        <Box pb={8}>
+          <Template choosenApplicationForm={choosenApplicationForm}></Template>
+        </Box>
+      )}
     </div>
   );
 };

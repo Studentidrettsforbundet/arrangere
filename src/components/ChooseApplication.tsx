@@ -63,6 +63,7 @@ export const ChooseApplication = () => {
   const renderSubmittedApplications = () => {
     return submittedApplicationIDs?.map((applicationID: any, i: any) => (
       <AppCard
+        key={i}
         to="/application"
         applicationId={applicationID[0]}
         collectionName={applicationID[1]}
@@ -73,6 +74,7 @@ export const ChooseApplication = () => {
   const renderInProgressApplications = () => {
     return inProgressApplicationIDs?.map((applicationID: any, i: any) => (
       <AppCard
+        key={i}
         to="/edit"
         applicationId={applicationID.id}
         collectionName={applicationID.collection}

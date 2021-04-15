@@ -2,7 +2,9 @@ import { Box, Typography } from "@material-ui/core";
 import firebase from "firebase";
 import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
+import { documentState } from "../../stateManagement/attributesState";
 import {
+  choosenApplicationState,
   currentApplicationIdState,
   currentCollectionState,
 } from "../../stateManagement/choosenApplication";
@@ -11,8 +13,10 @@ import { useStyles } from "../../style/chapters";
 export const ApplicationReview = () => {
   const classes = useStyles();
   var db = firebase.firestore();
-  let currentApplicationId: string = useRecoilValue(currentApplicationIdState);
-  let currentCollection: string = useRecoilValue(currentCollectionState);
+  // let currentApplicationId: string = useRecoilValue(currentApplicationIdState);
+  // let currentCollection: string = useRecoilValue(currentCollectionState);
+  let currentApplicationId: string = useRecoilValue(documentState);
+  let currentCollection: string = useRecoilValue(choosenApplicationState);
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
 
   useEffect(() => {
@@ -29,7 +33,7 @@ export const ApplicationReview = () => {
       let chapterListLocal: Array<Chapter> = [];
 
       await db
-        .collection(currentCollection)
+        .collection(currentCollection + "Applications")
         .doc(currentApplicationId)
         .get()
         .then((doc) => {

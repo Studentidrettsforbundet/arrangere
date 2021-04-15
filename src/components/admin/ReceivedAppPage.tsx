@@ -61,7 +61,7 @@ export default function ReceivedAppPage() {
           <AppCard
             to="/application"
             applicationId={applicationID}
-            collectionName="snmApplications"
+            collectionName="snm"
           />
         );
       })}
@@ -72,7 +72,7 @@ export default function ReceivedAppPage() {
           <AppCard
             to="/application"
             applicationId={applicationID}
-            collectionName="slpplications"
+            collectionName="sl"
           />
         );
       })}
@@ -82,7 +82,7 @@ export default function ReceivedAppPage() {
           <AppCard
             to="/application"
             applicationId={applicationID}
-            collectionName="scApplications"
+            collectionName="sc"
           />
         );
       })}

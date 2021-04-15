@@ -9,21 +9,6 @@ export function useDocRef() {
   const collection = useRecoilValue(choosenApplicationState);
   const setCollection = useSetRecoilState(choosenApplicationState);
 
-  const changeCollection = useRecoilCallback(
-    ({ snapshot }) => (choosenApplication: string) => {
-      snapshot.getLoadable(choosenApplicationState);
-      setCollection(choosenApplication);
-    }
-  );
-
-  const changeDocID = useRecoilCallback(({ snapshot }) => (docID: string) => {
-    snapshot.getLoadable(documentState);
-    setDocID(docID);
-  });
-
-  changeCollection(collection);
-  changeDocID(docID);
-
   if (docID && collection) {
     let docRef = firestore.collection(collection + "Applications").doc(docID);
     return docRef;
