@@ -18,6 +18,7 @@ import { useStyles } from "../style/userProfile";
 import { useEffect, useRef, useState } from "react";
 import AppCard from "./admin/AppCard";
 import { Link as RouterLink } from "react-router-dom";
+import Grid from "@material-ui/core/Grid";
 
 export const ChooseApplication = () => {
   const [submittedApplicationIDs, setSubmittedApplicationIDs] = useState<
@@ -90,12 +91,12 @@ export const ChooseApplication = () => {
       <Typography gutterBottom variant="h5" component="h2">
         Opprette ny søknad!
       </Typography>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-        }}
+      <Grid
+        container
+        direction="row"
+        justify="space-evenly"
+        alignItems="center"
+        style={{ padding: 30 }}
       >
         <ApplicationCard
           image={Student_NM_logo}
@@ -115,7 +116,7 @@ export const ChooseApplication = () => {
           to="/studentcup"
           template="sc"
         />
-      </div>
+      </Grid>
 
       <br></br>
       <Divider />
@@ -124,11 +125,30 @@ export const ChooseApplication = () => {
       <Typography gutterBottom variant="h5" component="h2">
         Mine påbegynte søknader
       </Typography>
-      <Box>{renderInProgressApplications()}</Box>
+      <Grid
+        container
+        direction="row"
+        justify="flex-start"
+        alignItems="baseline"
+        style={{ padding: 30 }}
+        item
+        xs
+      >
+        {renderInProgressApplications()}
+      </Grid>
       <Typography gutterBottom variant="h5" component="h2">
         Mine innsendte søknader
       </Typography>
-      <Box>{renderSubmittedApplications()}</Box>
+      <Grid
+        container
+        direction="row"
+        justify="flex-start"
+        alignItems="baseline"
+        item
+        xs
+      >
+        {renderSubmittedApplications()}
+      </Grid>
     </div>
   );
 };
