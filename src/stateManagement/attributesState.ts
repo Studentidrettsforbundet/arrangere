@@ -1,5 +1,4 @@
-import { selector } from "recoil";
-import { atom, atomFamily } from "recoil";
+import { atom } from "recoil";
 import { localStorageEffect } from "./localstorageRecoil";
 
 export const inputFieldObjectState = atom({

@@ -4,22 +4,27 @@ import { firestore } from "../firebase";
 import ChapterWrapper from "./ChapterWrapper";
 import {
   chapterCounterState,
-  choosenApplicationState,
   currentChapterState,
 } from "../stateManagement/choosenApplication";
-import { Box, Button } from "@material-ui/core/";
+import { Box, Button, Typography } from "@material-ui/core/";
+import Skeleton from "@material-ui/lab/Skeleton";
 import { useStyles } from "../style/chapters";
 import ChapterButton from "./ChapterButton";
+import DisplayError from "./DisplayError";
 import { saveInput, useDocRef } from "./inputFields/saveInputFields";
 import { inputFieldObjectState } from "../stateManagement/attributesState";
 
-const Template = () => {
+type TemplateProps = {
+  choosenApplicationForm: string;
+};
+
+const Template = (props: TemplateProps) => {
   const classes = useStyles();
   const isInitialMount = useRef(true);
   const docRef = useDocRef();
   const [loading, setLoading] = useState(true);
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
-  const choosenApplicationForm = useRecoilValue(choosenApplicationState);
+  //const choosenApplicationForm = useRecoilValue(choosenApplicationState);
   const setCurrentChapterState = useSetRecoilState(currentChapterState);
   const [chapterCounter, setChapterCounter] = useRecoilState(
     chapterCounterState
@@ -32,14 +37,14 @@ const Template = () => {
       setChapterCounter(0);
     }
     generateApplicationForm();
-  }, [choosenApplicationForm]);
+  }, [props.choosenApplicationForm]);
 
   async function generateApplicationForm() {
     setLoading(true);
     let chapterListLocal: Array<Chapter> = [];
 
     await firestore
-      .collection(choosenApplicationForm + "Template")
+      .collection(props.choosenApplicationForm + "Template")
       .get()
       .then((snapshot) => {
         snapshot.docs.forEach((chapter) => {
@@ -54,6 +59,7 @@ const Template = () => {
             });
           } else {
             console.log("No such document!");
+            <DisplayError message={""} title={""} />;
             throw new Error("No document.");
           }
         });
@@ -69,7 +75,6 @@ const Template = () => {
 
   const renderChapters = (chapterList: Array<Chapter>) => {
     const chapters: any = [];
-
     chapterList.map((chapter: Chapter) => {
       chapters.push(
         <ChapterWrapper
@@ -115,7 +120,10 @@ const Template = () => {
   return (
     <div>
       {loading ? (
-        <p>Laster inn..</p>
+        <Box p={10}>
+          <Typography variant="subtitle2">Laster inn..</Typography>
+          <Skeleton />
+        </Box>
       ) : (
         <div>
           <div

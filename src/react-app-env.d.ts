@@ -1,5 +1,14 @@
 /// <reference types="react-scripts" />
 
+type Chapter = {
+  chapterName: string;
+  title: string;
+  desc: string;
+  attributes: Array<Attribute>;
+  priority: number;
+  buttons: Array<string>;
+};
+
 type ChapterWithID = {
   id: string;
   content: {
@@ -10,12 +19,19 @@ type ChapterWithID = {
   };
 };
 
-type InputFieldProps = {
+type ChapterWithName = {
+  chapter: Chapter;
+  chapterName: string;
+};
+
+//extra info about the inputfield objects passed to the different input field types
+type InputProps = {
   desc: string;
   id: string;
   chapterName: string;
 };
 
+//the actual input field object
 type InputField = {
   type: string;
   desc: string;
@@ -34,18 +50,42 @@ type InputWrapperProps = {
   priority: number;
 };
 
-type Chapter = {
-  chapterName: string;
-  title: string;
-  desc: string;
-  attributes: Array<Attribute>;
-  priority: number;
-  buttons: Array<string>;
-};
-
 type Attribute = {
   title: string;
   mainDesc: string;
   inputFields: Array<InputField>;
   priority: number;
+};
+
+type AttributeObject = {
+  name: string;
+  attribute: Attribute[];
+};
+
+type CardProps = {
+  image: string;
+  title: string;
+  to: string;
+  template: string;
+};
+
+type ButtonProps = {
+  key: number;
+  title: string;
+  priority: number;
+};
+
+type ReceivedApplicationProps = {
+  collectionName: string;
+};
+
+type ErrorTypes = {
+  status: ErrorStatus;
+  text: ErrorText;
+};
+
+type InfoLongTextProps = {
+  desc: string;
+  priority: number;
+  title: string;
 };

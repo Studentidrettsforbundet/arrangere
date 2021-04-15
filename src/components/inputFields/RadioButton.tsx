@@ -12,7 +12,7 @@ import { addFieldInputObject, useDocRef } from "./saveInputFields";
 import { getInputValue } from "./getInputValue";
 import React from "react";
 
-const RadioButton: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
+const RadioButton: FC<InputProps> = ({ desc, id, chapterName }) => {
   const [inputFieldObject, setInputFieldList] = useRecoilState(
     inputFieldObjectState
   );

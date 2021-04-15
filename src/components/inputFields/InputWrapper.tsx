@@ -253,6 +253,11 @@ const InputWrapper: FC<InputWrapperProps> = ({
         <div>
           <Box pb={2}>
             <div>{newFields}</div>
+            <p>
+              Husk å klikk på lagre om du har gjort noen endringer i en{" "}
+              {title.toLowerCase()}, før du sletter en annen{" "}
+              {title.toLowerCase()}
+            </p>
           </Box>
           {attributebutton}
         </div>

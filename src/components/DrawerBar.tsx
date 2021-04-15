@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
 import StudentidrettLogo from "./../images/studentidrett-logo-sort.png";
-import AppsOutlinedIcon from "@material-ui/icons/AppsOutlined";
+import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
+import AssignmentOutlinedIcon from "@material-ui/icons/AssignmentOutlined";
 
 import {
   CssBaseline,
   CardMedia,
-  Divider,
   Drawer,
   List,
   ListItem,
@@ -56,7 +55,7 @@ export default function DrawerBar() {
             <CardMedia className={classes.media} image={StudentidrettLogo} />
             <ListItem button component={Link} to="/">
               <ListItemIcon>
-                <AppsOutlinedIcon />
+                <HomeOutlinedIcon />
               </ListItemIcon>
               <ListItemText primary="Hjem" />
             </ListItem>
@@ -66,7 +65,7 @@ export default function DrawerBar() {
               </ListItemIcon>
               <ListItemText primary="Brukerprofil" />
             </ListItem>
-            <Divider />
+
             <ListItem button component={Link} to="/applications">
               <ListItemIcon>
                 <DescriptionOutlinedIcon />
@@ -76,7 +75,7 @@ export default function DrawerBar() {
             {userRole == "admin" ? (
               <ListItem button component={Link} to="/receivedApplications">
                 <ListItemIcon>
-                  <DescriptionOutlinedIcon />
+                  <AssignmentOutlinedIcon />
                 </ListItemIcon>
                 <ListItemText primary="Innsendte søknader" />
               </ListItem>
