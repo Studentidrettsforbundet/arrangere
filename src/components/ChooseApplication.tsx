@@ -43,10 +43,10 @@ export const ChooseApplication = () => {
         if (docData.applications[applicationID].id != undefined) {
           if (docData.applications[applicationID].status == "submitted") {
             // Her er det sykt rart at jeg ikke kan sette det som et objekt som er gjort i else under..
-            submittedApplicationIDs.push([
-              docData.applications[applicationID].id,
-              docData.applications[applicationID].collection,
-            ]);
+            submittedApplicationIDs.push({
+              id: docData.applications[applicationID].id,
+              collection: docData.applications[applicationID].collection,
+            });
           } else {
             inProgressApplicationIDs.push({
               id: docData.applications[applicationID].id,
@@ -65,8 +65,8 @@ export const ChooseApplication = () => {
       <AppCard
         key={i}
         to="/application"
-        applicationId={applicationID[0]}
-        collectionName={applicationID[1]}
+        applicationId={applicationID.id}
+        collectionName={applicationID.collection}
       ></AppCard>
     ));
   };
