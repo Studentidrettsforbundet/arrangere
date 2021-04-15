@@ -1,17 +1,30 @@
-beforeEach(() => {
-  cy.visit("/studentcup");
-  cy.injectAxe();
+describe("Accessibility", () => {
+  it("should be accessible", () => {
+    cy.visit("/applications");
+    cy.get("a span[class='MuiButton-label']").eq(3).click();
+    cy.on("uncaught:exception", () => {
+      cy.reload();
 
-  describe("Accessibility", () => {
-    it("should be accessible", () => {
-      cy.get(".chapterButtons")
-        .find("button")
-        .each(($button) => {
-          cy.wrap($button).click();
-          cy.wait(1000).then(() => {
-            cy.checkA11y();
-          });
-        });
+      done();
+      return false;
     });
+    cy.injectAxe();
+    cy.configureAxe({
+      rules: [
+        {
+          id: "color-contrast",
+          enabled: false,
+        },
+      ],
+    });
+
+    cy.get(".chapterButtons")
+      .find("button")
+      .each(($button, i) => {
+        cy.wrap($button).click();
+        cy.wait(1000).then(() => {
+          cy.checkA11y();
+        });
+      });
   });
 });

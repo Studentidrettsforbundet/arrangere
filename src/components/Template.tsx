@@ -128,7 +128,11 @@ const Template = (props: TemplateProps) => {
         </Box>
       ) : (
         <div>
-          <div role="navigation" className="chapterButtons">
+          <div
+            role="navigation"
+            aria-label="Application"
+            className="chapterButtons"
+          >
             <Box className={classes.nav}>{renderButtons(chapterList)}</Box>
           </div>
           <div role="main">

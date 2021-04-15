@@ -31,6 +31,7 @@ export const ChooseApplication = () => {
     if (currentUser != null) {
       const doc = await firestore.collection("user").doc(currentUser.uid).get();
       const docData: any = doc.data();
+
       for (const applicationID in docData.applications) {
         if (docData.applications[applicationID].id != undefined) {
           if (docData.applications[applicationID].status == "submitted") {
@@ -46,10 +47,10 @@ export const ChooseApplication = () => {
             });
           }
         }
+        setSubmittedApplicationIDs(submittedApplicationIDs);
+        setInProgressApplicationIDs(inProgressApplicationIDs);
       }
     }
-    setSubmittedApplicationIDs(submittedApplicationIDs);
-    setInProgressApplicationIDs(inProgressApplicationIDs);
   }
 
   const renderSubmittedApplications = () => {
