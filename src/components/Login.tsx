@@ -89,18 +89,19 @@ const LogIn = () => {
   }
 
   return (
-    <Container className={classes.container}>
+    <Container role="main" className={classes.container}>
       <Card className={classes.root}>
         <img className={classes.image} src={logo} alt="logo" />
 
         <CardContent>
-          <Typography variant="h6" className={classes.formfield}>
+          <Typography variant="h6" component="h1" className={classes.formfield}>
             Logg inn
           </Typography>
           <form className={classes.form}>
             <FormControl className={classes.formfield}>
               <TextField
                 required
+                inputProps={{ "aria-label": "E-post" }}
                 label="E-post"
                 inputRef={emailRef}
                 variant="outlined"
@@ -109,6 +110,7 @@ const LogIn = () => {
             <FormControl className={classes.formfield}>
               <TextField
                 required
+                inputProps={{ "aria-label": "Passord" }}
                 label="Passord"
                 inputRef={passwordRef}
                 variant="outlined"

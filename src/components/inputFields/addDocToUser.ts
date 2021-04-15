@@ -5,8 +5,10 @@ async function getNumberOfApplications(userID: string) {
   const doc = await firestore.collection("user").doc(userID).get();
 
   const docData: any = doc.data();
-  for (const application in docData.applications) {
-    counter++;
+  if (docData != undefined) {
+    for (const application in docData.applications) {
+      counter++;
+    }
   }
   return counter;
 }

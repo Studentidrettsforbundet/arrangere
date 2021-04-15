@@ -39,25 +39,27 @@ export const ChooseApplication = () => {
     if (currentUser != null) {
       const doc = await firestore.collection("user").doc(currentUser.uid).get();
       const docData: any = doc.data();
-      for (const applicationID in docData.applications) {
-        if (docData.applications[applicationID].id != undefined) {
-          if (docData.applications[applicationID].status == "submitted") {
-            // Her er det sykt rart at jeg ikke kan sette det som et objekt som er gjort i else under..
-            submittedApplicationIDs.push([
-              docData.applications[applicationID].id,
-              docData.applications[applicationID].collection,
-            ]);
-          } else {
-            inProgressApplicationIDs.push({
-              id: docData.applications[applicationID].id,
-              collection: docData.applications[applicationID].collection,
-            });
+      if (docData != undefined) {
+        for (const applicationID in docData.applications) {
+          if (docData.applications[applicationID].id != undefined) {
+            if (docData.applications[applicationID].status == "submitted") {
+              // Her er det sykt rart at jeg ikke kan sette det som et objekt som er gjort i else under..
+              submittedApplicationIDs.push([
+                docData.applications[applicationID].id,
+                docData.applications[applicationID].collection,
+              ]);
+            } else {
+              inProgressApplicationIDs.push({
+                id: docData.applications[applicationID].id,
+                collection: docData.applications[applicationID].collection,
+              });
+            }
           }
         }
+        setSubmittedApplicationIDs(submittedApplicationIDs);
+        setInProgressApplicationIDs(inProgressApplicationIDs);
       }
     }
-    setSubmittedApplicationIDs(submittedApplicationIDs);
-    setInProgressApplicationIDs(inProgressApplicationIDs);
   }
 
   const renderSubmittedApplications = () => {
