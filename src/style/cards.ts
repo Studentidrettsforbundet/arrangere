@@ -8,7 +8,7 @@ export const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-  },
+  }, 
   media: {
     height: 30,
   },

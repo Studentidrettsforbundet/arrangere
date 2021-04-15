@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Divider,
-  Typography,
-} from "@material-ui/core/";
+import { Divider, Typography } from "@material-ui/core/";
 import { ApplicationCard } from "./ApplicationCard";
 import Student_NM_logo from "./../images/student_NM.png";
 import Studentleker_logo from "./../images/studentleker-1.png";
@@ -15,9 +7,8 @@ import { firestore } from "../firebase";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "../stateManagement/userAuth";
 import { useStyles } from "../style/userProfile";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import AppCard from "./admin/AppCard";
-import { Link as RouterLink } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 
 export const ChooseApplication = () => {
