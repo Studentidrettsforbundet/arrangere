@@ -2,18 +2,21 @@ import { Box, Typography } from "@material-ui/core";
 import firebase from "firebase";
 import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
+import { documentState } from "../../stateManagement/attributesState";
 import {
+  choosenApplicationState,
   currentApplicationIdState,
   currentCollectionState,
 } from "../../stateManagement/choosenApplication";
 import { useStyles } from "../../style/chapters";
-import InputField from "../inputFields/InputWrapper";
 
 export const ApplicationReview = () => {
   const classes = useStyles();
   var db = firebase.firestore();
-  let currentApplicationId: string = useRecoilValue(currentApplicationIdState);
-  let currentCollection: string = useRecoilValue(currentCollectionState);
+  // let currentApplicationId: string = useRecoilValue(currentApplicationIdState);
+  // let currentCollection: string = useRecoilValue(currentCollectionState);
+  let currentApplicationId: string = useRecoilValue(documentState);
+  let currentCollection: string = useRecoilValue(choosenApplicationState);
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
 
   useEffect(() => {
@@ -30,7 +33,7 @@ export const ApplicationReview = () => {
       let chapterListLocal: Array<Chapter> = [];
 
       await db
-        .collection(currentCollection)
+        .collection(currentCollection + "Applications")
         .doc(currentApplicationId)
         .get()
         .then((doc) => {
@@ -54,66 +57,6 @@ export const ApplicationReview = () => {
         });
     }
   }
-
-  // const renderChapters = (chapterList: Array<Chapter>) => {
-  //   const chapters: any = [];
-  //   chapterList.map((chapter: Chapter) => {
-  //     chapters.push(
-  //       <ChapterWrapper
-  //         key={chapter.title}
-  //         chapterName={chapter.chapterName}
-  //         chapter={chapter}
-  //       />
-  //     );
-  //   });
-  //   chapterList.sort((a: Chapter, b: Chapter) => a.priority - b.priority);
-  //   //setCurrentChapterState(chapterList[chapterCounter].title);
-  //   return chapters;
-  // };
-
-  // async function getInputField(fieldPath: string) {
-  //   let value = "";
-  //   await firestore
-  //     .collection(currentCollection)
-  //     .doc(currentApplicationId)
-  //     .get()
-  //     .then((res) => {
-  //       value = res.get(fieldPath);
-  //       return value;
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  //   return value;
-  // }
-
-  // const renderInputFields = (chapterList: Array<Chapter>) => {
-  //   let attributeList: Array<any> = [];
-  //   let fieldPaths: Array<string> = [];
-  //   chapterList.forEach((chapter: Chapter) => {
-  //     attributeList.push(chapter.attributes);
-  //     //let chapterName = chapter;
-  //     attributeList.forEach((attributes: any) => {
-  //       for (const attribute in attributes) {
-  //         let inputFields = attributes[attribute].input_fields;
-  //         for (const inputField in inputFields) {
-  //           // console.log(inputField);
-  //           let fieldPath = `${chapter.chapterName}.attributes.${attribute}.input_fields.${inputField}`;
-  //           //console.log(fieldPath);
-  //           fieldPaths.push(fieldPath);
-  //         }
-  //         // console.log(attributes[attribute].input_fields);
-  //         // Har fått ut fieldpath (må fikses på med input slik at den ikke er hardkodet)
-
-  //         // const inputField = getInputField(fieldPath);
-  //         // console.log(inputField);
-  //       }
-  //       //console.log(attributes);
-  //     });
-  //   });
-  //   //console.log(fieldPaths);
-  //   return fieldPaths;
-  // };
 
   const renderInputFields = (inputFields: Array<InputField>) => {
     let inputFieldList: Array<any> = [];

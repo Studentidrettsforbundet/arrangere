@@ -4,6 +4,7 @@ import { firestore } from "../firebase";
 import ChapterWrapper from "./ChapterWrapper";
 import {
   chapterCounterState,
+  choosenApplicationState,
   currentChapterState,
 } from "../stateManagement/choosenApplication";
 import { Box, Button, Typography } from "@material-ui/core/";
@@ -24,7 +25,7 @@ const Template = (props: TemplateProps) => {
   const docRef = useDocRef();
   const [loading, setLoading] = useState(true);
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
-  //const choosenApplicationForm = useRecoilValue(choosenApplicationState);
+  const setChoosenApplicationForm = useSetRecoilState(choosenApplicationState);
   const setCurrentChapterState = useSetRecoilState(currentChapterState);
   const [chapterCounter, setChapterCounter] = useRecoilState(
     chapterCounterState
@@ -34,6 +35,7 @@ const Template = (props: TemplateProps) => {
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
+      setChoosenApplicationForm(props.choosenApplicationForm);
       setChapterCounter(0);
     }
     generateApplicationForm();
