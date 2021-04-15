@@ -16,13 +16,6 @@ import { useStyles } from "../style/cards";
 import { addDocToUser } from "./inputFields/addDocToUser";
 import DisplayError from "./DisplayError";
 
-type CardProps = {
-  image: string;
-  title: string;
-  to: string;
-  template: string;
-};
-
 export const ApplicationCard = (props: CardProps) => {
   const classes = useStyles();
 

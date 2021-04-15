@@ -5,7 +5,7 @@ import { inputFieldObjectState } from "../../stateManagement/attributesState";
 import { addFieldInputObject, useDocRef } from "./saveInputFields";
 import { getInputValue } from "./getInputValue";
 
-const Number: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
+const Number: FC<InputProps> = ({ desc, id, chapterName }) => {
   const [inputFieldObject, setInputFieldList] = useRecoilState(
     inputFieldObjectState
   );
