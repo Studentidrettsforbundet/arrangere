@@ -24,7 +24,7 @@ When running the application at localhost it gets connected to firebase emulator
 Make sure you have a Java SDK downloaded and also the firebase tool package. Download this using the command:
 `npm install -g firebase-tools`
 
-1. Start the emulators by running the command `firebare emulators:start` in your terminal
+1. Start the emulators by running the command `npm run emulator` in your terminal
 2. Open the UI by clicking the link in your terminal ( http://localhost:4000)
 
 ## Folder Structure
