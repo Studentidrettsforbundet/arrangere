@@ -63,11 +63,12 @@ export default function Dashboard() {
               path="/receivedApplications"
               component={ReceivedAppPage}
             />
-            <Route exact path="/application" component={ApplicationReview} />
           </>
         ) : (
           " "
         )}
+        <Route exact path="/application" component={ApplicationReview} />
+
         <Route exact path="/edit" component={UserApplication} />
       </BrowserRouter>
     </div>

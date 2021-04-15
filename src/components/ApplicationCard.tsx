@@ -111,7 +111,7 @@ export const ApplicationCard = (props: CardProps) => {
   }
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} style={{ width: 250, padding: 25 }}>
       <CardActionArea>
         <CardMedia className={classes.media} image={props.image} />
         <CardContent>
