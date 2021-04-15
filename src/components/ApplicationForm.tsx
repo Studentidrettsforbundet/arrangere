@@ -1,6 +1,9 @@
 import Template from "./Template";
 import { useEffect, useState } from "react";
-import Box from "@material-ui/core/Box";
+import { useSetRecoilState } from "recoil";
+import { choosenApplicationState } from "../stateManagement/choosenApplication";
+import { Skeleton } from "@material-ui/lab";
+import { Box, Typography } from "@material-ui/core";
 
 export const ApplicationForm = () => {
   const [choosenApplicationForm, setChoosenApplicationForm] = useState(" ");
@@ -10,7 +13,7 @@ export const ApplicationForm = () => {
 
   useEffect(() => {
     setApplicationForm();
-  }, [url]);
+  }, []);
 
   function setApplicationForm() {
     if (str_sub == "studentnm") {
@@ -23,11 +26,13 @@ export const ApplicationForm = () => {
       setChoosenApplicationForm("sc");
     }
   }
-
   return (
     <div style={{ width: "100%" }}>
       {choosenApplicationForm == " " ? (
-        <p>Laster inn..</p>
+        <Box p={10}>
+          <Typography variant="subtitle2">Laster inn..</Typography>
+          <Skeleton />
+        </Box>
       ) : (
         <Box pb={8}>
           <Template choosenApplicationForm={choosenApplicationForm}></Template>

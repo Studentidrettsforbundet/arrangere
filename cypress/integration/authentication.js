@@ -114,7 +114,7 @@ describe("Sign up", () => {
 
       cy.location("pathname", { timeout: 10000 }).should("eq", "/");
 
-      cy.title().should("eq", "Søknadsportal");
+      cy.title().should("eq", "Arrangere");
       cy.get("nav").contains("Brukerprofil").click();
       cy.get('[href="/login"]').click();
     });

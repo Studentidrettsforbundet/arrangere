@@ -12,6 +12,8 @@ import { ApplicationReview } from "./admin/ApplicationReview";
 import ReceivedAppPage from "./admin/ReceivedAppPage";
 import { useEffect } from "react";
 import firebase from "firebase";
+import Template from "./Template";
+import { UserApplication } from "./user/UserApplication";
 
 export default function Dashboard() {
   const currentUser = useRecoilValue(currentUserState);
@@ -66,6 +68,7 @@ export default function Dashboard() {
         ) : (
           " "
         )}
+        <Route exact path="/edit" component={UserApplication} />
       </BrowserRouter>
     </div>
   );
