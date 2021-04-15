@@ -1,24 +1,34 @@
-import { Box } from "@material-ui/core";
-import { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useEffect, useRef, useState } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { firestore } from "../../firebase";
 import { documentState } from "../../stateManagement/attributesState";
-import { choosenApplicationState } from "../../stateManagement/choosenApplication";
-import ChapterWrapper from "../ChapterWrapper";
+import {
+  chapterCounterState,
+  choosenApplicationState,
+} from "../../stateManagement/choosenApplication";
+import Application from "../Application";
 
 export const UserApplication = () => {
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
   let currentApplicationId: string = useRecoilValue(documentState);
   let currentCollection: string = useRecoilValue(choosenApplicationState);
+  const [loading, setLoading] = useState(true);
+  const isInitialMount = useRef(true);
+  const setChapterCounter = useSetRecoilState(chapterCounterState);
 
   useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      setChapterCounter(0);
+    }
     retriveApplicationData(currentCollection, currentApplicationId);
-  }, []);
+  }, [currentApplicationId]);
 
   async function retriveApplicationData(
     currentCollection: string,
     currentApplicationId: string
   ) {
+    setLoading(true);
     let chapterListLocal: Array<Chapter> = [];
 
     await firestore
@@ -41,47 +51,21 @@ export const UserApplication = () => {
               buttons: docData[chapter].buttons,
             });
           }
-          setChapterList(chapterListLocal);
         }
       });
+    setChapterList(chapterListLocal);
+    setLoading(false);
   }
 
-  const renderChapters = (chapterList: Array<Chapter>) => {
-    const chapters: any = [];
-    chapterList.map((chapter: Chapter) => {
-      chapters.push(
-        <ChapterWrapper
-          key={chapter.title}
-          chapterName={chapter.chapterName}
-          chapter={chapter}
-        />
-      );
-    });
-    chapterList.sort((a: Chapter, b: Chapter) => a.priority - b.priority);
-    return chapters;
-  };
-
-  //   const renderInputFields = (chapterList: Array<Chapter>) => {
-  //     let attributeList: Array<any> = [];
-  //     let fieldPaths: Array<string> = [];
-  //     chapterList.forEach((chapter: Chapter) => {
-  //       attributeList.push(chapter.attributes);
-  //       attributeList.forEach((attributes: any) => {
-  //         for (const attribute in attributes) {
-  //           let inputFields = attributes[attribute].input_fields;
-  //           for (const inputField in inputFields) {
-  //             let fieldPath = `${chapter.chapterName}.attributes.${attribute}.input_fields.${inputField}`;
-  //             fieldPaths.push(fieldPath);
-  //           }
-  //         }
-  //       });
-  //     });
-  //     return fieldPaths;
-  //   };
+  console.log(chapterList);
 
   return (
-    <Box px={15} pt={6}>
-      {renderChapters(chapterList)}
-    </Box>
+    <div>
+      {loading ? (
+        <p>Laster inn..</p>
+      ) : (
+        <Application chapterList={chapterList}></Application>
+      )}
+    </div>
   );
 };
