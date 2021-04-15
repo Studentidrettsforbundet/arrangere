@@ -1,13 +1,11 @@
-import { useRecoilCallback, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { firestore } from "../../firebase";
 import { documentState } from "../../stateManagement/attributesState";
 import { choosenApplicationState } from "../../stateManagement/choosenApplication";
 
 export function useDocRef() {
   const docID = useRecoilValue(documentState);
-  const setDocID = useSetRecoilState(documentState);
   const collection = useRecoilValue(choosenApplicationState);
-  const setCollection = useSetRecoilState(choosenApplicationState);
 
   if (docID && collection) {
     let docRef = firestore.collection(collection + "Applications").doc(docID);
