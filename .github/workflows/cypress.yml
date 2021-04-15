@@ -17,4 +17,4 @@ jobs:
         env:
           FIREBASE_PROJECT_ID: ${{secrets.FIREBASE_PROJECT_ID}}
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        run: firebase emulators:exec --only auth --project $FIREBASE_PROJECT_ID 'npm run testCypress'
+        run: firebase emulators:exec --project $FIREBASE_PROJECT_ID --import=arrangereData 'npm run testCypress'

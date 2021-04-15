@@ -1,18 +1,19 @@
 import Template from "./Template";
-import { useRecoilCallback, useSetRecoilState } from "recoil";
+import { useEffect, useState } from "react";
+import { useSetRecoilState } from "recoil";
 import { choosenApplicationState } from "../stateManagement/choosenApplication";
-import { useEffect } from "react";
-import Box from "@material-ui/core/Box";
+import { Skeleton } from "@material-ui/lab";
+import { Box, Typography } from "@material-ui/core";
 
 export const ApplicationForm = () => {
-  const setChoosenApplicationForm = useSetRecoilState(choosenApplicationState);
+  const [choosenApplicationForm, setChoosenApplicationForm] = useState(" ");
 
   let url = window.location.href;
   var str_sub = url.substr(url.lastIndexOf("/") + 1);
 
   useEffect(() => {
     setApplicationForm();
-  }, [url]);
+  }, []);
 
   function setApplicationForm() {
     if (str_sub == "studentnm") {
@@ -25,12 +26,18 @@ export const ApplicationForm = () => {
       setChoosenApplicationForm("sc");
     }
   }
-
   return (
     <div style={{ width: "100%" }}>
-      <Box pb={8}>
-        <Template></Template>
-      </Box>
+      {choosenApplicationForm == " " ? (
+        <Box p={10}>
+          <Typography variant="subtitle2">Laster inn..</Typography>
+          <Skeleton />
+        </Box>
+      ) : (
+        <Box pb={8}>
+          <Template choosenApplicationForm={choosenApplicationForm}></Template>
+        </Box>
+      )}
     </div>
   );
 };

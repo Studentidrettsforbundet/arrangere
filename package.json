@@ -31,8 +31,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "npx prettier --write src",
-    "emulator": "firebase emulators:start",
-    "cy:open": "npx cypress open",
+    "emulator": "firebase emulators:start --import arrangereData",
     "cy:run": "npx cypress run",
     "testCypress": "start-server-and-test start http://localhost:3000 cy:run"
   },
@@ -58,6 +57,7 @@
     "@types/react-router-dom": "^5.1.7",
     "@types/uuid": "^8.3.0",
     "cypress": "^6.8.0",
+    "cypress-firebase": "^1.8.0",
     "prettier": "2.2.1",
     "start-server-and-test": "^1.12.0"
   }

@@ -10,7 +10,6 @@ import {
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import React, { useEffect, useState } from "react";
-import { useStyles } from "../style/chapters";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   documentState,
@@ -24,35 +23,26 @@ import { firestore } from "../firebase";
 import { useHistory } from "react-router-dom";
 import { is_numeric } from "./utils";
 import firebase from "firebase";
+import { useStyles } from "../style/chapters";
 
-type ChapterProps = {
-  chapter: Chapter;
-  chapterName: string;
-};
-
-type AttributeObject = {
-  name: string;
-  attribute: Attribute[];
-};
-
-const ChapterWrapper = (props: ChapterProps) => {
+const ChapterWrapper = (props: ChapterWithName) => {
   let chapter = props.chapter;
   let chapterName = props.chapterName;
   const [loading, setLoading] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
-  const [showError, setshowError] = useState(false);
-
+  const [showError, setShowError] = useState(false);
   const [submitted, setSubmitted] = useState("in progress");
   const [open, setOpen] = React.useState(false);
   const currentDocID = useRecoilValue(documentState);
   const currentUserID = useRecoilValue(currentUserState);
-
   const [attributeList, setAttributeList] = useState<AttributeObject[]>([]);
   const docRef = useDocRef();
   const history = useHistory();
   const [inputFieldObject, setInputFieldObject] = useRecoilState(
     inputFieldObjectState
   );
+
+  const classes = useStyles();
 
   useEffect(() => {
     attributesToList(chapter.attributes);
@@ -120,14 +110,12 @@ const ChapterWrapper = (props: ChapterProps) => {
     });
     return inputWrappers;
   };
-
   async function submitApplication(docRef: any, userID: string) {
     if ((await docRef!.get()).exists) {
       const doc = await firestore
         .collection("user")
         .doc(currentUserID!.uid)
         .get();
-
       const docData: any = doc.data();
       for (const application in docData.applications) {
         if (docData.applications[application].id === currentDocID) {
@@ -158,57 +146,57 @@ const ChapterWrapper = (props: ChapterProps) => {
     </Typography>
   );
 
-  const saveAndAlertUser = async (
-    docRef:
-      | firebase.firestore.DocumentReference<firebase.firestore.DocumentData>
-      | undefined
-  ) => {
+  const saveAndAlertUser = async (docRef: any) => {
     try {
       try {
         saveInput(docRef, inputFieldObject);
       } catch (error) {
-        setshowError(true);
+        setShowError(true);
       }
       setShowAlert(true);
     } catch (error) {
-      setshowError(true);
+      setShowError(true);
     }
   };
-
   return (
     <div style={{ width: "100%" }}>
-      <Typography style={{ color: "#00adee" }} variant="h4">
+      <Typography className={classes.heading} variant="h1">
         {chapter.title}
       </Typography>
-      {chapter.desc != "" ? <div>{descContainer}</div> : <p></p>}
+      {chapter.desc != "" ? <div>{descContainer} </div> : <p></p>}
       <div>
         {renderInputFields(attributeList, chapter.buttons, chapterName)}
       </div>
       <Box display="flex">
         <Box width="100%" mt={3} mb={3}>
-          <Button variant="contained" onClick={() => saveAndAlertUser(docRef)}>
-            Lagre
-          </Button>
-          {showAlert ? (
-            <Alert
-              severity="success"
-              onClose={() => {
-                setShowAlert(false);
-              }}
+          <Box>
+            <Button
+              variant="contained"
+              onClick={() => saveAndAlertUser(docRef)}
             >
-              {"Lagret!"}
-            </Alert>
-          ) : null}
-          {showError ? (
-            <Alert
-              severity="error"
-              onClose={() => {
-                setShowAlert(false);
-              }}
-            >
-              {"Ups, det skjedde en feil. Ikke lagret!"}
-            </Alert>
-          ) : null}
+              Lagre
+            </Button>
+            {showAlert ? (
+              <Alert
+                severity="success"
+                onClose={() => {
+                  setShowAlert(false);
+                }}
+              >
+                {"Lagret!"}
+              </Alert>
+            ) : null}
+            {showError ? (
+              <Alert
+                severity="error"
+                onClose={() => {
+                  setShowError(false);
+                }}
+              >
+                {"Ups, det skjedde en feil. Ikke lagret!"}
+              </Alert>
+            ) : null}
+          </Box>
         </Box>
         {chapterName === "additional" ? (
           <Box flexShrink={0} mt={3} mb={3}>
@@ -249,11 +237,8 @@ const ChapterWrapper = (props: ChapterProps) => {
         <Alert severity="error">
           Something went wrong submitting the application!
         </Alert>
-      ) : (
-        <Box></Box>
-      )}
+      ) : null}
     </div>
   );
 };
-
 export default ChapterWrapper;

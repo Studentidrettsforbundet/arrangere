@@ -6,7 +6,7 @@ import { inputFieldObjectState } from "../../stateManagement/attributesState";
 import { addFieldInputObject, useDocRef } from "./saveInputFields";
 import { getInputValue } from "./getInputValue";
 
-const Time: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
+const Time: FC<InputProps> = ({ desc, id, chapterName }) => {
   const classes = useStyles();
 
   const [inputFieldObject, setInputFieldList] = useRecoilState(
@@ -35,12 +35,18 @@ const Time: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
     setValue(value);
   };
 
+  let inputProperties;
+  if (desc == "") {
+    inputProperties = { "aria-label": id, step: 300 };
+  } else {
+    inputProperties = { "aria-label": desc, step: 300 };
+  }
+
   return (
     <Box py={2}>
       <Typography>{desc}</Typography>
       <form className={classes.container} noValidate>
         <TextField
-          id="time"
           label="Tidspunkt"
           type="time"
           defaultValue="12:00"
@@ -53,9 +59,7 @@ const Time: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
           InputLabelProps={{
             shrink: true,
           }}
-          inputProps={{
-            step: 300, // 5 min
-          }}
+          inputProps={inputProperties}
         />
       </form>
     </Box>

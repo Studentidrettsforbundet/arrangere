@@ -17,6 +17,7 @@ export const chapterCounterState = atom<number>({
   default: 0,
 });
 
+// Alle plasser der disse er brukt må omformuleres til å bruke gammel state
 export const currentApplicationIdState = atom<string>({
   key: "currentApplicationIdState",
   default: "",

@@ -5,7 +5,7 @@ import { inputFieldObjectState } from "../../stateManagement/attributesState";
 import { addFieldInputObject, useDocRef } from "./saveInputFields";
 import { getInputValue } from "./getInputValue";
 
-const ShortText: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
+const ShortText: FC<InputProps> = ({ desc, id, chapterName }) => {
   const [inputFieldObject, setInputFieldList] = useRecoilState(
     inputFieldObjectState
   );
@@ -31,6 +31,12 @@ const ShortText: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
     setValue(value);
   };
 
+  let inputProperties;
+  if (desc == "") {
+    inputProperties = { "aria-label": id };
+  } else {
+    inputProperties = { "aria-label": desc };
+  }
   return (
     <Box py={2}>
       <Typography>{desc}</Typography>
@@ -38,6 +44,7 @@ const ShortText: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
       <TextField
         variant="outlined"
         value={value}
+        inputProps={inputProperties}
         onChange={(e) => handleValueChange(e.target.value)}
         fullWidth
         onBlur={(e) => {

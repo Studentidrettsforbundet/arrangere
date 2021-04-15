@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import StudentidrettLogo from "./../images/studentidrett-logo-sort.png";
 import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
@@ -52,7 +51,7 @@ export default function DrawerBar() {
           }}
           anchor="left"
         >
-          <List component="nav" className={classes.root}>
+          <List component="nav" aria-label="Main" className={classes.root}>
             <CardMedia className={classes.media} image={StudentidrettLogo} />
             <ListItem button component={Link} to="/">
               <ListItemIcon>

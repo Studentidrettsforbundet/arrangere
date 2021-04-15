@@ -29,7 +29,22 @@ const studentidrettTheme = createMuiTheme({
       fontWeight: 400,
       lineHeight: "1.235",
     },
-    // fontFamily: "KofiPureSerif",
+  },
+  props: {
+    MuiTypography: {
+      variantMapping: {
+        h1: "h1",
+        h2: "h2",
+        h3: "h2",
+        h4: "h4",
+        h5: "h2",
+        h6: "subtitle1",
+        subtitle1: "subtitle1",
+        subtitle2: "h2",
+        body1: "span",
+        body2: "span",
+      },
+    },
   },
 });
 

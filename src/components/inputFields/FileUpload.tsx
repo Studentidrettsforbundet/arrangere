@@ -1,5 +1,5 @@
-import { FC, useEffect, useRef, useState } from "react";
-import { Typography, Box } from "@material-ui/core";
+import React, { FC, useEffect, useRef, useState } from "react";
+import { Typography, Box, FormLabel, InputLabel } from "@material-ui/core";
 import { addFieldInputObject, useDocRef } from "./saveInputFields";
 import { getInputValue } from "./getInputValue";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -10,7 +10,7 @@ import {
   inputFieldObjectState,
 } from "../../stateManagement/attributesState";
 
-const FileUpload: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
+const FileUpload: FC<InputProps> = ({ desc, id, chapterName }) => {
   const docID = useRecoilValue(documentState);
   const [fileUrl, setFileUrl] = useState();
   const [fileName, setFileName] = useState("");
@@ -72,10 +72,11 @@ const FileUpload: FC<InputFieldProps> = ({ desc, id, chapterName }) => {
 
   return (
     <Box py={2}>
-      <Typography>{desc}</Typography>
+      <InputLabel htmlFor={id}>{desc}</InputLabel>
       <input
         accept="pdf"
-        id="contained-button-file"
+        aria-label={`Last opp fil for ${id}`}
+        id={id}
         type="file"
         onChange={(e) => {
           handleChange(e);
