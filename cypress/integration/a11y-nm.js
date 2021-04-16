@@ -1,6 +1,7 @@
 beforeEach(() => {
   cy.visit("/studentnm");
   cy.injectAxe();
+})
 
   describe("Accessibility", () => {
     it("should be accessible", () => {
@@ -14,4 +15,4 @@ beforeEach(() => {
         });
     });
   });
-});
+

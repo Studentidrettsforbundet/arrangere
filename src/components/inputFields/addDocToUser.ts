@@ -1,10 +1,11 @@
 import { firestore } from "../../firebase";
 
-async function getNumberOfApplications(userID: string) {
+export async function getNumberOfApplications(userID: string) {
   let counter: number = 1;
   const doc = await firestore.collection("user").doc(userID).get();
 
   const docData: any = doc.data();
+
   for (const application in docData.applications) {
     counter++;
   }

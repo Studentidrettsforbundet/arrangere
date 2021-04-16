@@ -24,7 +24,17 @@ import { useHistory } from "react-router-dom";
 import { is_numeric } from "./utils";
 import firebase from "firebase";
 
-const ChapterWrapper = (props: ChapterWithName) => {
+type ChapterProps = {
+  chapter: Chapter;
+  chapterName: string;
+};
+
+type AttributeObject = {
+  name: string;
+  attribute: Attribute[];
+};
+
+const ChapterWrapper = (props: ChapterProps) => {
   let chapter = props.chapter;
   let chapterName = props.chapterName;
   const [loading, setLoading] = useState(true);
@@ -150,6 +160,7 @@ const ChapterWrapper = (props: ChapterWithName) => {
       } catch (error) {
         setShowError(true);
       }
+
       setShowAlert(true);
     } catch (error) {
       setShowError(true);
