@@ -15,6 +15,8 @@ type Props = {
   applicationId: string;
   collectionName: string;
   to: string;
+  user?: any;
+  sport?: string;
 };
 
 export default function AppCard(props: Props) {
@@ -35,7 +37,13 @@ export default function AppCard(props: Props) {
           </Typography>
 
           <Typography variant="body2" component="p">
-            bruker:
+            bruker: {props.user}
+          </Typography>
+          <Typography variant="body2" component="p">
+            type: {props.collectionName}
+          </Typography>
+          <Typography variant="body2" component="p">
+            sport: {props.sport}
           </Typography>
           <Typography variant="body2" component="p">
             dato:

@@ -60,6 +60,7 @@ export const ChooseApplication = () => {
         to="/application"
         applicationId={applicationID.id}
         collectionName={applicationID.collection}
+        user={currentUser!.uid}
       ></AppCard>
     ));
   };
@@ -71,6 +72,7 @@ export const ChooseApplication = () => {
         to="/edit"
         applicationId={applicationID.id}
         collectionName={applicationID.collection}
+        user={currentUser!.email || ""}
       ></AppCard>
     ));
   };
