@@ -11,9 +11,13 @@ import firebase from "firebase"
 import { getInputValue } from "./components/inputFields/getInputValue";
 
 describe("", () => {
-it("test if addFieldInputObject sets fields", () => {
-
-    const inputFieldObject = addFieldInputObject("Trondheim", "general", {}, "general-3");
+  it("test if addFieldInputObject sets fields", () => {
+    const inputFieldObject = addFieldInputObject(
+      "Trondheim",
+      "general",
+      {},
+      "general-3"
+    );
     expect(inputFieldObject).toBeDefined();
     expect(inputFieldObject.chapterName).toEqual("general");
   });
@@ -35,7 +39,7 @@ it("Get number of applications", async () => {
     
     const counter = await getNumberOfApplications("y0Z97CZIC0NPEz2QbUl3BoXzvPZz");
     expect(counter).toEqual(2);
-});
+  });
 });
 
 it("Copy doc from template to application collection", async () => {
