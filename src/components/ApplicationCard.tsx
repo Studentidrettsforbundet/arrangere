@@ -43,6 +43,7 @@ export const ApplicationCard = (props: CardProps) => {
               desc: chapter.data().desc,
               attributes: chapter.data().attributes,
               priority: chapter.data().priority,
+              buttons: chapter.data().buttons,
             },
           });
         });
@@ -50,11 +51,6 @@ export const ApplicationCard = (props: CardProps) => {
       })
       .catch((error) => {
         <DisplayError message={error.message} title={error.name} />;
-        // console.error(
-        //   "Error reading document",
-        //   `${collectionFrom}/`,
-        //   JSON.stringify(error)
-        // );
       });
 
     const docToRef = firestore.collection(collectionTo).doc();
@@ -98,11 +94,6 @@ export const ApplicationCard = (props: CardProps) => {
           })
           .catch((error) => {
             <DisplayError message={error.message} title={error.name} />;
-            console.error(
-              "Error creating document",
-              `${collectionTo}`,
-              JSON.stringify(error)
-            );
           });
       });
 

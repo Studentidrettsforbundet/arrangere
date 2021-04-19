@@ -25,6 +25,7 @@ import { useEffect } from "react";
 import firebase from "firebase";
 import { useStyles2 } from "./inputStyles";
 import { inputFieldObjectState } from "../../stateManagement/attributesState";
+import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
 
 export const componentList = [
   { type: "short text", ComponentName: ShortText },
@@ -107,6 +108,35 @@ const InputWrapper: FC<InputWrapperProps> = ({
       renderAccordions();
     }
   }, []);
+  let renderOnce = false;
+
+  if (buttons != null) {
+    buttons.forEach((button) => {
+      let buttonName = button.split(" ");
+
+      if (buttonName[1] == attributeName) {
+        attributebutton = (
+          <Box mt={3} mb={1}>
+            <Button
+              onClick={() => copyField(docRef, attributeName, chapterName)}
+              variant="outlined"
+              startIcon={<AddCircleOutlineOutlinedIcon />}
+            >
+              Legg til {title}
+            </Button>
+          </Box>
+        );
+        isCollapse = true;
+      }
+      let attributeNameWithoutNumber = attributeName.substr(
+        0,
+        attributeName.length - 1
+      );
+      if (buttonName[1] == attributeNameWithoutNumber) {
+        renderOnce = true;
+      }
+    });
+  }
 
   const deleteField = async (attName: string, docRef: any) => {
     setLoadingDelete(true);
@@ -145,7 +175,7 @@ const InputWrapper: FC<InputWrapperProps> = ({
   ) => {
     let accordion = (
       <Grid key={name} container>
-        <Grid item xs={10}>
+        <Grid item xs={11}>
           <Accordion className={classes.accordions} key={name}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
@@ -169,15 +199,20 @@ const InputWrapper: FC<InputWrapperProps> = ({
             </AccordionDetails>
           </Accordion>
         </Grid>
-        <Grid item align-self="center" xs={2}>
-          <Button
-            className={classes.deleteButton}
-            disabled={loadingDelete}
-            variant="outlined"
-            onClick={() => deleteField(name, docRef)}
-          >
-            x
-          </Button>
+        <Grid item align-self="center" xs={1}>
+          {priority == 1 ? (
+            <p></p>
+          ) : (
+            <Button
+              className={classes.deleteButton}
+              disabled={loadingDelete}
+              variant="outlined"
+              aria-label="slett"
+              onClick={() => deleteField(name, docRef)}
+            >
+              X
+            </Button>
+          )}
         </Grid>
       </Grid>
     );
@@ -201,7 +236,6 @@ const InputWrapper: FC<InputWrapperProps> = ({
           accordions.push(accordion);
         });
         accordions.sort((a: any, b: any) => a.key - b.key);
-
         setNewFields(accordions);
       }
     );
@@ -229,49 +263,38 @@ const InputWrapper: FC<InputWrapperProps> = ({
     setNewFields(accordions);
   };
 
-  if (buttons != null) {
-    buttons.forEach((button) => {
-      if (button.includes(attributeName)) {
-        attributebutton = (
-          <Box m={0.5} mb={1}>
-            <Button
-              onClick={() => copyField(docRef, attributeName, chapterName)}
-              variant="outlined"
-            >
-              Legg til {title}
-            </Button>
-          </Box>
-        );
-        isCollapse = true;
-      }
-    });
-  }
-
   return (
     <div style={{ width: "100%" }}>
       {isCollapse ? (
         <div>
-          <Box pb={2}>
-            <div>{newFields}</div>
-            <p>
+          <div>{newFields}</div>
+
+          <Box pl={1} mt={2}>
+            <Typography>
               Husk å klikk på lagre om du har gjort noen endringer i en{" "}
               {title.toLowerCase()}, før du sletter en annen{" "}
               {title.toLowerCase()}
-            </p>
+            </Typography>
           </Box>
           {attributebutton}
         </div>
       ) : (
         <div>
-          {title != "" ? <Typography variant="h6">{title}</Typography> : ""}
-          {mainDesc != "" ? (
-            <Box>
-              <Typography variant="subtitle1">{mainDesc}</Typography>
-            </Box>
+          {renderOnce ? (
+            <div></div>
           ) : (
-            ""
+            <div>
+              <Typography variant="h6">{title}</Typography>
+              {haveMainDesc ? (
+                <Box>
+                  <Typography variant="subtitle1">{mainDesc}</Typography>
+                </Box>
+              ) : (
+                ""
+              )}
+              <div>{generateComponents(inputFields, chapterName)}</div>
+            </div>
           )}
-          <div>{generateComponents(inputFields, chapterName)}</div>
         </div>
       )}
     </div>
