@@ -25,7 +25,6 @@ it("Test if doc is added to user", async () => {
 
     expect(value).toEqual("newDocIDI7OUcA12yWZ5")
 });
-
 });
 
 
