@@ -12,7 +12,7 @@ export const addDocToUser = async (
   };
 
   let data: any = {};
-  data[`applications.application${docID}`] = applicationData;
+  data[`applications.${docID}`] = applicationData;
 
   firestore
     .collection("user")
