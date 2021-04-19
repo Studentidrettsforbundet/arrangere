@@ -6,7 +6,6 @@ import Student_Cup_logo from "./../images/studentcup-1.png";
 import { UserApplications } from "./user/UserApplications";
 
 export const ChooseApplication = () => {
-  //Bør endre navn til typ dashboard ellerno
   return (
     <div role="main" style={{ padding: 40 }}>
       <Typography gutterBottom align="center" variant="h1">
