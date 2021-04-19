@@ -71,36 +71,34 @@ const Application = (props: Props) => {
 
   return (
     <div>
-      <div>
-        <div role="navigation" className="chapterButtons">
-          <Box className={classes.nav}>{renderButtons(props.chapterList)}</Box>
-        </div>
-        <div role="main">
-          <Box px={15} pt={6}>
-            {renderChapters(props.chapterList)[chapterCounter]}{" "}
-            <Box display="flex" mt={3}>
-              <Box width="100%">
-                <Button
-                  variant="contained"
-                  className={classes.prevBtn}
-                  onClick={prevChapter}
-                  startIcon={<NavigateBeforeIcon />}
-                >
-                  Forrige
-                </Button>
-              </Box>
-              <Box flexShrink={0}>
-                <Button
-                  variant="contained"
-                  onClick={nextChapter}
-                  endIcon={<NavigateNextIcon />}
-                >
-                  Neste
-                </Button>
-              </Box>
+      <div role="navigation" className="chapterButtons">
+        <Box className={classes.nav}>{renderButtons(props.chapterList)}</Box>
+      </div>
+      <div role="main">
+        <Box px={15} pt={6}>
+          {renderChapters(props.chapterList)[chapterCounter]}{" "}
+          <Box display="flex" mt={3}>
+            <Box width="100%">
+              <Button
+                variant="contained"
+                className={classes.prevBtn}
+                onClick={prevChapter}
+                startIcon={<NavigateBeforeIcon />}
+              >
+                Forrige
+              </Button>
+            </Box>
+            <Box flexShrink={0}>
+              <Button
+                variant="contained"
+                onClick={nextChapter}
+                endIcon={<NavigateNextIcon />}
+              >
+                Neste
+              </Button>
             </Box>
           </Box>
-        </div>
+        </Box>
       </div>
     </div>
   );
