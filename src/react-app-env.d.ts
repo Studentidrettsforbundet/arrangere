@@ -94,4 +94,5 @@ type AppCardProps = {
   applicationId: string;
   collectionName: string;
   to: string;
+  onChange: (isUpdate: boolean) => void;
 };

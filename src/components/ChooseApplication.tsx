@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Divider,
-  Typography,
-} from "@material-ui/core/";
+import { Box, Divider, Typography } from "@material-ui/core/";
 import { ApplicationCard } from "./ApplicationCard";
 import Student_NM_logo from "./../images/student_NM.png";
 import Studentleker_logo from "./../images/studentleker-1.png";
@@ -17,7 +9,6 @@ import { currentUserState } from "../stateManagement/userAuth";
 import { useStyles } from "../style/userProfile";
 import { useEffect, useRef, useState } from "react";
 import AppCard from "./admin/AppCard";
-import { Link as RouterLink } from "react-router-dom";
 
 export const ChooseApplication = () => {
   const [submittedApplicationIDs, setSubmittedApplicationIDs] = useState<
@@ -28,10 +19,16 @@ export const ChooseApplication = () => {
   >([]);
   const classes = useStyles();
   const currentUser = useRecoilValue(currentUserState);
+  const [updateState, setUpdateState] = useState(false);
 
   useEffect(() => {
     getApplications();
-  }, []);
+    if (updateState) {
+      getApplications();
+      setUpdateState(false);
+    }
+    console.log(updateState);
+  }, [updateState]);
 
   async function getApplications() {
     let submittedApplicationIDs: Array<any> = [];
@@ -40,8 +37,8 @@ export const ChooseApplication = () => {
       const doc = await firestore.collection("user").doc(currentUser.uid).get();
       const docData: any = doc.data();
       for (const applicationID in docData.applications) {
-        if (docData.applications[applicationID].id != undefined) {
-          if (docData.applications[applicationID].status == "submitted") {
+        if (docData.applications[applicationID].id !== undefined) {
+          if (docData.applications[applicationID].status === "submitted") {
             // Her er det sykt rart at jeg ikke kan sette det som et objekt som er gjort i else under..
             submittedApplicationIDs.push({
               id: docData.applications[applicationID].id,
@@ -60,6 +57,10 @@ export const ChooseApplication = () => {
     setInProgressApplicationIDs(inProgressApplicationIDs);
   }
 
+  const updateApplications = (isUpdate: boolean) => {
+    setUpdateState(isUpdate);
+  };
+
   const renderSubmittedApplications = () => {
     return submittedApplicationIDs?.map((applicationID: any, i: any) => (
       <AppCard
@@ -67,6 +68,7 @@ export const ChooseApplication = () => {
         to="/application"
         applicationId={applicationID.id}
         collectionName={applicationID.collection}
+        onChange={updateApplications}
       ></AppCard>
     ));
   };
@@ -78,6 +80,7 @@ export const ChooseApplication = () => {
         to="/edit"
         applicationId={applicationID.id}
         collectionName={applicationID.collection}
+        onChange={updateApplications}
       ></AppCard>
     ));
   };

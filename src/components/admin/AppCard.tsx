@@ -10,17 +10,19 @@ import {
   DialogTitle,
   Typography,
 } from "@material-ui/core";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useStyles } from "../../style/cards";
 import { Link as RouterLink } from "react-router-dom";
 import { choosenApplicationState } from "../../stateManagement/choosenApplication";
 import { documentState } from "../../stateManagement/attributesState";
-import { firestore } from "../../firebase";
 import React from "react";
+import { currentUserState } from "../../stateManagement/userAuth";
+import { deleteApplication } from "../user/deleteApplication";
 
 export default function AppCard(props: AppCardProps) {
   const setCurrentApplicationIdState = useSetRecoilState(documentState);
   const setCurrentCollectionState = useSetRecoilState(choosenApplicationState);
+  const currentUser = useRecoilValue(currentUserState);
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
 
@@ -32,17 +34,14 @@ export default function AppCard(props: AppCardProps) {
     setOpen(false);
   };
 
-  const deleteApplication = async () => {
-    console.log("trying to delete");
-    if (props.applicationId) {
-      await firestore
-        .collection(props.collectionName + "Applications")
-        .doc(props.applicationId)
-        .delete();
-      handleClose();
-    } else {
-      handleClose();
-    }
+  const handleDeleteApplication = async () => {
+    await deleteApplication(
+      props.applicationId,
+      props.collectionName,
+      currentUser!.uid
+    );
+    handleClose();
+    props.onChange(true);
   };
 
   return (
@@ -102,7 +101,7 @@ export default function AppCard(props: AppCardProps) {
               <Button onClick={handleClose} color="primary" autoFocus>
                 Gå tilbake
               </Button>
-              <Button onClick={() => deleteApplication()} color="primary">
+              <Button onClick={() => handleDeleteApplication()} color="primary">
                 Slett søknad
               </Button>
             </DialogActions>
