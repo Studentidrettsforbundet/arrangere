@@ -119,18 +119,19 @@ const SignUp = () => {
   }
 
   return (
-    <Container className={classes.container}>
+    <Container role="main" className={classes.container}>
       <Card className={classes.root}>
         <img className={classes.image} src={logo} alt="logo" />
 
         <CardContent>
-          <Typography variant="h6" className={classes.formfield}>
+          <Typography variant="h6" component="h1" className={classes.formfield}>
             Registrer bruker
           </Typography>
           <form className={classes.form}>
             <FormControl className={classes.formfield}>
               <TextField
                 required
+                inputProps={{ "aria-label": "E-post" }}
                 label="E-post"
                 inputRef={emailRef}
                 variant="outlined"
@@ -140,6 +141,7 @@ const SignUp = () => {
             <FormControl className={classes.formfield}>
               <TextField
                 required
+                inputProps={{ "aria-label": "Passord" }}
                 label="Passord"
                 error={error.status === "password"}
                 inputRef={passwordRef}
@@ -152,6 +154,7 @@ const SignUp = () => {
                 required
                 error={error.status === "password"}
                 label="Gjenta passord"
+                inputProps={{ "aria-label": "Gjenta passord" }}
                 inputRef={passwordConfirmRef}
                 variant="outlined"
                 type="password"

@@ -2,6 +2,7 @@ import { Box } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { firestore } from "../../firebase";
 import AppCard from "./AppCard";
+import Grid from "@material-ui/core/Grid";
 
 export default function ReceivedAppPage() {
   let [snmApplicationIDs, setSnmApplicationIDs] = useState<any>([]);
@@ -62,39 +63,44 @@ export default function ReceivedAppPage() {
     <Box px={10} pt={6}>
       <h1>Innsendte søknader</h1>
       <h2>Student-NM</h2>
-      {snmApplicationIDs.map((applicationID: string) => {
-        return (
-          <AppCard
-            to="/application"
-            applicationId={applicationID}
-            collectionName="snm"
-            onChange={updateApplications}
-          />
-        );
-      })}
-
+      <Grid container alignItems="stretch">
+        {snmApplicationIDs.map((applicationID: string) => {
+          return (
+            <AppCard
+              to="/application"
+              applicationId={applicationID}
+              collectionName="snm"
+              onChange={updateApplications}
+            />
+          );
+        })}
+      </Grid>
       <h2>Studentleker</h2>
-      {slApplicationIDs.map((applicationID: string) => {
-        return (
-          <AppCard
-            to="/application"
-            applicationId={applicationID}
-            collectionName="sl"
-            onChange={updateApplications}
-          />
-        );
-      })}
+      <Grid container alignItems="stretch">
+        {slApplicationIDs.map((applicationID: string) => {
+          return (
+            <AppCard
+              to="/application"
+              applicationId={applicationID}
+              collectionName="sl"
+              onChange={updateApplications}
+            />
+          );
+        })}
+      </Grid>
       <h2>Student-Cup</h2>
-      {scApplicationIDs.map((applicationID: string) => {
-        return (
-          <AppCard
-            to="/application"
-            applicationId={applicationID}
-            collectionName="sc"
-            onChange={updateApplications}
-          />
-        );
-      })}
+      <Grid container alignItems="stretch">
+        {scApplicationIDs.map((applicationID: string) => {
+          return (
+            <AppCard
+              to="/application"
+              applicationId={applicationID}
+              collectionName="sc"
+              onChange={updateApplications}
+            />
+          );
+        })}
+      </Grid>
     </Box>
   );
 }

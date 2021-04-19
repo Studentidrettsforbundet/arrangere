@@ -12,7 +12,7 @@ export const InfoLongText: FC<InfoLongTextProps> = ({ desc, title }) => {
   return (
     <Box py={0.5}>
       <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls={title}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography>{title}</Typography>
         </AccordionSummary>
         <AccordionDetails>

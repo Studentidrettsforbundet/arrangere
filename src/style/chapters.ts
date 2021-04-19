@@ -14,5 +14,16 @@ export const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: "#e9edf2",
       textAlign: "center",
     },
+    heading: {
+      color: theme.palette.secondary.dark,
+    },
+    currentButton: {
+      color: "#006DC0",
+      textDecoration: "underLine",
+      fontWeight: 700,
+    },
+    chapterButton: {
+      color: theme.palette.primary.dark,
+    },
   })
 );

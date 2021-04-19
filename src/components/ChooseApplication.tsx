@@ -1,4 +1,4 @@
-import { Typography } from "@material-ui/core/";
+import { Grid, Typography } from "@material-ui/core/";
 import { ApplicationCard } from "./ApplicationCard";
 import Student_NM_logo from "./../images/student_NM.png";
 import Studentleker_logo from "./../images/studentleker-1.png";
@@ -15,12 +15,12 @@ export const ChooseApplication = () => {
       <Typography gutterBottom variant="h5" component="h2">
         Opprette ny søknad!
       </Typography>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-        }}
+      <Grid
+        container
+        direction="row"
+        justify="space-evenly"
+        alignItems="center"
+        style={{ padding: 30 }}
       >
         <ApplicationCard
           image={Student_NM_logo}
@@ -40,7 +40,7 @@ export const ChooseApplication = () => {
           to="/studentcup"
           template="sc"
         />
-      </div>
+      </Grid>
       <UserApplications />
     </div>
   );
