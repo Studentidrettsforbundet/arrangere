@@ -41,7 +41,6 @@ export default function AppCard(props: AppCardProps) {
   };
 
   const handleDeleteApplication = async () => {
-    console.log(currentUser!.uid);
     await deleteApplication(
       props.applicationId,
       props.collectionName,
@@ -62,7 +61,6 @@ export default function AppCard(props: AppCardProps) {
         if (docData !== undefined) {
           tempStatus = docData.status;
           setStatus(tempStatus);
-          console.log(tempStatus);
         }
       });
     return status;

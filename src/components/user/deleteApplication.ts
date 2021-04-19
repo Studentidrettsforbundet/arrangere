@@ -33,6 +33,6 @@ export const deleteApplication = async (
       }
     }
   } else {
-    console.log("delete not possible");
+    console.error("not possible to delete");
   }
 };

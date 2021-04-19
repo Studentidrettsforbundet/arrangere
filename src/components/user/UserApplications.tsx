@@ -21,7 +21,6 @@ export const UserApplications = () => {
       getApplications();
       setUpdateState(false);
     }
-    console.log(updateState);
   }, [updateState]);
 
   async function getApplications() {
