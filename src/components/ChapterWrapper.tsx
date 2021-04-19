@@ -22,6 +22,7 @@ import { setStatusToSubmitted } from "./inputFields/confirmSubmittedApplication"
 import { firestore } from "../firebase";
 import { useHistory } from "react-router-dom";
 import { is_numeric } from "./utils";
+import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import firebase from "firebase";
 import { useStyles } from "../style/chapters";
 
@@ -93,6 +94,7 @@ const ChapterWrapper = (props: ChapterWithName) => {
           inputNr = "";
         }
       );
+
       inputFields.sort((a: any, b: any) => a.priority - b.priority);
       inputWrappers.push(
         <InputWrapper
@@ -110,6 +112,7 @@ const ChapterWrapper = (props: ChapterWithName) => {
     });
     return inputWrappers;
   };
+
   async function submitApplication(docRef: any, userID: string) {
     if ((await docRef!.get()).exists) {
       const doc = await firestore
@@ -173,6 +176,7 @@ const ChapterWrapper = (props: ChapterWithName) => {
             <Button
               variant="contained"
               onClick={() => saveAndAlertUser(docRef)}
+              startIcon={<SaveOutlinedIcon />}
             >
               Lagre
             </Button>

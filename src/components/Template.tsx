@@ -1,36 +1,23 @@
 import { useEffect, useRef, useState } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { firestore } from "../firebase";
-import ChapterWrapper from "./ChapterWrapper";
 import {
   chapterCounterState,
   choosenApplicationState,
-  currentChapterState,
 } from "../stateManagement/choosenApplication";
-import { Box, Button, Typography } from "@material-ui/core/";
-import Skeleton from "@material-ui/lab/Skeleton";
-import { useStyles } from "../style/chapters";
-import ChapterButton from "./ChapterButton";
 import DisplayError from "./DisplayError";
-import { saveInput, useDocRef } from "./inputFields/saveInputFields";
-import { inputFieldObjectState } from "../stateManagement/attributesState";
+import Application from "./Application";
 
 type TemplateProps = {
   choosenApplicationForm: string;
 };
 
 const Template = (props: TemplateProps) => {
-  const classes = useStyles();
   const isInitialMount = useRef(true);
-  const docRef = useDocRef();
   const [loading, setLoading] = useState(true);
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
   const setChoosenApplicationForm = useSetRecoilState(choosenApplicationState);
-  const setCurrentChapterState = useSetRecoilState(currentChapterState);
-  const [chapterCounter, setChapterCounter] = useRecoilState(
-    chapterCounterState
-  );
-  const inputFieldObject = useRecoilValue(inputFieldObjectState);
+  const setChapterCounter = useSetRecoilState(chapterCounterState);
 
   useEffect(() => {
     if (isInitialMount.current) {
@@ -71,92 +58,17 @@ const Template = (props: TemplateProps) => {
       });
 
     setChapterList(chapterListLocal);
-    chapterListLocal = [];
     setLoading(false);
   }
 
-  const renderChapters = (chapterList: Array<Chapter>) => {
-    const chapters: any = [];
-    chapterList.map((chapter: Chapter) => {
-      chapters.push(
-        <ChapterWrapper
-          key={chapter.title}
-          chapterName={chapter.chapterName}
-          chapter={chapter}
-        />
-      );
-    });
-    chapterList.sort((a: Chapter, b: Chapter) => a.priority - b.priority);
-    setCurrentChapterState(chapterList[chapterCounter].title);
-    return chapters;
-  };
-
-  const renderButtons = (chapterList: Array<Chapter>) => {
-    const chapterButtons: any = [];
-    chapterList.map((chapter: Chapter) => {
-      chapterButtons.push(
-        <ChapterButton
-          key={chapter.priority}
-          title={chapter.title}
-          priority={chapter.priority}
-        />
-      );
-    });
-    return chapterButtons;
-  };
-
-  const nextChapter = () => {
-    if (chapterCounter < chapterList.length - 1) {
-      setChapterCounter(chapterCounter + 1);
-      saveInput(docRef, inputFieldObject);
-    }
-  };
-
-  const prevChapter = () => {
-    if (chapterCounter > 0) {
-      setChapterCounter(chapterCounter - 1);
-      saveInput(docRef, inputFieldObject);
-    }
-  };
+  console.log(chapterList);
 
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       {loading ? (
-        <Box p={10}>
-          <Typography variant="subtitle2">Laster inn..</Typography>
-          <Skeleton />
-        </Box>
+        <p>Laster inn..</p>
       ) : (
-        <div>
-          <div
-            role="navigation"
-            aria-label="Application"
-            className="chapterButtons"
-          >
-            <Box className={classes.nav}>{renderButtons(chapterList)}</Box>
-          </div>
-          <div role="main">
-            <Box px={15} pt={6}>
-              {renderChapters(chapterList)[chapterCounter]}{" "}
-              <Box display="flex" mt={3}>
-                <Box width="100%">
-                  <Button
-                    variant="contained"
-                    className={classes.prevBtn}
-                    onClick={prevChapter}
-                  >
-                    Forrige
-                  </Button>
-                </Box>
-                <Box flexShrink={0}>
-                  <Button variant="contained" onClick={nextChapter}>
-                    Neste
-                  </Button>
-                </Box>
-              </Box>
-            </Box>
-          </div>
-        </div>
+        <Application chapterList={chapterList}></Application>
       )}
     </div>
   );
