@@ -73,7 +73,7 @@ export default function UserProfile() {
         <Grid container direction="row" alignItems="center">
           <Grid item xs={10}>
             <Typography className={classes.header} variant="h1">
-              Min profil:
+              Min profil
             </Typography>
             <Divider className={classes.divider} variant="fullWidth" />
           </Grid>
