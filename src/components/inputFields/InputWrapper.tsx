@@ -25,6 +25,7 @@ import { useEffect } from "react";
 import firebase from "firebase";
 import { useStyles2 } from "./inputStyles";
 import { inputFieldObjectState } from "../../stateManagement/attributesState";
+import { useRef } from "react";
 
 export const componentList = [
   { type: "short text", ComponentName: ShortText },
@@ -107,10 +108,13 @@ const InputWrapper: FC<InputWrapperProps> = ({
       renderAccordions();
     }
   }, []);
+  let renderOnce = false;
 
   if (buttons != null) {
     buttons.forEach((button) => {
-      if (button.includes(attributeName)) {
+      let buttonName = button.split(" ");
+
+      if (buttonName[1] == attributeName) {
         attributebutton = (
           <Box m={0.5} mb={1}>
             <Button
@@ -122,6 +126,13 @@ const InputWrapper: FC<InputWrapperProps> = ({
           </Box>
         );
         isCollapse = true;
+      }
+      let attributeNameWithoutNumber = attributeName.substr(
+        0,
+        attributeName.length - 1
+      );
+      if (buttonName[1] == attributeNameWithoutNumber) {
+        renderOnce = true;
       }
     });
   }
@@ -188,14 +199,18 @@ const InputWrapper: FC<InputWrapperProps> = ({
           </Accordion>
         </Grid>
         <Grid item align-self="center" xs={2}>
-          <Button
-            className={classes.deleteButton}
-            disabled={loadingDelete}
-            variant="outlined"
-            onClick={() => deleteField(name, docRef)}
-          >
-            x
-          </Button>
+          {priority == 1 ? (
+            <p></p>
+          ) : (
+            <Button
+              className={classes.deleteButton}
+              disabled={loadingDelete}
+              variant="outlined"
+              onClick={() => deleteField(name, docRef)}
+            >
+              x
+            </Button>
+          )}
         </Grid>
       </Grid>
     );
@@ -262,6 +277,24 @@ const InputWrapper: FC<InputWrapperProps> = ({
         </div>
       ) : (
         <div>
+          {renderOnce ? (
+            <div></div>
+          ) : (
+            <div>
+              <Typography variant="h6">{title}</Typography>
+              {haveMainDesc ? (
+                <Box>
+                  <Typography variant="subtitle1">{mainDesc}</Typography>
+                </Box>
+              ) : (
+                ""
+              )}
+              <div>{generateComponents(inputFields, chapterName)}</div>
+            </div>
+          )}
+        </div>
+        /*
+        <div>
           <Typography variant="h6">{title}</Typography>
           {haveMainDesc ? (
             <Box>
@@ -272,6 +305,7 @@ const InputWrapper: FC<InputWrapperProps> = ({
           )}
           <div>{generateComponents(inputFields, chapterName)}</div>
         </div>
+        */
       )}
     </div>
   );
