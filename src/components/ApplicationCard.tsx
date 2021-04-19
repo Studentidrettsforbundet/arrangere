@@ -56,6 +56,27 @@ export const ApplicationCard = (props: CardProps) => {
     const docToRef = firestore.collection(collectionTo).doc();
     let newDocId = docToRef.id;
 
+    await firestore
+      .collection(collectionTo)
+      .doc(newDocId)
+      .set(
+        {
+          status: "in progress",
+          userId: [currentUser?.uid],
+        },
+        { merge: true }
+      )
+      .then(() => {
+        console.log("UserId set in document to: " + currentUser?.uid);
+      })
+      .catch((error) => {
+        console.error(
+          "Error creating userId field in",
+          `${collectionTo}`,
+          JSON.stringify(error)
+        );
+      });
+
     if (docData) {
       chapterListLocal.forEach(async (chapter) => {
         let chapterId = chapter.id;
@@ -75,32 +96,14 @@ export const ApplicationCard = (props: CardProps) => {
             <DisplayError message={error.message} title={error.name} />;
           });
       });
-      await firestore
-        .collection(collectionTo)
-        .doc(newDocId)
-        .set({ status: "in progress" }, { merge: true })
-        .then(() => {
-          console.log(
-            "Status field created in doc:" +
-              newDocId +
-              "\nIn collection " +
-              template
-          );
-        })
-        .catch((error) => {
-          console.error(
-            "Error creating document",
-            `${collectionTo}`,
-            JSON.stringify(error)
-          );
-        });
+
       addDocToUser(currentUser!.uid, newDocId, template);
       setDocID(newDocId);
     }
   }
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} style={{ width: 250, padding: 25 }}>
       <CardActionArea>
         <CardMedia className={classes.media} image={props.image} />
         <CardContent>

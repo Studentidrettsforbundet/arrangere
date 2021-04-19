@@ -23,6 +23,8 @@ import { firestore } from "../firebase";
 import { useHistory } from "react-router-dom";
 import { is_numeric } from "./utils";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import firebase from "firebase";
+import { useStyles } from "../style/chapters";
 
 const ChapterWrapper = (props: ChapterWithName) => {
   let chapter = props.chapter;
@@ -40,6 +42,8 @@ const ChapterWrapper = (props: ChapterWithName) => {
   const [inputFieldObject, setInputFieldObject] = useRecoilState(
     inputFieldObjectState
   );
+
+  const classes = useStyles();
 
   useEffect(() => {
     attributesToList(chapter.attributes);
@@ -159,10 +163,10 @@ const ChapterWrapper = (props: ChapterWithName) => {
   };
   return (
     <div style={{ width: "100%" }}>
-      <Typography style={{ color: "#00adee" }} variant="h4">
+      <Typography className={classes.heading} variant="h1">
         {chapter.title}
       </Typography>
-      {chapter.desc != "" ? <div>{descContainer}</div> : <p></p>}
+      {chapter.desc != "" ? <div>{descContainer} </div> : <p></p>}
       <div>
         {renderInputFields(attributeList, chapter.buttons, chapterName)}
       </div>
