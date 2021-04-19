@@ -64,7 +64,7 @@ const Template = (props: TemplateProps) => {
   console.log(chapterList);
 
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       {loading ? (
         <p>Laster inn..</p>
       ) : (

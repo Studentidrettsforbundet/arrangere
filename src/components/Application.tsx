@@ -9,6 +9,7 @@ import { useStyles } from "../style/chapters";
 import ChapterButton from "./ChapterButton";
 import { saveInput, useDocRef } from "./inputFields/saveInputFields";
 import { inputFieldObjectState } from "../stateManagement/attributesState";
+import NavigateBeforeOutlinedIcon from "@material-ui/icons/NavigateBeforeOutlined";
 
 type Props = {
   chapterList: Array<Chapter>;
@@ -69,31 +70,29 @@ const Application = (props: Props) => {
 
   return (
     <div>
-      <div>
-        <div role="navigation" className="chapterButtons">
-          <Box className={classes.nav}>{renderButtons(props.chapterList)}</Box>
-        </div>
-        <div role="main">
-          <Box px={15} pt={6}>
-            {renderChapters(props.chapterList)[chapterCounter]}{" "}
-            <Box display="flex" mt={3}>
-              <Box width="100%">
-                <Button
-                  variant="contained"
-                  className={classes.prevBtn}
-                  onClick={prevChapter}
-                >
-                  Forrige
-                </Button>
-              </Box>
-              <Box flexShrink={0}>
-                <Button variant="contained" onClick={nextChapter}>
-                  Neste
-                </Button>
-              </Box>
+      <div role="navigation" className="chapterButtons">
+        <Box className={classes.nav}>{renderButtons(props.chapterList)}</Box>
+      </div>
+      <div role="main">
+        <Box px={15} pb={6} pt={6}>
+          {renderChapters(props.chapterList)[chapterCounter]}{" "}
+          <Box display="flex" mt={3}>
+            <Box width="100%">
+              <Button
+                variant="contained"
+                className={classes.prevBtn}
+                onClick={prevChapter}
+              >
+                Forrige
+              </Button>
+            </Box>
+            <Box flexShrink={0}>
+              <Button variant="contained" onClick={nextChapter}>
+                Neste
+              </Button>
             </Box>
           </Box>
-        </div>
+        </Box>
       </div>
     </div>
   );

@@ -25,7 +25,7 @@ import { useEffect } from "react";
 import firebase from "firebase";
 import { useStyles2 } from "./inputStyles";
 import { inputFieldObjectState } from "../../stateManagement/attributesState";
-import { useRef } from "react";
+import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
 
 export const componentList = [
   { type: "short text", ComponentName: ShortText },
@@ -116,10 +116,11 @@ const InputWrapper: FC<InputWrapperProps> = ({
 
       if (buttonName[1] == attributeName) {
         attributebutton = (
-          <Box m={0.5} mb={1}>
+          <Box mt={3} mb={1}>
             <Button
               onClick={() => copyField(docRef, attributeName, chapterName)}
               variant="outlined"
+              startIcon={<AddCircleOutlineOutlinedIcon />}
             >
               Legg til {title}
             </Button>
@@ -174,7 +175,7 @@ const InputWrapper: FC<InputWrapperProps> = ({
   ) => {
     let accordion = (
       <Grid key={name} container>
-        <Grid item xs={10}>
+        <Grid item xs={11}>
           <Accordion className={classes.accordions} key={name}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
@@ -198,7 +199,7 @@ const InputWrapper: FC<InputWrapperProps> = ({
             </AccordionDetails>
           </Accordion>
         </Grid>
-        <Grid item align-self="center" xs={2}>
+        <Grid item align-self="center" xs={1}>
           {priority == 1 ? (
             <p></p>
           ) : (
@@ -206,9 +207,10 @@ const InputWrapper: FC<InputWrapperProps> = ({
               className={classes.deleteButton}
               disabled={loadingDelete}
               variant="outlined"
+              aria-label="slett"
               onClick={() => deleteField(name, docRef)}
             >
-              x
+              X
             </Button>
           )}
         </Grid>
@@ -265,13 +267,14 @@ const InputWrapper: FC<InputWrapperProps> = ({
     <div style={{ width: "100%" }}>
       {isCollapse ? (
         <div>
-          <Box pb={2}>
-            <div>{newFields}</div>
-            <p>
+          <div>{newFields}</div>
+
+          <Box pl={1} mt={2}>
+            <Typography>
               Husk å klikk på lagre om du har gjort noen endringer i en{" "}
               {title.toLowerCase()}, før du sletter en annen{" "}
               {title.toLowerCase()}
-            </p>
+            </Typography>
           </Box>
           {attributebutton}
         </div>
@@ -293,19 +296,6 @@ const InputWrapper: FC<InputWrapperProps> = ({
             </div>
           )}
         </div>
-        /*
-        <div>
-          <Typography variant="h6">{title}</Typography>
-          {haveMainDesc ? (
-            <Box>
-              <Typography variant="subtitle1">{mainDesc}</Typography>
-            </Box>
-          ) : (
-            ""
-          )}
-          <div>{generateComponents(inputFields, chapterName)}</div>
-        </div>
-        */
       )}
     </div>
   );

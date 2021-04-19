@@ -22,7 +22,7 @@ import { setStatusToSubmitted } from "./inputFields/confirmSubmittedApplication"
 import { firestore } from "../firebase";
 import { useHistory } from "react-router-dom";
 import { is_numeric } from "./utils";
-import firebase from "firebase";
+import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 
 const ChapterWrapper = (props: ChapterWithName) => {
   let chapter = props.chapter;
@@ -172,6 +172,7 @@ const ChapterWrapper = (props: ChapterWithName) => {
             <Button
               variant="contained"
               onClick={() => saveAndAlertUser(docRef)}
+              startIcon={<SaveOutlinedIcon />}
             >
               Lagre
             </Button>
