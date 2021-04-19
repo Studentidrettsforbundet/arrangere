@@ -8,14 +8,20 @@ export default function ReceivedAppPage() {
   let [snmApplicationIDs, setSnmApplicationIDs] = useState<any>([]);
   let [scApplicationIDs, setScApplicationIDs] = useState<any>([]);
   let [slApplicationIDs, setSlApplicationIDs] = useState<any>([]);
-
   const [updateState, setUpdateState] = useState(false);
 
   useEffect(() => {
     snmApplicationIDs = getSnmApplicationsID("snmApplications");
     scApplicationIDs = getScApplicationsID("scApplications");
     slApplicationIDs = getSlApplicationsID("slApplications");
-  }, []);
+    if (updateState) {
+      setUpdateState(false);
+    }
+  }, [updateState]);
+
+  const updateApplications = (isUpdate: boolean) => {
+    setUpdateState(isUpdate);
+  };
 
   async function getSnmApplicationsID(collectionName: string) {
     let applicationIDs: Array<string> = [];
@@ -55,9 +61,6 @@ export default function ReceivedAppPage() {
       });
     setSlApplicationIDs(applicationIDs);
   }
-  const updateApplications = (isUpdate: boolean) => {
-    setUpdateState(isUpdate);
-  };
 
   return (
     <Box px={10} pt={6}>
