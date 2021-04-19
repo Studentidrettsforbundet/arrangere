@@ -148,7 +148,6 @@ export const getListOfAttributes = async (
     .get()
     .then((doc: any) => {
       let att = doc.data()![chapterName].attributes;
-
       Object.keys(att).forEach((attribute: any) => {
         if (attribute.includes(attributeName)) {
           let list = getOneNewAttribute(
@@ -169,6 +168,5 @@ export const getListOfAttributes = async (
     (a: any, b: any) =>
       a[Object.keys(a)[0]].priority - b[Object.keys(b)[0]].priority
   );
-
   return attributeObjectList;
 };

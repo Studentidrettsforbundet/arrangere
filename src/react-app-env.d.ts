@@ -16,6 +16,7 @@ type ChapterWithID = {
     desc: string;
     attributes: Array<Attribute>;
     priority: number;
+    buttons: Array<string>;
   };
 };
 
@@ -88,4 +89,11 @@ type InfoLongTextProps = {
   desc: string;
   priority: number;
   title: string;
+};
+
+type AppCardProps = {
+  applicationId: string;
+  collectionName: string;
+  to: string;
+  onChange: (isUpdate: boolean) => void;
 };
