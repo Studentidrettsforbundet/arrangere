@@ -6,9 +6,6 @@ export const deleteApplication = async (
   collectionName: string,
   userId: string
 ) => {
-  console.log("trying to delete");
-  console.log("current: ", userId);
-
   if (applicationId && userId) {
     await firestore
       .collection(collectionName + "Applications")
@@ -24,7 +21,6 @@ export const deleteApplication = async (
       for (const application in data.applications) {
         if (data.applications[application].id === applicationId) {
           let fieldPath = `applications.${application}`;
-          console.log("app: ", application);
           await firestore
             .collection("user")
             .doc(userId)
