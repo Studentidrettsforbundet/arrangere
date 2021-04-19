@@ -3,17 +3,11 @@ import { useEffect, useState } from "react";
 import { firestore } from "../../firebase";
 import AppCard from "./AppCard";
 import Grid from "@material-ui/core/Grid";
-import { doc } from "prettier";
-import { ControlPointDuplicateSharp } from "@material-ui/icons";
-import { getSupportedCodeFixes } from "typescript";
 
 export default function ReceivedAppPage() {
   let [snmApplicationIDs, setSnmApplicationIDs] = useState<any>([]);
   let [scApplicationIDs, setScApplicationIDs] = useState<any>([]);
   let [slApplicationIDs, setSlApplicationIDs] = useState<any>([]);
-  let [author, setAuthor] = useState<any>([]);
-  let [userId, setUserId] = useState<any>([]);
-  let [sport, setSport] = useState<any>([]);
 
   useEffect(() => {
     snmApplicationIDs = getSnmApplicationsID("snmApplications");
@@ -61,39 +55,6 @@ export default function ReceivedAppPage() {
     setSlApplicationIDs(applicationIDs);
   }
 
-  function getUserId(collectionName: string, applicationId: string) {
-    let user: string = "";
-    firestore
-      .collection(collectionName + "Applications")
-      .doc(applicationId)
-      .get()
-      .then((doc) => {
-        let docData = doc.data();
-        if (docData != undefined) {
-          user = docData.userId;
-          setUserId(user[1]);
-        }
-      });
-    return userId;
-  }
-
-  function getSport(collectionName: string, applicationId: string) {
-    let tempsport: string = "";
-    firestore
-      .collection(collectionName + "Applications")
-      .doc(applicationId)
-      .get()
-      .then((doc) => {
-        let docData = doc.data();
-        if (docData != undefined) {
-          tempsport =
-            docData.general.attributes.general.input_fields.input3.value;
-          setSport(tempsport);
-        }
-      });
-    return sport;
-  }
-
   return (
     <Box px={10} pt={6}>
       <h1>Innsendte søknader</h1>
@@ -105,8 +66,6 @@ export default function ReceivedAppPage() {
               to="/application"
               applicationId={applicationID}
               collectionName="snm"
-              user={getUserId("snm", applicationID)}
-              sport={getSport("snm", applicationID)}
             />
           );
         })}
