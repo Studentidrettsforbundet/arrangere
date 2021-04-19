@@ -9,6 +9,8 @@ import { useStyles } from "../style/chapters";
 import ChapterButton from "./ChapterButton";
 import { saveInput, useDocRef } from "./inputFields/saveInputFields";
 import { inputFieldObjectState } from "../stateManagement/attributesState";
+import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 
 type Props = {
   chapterList: Array<Chapter>;
@@ -82,12 +84,17 @@ const Application = (props: Props) => {
                   variant="contained"
                   className={classes.prevBtn}
                   onClick={prevChapter}
+                  startIcon={<NavigateBeforeIcon />}
                 >
                   Forrige
                 </Button>
               </Box>
               <Box flexShrink={0}>
-                <Button variant="contained" onClick={nextChapter}>
+                <Button
+                  variant="contained"
+                  onClick={nextChapter}
+                  endIcon={<NavigateNextIcon />}
+                >
                   Neste
                 </Button>
               </Box>
