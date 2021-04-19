@@ -42,21 +42,19 @@ export const UserApplication = () => {
           return null;
         } else {
           for (let chapter in docData) {
-            console.log(chapter);
             if (chapter != "status") {
               chapterListLocal.push({
                 chapterName: chapter,
+                buttons: docData[chapter].buttons,
                 title: docData[chapter].title,
                 desc: docData[chapter].desc,
                 attributes: docData[chapter].attributes,
                 priority: docData[chapter].priority,
-                buttons: docData[chapter].buttons,
               });
             }
           }
         }
       });
-    console.log(chapterListLocal);
     setChapterList(chapterListLocal);
     setLoading(false);
   }

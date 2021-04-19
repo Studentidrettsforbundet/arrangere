@@ -90,6 +90,7 @@ const ChapterWrapper = (props: ChapterWithName) => {
           inputNr = "";
         }
       );
+
       inputFields.sort((a: any, b: any) => a.priority - b.priority);
       inputWrappers.push(
         <InputWrapper
@@ -107,6 +108,7 @@ const ChapterWrapper = (props: ChapterWithName) => {
     });
     return inputWrappers;
   };
+
   async function submitApplication(docRef: any, userID: string) {
     if ((await docRef!.get()).exists) {
       const doc = await firestore

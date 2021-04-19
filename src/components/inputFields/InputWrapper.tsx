@@ -108,6 +108,24 @@ const InputWrapper: FC<InputWrapperProps> = ({
     }
   }, []);
 
+  if (buttons != null) {
+    buttons.forEach((button) => {
+      if (button.includes(attributeName)) {
+        attributebutton = (
+          <Box m={0.5} mb={1}>
+            <Button
+              onClick={() => copyField(docRef, attributeName, chapterName)}
+              variant="outlined"
+            >
+              Legg til {title}
+            </Button>
+          </Box>
+        );
+        isCollapse = true;
+      }
+    });
+  }
+
   const deleteField = async (attName: string, docRef: any) => {
     setLoadingDelete(true);
 
@@ -201,7 +219,6 @@ const InputWrapper: FC<InputWrapperProps> = ({
           accordions.push(accordion);
         });
         accordions.sort((a: any, b: any) => a.key - b.key);
-
         setNewFields(accordions);
       }
     );
@@ -228,24 +245,6 @@ const InputWrapper: FC<InputWrapperProps> = ({
     accordions.push(accordion);
     setNewFields(accordions);
   };
-
-  if (buttons != null) {
-    buttons.forEach((button) => {
-      if (button.includes(attributeName)) {
-        attributebutton = (
-          <Box m={0.5} mb={1}>
-            <Button
-              onClick={() => copyField(docRef, attributeName, chapterName)}
-              variant="outlined"
-            >
-              Legg til {title}
-            </Button>
-          </Box>
-        );
-        isCollapse = true;
-      }
-    });
-  }
 
   return (
     <div style={{ width: "100%" }}>

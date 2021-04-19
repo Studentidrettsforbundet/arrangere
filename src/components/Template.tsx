@@ -61,6 +61,8 @@ const Template = (props: TemplateProps) => {
     setLoading(false);
   }
 
+  console.log(chapterList);
+
   return (
     <div>
       {loading ? (
