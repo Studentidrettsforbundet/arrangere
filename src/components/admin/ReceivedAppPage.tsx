@@ -9,6 +9,8 @@ export default function ReceivedAppPage() {
   let [scApplicationIDs, setScApplicationIDs] = useState<any>([]);
   let [slApplicationIDs, setSlApplicationIDs] = useState<any>([]);
 
+  const [updateState, setUpdateState] = useState(false);
+
   useEffect(() => {
     snmApplicationIDs = getSnmApplicationsID("snmApplications");
     scApplicationIDs = getScApplicationsID("scApplications");
@@ -53,6 +55,9 @@ export default function ReceivedAppPage() {
       });
     setSlApplicationIDs(applicationIDs);
   }
+  const updateApplications = (isUpdate: boolean) => {
+    setUpdateState(isUpdate);
+  };
 
   return (
     <Box px={10} pt={6}>
@@ -65,6 +70,7 @@ export default function ReceivedAppPage() {
               to="/application"
               applicationId={applicationID}
               collectionName="snm"
+              onChange={updateApplications}
             />
           );
         })}
@@ -77,6 +83,7 @@ export default function ReceivedAppPage() {
               to="/application"
               applicationId={applicationID}
               collectionName="sl"
+              onChange={updateApplications}
             />
           );
         })}
@@ -89,6 +96,7 @@ export default function ReceivedAppPage() {
               to="/application"
               applicationId={applicationID}
               collectionName="sc"
+              onChange={updateApplications}
             />
           );
         })}

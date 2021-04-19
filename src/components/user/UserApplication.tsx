@@ -7,6 +7,7 @@ import { choosenApplicationState } from "../../stateManagement/choosenApplicatio
 import ChapterWrapper from "../ChapterWrapper";
 
 export const UserApplication = () => {
+  //foreslår å endre dette navnet til UserApplicationReview
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
   let currentApplicationId: string = useRecoilValue(documentState);
   let currentCollection: string = useRecoilValue(choosenApplicationState);

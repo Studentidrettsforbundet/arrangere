@@ -56,7 +56,7 @@ export default function Dashboard() {
         <Route exact path="/studentnm" component={ApplicationForm} />
         <Route exact path="/studentleker" component={ApplicationForm} />
         <Route exact path="/studentcup" component={ApplicationForm} />
-        {userRole == "admin" ? (
+        {userRole === "admin" ? (
           <>
             <Route
               exact
