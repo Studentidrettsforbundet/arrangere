@@ -60,6 +60,27 @@ export const ApplicationCard = (props: CardProps) => {
     const docToRef = firestore.collection(collectionTo).doc();
     let newDocId = docToRef.id;
 
+    await firestore
+      .collection(collectionTo)
+      .doc(newDocId)
+      .set(
+        {
+          status: "in progress",
+          userId: [currentUser?.uid],
+        },
+        { merge: true }
+      )
+      .then(() => {
+        console.log("UserId set in document to: " + currentUser?.uid);
+      })
+      .catch((error) => {
+        console.error(
+          "Error creating userId field in",
+          `${collectionTo}`,
+          JSON.stringify(error)
+        );
+      });
+
     if (docData) {
       chapterListLocal.forEach(async (chapter) => {
         let chapterId = chapter.id;
@@ -77,34 +98,14 @@ export const ApplicationCard = (props: CardProps) => {
           })
           .catch((error) => {
             <DisplayError message={error.message} title={error.name} />;
-            // console.error(
-            //   "Error creating document",
-            //   `${collectionTo}`,
-            //   JSON.stringify(error)
-            // );
+            console.error(
+              "Error creating document",
+              `${collectionTo}`,
+              JSON.stringify(error)
+            );
           });
       });
 
-      await firestore
-        .collection(collectionTo)
-        .doc(newDocId)
-        .set(
-          {
-            status: "in progress",
-            userId: [currentUser?.uid],
-          },
-          { merge: true }
-        )
-        .then(() => {
-          console.log("UserId set in document to: " + currentUser?.uid);
-        })
-        .catch((error) => {
-          console.error(
-            "Error creating userId field in",
-            `${collectionTo}`,
-            JSON.stringify(error)
-          );
-        });
       addDocToUser(currentUser!.uid, newDocId, template);
       setDocID(newDocId);
     }
