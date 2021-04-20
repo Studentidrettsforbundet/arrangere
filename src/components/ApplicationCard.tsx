@@ -15,9 +15,11 @@ import { currentUserState } from "../stateManagement/userAuth";
 import { useStyles } from "../style/cards";
 import { addDocToUser } from "./inputFields/addDocToUser";
 import DisplayError from "./DisplayError";
+import { useEffect, useState } from "react";
 
 export const ApplicationCard = (props: CardProps) => {
   const classes = useStyles();
+  let [organization, setOrganization] = useState<string>();
 
   const setDocID = useSetRecoilState(documentState);
   const currentUser = useRecoilValue(currentUserState);
@@ -28,6 +30,12 @@ export const ApplicationCard = (props: CardProps) => {
     const docFromRef = firestore.collection(collectionFrom);
     let chapterListLocal: Array<ChapterWithID> = [];
     let chapterExists: boolean = false;
+
+    const date: Date = new Date();
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    const dateStr = day + "/" + month + "/" + year;
 
     const docData = await docFromRef
       .get()
@@ -85,23 +93,39 @@ export const ApplicationCard = (props: CardProps) => {
           });
       });
 
+      let tempOrganization = "";
+
+      const organization = await firestore
+        .collection("user")
+        .doc(currentUser?.uid)
+        .get()
+        .then((doc) => {
+          const data = doc!.data();
+          if (data != undefined) {
+            tempOrganization = data.organization;
+          }
+          return tempOrganization;
+        });
+
       await firestore
         .collection(collectionTo)
         .doc(newDocId)
         .set(
           {
             status: "in progress",
-            userId: [currentUser?.uid],
-            userEmail: [currentUser?.email],
+            user_id: [currentUser?.uid],
+            user_email: [currentUser?.email],
+            user_organization: tempOrganization,
+            date: JSON.stringify(dateStr),
           },
           { merge: true }
         )
         .then(() => {
-          console.log("UserId set in document to: " + currentUser?.uid);
+          console.log("user_id set in document to: " + currentUser?.uid);
         })
         .catch((error) => {
           console.error(
-            "Error creating userId field in",
+            "Error creating user_id field in",
             `${collectionTo}`,
             JSON.stringify(error)
           );
@@ -130,7 +154,10 @@ export const ApplicationCard = (props: CardProps) => {
           }}
           size="small"
           color="primary"
-          onClick={() => copyDoc(props.template)}
+          onClick={() => {
+            // getOrganization();
+            copyDoc(props.template);
+          }}
         >
           Ny søknad
         </Button>

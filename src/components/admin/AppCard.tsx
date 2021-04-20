@@ -11,7 +11,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { choosenApplicationState } from "../../stateManagement/choosenApplication";
 import { documentState } from "../../stateManagement/attributesState";
 import { firestore } from "../../firebase";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {
   applicationId: string;
@@ -23,12 +23,17 @@ export default function AppCard(props: Props) {
   const setCurrentApplicationIdState = useSetRecoilState(documentState);
   const setCurrentCollectionState = useSetRecoilState(choosenApplicationState);
   let [sport, setSport] = useState<any>([]);
-  let [userId, setUserId] = useState<any>([]);
+  let [userEmail, setUserEmail] = useState<any>();
   let [status, setStatus] = useState<any>();
+  let [organization, setOrganization] = useState<any>();
+  let [date, setDate] = useState<Date>();
   const classes = useStyles();
 
-  function getSport(collectionName: string, applicationId: string) {
-    let tempsport: string = "";
+  useEffect(() => {
+    getCardInfo(props.collectionName, props.applicationId);
+  }, []);
+
+  function getCardInfo(collectionName: string, applicationId: string) {
     firestore
       .collection(collectionName + "Applications")
       .doc(applicationId)
@@ -36,47 +41,15 @@ export default function AppCard(props: Props) {
       .then((doc) => {
         let docData = doc.data();
         if (docData != undefined) {
+          setStatus(docData.status);
+          setOrganization(docData.user_organization);
+          setUserEmail(docData.user_email);
+          setDate(docData.date);
           if (docData.general != undefined) {
-            tempsport = docData!.general.attributes.general.input_fields.input3
-              .value;
-            setSport(tempsport);
+            setSport(
+              docData!.general.attributes.general.input_fields.input3.value
+            );
           }
-        }
-      });
-
-    return sport;
-  }
-
-  function getUserId(collectionName: string, applicationId: string) {
-    let userEmail: string = "";
-    firestore
-      .collection(collectionName + "Applications")
-      .doc(applicationId)
-      .get()
-      .then((doc) => {
-        let docData = doc.data();
-        if (docData != undefined) {
-          userEmail = docData.userEmail;
-          if (userEmail != undefined) {
-            setUserId(userEmail[0]);
-          }
-        }
-      });
-    return userId;
-  }
-
-  function getStatus(collectionName: string, applicationId: string) {
-    let tempStatus: string = "";
-    firestore
-      .collection(collectionName + "Applications")
-      .doc(applicationId)
-      .get()
-      .then((doc) => {
-        let docData = doc.data();
-        if (docData != undefined) {
-          tempStatus = docData.status;
-          setStatus(tempStatus);
-          console.log(tempStatus);
         }
       });
     return status;
@@ -98,16 +71,22 @@ export default function AppCard(props: Props) {
             type: {props.collectionName}
           </Typography>
           <Typography variant="body2" component="p">
-            sport: {getSport(props.collectionName, props.applicationId)}
+            sport: {sport}
           </Typography>
           <Typography variant="body2" component="p">
-            bruker: {getUserId(props.collectionName, props.applicationId)}
+            bruker:
+            {userEmail}
           </Typography>
           <Typography variant="body2" component="p">
-            status: {getStatus(props.collectionName, props.applicationId)}
+            status:
+            {status}
           </Typography>
           <Typography variant="body2" component="p">
-            dato:
+            dato: {date}
+          </Typography>
+          <Typography variant="body2" component="p">
+            organisasjon:
+            {organization}
           </Typography>
         </CardContent>
         <CardActions>
