@@ -22,7 +22,6 @@ it("Test if doc is added to user", async () => {
     .catch((error: any) => {
       console.log("Error in retrieving value:", error);
     });
-
     expect(value).toEqual("newDocIDI7OUcA12yWZ5")
 });
 });

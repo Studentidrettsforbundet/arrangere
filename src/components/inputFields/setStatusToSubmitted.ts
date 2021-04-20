@@ -26,5 +26,8 @@ export const setStatusToSubmitted = async (
     .doc(userID)
     .update(userStatus)
     .then(() => console.log("Status updated on user!"))
-    .catch((error) => console.log(error));
+    .catch((error) => {
+    console.log(error);
+    throw new Error("Could not update field.")
+  })
 };

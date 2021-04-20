@@ -1,5 +1,4 @@
 import { firestore } from "../../firebase";
-import DisplayError from "../DisplayError";
 
 export async function copyDoc(template: string) {
   let collectionFrom = template + "Template";
@@ -28,7 +27,6 @@ export async function copyDoc(template: string) {
       return chapterExists;
     })
     .catch((error) => {
-      //<DisplayError message={error.message} title={error.name} />;
       console.error(
         "Error reading document",
         `${collectionFrom}/`,
@@ -55,7 +53,6 @@ export async function copyDoc(template: string) {
           );
         })
         .catch((error) => {
-          //<DisplayError message={error.message} title={error.name} />;
           console.error(
             "Error reading document",
             `${collectionFrom}/`,

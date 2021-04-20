@@ -18,7 +18,7 @@ import {
 import { currentUserState } from "../stateManagement/userAuth";
 import { saveInput, useDocRef } from "./inputFields/saveInputFields";
 import InputWrapper from "./inputFields/InputWrapper";
-import { setStatusToSubmitted } from "./inputFields/confirmSubmittedApplication";
+import { setStatusToSubmitted } from "./inputFields/setStatusToSubmitted";
 import { firestore } from "../firebase";
 import { useHistory } from "react-router-dom";
 import { is_numeric } from "./utils";
@@ -126,9 +126,13 @@ const ChapterWrapper = (props: ChapterProps) => {
       const docData: any = doc.data();
       for (const application in docData.applications) {
         if (docData.applications[application].id === currentDocID) {
-          setStatusToSubmitted(docRef, userID, application);
-          setSubmitted("submitted");
-          history.push("/applications");
+          try {
+            setStatusToSubmitted(docRef, userID, application);
+            setSubmitted("submitted");
+            history.push("/applications");
+          } catch {
+            setSubmitted("failed");
+          }
         }
       }
       setSubmitted("failed");
