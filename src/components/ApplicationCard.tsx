@@ -13,13 +13,17 @@ import { documentState } from "../stateManagement/attributesState";
 import { currentUserState } from "../stateManagement/userAuth";
 import { useStyles } from "../style/cards";
 import { addDocToUser } from "./inputFields/addDocToUser";
+
 import { copyDoc } from "./inputFields/copyDoc";
+import { useEffect, useState } from "react";
+
 
 export const ApplicationCard = (props: CardProps) => {
   const classes = useStyles();
 
   const setDocID = useSetRecoilState(documentState);
   const currentUser = useRecoilValue(currentUserState);
+
 
   const handleOnClick = async () => {
     const newDocId = await copyDoc(props.template, currentUser);
@@ -28,7 +32,7 @@ export const ApplicationCard = (props: CardProps) => {
   };
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} style={{ width: 250, padding: 25 }}>
       <CardActionArea>
         <CardMedia className={classes.media} image={props.image} />
         <CardContent>

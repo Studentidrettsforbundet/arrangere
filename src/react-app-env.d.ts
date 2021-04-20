@@ -51,6 +51,14 @@ type InputWrapperProps = {
   priority: number;
 };
 
+type AccordionsProps = {
+  title: string;
+  mainDesc: string;
+  key: string;
+  chapterName: string;
+  attributeName: string;
+};
+
 type Attribute = {
   title: string;
   mainDesc: string;
@@ -85,8 +93,25 @@ type ErrorTypes = {
   text: ErrorText;
 };
 
-type InfoLongTextProps = {
+type HomeAccordionProps = {
   desc: string;
   priority: number;
   title: string;
+};
+
+type AppCardProps = {
+  applicationId: string;
+  collectionName: string;
+  to: string;
+  onChange?: (isUpdate: boolean) => void;
+};
+
+type AccordionProps = {
+  name: string;
+  inputFields: Array<InputField>;
+  priority: number;
+  title: string;
+  mainDesc: string;
+  chapterName: string;
+  onAccordionDelete: (isDeleted: boolean) => void;
 };

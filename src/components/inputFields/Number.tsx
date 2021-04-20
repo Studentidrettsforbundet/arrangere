@@ -32,12 +32,20 @@ const Number: FC<InputProps> = ({ desc, id, chapterName }) => {
     setValue(value);
   };
 
+  let inputProperties;
+  if (desc == "") {
+    inputProperties = { "aria-label": id };
+  } else {
+    inputProperties = { "aria-label": desc };
+  }
+
   return (
     <Box py={2}>
       <Typography>{desc}</Typography>
       <TextField
         variant="outlined"
         fullWidth
+        inputProps={inputProperties}
         type="number"
         value={value}
         onChange={(e) => handleValueChange(e.target.value)}

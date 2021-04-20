@@ -1,23 +1,15 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Divider,
-  Typography,
-} from "@material-ui/core/";
+import { Grid, Typography } from "@material-ui/core/";
 import { ApplicationCard } from "./ApplicationCard";
 import Student_NM_logo from "./../images/student_NM.png";
 import Studentleker_logo from "./../images/studentleker-1.png";
 import Student_Cup_logo from "./../images/studentcup-1.png";
-import { firestore } from "../firebase";
+import { UserApplications } from "./user/UserApplications";
+import { useStyles } from "../style/cards";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "../stateManagement/userAuth";
-import { useStyles } from "../style/userProfile";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { firestore } from "../firebase";
 import AppCard from "./admin/AppCard";
-import { Link as RouterLink } from "react-router-dom";
 
 export const ChooseApplication = () => {
   const [submittedApplicationIDs, setSubmittedApplicationIDs] = useState<
@@ -39,6 +31,7 @@ export const ChooseApplication = () => {
     if (currentUser != null) {
       const doc = await firestore.collection("user").doc(currentUser.uid).get();
       const docData: any = doc.data();
+
       for (const applicationID in docData.applications) {
         if (docData.applications[applicationID].id != undefined) {
           if (docData.applications[applicationID].status == "submitted") {
@@ -63,7 +56,6 @@ export const ChooseApplication = () => {
   const renderSubmittedApplications = () => {
     return submittedApplicationIDs?.map((applicationID: any, i: any) => (
       <AppCard
-        key={i}
         to="/application"
         applicationId={applicationID.id}
         collectionName={applicationID.collection}
@@ -74,7 +66,6 @@ export const ChooseApplication = () => {
   const renderInProgressApplications = () => {
     return inProgressApplicationIDs?.map((applicationID: any, i: any) => (
       <AppCard
-        key={i}
         to="/edit"
         applicationId={applicationID.id}
         collectionName={applicationID.collection}
@@ -90,12 +81,12 @@ export const ChooseApplication = () => {
       <Typography gutterBottom variant="h5" component="h2">
         Opprette ny søknad!
       </Typography>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-        }}
+      <Grid
+        container
+        direction="row"
+        justify="space-evenly"
+        alignItems="center"
+        style={{ padding: 30 }}
       >
         <ApplicationCard
           image={Student_NM_logo}
@@ -115,20 +106,8 @@ export const ChooseApplication = () => {
           to="/studentcup"
           template="sc"
         />
-      </div>
-
-      <br></br>
-      <Divider />
-      <br></br>
-
-      <Typography gutterBottom variant="h5" component="h2">
-        Mine påbegynte søknader
-      </Typography>
-      <Box>{renderInProgressApplications()}</Box>
-      <Typography gutterBottom variant="h5" component="h2">
-        Mine innsendte søknader
-      </Typography>
-      <Box>{renderSubmittedApplications()}</Box>
+      </Grid>
+      <UserApplications />
     </div>
   );
 };
