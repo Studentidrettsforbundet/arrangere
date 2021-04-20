@@ -1,15 +1,15 @@
-import { Divider, Typography } from "@material-ui/core/";
+import { Grid, Typography } from "@material-ui/core/";
 import { ApplicationCard } from "./ApplicationCard";
 import Student_NM_logo from "./../images/student_NM.png";
 import Studentleker_logo from "./../images/studentleker-1.png";
 import Student_Cup_logo from "./../images/studentcup-1.png";
-import { firestore } from "../firebase";
+import { UserApplications } from "./user/UserApplications";
+import { useStyles } from "../style/cards";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "../stateManagement/userAuth";
-import { useStyles } from "../style/userProfile";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { firestore } from "../firebase";
 import AppCard from "./admin/AppCard";
-import Grid from "@material-ui/core/Grid";
 
 export const ChooseApplication = () => {
   const [submittedApplicationIDs, setSubmittedApplicationIDs] = useState<
@@ -58,7 +58,6 @@ export const ChooseApplication = () => {
   const renderSubmittedApplications = () => {
     return submittedApplicationIDs?.map((applicationID: any, i: any) => (
       <AppCard
-        key={i}
         to="/application"
         applicationId={applicationID.id}
         collectionName={applicationID.collection}
@@ -69,7 +68,6 @@ export const ChooseApplication = () => {
   const renderInProgressApplications = () => {
     return inProgressApplicationIDs?.map((applicationID: any, i: any) => (
       <AppCard
-        key={i}
         to="/edit"
         applicationId={applicationID.id}
         collectionName={applicationID.collection}
@@ -111,38 +109,7 @@ export const ChooseApplication = () => {
           template="sc"
         />
       </Grid>
-
-      <br></br>
-      <Divider />
-      <br></br>
-
-      <Typography gutterBottom variant="h5" component="h2">
-        Mine påbegynte søknader
-      </Typography>
-      <Grid
-        container
-        direction="row"
-        justify="flex-start"
-        alignItems="baseline"
-        style={{ padding: 30 }}
-        item
-        xs
-      >
-        {renderInProgressApplications()}
-      </Grid>
-      <Typography gutterBottom variant="h5" component="h2">
-        Mine innsendte søknader
-      </Typography>
-      <Grid
-        container
-        direction="row"
-        justify="flex-start"
-        alignItems="baseline"
-        item
-        xs
-      >
-        {renderSubmittedApplications()}
-      </Grid>
+      <UserApplications />
     </div>
   );
 };

@@ -1,8 +1,7 @@
 import { firestore } from "../../firebase";
 import { is_numeric } from "../utils";
 
-//Creates the extra attribute in firestore
-export const copyAttribute = async (
+export const copyAttributeFromTemplateToApplication = async (
   template: string,
   docRef: any,
   attributeName: string,
@@ -103,9 +102,7 @@ const getOneNewAttribute = (
         },
       });
     }
-
     let inputNr: string = "";
-
     Object.keys(att[attribute].input_fields).forEach((inputField: any) => {
       inputField.split("").forEach((character: any) => {
         if (is_numeric(character)) {
@@ -121,7 +118,6 @@ const getOneNewAttribute = (
       inputNr = "";
     });
     localInputFields.sort((a: any, b: any) => a.priority - b.priority);
-
     attributeObjectList = [
       {
         [attributeName]: {
@@ -148,7 +144,6 @@ export const getListOfAttributes = async (
     .get()
     .then((doc: any) => {
       let att = doc.data()![chapterName].attributes;
-
       Object.keys(att).forEach((attribute: any) => {
         if (attribute.includes(attributeName)) {
           let list = getOneNewAttribute(
@@ -169,6 +164,5 @@ export const getListOfAttributes = async (
     (a: any, b: any) =>
       a[Object.keys(a)[0]].priority - b[Object.keys(b)[0]].priority
   );
-
   return attributeObjectList;
 };

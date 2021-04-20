@@ -1,5 +1,5 @@
 import { FC, useEffect, useRef, useState } from "react";
-import { useStyles } from "./inputStyles";
+import { useStyles } from "../../style/inputStyles";
 import { Typography, TextField, Box } from "@material-ui/core";
 import { useRecoilState } from "recoil";
 import { inputFieldObjectState } from "../../stateManagement/attributesState";
