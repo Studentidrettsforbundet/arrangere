@@ -19,7 +19,6 @@ import { useEffect, useState } from "react";
 
 export const ApplicationCard = (props: CardProps) => {
   const classes = useStyles();
-  let [organization, setOrganization] = useState<string>();
 
   const setDocID = useSetRecoilState(documentState);
   const currentUser = useRecoilValue(currentUserState);
@@ -116,7 +115,7 @@ export const ApplicationCard = (props: CardProps) => {
             user_id: [currentUser?.uid],
             user_email: [currentUser?.email],
             user_organization: tempOrganization,
-            date: JSON.stringify(dateStr),
+            date: dateStr,
           },
           { merge: true }
         )
