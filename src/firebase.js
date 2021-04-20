@@ -19,7 +19,7 @@ const app = firebase.initializeApp(firebaseConfig);
 export const firestore = firebase.firestore();
 
 export const auth = app.auth();
-
+/*
 if (window.location.hostname === "localhost") {
   firebase.firestore().settings({ experimentalAutoDetectLongPolling: true });
 
@@ -28,5 +28,5 @@ if (window.location.hostname === "localhost") {
     .auth()
     .useEmulator("http://localhost:9099/", { disableWarnings: true });
 }
-
+*/
 export default app;
