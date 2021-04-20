@@ -1,28 +1,20 @@
-import { Box, Button, Typography } from "@material-ui/core";
-import Alert from "@material-ui/lab/Alert";
+import { Box, Typography } from "@material-ui/core";
 import React, { ReactElement, useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { inputFieldObjectState } from "../stateManagement/attributesState";
-import { saveInput, useDocRef } from "./inputFields/saveInputFields";
 import InputWrapper from "./inputFields/InputWrapper";
 import { is_numeric } from "./utils";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import { useStyles } from "../style/chapters";
 import { SubmitButton } from "./SubmitButton";
-import firebase from "firebase";
+import { SaveButton } from "./SaveButton";
 
 const ChapterWrapper = ({
   chapter: { attributes, buttons, desc, title },
   chapterName,
 }: ChapterWithName) => {
   const [loading, setLoading] = useState(true);
-  const [showAlert, setShowAlert] = useState(false);
-  const [showError, setShowError] = useState(false);
   const [attributeList, setAttributeList] = useState<AttributeObject[]>([]);
-  const docRef = useDocRef();
-  const [inputFieldObject, setInputFieldObject] = useRecoilState(
-    inputFieldObjectState
-  );
+  const setInputFieldObject = useSetRecoilState(inputFieldObjectState);
 
   const classes = useStyles();
 
@@ -97,21 +89,6 @@ const ChapterWrapper = ({
     return inputWrappers;
   };
 
-  const saveAndAlertUser = async (
-    docRef: firebase.firestore.DocumentReference<firebase.firestore.DocumentData>
-  ) => {
-    try {
-      try {
-        saveInput(docRef, inputFieldObject);
-      } catch (error) {
-        setShowError(true);
-      }
-      setShowAlert(true);
-    } catch (error) {
-      setShowError(true);
-    }
-  };
-
   return (
     <div style={{ width: "100%" }}>
       <Typography className={classes.heading} variant="h1">
@@ -126,39 +103,11 @@ const ChapterWrapper = ({
       )}
       <div>{renderInputFields(attributeList, buttons, chapterName)}</div>
       <Box display="flex" mt={3} mb={3}>
-        <Box width="100%">
-          <Button
-            variant="contained"
-            onClick={() => saveAndAlertUser(docRef!)}
-            startIcon={<SaveOutlinedIcon />}
-          >
-            Lagre
-          </Button>
-
-          {showAlert ? (
-            <Alert
-              severity="success"
-              onClose={() => {
-                setShowAlert(false);
-              }}
-            >
-              {"Lagret!"}
-            </Alert>
-          ) : null}
-          {showError ? (
-            <Alert
-              severity="error"
-              onClose={() => {
-                setShowError(false);
-              }}
-            >
-              {"Ups, det skjedde en feil. Ikke lagret!"}
-            </Alert>
-          ) : null}
-        </Box>
+        <SaveButton />
         <SubmitButton chapterName={chapterName} />
       </Box>
     </div>
   );
 };
+
 export default ChapterWrapper;
