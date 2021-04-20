@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
-import React, { useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { inputFieldObjectState } from "../stateManagement/attributesState";
 import { saveInput, useDocRef } from "./inputFields/saveInputFields";
@@ -9,6 +9,7 @@ import { is_numeric } from "./utils";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import { useStyles } from "../style/chapters";
 import { SubmitButton } from "./SubmitButton";
+import firebase from "firebase";
 
 const ChapterWrapper = ({
   chapter: { attributes, buttons, desc, title },
@@ -53,13 +54,13 @@ const ChapterWrapper = ({
     buttons: Array<string>,
     chapterName: string
   ) => {
-    const inputWrappers: any = [];
+    const inputWrappers: ReactElement[] = [];
     let inputFields: Array<InputField> = [];
     let inputNr = "";
     attributeList.map((attributeObject: any) => {
       Object.keys(attributeObject.attribute.input_fields).forEach(
         (inputField: string) => {
-          inputField.split("").forEach((character: any) => {
+          inputField.split("").forEach((character: string) => {
             if (is_numeric(character)) {
               inputNr += character;
             }
@@ -75,7 +76,10 @@ const ChapterWrapper = ({
         }
       );
 
-      inputFields.sort((a: any, b: any) => a.priority - b.priority);
+      inputFields.sort(
+        (a: InputField, b: InputField) => a.priority - b.priority
+      );
+
       inputWrappers.push(
         <InputWrapper
           chapterName={chapterName}
@@ -93,7 +97,9 @@ const ChapterWrapper = ({
     return inputWrappers;
   };
 
-  const saveAndAlertUser = async (docRef: any) => {
+  const saveAndAlertUser = async (
+    docRef: firebase.firestore.DocumentReference<firebase.firestore.DocumentData>
+  ) => {
     try {
       try {
         saveInput(docRef, inputFieldObject);
@@ -123,7 +129,7 @@ const ChapterWrapper = ({
         <Box width="100%">
           <Button
             variant="contained"
-            onClick={() => saveAndAlertUser(docRef)}
+            onClick={() => saveAndAlertUser(docRef!)}
             startIcon={<SaveOutlinedIcon />}
           >
             Lagre

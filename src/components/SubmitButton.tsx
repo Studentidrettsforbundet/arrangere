@@ -17,6 +17,7 @@ import { documentState } from "../stateManagement/attributesState";
 import { currentUserState } from "../stateManagement/userAuth";
 import { setStatusToSubmitted } from "./inputFields/confirmSubmittedApplication";
 import { useDocRef } from "./inputFields/saveInputFields";
+import firebase from "firebase";
 
 type SubmitButtonProps = {
   chapterName: string;
@@ -30,16 +31,19 @@ export const SubmitButton: FC<SubmitButtonProps> = ({ chapterName }) => {
   const history = useHistory();
   const docRef = useDocRef();
 
-  async function submitApplication(docRef: any, userID: string) {
+  async function submitApplication(
+    docRef: firebase.firestore.DocumentReference<firebase.firestore.DocumentData>,
+    userID: string
+  ) {
     if ((await docRef!.get()).exists) {
       const doc = await firestore
         .collection("user")
         .doc(currentUserID!.uid)
         .get();
-      const docData: any = doc.data();
+      const docData: firebase.firestore.DocumentData = doc.data()!;
       for (const application in docData.applications) {
         if (docData.applications[application].id === currentDocID) {
-          setStatusToSubmitted(docRef, userID, application);
+          setStatusToSubmitted(docRef!, userID, application);
           setSubmitted("submitted");
           history.push("/applications");
         }
@@ -89,7 +93,7 @@ export const SubmitButton: FC<SubmitButtonProps> = ({ chapterName }) => {
                 Gå tilbake
               </Button>
               <Button
-                onClick={() => submitApplication(docRef, currentUserID!.uid)}
+                onClick={() => submitApplication(docRef!, currentUserID!.uid)}
                 color="primary"
               >
                 Send inn
