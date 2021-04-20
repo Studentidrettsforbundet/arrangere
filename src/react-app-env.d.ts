@@ -16,7 +16,6 @@ type ChapterWithID = {
     desc: string;
     attributes: Array<Attribute>;
     priority: number;
-    buttons: Array<string>;
   };
 };
 
