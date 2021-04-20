@@ -75,7 +75,7 @@ const Application = (props: Props) => {
         <Box className={classes.nav}>{renderButtons(props.chapterList)}</Box>
       </div>
       <div role="main">
-        <Box px={15} pt={6}>
+        <Box px={15} pb={6} pt={6}>
           {renderChapters(props.chapterList)[chapterCounter]}{" "}
           <Box display="flex" mt={3}>
             <Box width="100%">

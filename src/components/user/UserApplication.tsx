@@ -43,7 +43,7 @@ export const UserApplication = () => {
           return null;
         } else {
           for (let chapter in docData) {
-            if (chapter != "status") {
+            if (chapter != "status" && chapter != "user_id") {
               chapterListLocal.push({
                 chapterName: chapter,
                 buttons: docData[chapter].buttons,

@@ -62,7 +62,7 @@ export const ApplicationCard = (props: CardProps) => {
       .set(
         {
           status: "in progress",
-          userId: [currentUser?.uid],
+          user_id: [currentUser?.uid],
         },
         { merge: true }
       )
