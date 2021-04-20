@@ -7,6 +7,7 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@material-ui/core";
+import SendIcon from "@material-ui/icons/Send";
 import { Alert } from "@material-ui/lab";
 import { FC, useState } from "react";
 import { useHistory } from "react-router";
@@ -60,10 +61,14 @@ export const SubmitButton: FC<SubmitButtonProps> = ({ chapterName }) => {
   };
 
   return (
-    <div>
+    <Box>
       {chapterName === "additional" ? (
-        <Box flexShrink={0} mt={3} mb={3}>
-          <Button variant="contained" onClick={handleClickOpen}>
+        <Box flexShrink={0}>
+          <Button
+            variant="contained"
+            onClick={handleClickOpen}
+            endIcon={<SendIcon />}
+          >
             Send inn
           </Button>
           <Dialog
@@ -100,6 +105,6 @@ export const SubmitButton: FC<SubmitButtonProps> = ({ chapterName }) => {
           Something went wrong submitting the application!
         </Alert>
       ) : null}
-    </div>
+    </Box>
   );
 };

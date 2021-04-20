@@ -120,37 +120,36 @@ const ChapterWrapper = (props: ChapterWithName) => {
       <div>
         {renderInputFields(attributeList, chapter.buttons, chapterName)}
       </div>
-      <Box display="flex">
-        <Box width="100%" mt={3} mb={3}>
-          <Box>
-            <Button
-              variant="contained"
-              onClick={() => saveAndAlertUser(docRef)}
-              startIcon={<SaveOutlinedIcon />}
+      <Box display="flex" mt={3} mb={3}>
+        <Box width="100%">
+          <Button
+            variant="contained"
+            onClick={() => saveAndAlertUser(docRef)}
+            startIcon={<SaveOutlinedIcon />}
+          >
+            Lagre
+          </Button>
+
+          {showAlert ? (
+            <Alert
+              severity="success"
+              onClose={() => {
+                setShowAlert(false);
+              }}
             >
-              Lagre
-            </Button>
-            {showAlert ? (
-              <Alert
-                severity="success"
-                onClose={() => {
-                  setShowAlert(false);
-                }}
-              >
-                {"Lagret!"}
-              </Alert>
-            ) : null}
-            {showError ? (
-              <Alert
-                severity="error"
-                onClose={() => {
-                  setShowError(false);
-                }}
-              >
-                {"Ups, det skjedde en feil. Ikke lagret!"}
-              </Alert>
-            ) : null}
-          </Box>
+              {"Lagret!"}
+            </Alert>
+          ) : null}
+          {showError ? (
+            <Alert
+              severity="error"
+              onClose={() => {
+                setShowError(false);
+              }}
+            >
+              {"Ups, det skjedde en feil. Ikke lagret!"}
+            </Alert>
+          ) : null}
         </Box>
         <SubmitButton chapterName={chapterName} />
       </Box>
