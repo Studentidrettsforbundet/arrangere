@@ -47,8 +47,6 @@ export const ChooseApplication = () => {
             });
           }
         }
-        // setSubmittedApplicationIDs(submittedApplicationIDs);
-        // setInProgressApplicationIDs(inProgressApplicationIDs);
       }
     }
     setSubmittedApplicationIDs(submittedApplicationIDs);
