@@ -25,5 +25,4 @@ firebase
   .auth()
   .useEmulator("http://localhost:9099/", { disableWarnings: true });
 
-
 export default app;

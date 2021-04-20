@@ -8,7 +8,6 @@ import { useStyles } from "../style/chapters";
 import { SubmitButton } from "./SubmitButton";
 import { SaveButton } from "./SaveButton";
 
-
 const ChapterWrapper = ({
   chapter: { attributes, buttons, desc, title },
   chapterName,

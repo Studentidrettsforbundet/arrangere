@@ -17,13 +17,11 @@ import { addDocToUser } from "./inputFields/addDocToUser";
 import { copyDoc } from "./inputFields/copyDoc";
 import { useEffect, useState } from "react";
 
-
 export const ApplicationCard = (props: CardProps) => {
   const classes = useStyles();
 
   const setDocID = useSetRecoilState(documentState);
   const currentUser = useRecoilValue(currentUserState);
-
 
   const handleOnClick = async () => {
     const newDocId = await copyDoc(props.template, currentUser);
