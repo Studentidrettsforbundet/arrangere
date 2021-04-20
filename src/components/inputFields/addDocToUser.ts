@@ -5,20 +5,19 @@ export const addDocToUser = async (
   docID: string,
   collection: string
 ) => {
-
   var applicationData = {
     id: docID,
     status: "in progress",
     collection: collection,
   };
 
-    let data: any = {};
-    data[`applications.${docID}`] = applicationData;
+  let data: any = {};
+  data[`applications.${docID}`] = applicationData;
 
-    firestore
-      .collection("user")
-      .doc(userID)
-      .update(data, { merge: true })
-      .then(() => console.log("Document added to user!"))
-      .catch((error) => console.log(error));
+  firestore
+    .collection("user")
+    .doc(userID)
+    .update(data, { merge: true })
+    .then(() => console.log("Document added to user!"))
+    .catch((error) => console.log(error));
 };
