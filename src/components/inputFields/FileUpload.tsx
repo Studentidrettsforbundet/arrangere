@@ -1,5 +1,11 @@
 import React, { FC, useEffect, useRef, useState } from "react";
-import { Typography, Box, FormLabel, InputLabel } from "@material-ui/core";
+import {
+  Typography,
+  Box,
+  FormLabel,
+  InputLabel,
+  Button,
+} from "@material-ui/core";
 import { addFieldInputObject, useDocRef } from "./saveInputFields";
 import { getInputValue } from "./getInputValue";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -9,16 +15,16 @@ import {
   documentState,
   inputFieldObjectState,
 } from "../../stateManagement/attributesState";
+import AddIcon from "@material-ui/icons/Add";
 
 const FileUpload: FC<InputProps> = ({ desc, id, chapterName }) => {
   const docID = useRecoilValue(documentState);
-  const [fileUrl, setFileUrl] = useState();
+  const [fileUrl, setFileUrl] = useState("");
   const [fileName, setFileName] = useState("");
   const [inputFieldObject, setInputFieldList] = useRecoilState(
     inputFieldObjectState
   );
 
-  const [value, setValue] = useState("");
   const isInitialMount = useRef(true);
   const docRef = useDocRef();
 
@@ -26,14 +32,18 @@ const FileUpload: FC<InputProps> = ({ desc, id, chapterName }) => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
       getInputValue(docRef, chapterName, id).then((value) => {
-        setValue(value);
+        if (value != undefined) {
+          let urlAndName = value.split(".Filename:");
+          setFileUrl(urlAndName[0]);
+          setFileName(urlAndName[1]);
+        }
       });
     }
-  });
+  }, [fileUrl, fileName]);
 
   const saveFile = async (target: HTMLInputElement) => {
     var files = target.files;
-    var file;
+    var file: File | null;
     if (files != null) {
       for (var i = 0; i < files.length; i++) {
         file = files.item(i);
@@ -49,7 +59,7 @@ const FileUpload: FC<InputProps> = ({ desc, id, chapterName }) => {
 
         await storageRef.getDownloadURL().then((url) => {
           setFileUrl(url);
-          handleChangeValue(String(url));
+          handleChangeValue(String(url) + ".Filename:" + String(file!.name));
         });
       }
     }
@@ -63,17 +73,16 @@ const FileUpload: FC<InputProps> = ({ desc, id, chapterName }) => {
   const handleChangeValue = (value: string) => {
     let object = addFieldInputObject(value, chapterName, inputFieldObject, id);
     setInputFieldList(object);
-    console.log("input value: " + value);
-  };
-
-  const handleValueChange = (value: string) => {
-    setValue(value);
   };
 
   return (
     <Box py={2}>
-      <InputLabel htmlFor={id}>{desc}</InputLabel>
+      <Button variant="outlined">
+        <label htmlFor={id}>Last opp fil</label>
+      </Button>
+
       <input
+        style={{ display: "none" }}
         accept="pdf"
         aria-label={`Last opp fil for ${id}`}
         id={id}
@@ -82,9 +91,11 @@ const FileUpload: FC<InputProps> = ({ desc, id, chapterName }) => {
           handleChange(e);
         }}
       />
-      <a href={fileUrl} download>
-        {fileName}
-      </a>
+      <Box pt={2}>
+        <a href={fileUrl} download>
+          {fileName}
+        </a>
+      </Box>
     </Box>
   );
 };

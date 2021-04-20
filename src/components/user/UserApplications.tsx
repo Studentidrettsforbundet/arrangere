@@ -29,7 +29,7 @@ export const UserApplications = () => {
     if (currentUser != null) {
       const doc = await firestore.collection("user").doc(currentUser.uid).get();
       const docData: any = doc.data();
-      if (docData) {
+      if (docData != undefined) {
         for (const applicationID in docData.applications) {
           if (docData.applications[applicationID].id !== undefined) {
             if (docData.applications[applicationID].status === "submitted") {
