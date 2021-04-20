@@ -9,7 +9,6 @@ import {
 } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { firestore } from "../firebase";
 import { documentState } from "../stateManagement/attributesState";
 import { currentUserState } from "../stateManagement/userAuth";
 import { useStyles } from "../style/cards";
@@ -23,9 +22,9 @@ export const ApplicationCard = (props: CardProps) => {
   const currentUser = useRecoilValue(currentUserState);
 
   const handleOnClick = async () => {
-    const newDocId = await copyDoc(props.template);
-    setDocID(newDocId);
-    addDocToUser(currentUser!.uid, newDocId, props.template);
+    const newDocId = await copyDoc(props.template, currentUser);
+    setDocID(JSON.stringify(newDocId));
+    addDocToUser(currentUser!.uid, JSON.stringify(newDocId), props.template);
   };
 
   return (
