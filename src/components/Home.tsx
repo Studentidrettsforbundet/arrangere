@@ -37,9 +37,9 @@ const Home = () => {
 
   const renderAccordions = (accordionList: Array<HomeAccordionProps>) => {
     const accordions: any = [];
-    accordionList.map((accordion: HomeAccordionProps) => {
+    accordionList.map((accordion: HomeAccordionProps, i) => {
       accordions.push(
-        <Box p={0.5}>
+        <Box p={0.5} key={i}>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography>{accordion.title}</Typography>
