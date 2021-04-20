@@ -67,6 +67,7 @@ type CardProps = {
   title: string;
   to: string;
   template: string;
+  //onClick: (applicationForm: string) => void;
 };
 
 type ButtonProps = {

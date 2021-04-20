@@ -10,6 +10,7 @@ import {
 import { Link as RouterLink } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { documentState } from "../stateManagement/attributesState";
+import { choosenApplicationState } from "../stateManagement/choosenApplication";
 import { currentUserState } from "../stateManagement/userAuth";
 import { useStyles } from "../style/cards";
 import { addDocToUser } from "./inputFields/addDocToUser";
@@ -18,13 +19,15 @@ import { copyDoc } from "./inputFields/copyDoc";
 export const ApplicationCard = (props: CardProps) => {
   const classes = useStyles();
 
-  const setDocID = useSetRecoilState(documentState);
   const currentUser = useRecoilValue(currentUserState);
+  const setDocID = useSetRecoilState(documentState);
+  const setApplicationForm = useSetRecoilState(choosenApplicationState);
 
   const handleOnClick = async () => {
     const newDocId = await copyDoc(props.template);
     setDocID(newDocId);
     addDocToUser(currentUser!.uid, newDocId, props.template);
+    setApplicationForm(props.template);
   };
 
   return (
