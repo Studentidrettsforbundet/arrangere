@@ -28,6 +28,7 @@ export const ApplicationCard = (props: CardProps) => {
     setDocID(newDocId);
     addDocToUser(currentUser!.uid, newDocId, props.template);
     setApplicationForm(props.template);
+    console.log(props.template);
   };
 
   return (

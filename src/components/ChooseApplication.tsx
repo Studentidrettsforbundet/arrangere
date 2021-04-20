@@ -4,10 +4,11 @@ import Student_NM_logo from "./../images/student_NM.png";
 import Studentleker_logo from "./../images/studentleker-1.png";
 import Student_Cup_logo from "./../images/studentcup-1.png";
 import { UserApplications } from "./user/UserApplications";
+import { choosenApplicationState } from "../stateManagement/choosenApplication";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 export const ChooseApplication = () => {
   //Bør endre navn til typ dashboard ellerno
-
   return (
     <div role="main" style={{ padding: 40 }}>
       <Typography gutterBottom align="center" variant="h1">
@@ -28,18 +29,21 @@ export const ChooseApplication = () => {
           title="Søknadskjema for student-NM"
           to="/studentnm"
           template="snm"
+          //onClick={() => handleChange("snm")}
         />
         <ApplicationCard
           image={Studentleker_logo}
           title="Søknadskjema for studentleker"
           to="/studentleker"
           template="sl"
+          //onClick={() => handleChange("sl")}
         />
         <ApplicationCard
           image={Student_Cup_logo}
           title="Søknadskjema for student-Cup"
           to="/studentcup"
           template="sc"
+          //onClick={() => handleChange("sc")}
         />
       </Grid>
       <UserApplications />
