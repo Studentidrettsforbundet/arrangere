@@ -61,7 +61,7 @@ export default function Home() {
     <div role="main">
       <Box p={10}>
         <Typography variant="h1">
-          Velkommen til Norges studenidrettsforbunds søknadsportal
+          Velkommen til Norges studentidrettsforbunds søknadsportal
         </Typography>
         <Box py={2}>{renderChapters(chapterList)}</Box>
       </Box>
