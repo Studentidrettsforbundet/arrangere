@@ -1,5 +1,6 @@
 import { Box, Button, Typography } from "@material-ui/core";
 import React, { FC, useEffect, useState } from "react";
+import firebase from "firebase";
 import AccordionComponent from "./AccordionComponent";
 import {
   getListOfAttributes,
@@ -32,7 +33,7 @@ const Accordions: FC<AccordionsProps> = ({
 
   const renderAccordions = async () => {
     let accordions: any = [];
-    await getListOfAttributes(docRef, attributeName, chapterName).then(
+    await getListOfAttributes(docRef!, attributeName, chapterName).then(
       (attributeObjectList) => {
         attributeObjectList.forEach((attribute) => {
           Object.entries(attribute).forEach(([key, value]) => {
@@ -56,7 +57,7 @@ const Accordions: FC<AccordionsProps> = ({
   };
 
   const copyField = async (
-    docRef: any,
+    docRef: firebase.firestore.DocumentReference<firebase.firestore.DocumentData>,
     attributeName: string,
     chapterName: string
   ) => {
@@ -97,7 +98,7 @@ const Accordions: FC<AccordionsProps> = ({
       </Box>
       <Box mt={3} mb={1}>
         <Button
-          onClick={() => copyField(docRef, attributeName, chapterName)}
+          onClick={() => copyField(docRef!, attributeName, chapterName)}
           variant="outlined"
           startIcon={<AddCircleOutlineOutlinedIcon />}
         >
