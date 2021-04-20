@@ -25,6 +25,7 @@ export default function ReceivedAppPage() {
 
   async function getSnmApplicationsID(collectionName: string) {
     let applicationIDs: Array<string> = [];
+
     await firestore
       .collection(collectionName)
       .get()
