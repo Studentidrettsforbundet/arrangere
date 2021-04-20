@@ -37,7 +37,10 @@ const AccordionComponent: FC<AccordionProps> = ({
     haveMainDesc = true;
   }
 
-  const deleteField = async (attName: string, docRef: any) => {
+  const deleteField = async (
+    attName: string,
+    docRef: firebase.firestore.DocumentReference<firebase.firestore.DocumentData>
+  ) => {
     setLoadingDelete(true);
 
     let fieldPath = `${chapterName}.attributes.${attName}`;
@@ -45,7 +48,6 @@ const AccordionComponent: FC<AccordionProps> = ({
       .update({
         [fieldPath]: firebase.firestore.FieldValue.delete(),
       })
-      .then(console.log("deleted" + attName))
       .catch((error: any) => {
         console.log("Could not delete", error);
       });
@@ -102,7 +104,7 @@ const AccordionComponent: FC<AccordionProps> = ({
             disabled={loadingDelete}
             variant="outlined"
             aria-label="slett"
-            onClick={() => deleteField(name, docRef)}
+            onClick={() => deleteField(name, docRef!)}
           >
             X
           </Button>

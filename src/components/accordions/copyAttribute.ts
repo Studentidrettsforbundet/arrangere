@@ -1,9 +1,10 @@
 import { firestore } from "../../firebase";
 import { is_numeric } from "../utils";
+import firebase from "firebase";
 
 export const copyAttributeFromTemplateToApplication = async (
   template: string,
-  docRef: any,
+  docRef: firebase.firestore.DocumentReference<firebase.firestore.DocumentData>,
   attributeName: string,
   chapterName: string
 ) => {
@@ -132,7 +133,7 @@ const getOneNewAttribute = (
 };
 
 export const getListOfAttributes = async (
-  docRef: any,
+  docRef: firebase.firestore.DocumentReference<firebase.firestore.DocumentData>,
   attributeName: string,
   chapterName: string
 ) => {
