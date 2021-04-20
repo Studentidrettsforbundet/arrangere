@@ -10,9 +10,10 @@ import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import { useStyles } from "../style/chapters";
 import { SubmitButton } from "./SubmitButton";
 
-const ChapterWrapper = (props: ChapterWithName) => {
-  let chapter = props.chapter;
-  let chapterName = props.chapterName;
+const ChapterWrapper = ({
+  chapter: { attributes, buttons, desc, title },
+  chapterName,
+}: ChapterWithName) => {
   const [loading, setLoading] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
   const [showError, setShowError] = useState(false);
@@ -25,13 +26,13 @@ const ChapterWrapper = (props: ChapterWithName) => {
   const classes = useStyles();
 
   useEffect(() => {
-    attributesToList(chapter.attributes);
+    convertAttributesIntoList(attributes);
     setInputFieldObject({});
   }, [loading]);
 
-  const attributesToList = (attributes: any) => {
+  const convertAttributesIntoList = (attributes: any) => {
     setLoading(true);
-    const attributeListLocal: any = [];
+    const attributeListLocal: AttributeObject[] = [];
     if (attributes) {
       Object.keys(attributes).forEach((attribute: string, index: number) => {
         attributeListLocal.push({
@@ -54,7 +55,7 @@ const ChapterWrapper = (props: ChapterWithName) => {
   ) => {
     const inputWrappers: any = [];
     let inputFields: Array<InputField> = [];
-    let inputNr: string = "";
+    let inputNr = "";
     attributeList.map((attributeObject: any) => {
       Object.keys(attributeObject.attribute.input_fields).forEach(
         (inputField: string) => {
@@ -92,12 +93,6 @@ const ChapterWrapper = (props: ChapterWithName) => {
     return inputWrappers;
   };
 
-  let descContainer = (
-    <Typography gutterBottom={true} variant="h6">
-      {chapter.desc}
-    </Typography>
-  );
-
   const saveAndAlertUser = async (docRef: any) => {
     try {
       try {
@@ -114,12 +109,16 @@ const ChapterWrapper = (props: ChapterWithName) => {
   return (
     <div style={{ width: "100%" }}>
       <Typography className={classes.heading} variant="h1">
-        {chapter.title}
+        {title}
       </Typography>
-      {chapter.desc != "" ? <div>{descContainer} </div> : <p></p>}
-      <div>
-        {renderInputFields(attributeList, chapter.buttons, chapterName)}
-      </div>
+      {desc != "" ? (
+        <Typography gutterBottom={true} variant="h6">
+          {desc}
+        </Typography>
+      ) : (
+        <p></p>
+      )}
+      <div>{renderInputFields(attributeList, buttons, chapterName)}</div>
       <Box display="flex" mt={3} mb={3}>
         <Box width="100%">
           <Button
