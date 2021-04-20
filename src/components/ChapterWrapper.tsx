@@ -1,30 +1,14 @@
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Typography,
-} from "@material-ui/core";
+import { Box, Button, Typography } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import React, { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import {
-  documentState,
-  inputFieldObjectState,
-} from "../stateManagement/attributesState";
-import { currentUserState } from "../stateManagement/userAuth";
+import { useRecoilState } from "recoil";
+import { inputFieldObjectState } from "../stateManagement/attributesState";
 import { saveInput, useDocRef } from "./inputFields/saveInputFields";
 import InputWrapper from "./inputFields/InputWrapper";
-import { setStatusToSubmitted } from "./inputFields/confirmSubmittedApplication";
-import { firestore } from "../firebase";
-import { useHistory } from "react-router-dom";
 import { is_numeric } from "./utils";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
-import firebase from "firebase";
 import { useStyles } from "../style/chapters";
+import { SubmitButton } from "./SubmitButton";
 
 const ChapterWrapper = (props: ChapterWithName) => {
   let chapter = props.chapter;
@@ -32,13 +16,8 @@ const ChapterWrapper = (props: ChapterWithName) => {
   const [loading, setLoading] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
   const [showError, setShowError] = useState(false);
-  const [submitted, setSubmitted] = useState("in progress");
-  const [open, setOpen] = React.useState(false);
-  const currentDocID = useRecoilValue(documentState);
-  const currentUserID = useRecoilValue(currentUserState);
   const [attributeList, setAttributeList] = useState<AttributeObject[]>([]);
   const docRef = useDocRef();
-  const history = useHistory();
   const [inputFieldObject, setInputFieldObject] = useRecoilState(
     inputFieldObjectState
   );
@@ -113,36 +92,6 @@ const ChapterWrapper = (props: ChapterWithName) => {
     return inputWrappers;
   };
 
-  async function submitApplication(docRef: any, userID: string) {
-    if ((await docRef!.get()).exists) {
-      const doc = await firestore
-        .collection("user")
-        .doc(currentUserID!.uid)
-        .get();
-      const docData: any = doc.data();
-      for (const application in docData.applications) {
-        if (docData.applications[application].id === currentDocID) {
-          setStatusToSubmitted(docRef, userID, application);
-          setSubmitted("submitted");
-          history.push("/applications");
-        }
-      }
-      setSubmitted("failed");
-      handleClose();
-    } else {
-      setSubmitted("failed");
-      handleClose();
-    }
-  }
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   let descContainer = (
     <Typography gutterBottom={true} variant="h6">
       {chapter.desc}
@@ -161,6 +110,7 @@ const ChapterWrapper = (props: ChapterWithName) => {
       setShowError(true);
     }
   };
+
   return (
     <div style={{ width: "100%" }}>
       <Typography className={classes.heading} variant="h1">
@@ -202,46 +152,8 @@ const ChapterWrapper = (props: ChapterWithName) => {
             ) : null}
           </Box>
         </Box>
-        {chapterName === "additional" ? (
-          <Box flexShrink={0} mt={3} mb={3}>
-            <Button variant="contained" onClick={handleClickOpen}>
-              Send inn
-            </Button>
-            <Dialog
-              open={open}
-              onClose={handleClose}
-              aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
-            >
-              <DialogTitle id="alert-dialog-title">Send inn søknad</DialogTitle>
-              <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                  Er du sikker på at du vil sende inn søknaden? Har du husket å
-                  lagre?
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose} color="primary" autoFocus>
-                  Gå tilbake
-                </Button>
-                <Button
-                  onClick={() => submitApplication(docRef, currentUserID!.uid)}
-                  color="primary"
-                >
-                  Send inn
-                </Button>
-              </DialogActions>
-            </Dialog>
-          </Box>
-        ) : (
-          <Box></Box>
-        )}
+        <SubmitButton chapterName={chapterName} />
       </Box>
-      {submitted === "failed" ? (
-        <Alert severity="error">
-          Something went wrong submitting the application!
-        </Alert>
-      ) : null}
     </div>
   );
 };
