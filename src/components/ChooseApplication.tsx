@@ -79,7 +79,7 @@ export const ChooseApplication = () => {
         Søknader
       </Typography>
       <Typography gutterBottom variant="h5" component="h2">
-        Opprette ny søknad!
+        Opprett ny søknad
       </Typography>
       <Grid
         container

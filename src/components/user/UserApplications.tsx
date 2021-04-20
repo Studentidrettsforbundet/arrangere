@@ -4,13 +4,20 @@ import { useRecoilValue } from "recoil";
 import { firestore } from "../../firebase";
 import { currentUserState } from "../../stateManagement/userAuth";
 import AppCard from "../admin/AppCard";
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import AssignmentTurnedInOutlinedIcon from "@material-ui/icons/AssignmentTurnedInOutlined";
+
+type ApplicationID = {
+  id: string;
+  collection: string;
+};
 
 export const UserApplications = () => {
   const [submittedApplicationIDs, setSubmittedApplicationIDs] = useState<
-    Array<any>
+    Array<ApplicationID>
   >([]);
   const [inProgressApplicationIDs, setInProgressApplicationIDs] = useState<
-    Array<any>
+    Array<ApplicationID>
   >([]);
   const currentUser = useRecoilValue(currentUserState);
   const [updateState, setUpdateState] = useState(false);
@@ -24,15 +31,14 @@ export const UserApplications = () => {
   }, [updateState]);
 
   async function getApplications() {
-    let submittedApplicationIDs: Array<any> = [];
-    let inProgressApplicationIDs: Array<any> = [];
+    let submittedApplicationIDs: Array<ApplicationID> = [];
+    let inProgressApplicationIDs: Array<ApplicationID> = [];
     if (currentUser != null) {
       const doc = await firestore.collection("user").doc(currentUser.uid).get();
       const docData: any = doc.data();
       for (const applicationID in docData.applications) {
         if (docData.applications[applicationID].id !== undefined) {
           if (docData.applications[applicationID].status === "submitted") {
-            // Her er det sykt rart at jeg ikke kan sette det som et objekt som er gjort i else under..
             submittedApplicationIDs.push({
               id: docData.applications[applicationID].id,
               collection: docData.applications[applicationID].collection,
@@ -55,27 +61,33 @@ export const UserApplications = () => {
   };
 
   const renderInProgressApplications = () => {
-    return inProgressApplicationIDs?.map((applicationID: any, i: any) => (
-      <AppCard
-        key={i}
-        to="/edit"
-        applicationId={applicationID.id}
-        collectionName={applicationID.collection}
-        onChange={updateApplications}
-      ></AppCard>
-    ));
+    return inProgressApplicationIDs?.map(
+      (applicationID: ApplicationID, i: number) => (
+        <AppCard
+          key={i}
+          to="/edit"
+          applicationId={applicationID.id}
+          collectionName={applicationID.collection}
+          onChange={updateApplications}
+        ></AppCard>
+      )
+    );
   };
   const renderSubmittedApplications = () => {
-    return submittedApplicationIDs?.map((applicationID: any, i: any) => (
-      <AppCard
-        key={i}
-        to="/application"
-        applicationId={applicationID.id}
-        collectionName={applicationID.collection}
-        onChange={updateApplications}
-      ></AppCard>
-    ));
+    return submittedApplicationIDs?.map(
+      (applicationID: ApplicationID, i: number) => (
+        <AppCard
+          key={i}
+          to="/application"
+          applicationId={applicationID.id}
+          collectionName={applicationID.collection}
+          onChange={updateApplications}
+        ></AppCard>
+      )
+    );
   };
+
+  console.log(inProgressApplicationIDs);
 
   return (
     <div>
@@ -84,13 +96,32 @@ export const UserApplications = () => {
       <br></br>
 
       <Typography gutterBottom variant="h5" component="h2">
+        <span style={{ paddingRight: "0.3em" }}>
+          <EditOutlinedIcon />
+        </span>
         Mine påbegynte søknader
       </Typography>
-      <Box>{renderInProgressApplications()}</Box>
+      {inProgressApplicationIDs.length === 0 ? (
+        <p>Du har ingen påbegynte søknader.</p>
+      ) : (
+        <Box>{renderInProgressApplications()}</Box>
+      )}
+
       <Typography gutterBottom variant="h5" component="h2">
+        <span
+          style={{
+            paddingRight: "0.3em",
+          }}
+        >
+          <AssignmentTurnedInOutlinedIcon />
+        </span>
         Mine innsendte søknader
       </Typography>
-      <Box>{renderSubmittedApplications()}</Box>
+      {submittedApplicationIDs.length === 0 ? (
+        <p>Du har ingen innsendte søknader.</p>
+      ) : (
+        <Box>{renderSubmittedApplications()}</Box>
+      )}
     </div>
   );
 };
