@@ -17,8 +17,7 @@ const RadioButton: FC<InputProps> = ({ desc, id, chapterName }) => {
     inputFieldObjectState
   );
 
-  const [value, setValue] = useState("");
-
+  const [value, setValue] = useState("Ja");
   const isInitialMount = useRef(true);
   const docRef = useDocRef();
 
@@ -34,13 +33,14 @@ const RadioButton: FC<InputProps> = ({ desc, id, chapterName }) => {
   const handleChange = (value: string) => {
     let object = addFieldInputObject(value, chapterName, inputFieldObject, id);
     setInputFieldList(object);
+    setValue(value);
   };
 
   return (
     <div className="radioContainer">
       <FormControl component="fieldset">
         <FormLabel component="legend">{desc}</FormLabel>
-        <RadioGroup name="radio">
+        <RadioGroup value={value} name="radio">
           <FormControlLabel
             value="Ja"
             control={<Radio />}

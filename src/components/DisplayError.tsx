@@ -11,11 +11,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type ErrorProps = {
-  title: string;
-  message: string;
-};
-
 const DisplayError: FC<ErrorProps> = ({ title, message }) => {
   const classes = useStyles();
 

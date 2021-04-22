@@ -31,7 +31,6 @@ export const ChooseApplication = () => {
     if (currentUser != null) {
       const doc = await firestore.collection("user").doc(currentUser.uid).get();
       const docData: any = doc.data();
-
       if (docData != undefined) {
         for (const applicationID in docData.applications) {
           if (docData.applications[applicationID].id != undefined) {
@@ -55,33 +54,11 @@ export const ChooseApplication = () => {
     }
   }
 
-  const renderSubmittedApplications = () => {
-    return submittedApplicationIDs?.map((applicationID: any, i: any) => (
-      <AppCard
-        to="/application"
-        applicationId={applicationID.id}
-        collectionName={applicationID.collection}
-      ></AppCard>
-    ));
-  };
-
-  const renderInProgressApplications = () => {
-    return inProgressApplicationIDs?.map((applicationID: any, i: any) => (
-      <AppCard
-        to="/edit"
-        applicationId={applicationID.id}
-        collectionName={applicationID.collection}
-      ></AppCard>
-    ));
-  };
-
   return (
     <div role="main" style={{ padding: 40 }}>
-      <Typography gutterBottom align="center" variant="h1">
-        Søknader
-      </Typography>
+      <Typography aria-label="Søknader" align="left" variant="h1"></Typography>
       <Typography gutterBottom variant="h5" component="h2">
-        Opprette ny søknad!
+        Opprett ny søknad
       </Typography>
       <Grid
         container
@@ -92,19 +69,19 @@ export const ChooseApplication = () => {
       >
         <ApplicationCard
           image={Student_NM_logo}
-          title="Søknadskjema for student-NM"
+          title="Søknadskjema for Student-NM"
           to="/studentnm"
           template="snm"
         />
         <ApplicationCard
           image={Studentleker_logo}
-          title="Søknadskjema for studentleker"
+          title="Søknadskjema for Studentleker"
           to="/studentleker"
           template="sl"
         />
         <ApplicationCard
           image={Student_Cup_logo}
-          title="Søknadskjema for student-Cup"
+          title="Søknadskjema for Student-Cup"
           to="/studentcup"
           template="sc"
         />
