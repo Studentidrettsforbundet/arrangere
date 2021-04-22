@@ -1,5 +1,7 @@
+import firebase from "firebase";
+
 export async function getInputValue(
-  docRef: any,
+  docRef: firebase.firestore.DocumentReference<firebase.firestore.DocumentData>,
   chapterName: string,
   id: string
 ) {
@@ -17,11 +19,11 @@ export async function getInputValue(
 
   await docRef
     .get()
-    .then((res: any) => {
+    .then((res: firebase.firestore.DocumentData) => {
       value = res.get(fieldPath);
       return value;
     })
-    .catch((error: any) => {
+    .catch((error) => {
       console.log("Error in retrieving value:", error);
     });
   return value;

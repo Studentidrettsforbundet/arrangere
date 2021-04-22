@@ -32,7 +32,7 @@ export const copyAttributeFromTemplateToApplication = async (
   if (attributeInTemplate) {
     await docRef
       .get()
-      .then((doc: any) => {
+      .then((doc: firebase.firestore.DocumentData) => {
         if (doc.exists) {
           let att = doc.data()![chapterName].attributes;
           let counter = 0;
@@ -93,7 +93,7 @@ const getOneNewAttribute = (
     { [key: string]: { input_fields: Array<InputField>; priority: number } }
   ] = [{}];
 
-  Object.keys(att).forEach((attribute: any) => {
+  Object.keys(att).forEach((attribute: string) => {
     let localInputFields: Array<InputField> = [];
     if (attribute == attributeName) {
       attributeObjectList.push({
@@ -104,8 +104,8 @@ const getOneNewAttribute = (
       });
     }
     let inputNr: string = "";
-    Object.keys(att[attribute].input_fields).forEach((inputField: any) => {
-      inputField.split("").forEach((character: any) => {
+    Object.keys(att[attribute].input_fields).forEach((inputField: string) => {
+      inputField.split("").forEach((character: string) => {
         if (is_numeric(character)) {
           inputNr += character;
         }
@@ -118,7 +118,9 @@ const getOneNewAttribute = (
       });
       inputNr = "";
     });
-    localInputFields.sort((a: any, b: any) => a.priority - b.priority);
+    localInputFields.sort(
+      (a: InputField, b: InputField) => a.priority - b.priority
+    );
     attributeObjectList = [
       {
         [attributeName]: {
@@ -143,9 +145,9 @@ export const getListOfAttributes = async (
 
   await docRef
     .get()
-    .then((doc: any) => {
+    .then((doc: firebase.firestore.DocumentData) => {
       let att = doc.data()![chapterName].attributes;
-      Object.keys(att).forEach((attribute: any) => {
+      Object.keys(att).forEach((attribute: string) => {
         if (attribute.includes(attributeName)) {
           let list = getOneNewAttribute(
             attribute,
