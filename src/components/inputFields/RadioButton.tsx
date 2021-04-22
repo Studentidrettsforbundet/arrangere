@@ -18,8 +18,7 @@ const RadioButton: FC<InputProps> = ({ desc, id, chapterName }) => {
   );
 
   const [value, setValue] = useState("");
-  const checkedJa = React.createRef();
-  const checkedNei = React.createRef();
+
   const isInitialMount = useRef(true);
   const docRef = useDocRef();
 
@@ -44,7 +43,6 @@ const RadioButton: FC<InputProps> = ({ desc, id, chapterName }) => {
         <RadioGroup name="radio">
           <FormControlLabel
             value="Ja"
-            ref={checkedJa}
             control={<Radio />}
             label="Ja"
             onChange={() => {
@@ -53,7 +51,6 @@ const RadioButton: FC<InputProps> = ({ desc, id, chapterName }) => {
           />
           <FormControlLabel
             value="Nei"
-            ref={checkedNei}
             control={<Radio />}
             label="Nei"
             onChange={() => {
