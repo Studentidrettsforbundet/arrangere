@@ -1,7 +1,6 @@
 import {
   Button,
   Card,
-  CardActionArea,
   CardActions,
   CardContent,
   CardMedia,
@@ -24,7 +23,7 @@ export const ApplicationCard = (props: CardProps) => {
   const setApplicationForm = useSetRecoilState(choosenApplicationState);
 
   const handleOnClick = async () => {
-    const newDocId = await copyDoc(props.template);
+    const newDocId = await copyDoc(props.template, currentUser);
     setDocID(newDocId);
     addDocToUser(currentUser!.uid, newDocId, props.template);
     setApplicationForm(props.template);
@@ -38,9 +37,11 @@ export const ApplicationCard = (props: CardProps) => {
           {props.title}
         </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions className={classes.actions}>
         <Button
+          className={classes.cardButton}
           component={RouterLink}
+          variant="outlined"
           to={{
             pathname: props.to,
             state: { template: props.template },

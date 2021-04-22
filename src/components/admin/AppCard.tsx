@@ -1,14 +1,19 @@
 import React from "react";
 import {
+  Avatar,
   Button,
   Card,
   CardActions,
   CardContent,
+  CardHeader,
+  CardMedia,
+  Chip,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Divider,
   Typography,
 } from "@material-ui/core";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -19,6 +24,8 @@ import { documentState } from "../../stateManagement/attributesState";
 import { firestore } from "../../firebase";
 import { useEffect, useState } from "react";
 import { deleteApplication } from "../user/deleteApplication";
+import DoneIcon from "@material-ui/icons/Done";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import {
   currentUserState,
   userRoleState,
@@ -27,10 +34,10 @@ import {
 export default function AppCard(props: AppCardProps) {
   const setCurrentApplicationIdState = useSetRecoilState(documentState);
   const setCurrentCollectionState = useSetRecoilState(choosenApplicationState);
-  let [sport, setSport] = useState<any>([]);
-  let [userEmail, setUserEmail] = useState<any>();
+  let [sport, setSport] = useState<string[]>([]);
+  let [userEmail, setUserEmail] = useState<string>();
   let [status, setStatus] = useState<any>();
-  let [organization, setOrganization] = useState<any>();
+  let [organization, setOrganization] = useState<string>();
   let [date, setDate] = useState<Date>();
   const currentUser = useRecoilValue(currentUserState);
   const [open, setOpen] = React.useState(false);
@@ -56,22 +63,6 @@ export default function AppCard(props: AppCardProps) {
       props.onChange(true);
     }
   };
-
-  function getStatus(collectionName: string, applicationId: string) {
-    let tempStatus: string = "";
-    firestore
-      .collection(collectionName + "Applications")
-      .doc(applicationId)
-      .get()
-      .then((doc) => {
-        let docData = doc.data();
-        if (docData !== undefined) {
-          tempStatus = docData.status;
-          setStatus(tempStatus);
-        }
-      });
-    return status;
-  }
 
   useEffect(() => {
     getCardInfo(props.collectionName, props.applicationId);
@@ -99,45 +90,57 @@ export default function AppCard(props: AppCardProps) {
     return status;
   }
 
+  function getTitle() {
+    let title;
+    if (props.collectionName === "sl" || sport == [""]) {
+      title = organization;
+    } else {
+      title = sport + ", " + organization;
+    }
+    console.log(title);
+    return title;
+  }
+
   return (
     <div>
       <Card className={classes.root}>
-        <CardContent>
+        <CardHeader
+          className={classes.header}
+          title={getTitle()}
+          subheader={date}
+          avatar={
+            <Avatar aria-label="recipe" className={classes.avatar}>
+              {props.collectionName}
+            </Avatar>
+          }
+        ></CardHeader>
+        <CardContent className={classes.content}>
           <Typography
-            className={classes.title}
-            color="textSecondary"
-            gutterBottom
+            variant="body2"
+            className={classes.pos}
+            component="p"
+            color="primary"
           >
-            {props.applicationId}
-          </Typography>
-
-          <Typography variant="body2" component="p">
-            type: {props.collectionName}
-          </Typography>
-          <Typography variant="body2" component="p">
-            sport: {sport}
-          </Typography>
-          <Typography variant="body2" component="p">
-            bruker:
             {userEmail}
           </Typography>
-          <Typography variant="body2" component="p">
-            status:
-            {status}
-          </Typography>
-          <Typography variant="body2" component="p">
-            dato: {date}
-          </Typography>
-          <Typography variant="body2" component="p">
-            organisasjon:
-            {organization}
-            status: {status}
-          </Typography>
-          <Typography variant="body2" component="p">
-            dato:
-          </Typography>
+          {status === "submitted" ? (
+            <>
+              <Chip
+                className={classes.submittedColor}
+                label="innsendt"
+                size="small"
+                icon={<DoneIcon className={classes.submittedColor} />}
+              />
+            </>
+          ) : (
+            <Chip
+              className={classes.inProgressColor}
+              label="påbegynt"
+              size="small"
+            />
+          )}
         </CardContent>
-        <CardActions>
+        <CardActions className={classes.actions}>
           <Button
             component={RouterLink}
             variant="outlined"
@@ -154,13 +157,13 @@ export default function AppCard(props: AppCardProps) {
               },
             }}
           >
-            Vis søknad
+            Åpne
           </Button>
 
           {status === "in progress" || userRole === "admin" ? (
             <>
               <Button variant="outlined" size="small" onClick={handleClickOpen}>
-                Slett søknad
+                Slett
               </Button>
               <Dialog
                 open={open}
