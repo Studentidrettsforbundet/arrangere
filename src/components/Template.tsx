@@ -1,9 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { firestore } from "../firebase";
 import { chapterCounterState } from "../stateManagement/choosenApplication";
 import DisplayError from "./DisplayError";
 import Application from "./Application";
+import Skeleton from "@material-ui/lab/Skeleton";
+import Box from "@material-ui/core/Box";
+import { Typography } from "@material-ui/core";
 
 type TemplateProps = {
   choosenApplicationForm: string;
@@ -59,7 +62,10 @@ const Template = (props: TemplateProps) => {
   return (
     <div style={{ width: "100%" }}>
       {loading ? (
-        <p>Laster inn..</p>
+        <Box m={10}>
+          <Typography>Laster inn</Typography>
+          <Skeleton />
+        </Box>
       ) : (
         <Application chapterList={chapterList}></Application>
       )}
