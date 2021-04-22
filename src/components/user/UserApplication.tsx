@@ -66,8 +66,6 @@ export const UserApplication = () => {
     setLoading(false);
   }
 
-  console.log(chapterList);
-
   return (
     <div style={{ width: "100%" }}>
       {loading ? (

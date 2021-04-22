@@ -13,7 +13,7 @@ type TemplateProps = {
 };
 
 const Template = (props: TemplateProps) => {
-  const isInitialMount = useRef(true);
+  const isInitialMount = useRef(true || "");
   const [loading, setLoading] = useState(true);
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
   const setChoosenApplicationForm = useSetRecoilState(choosenApplicationState);
