@@ -15,7 +15,6 @@ import { currentUserState } from "../stateManagement/userAuth";
 import { useStyles } from "../style/cards";
 import { addDocToUser } from "./inputFields/addDocToUser";
 import DisplayError from "./DisplayError";
-import { useEffect, useState } from "react";
 
 export const ApplicationCard = (props: CardProps) => {
   const classes = useStyles();
@@ -148,15 +147,13 @@ export const ApplicationCard = (props: CardProps) => {
 
   return (
     <Card className={classes.root} style={{ width: 250, padding: 25 }}>
-      <CardActionArea>
+      <CardContent>
         <CardMedia className={classes.media} image={props.image} />
-        <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {props.title}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions className={classes.actions}>
+        <Typography variant="body2" color="textSecondary" component="p">
+          {props.title}
+        </Typography>
+      </CardContent>
+      <CardActions>
         <Button
           component={RouterLink}
           to={{
