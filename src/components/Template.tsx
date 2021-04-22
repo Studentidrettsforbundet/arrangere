@@ -1,10 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { firestore } from "../firebase";
-import {
-  chapterCounterState,
-  choosenApplicationState,
-} from "../stateManagement/choosenApplication";
+import { chapterCounterState } from "../stateManagement/choosenApplication";
 import DisplayError from "./DisplayError";
 import Application from "./Application";
 

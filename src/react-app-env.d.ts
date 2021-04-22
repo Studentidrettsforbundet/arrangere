@@ -93,6 +93,11 @@ type ErrorTypes = {
   text: ErrorText;
 };
 
+type ErrorProps = {
+  title: string;
+  message: string;
+};
+
 type HomeAccordionProps = {
   desc: string;
   priority: number;
@@ -114,4 +119,12 @@ type AccordionProps = {
   mainDesc: string;
   chapterName: string;
   onAccordionDelete: (isDeleted: boolean) => void;
+};
+
+type ApplicationProps = {
+  chapterList: Array<Chapter>;
+};
+
+type SubmitButtonProps = {
+  chapterName: string;
 };
