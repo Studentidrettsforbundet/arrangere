@@ -37,25 +37,25 @@ export const UserApplications = () => {
     if (currentUser != null) {
       const doc = await firestore.collection("user").doc(currentUser.uid).get();
       const docData: firebase.firestore.DocumentData = doc.data()!;
-      if(docData != undefined){
-      for (const applicationID in docData.applications) {
-        if (docData.applications[applicationID].id !== undefined) {
-          if (docData.applications[applicationID].status === "submitted") {
-            submittedApplicationIDs.push({
-              id: docData.applications[applicationID].id,
-              collection: docData.applications[applicationID].collection,
-            });
-          } else {
-            inProgressApplicationIDs.push({
-              id: docData.applications[applicationID].id,
-              collection: docData.applications[applicationID].collection,
-            });
+      if (docData != undefined) {
+        for (const applicationID in docData.applications) {
+          if (docData.applications[applicationID].id !== undefined) {
+            if (docData.applications[applicationID].status === "submitted") {
+              submittedApplicationIDs.push({
+                id: docData.applications[applicationID].id,
+                collection: docData.applications[applicationID].collection,
+              });
+            } else {
+              inProgressApplicationIDs.push({
+                id: docData.applications[applicationID].id,
+                collection: docData.applications[applicationID].collection,
+              });
+            }
           }
         }
+        setSubmittedApplicationIDs(submittedApplicationIDs);
+        setInProgressApplicationIDs(inProgressApplicationIDs);
       }
-      setSubmittedApplicationIDs(submittedApplicationIDs);
-      setInProgressApplicationIDs(inProgressApplicationIDs);
-    }
     }
   }
 
