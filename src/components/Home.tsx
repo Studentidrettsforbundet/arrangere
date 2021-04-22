@@ -1,70 +1,72 @@
 import { useEffect, useState } from "react";
 import { firestore } from "../firebase";
-import { InfoLongText } from "./InfoLongText";
-import { Typography, Box } from "@material-ui/core";
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+  Box,
+} from "@material-ui/core";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
-export default function Home() {
-  const [loading, setLoading] = useState(true);
-  const [chapterList, setChapterList] = useState<InfoLongTextProps[]>([]);
+const Home = () => {
+  const [accordions, setAccordions] = useState<HomeAccordionProps[]>([]);
   useEffect(() => {
-    generateApplicationForm();
+    generateAccordions();
   }, []);
 
-  async function generateApplicationForm() {
-    setLoading(true);
-    let chapterListLocal: Array<InfoLongTextProps> = [];
-
+  async function generateAccordions() {
+    let listOfAccordions: Array<HomeAccordionProps> = [];
     await firestore
       .collection("userHomePage")
       .get()
       .then((snapshot) => {
-        snapshot.docs.forEach((chapter) => {
-          if (chapter.exists) {
-            chapterListLocal.push({
-              title: chapter.data().title,
-              desc: chapter.data().desc,
-              priority: chapter.data().priority,
+        snapshot.docs.forEach((accordion) => {
+          if (accordion.exists) {
+            listOfAccordions.push({
+              title: accordion.data().title,
+              desc: accordion.data().desc,
+              priority: accordion.data().priority,
             });
-          } else {
-            console.log("No such document!");
-            throw new Error("No document.");
           }
         });
-      })
-      .catch((error) => {
-        console.log("Error getting document: ", error);
       });
-    setChapterList(chapterListLocal);
-    chapterListLocal = [];
-    setLoading(false);
+    setAccordions(listOfAccordions);
+    listOfAccordions = [];
   }
 
-  const renderChapters = (chapterList: Array<InfoLongTextProps>) => {
-    const chapters: any = [];
-    chapterList.map((chapter: InfoLongTextProps) => {
-      chapters.push(
-        <InfoLongText
-          key={chapter.title}
-          desc={chapter.desc}
-          priority={chapter.priority}
-          title={chapter.title}
-        />
+  const renderAccordions = (accordionList: Array<HomeAccordionProps>) => {
+    const accordions: any = [];
+    accordionList.map((accordion: HomeAccordionProps, i) => {
+      accordions.push(
+        <Box p={0.5} key={i}>
+          <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography>{accordion.title}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>{accordion.desc}</Typography>
+            </AccordionDetails>
+          </Accordion>
+        </Box>
       );
     });
-    chapterList.sort(
-      (a: InfoLongTextProps, b: InfoLongTextProps) => a.priority - b.priority
+    accordionList.sort(
+      (a: HomeAccordionProps, b: HomeAccordionProps) => a.priority - b.priority
     );
-    return chapters;
+    return accordions;
   };
 
   return (
     <div role="main">
       <Box p={10}>
         <Typography variant="h1">
-          Velkommen til Norges studenidrettsforbunds søknadsportal
+          Velkommen til Norges studentidrettsforbunds søknadsportal
         </Typography>
-        <Box py={2}>{renderChapters(chapterList)}</Box>
+        <Box py={2}>{renderAccordions(accordions)}</Box>
       </Box>
     </div>
   );
-}
+};
+
+export default Home;

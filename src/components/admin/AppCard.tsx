@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Button,
   Card,
@@ -16,20 +16,25 @@ import { useStyles } from "../../style/cards";
 import { Link as RouterLink } from "react-router-dom";
 import { choosenApplicationState } from "../../stateManagement/choosenApplication";
 import { documentState } from "../../stateManagement/attributesState";
+import { firestore } from "../../firebase";
+import { useEffect, useState } from "react";
 import { deleteApplication } from "../user/deleteApplication";
 import {
   currentUserState,
   userRoleState,
 } from "../../stateManagement/userAuth";
-import { firestore } from "../../firebase";
 
 export default function AppCard(props: AppCardProps) {
   const setCurrentApplicationIdState = useSetRecoilState(documentState);
   const setCurrentCollectionState = useSetRecoilState(choosenApplicationState);
+  let [sport, setSport] = useState<any>([]);
+  let [userEmail, setUserEmail] = useState<any>();
+  let [status, setStatus] = useState<any>();
+  let [organization, setOrganization] = useState<any>();
+  let [date, setDate] = useState<Date>();
   const currentUser = useRecoilValue(currentUserState);
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
-  let [status, setStatus] = useState<any>();
   const [userRole, setUserRole] = useRecoilState(userRoleState);
 
   const handleClickOpen = () => {
@@ -47,7 +52,9 @@ export default function AppCard(props: AppCardProps) {
       currentUser!.uid
     );
     handleClose();
-    props.onChange(true);
+    if (props.onChange != undefined) {
+      props.onChange(true);
+    }
   };
 
   function getStatus(collectionName: string, applicationId: string) {
@@ -66,6 +73,32 @@ export default function AppCard(props: AppCardProps) {
     return status;
   }
 
+  useEffect(() => {
+    getCardInfo(props.collectionName, props.applicationId);
+  }, []);
+
+  function getCardInfo(collectionName: string, applicationId: string) {
+    firestore
+      .collection(collectionName + "Applications")
+      .doc(applicationId)
+      .get()
+      .then((doc) => {
+        let docData = doc.data();
+        if (docData != undefined) {
+          setStatus(docData.status);
+          setOrganization(docData.user_organization);
+          setUserEmail(docData.user_email);
+          setDate(docData.date);
+          if (docData.general != undefined) {
+            setSport(
+              docData!.general.attributes.general.input_fields.input3.value
+            );
+          }
+        }
+      });
+    return status;
+  }
+
   return (
     <div>
       <Card className={classes.root}>
@@ -79,10 +112,26 @@ export default function AppCard(props: AppCardProps) {
           </Typography>
 
           <Typography variant="body2" component="p">
-            bruker:
+            type: {props.collectionName}
           </Typography>
           <Typography variant="body2" component="p">
-            status: {getStatus(props.collectionName, props.applicationId)}
+            sport: {sport}
+          </Typography>
+          <Typography variant="body2" component="p">
+            bruker:
+            {userEmail}
+          </Typography>
+          <Typography variant="body2" component="p">
+            status:
+            {status}
+          </Typography>
+          <Typography variant="body2" component="p">
+            dato: {date}
+          </Typography>
+          <Typography variant="body2" component="p">
+            organisasjon:
+            {organization}
+            status: {status}
           </Typography>
           <Typography variant="body2" component="p">
             dato:

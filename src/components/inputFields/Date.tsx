@@ -1,10 +1,10 @@
 import React, { FC, useEffect, useRef, useState } from "react";
-import { useStyles } from "./inputStyles";
-import { Typography, TextField, Box, InputLabel } from "@material-ui/core";
+import { TextField, Box, InputLabel, Typography } from "@material-ui/core";
 import { useRecoilState } from "recoil";
 import { inputFieldObjectState } from "../../stateManagement/attributesState";
 import { addFieldInputObject, useDocRef } from "./saveInputFields";
 import { getInputValue } from "./getInputValue";
+import { useStyles } from "../../style/inputStyles";
 
 const Date: FC<InputProps> = ({ desc, id, chapterName }) => {
   const classes = useStyles();
@@ -43,7 +43,7 @@ const Date: FC<InputProps> = ({ desc, id, chapterName }) => {
 
   return (
     <Box py={2}>
-      <InputLabel>{desc}</InputLabel>
+      <Typography>{desc}</Typography>
       <form noValidate>
         <TextField
           id={id}

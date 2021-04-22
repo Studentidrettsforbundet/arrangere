@@ -69,15 +69,26 @@ export const ApplicationReview = () => {
 
     return (
       <div>
-        {inputFieldList.map((inputField) => {
+        {inputFieldList.map((inputField, i) => {
+          let value = inputField.value;
+          if (value != undefined) {
+            if (inputField.value.includes("Filename")) {
+              let urlAndName = inputField.value.split(".Filename:");
+              value = (
+                <a href={urlAndName[0]} download>
+                  {urlAndName[1]}
+                </a>
+              );
+            }
+          }
           return (
-            <Box pb={3}>
+            <Box pb={3} key={i}>
               <Typography style={{ fontWeight: "bold" }} variant="subtitle1">
                 {inputField.desc}
               </Typography>
               <Typography variant="body1">
                 Svar:
-                {inputField.value}
+                {value}
               </Typography>
             </Box>
           );
@@ -96,9 +107,9 @@ export const ApplicationReview = () => {
 
     return (
       <div>
-        {attributeList.map((attribute) => {
+        {attributeList.map((attribute, i) => {
           return (
-            <div>
+            <div key={i}>
               <h2>{attribute.title}</h2>
               <h3>{attribute.desc}</h3>
               {renderInputFields(attribute.input_fields)}
@@ -113,9 +124,9 @@ export const ApplicationReview = () => {
     chapterList.sort((a: Chapter, b: Chapter) => a.priority - b.priority);
     return (
       <div style={{ width: "100%" }}>
-        {chapterList.map((chapter: Chapter) => {
+        {chapterList.map((chapter: Chapter, i) => {
           return (
-            <div>
+            <div key={i}>
               <Typography style={{ color: "#00adee" }} variant="h4">
                 {chapter.title}
               </Typography>
