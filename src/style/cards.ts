@@ -11,14 +11,14 @@ export const useStyles = makeStyles({
   content: {
     flexDirection: "column",
   },
-  header:{
+  header: {
     alignItems: "center",
   },
   actions: {
     display: "flex",
     alignItems: "center",
     flexDirection: "row",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   media: {
     height: 30,
@@ -31,19 +31,18 @@ export const useStyles = makeStyles({
   },
   inProgressColor: {
     color: "white",
-    backgroundColor: "#F4BC1C"
+    backgroundColor: "#F4BC1C",
     // borderColor: "#EC9706",
     // color: "#EC9706",
   },
-  submittedColor:{
-    color:"white",
-    backgroundColor:"#8DB600"
+  submittedColor: {
+    color: "white",
+    backgroundColor: "#8DB600",
     // borderColor: "#66a113",
     // color: "#66a113",
   },
   avatar: {
     backgroundColor: "black",
-    fontSize: 18
+    fontSize: 18,
   },
-  
 });
