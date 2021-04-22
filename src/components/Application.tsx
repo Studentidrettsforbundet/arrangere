@@ -11,6 +11,7 @@ import { saveInput, useDocRef } from "./inputFields/saveInputFields";
 import { inputFieldObjectState } from "../stateManagement/attributesState";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import { ReactElement } from "react";
 
 type Props = {
   chapterList: Array<Chapter>;
@@ -26,7 +27,7 @@ const Application = (props: Props) => {
   const inputFieldObject = useRecoilValue(inputFieldObjectState);
 
   const renderChapters = (chapterList: Array<Chapter>) => {
-    const chapters: any = [];
+    const chapters: ReactElement[] = [];
     chapterList.map((chapter: Chapter) => {
       chapters.push(
         <ChapterWrapper
@@ -42,7 +43,7 @@ const Application = (props: Props) => {
   };
 
   const renderButtons = (chapterList: Array<Chapter>) => {
-    const chapterButtons: any = [];
+    const chapterButtons: ReactElement[] = [];
     chapterList.map((chapter: Chapter) => {
       chapterButtons.push(
         <ChapterButton

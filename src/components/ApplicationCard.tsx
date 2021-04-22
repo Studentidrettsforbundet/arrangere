@@ -15,7 +15,6 @@ import { currentUserState } from "../stateManagement/userAuth";
 import { useStyles } from "../style/cards";
 import { addDocToUser } from "./inputFields/addDocToUser";
 import DisplayError from "./DisplayError";
-import { useEffect, useState } from "react";
 
 export const ApplicationCard = (props: CardProps) => {
   const classes = useStyles();
@@ -104,18 +103,18 @@ export const ApplicationCard = (props: CardProps) => {
           });
       });
 
-      let tempOrganization = "";
+      let organization = "";
 
-      const organization = await firestore
+      await firestore
         .collection("user")
         .doc(currentUser?.uid)
         .get()
         .then((doc) => {
           const data = doc!.data();
           if (data != undefined) {
-            tempOrganization = data.organization;
+            organization = data.organization;
           }
-          return tempOrganization;
+          return organization;
         });
 
       await firestore
@@ -126,7 +125,7 @@ export const ApplicationCard = (props: CardProps) => {
             status: "in progress",
             user_id: [currentUser?.uid],
             user_email: [currentUser?.email],
-            user_organization: tempOrganization,
+            user_organization: organization,
             date: dateStr,
           },
           { merge: true }
@@ -166,7 +165,6 @@ export const ApplicationCard = (props: CardProps) => {
           size="small"
           color="primary"
           onClick={() => {
-            // getOrganization();
             copyDoc(props.template);
           }}
         >

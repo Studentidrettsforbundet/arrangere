@@ -1,6 +1,6 @@
 import { Button } from "@material-ui/core";
 import { FC } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { inputFieldObjectState } from "../stateManagement/attributesState";
 import {
   chapterCounterState,
@@ -11,9 +11,7 @@ import { saveInput, useDocRef } from "./inputFields/saveInputFields";
 
 const ChapterButton: FC<ButtonProps> = ({ title, priority }) => {
   const currentChapter = useRecoilValue(currentChapterState);
-  const [chapterCounter, setChapterCounter] = useRecoilState(
-    chapterCounterState
-  );
+  const setChapterCounter = useSetRecoilState(chapterCounterState);
   const docRef = useDocRef();
   const inputFieldObject = useRecoilValue(inputFieldObjectState);
   const classes = useStyles();

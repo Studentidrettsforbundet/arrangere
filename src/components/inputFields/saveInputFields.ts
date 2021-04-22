@@ -1,4 +1,4 @@
-import { RecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import { firestore } from "../../firebase";
 import { documentState } from "../../stateManagement/attributesState";
 import { choosenApplicationState } from "../../stateManagement/choosenApplication";

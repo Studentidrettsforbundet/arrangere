@@ -1,5 +1,5 @@
 import { Box, Typography } from "@material-ui/core";
-import React, { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { inputFieldObjectState } from "../stateManagement/attributesState";
 import InputWrapper from "./inputFields/InputWrapper";

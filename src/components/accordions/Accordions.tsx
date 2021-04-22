@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from "@material-ui/core";
-import React, { FC, ReactElement, useEffect, useState } from "react";
+import { FC, ReactElement, useEffect, useState } from "react";
 import firebase from "firebase";
 import AccordionComponent from "./AccordionComponent";
 import {

@@ -1,7 +1,5 @@
 import Template from "./Template";
 import { useEffect, useState } from "react";
-import { useSetRecoilState } from "recoil";
-import { choosenApplicationState } from "../stateManagement/choosenApplication";
 import { Skeleton } from "@material-ui/lab";
 import { Box, Typography } from "@material-ui/core";
 
