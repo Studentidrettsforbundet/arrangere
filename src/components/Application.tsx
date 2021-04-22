@@ -13,11 +13,7 @@ import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import { ReactElement } from "react";
 
-type Props = {
-  chapterList: Array<Chapter>;
-};
-
-const Application = (props: Props) => {
+const Application = (props: ApplicationProps) => {
   const classes = useStyles();
   const docRef = useDocRef();
   const setCurrentChapterState = useSetRecoilState(currentChapterState);

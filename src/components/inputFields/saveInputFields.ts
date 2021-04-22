@@ -53,6 +53,6 @@ export const addFieldInputObject = (
   let inputFieldObjectLocal = Object.assign({}, inputFieldObject);
   Object.assign(inputFieldObjectLocal, { [id]: value });
   Object.assign(inputFieldObjectLocal, { chapterName: chapterName });
-  console.log(inputFieldObjectLocal);
+  console.log("inputFieldObjectLocal", inputFieldObjectLocal);
   return inputFieldObjectLocal;
 };

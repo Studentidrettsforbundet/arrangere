@@ -19,10 +19,6 @@ import { setStatusToSubmitted } from "./inputFields/setStatusToSubmitted";
 import { useDocRef } from "./inputFields/saveInputFields";
 import firebase from "firebase";
 
-type SubmitButtonProps = {
-  chapterName: string;
-};
-
 export const SubmitButton: FC<SubmitButtonProps> = ({ chapterName }) => {
   const [open, setOpen] = useState(false);
   const currentDocID = useRecoilValue(documentState);

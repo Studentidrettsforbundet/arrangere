@@ -20,6 +20,8 @@ export const firestore = firebase.firestore();
 
 export const auth = app.auth();
 
+firebase.firestore().settings({ experimentalAutoDetectLongPolling: true });
+
 firestore.useEmulator("localhost", 8080);
 firebase
   .auth()
