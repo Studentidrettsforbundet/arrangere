@@ -5,15 +5,15 @@ import AppCard from "./AppCard";
 import Grid from "@material-ui/core/Grid";
 
 export default function ReceivedAppPage() {
-  let [snmApplicationIDs, setSnmApplicationIDs] = useState<any>([]);
-  let [scApplicationIDs, setScApplicationIDs] = useState<any>([]);
-  let [slApplicationIDs, setSlApplicationIDs] = useState<any>([]);
+  let [snmApplicationIDs, setSnmApplicationIDs] = useState<string[]>();
+  let [scApplicationIDs, setScApplicationIDs] = useState<string[]>();
+  let [slApplicationIDs, setSlApplicationIDs] = useState<string[]>();
   const [updateState, setUpdateState] = useState(false);
 
   useEffect(() => {
-    snmApplicationIDs = getSnmApplicationsID("snmApplications");
-    scApplicationIDs = getScApplicationsID("scApplications");
-    slApplicationIDs = getSlApplicationsID("slApplications");
+    getSnmApplicationsID("snmApplications");
+    getScApplicationsID("scApplications");
+    getSlApplicationsID("slApplications");
     if (updateState) {
       setUpdateState(false);
     }
@@ -68,7 +68,7 @@ export default function ReceivedAppPage() {
       <h1>Innsendte søknader</h1>
       <h2>Student-NM</h2>
       <Grid container alignItems="stretch">
-        {snmApplicationIDs.map((applicationID: string) => {
+        {snmApplicationIDs?.map((applicationID: string) => {
           return (
             <AppCard
               key={applicationID}
@@ -82,7 +82,7 @@ export default function ReceivedAppPage() {
       </Grid>
       <h2>Studentleker</h2>
       <Grid container alignItems="stretch">
-        {slApplicationIDs.map((applicationID: string) => {
+        {slApplicationIDs?.map((applicationID: string) => {
           return (
             <AppCard
               key={applicationID}
@@ -96,7 +96,7 @@ export default function ReceivedAppPage() {
       </Grid>
       <h2>Student-Cup</h2>
       <Grid container alignItems="stretch">
-        {scApplicationIDs.map((applicationID: string) => {
+        {scApplicationIDs?.map((applicationID: string) => {
           return (
             <AppCard
               key={applicationID}

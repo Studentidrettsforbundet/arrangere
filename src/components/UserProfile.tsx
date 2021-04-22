@@ -14,12 +14,12 @@ import {
 export default function UserProfile() {
   const [loading, setLoading] = useState(false);
   const currentUser = useRecoilValue(currentUserState);
-  let [organizationName, setOrganizationName] = useState<any>();
+  let [organizationName, setOrganizationName] = useState<string>();
   let [
     organizationAccountNumber,
     setOrganizationAccountNumber,
-  ] = useState<String>();
-  let [organizationNumber, setOrganizationNumber] = useState<String>();
+  ] = useState<string>();
+  let [organizationNumber, setOrganizationNumber] = useState<string>();
   const classes = useStyles();
   var db = firebase.firestore();
 
@@ -47,7 +47,6 @@ export default function UserProfile() {
 
   async function retriveOrganizationInfo() {
     if (organizationName != "") {
-      //setLoading(true);
       await db
         .collection("organizations")
         .doc(organizationName)

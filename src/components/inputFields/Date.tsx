@@ -1,5 +1,5 @@
-import React, { FC, useEffect, useRef, useState } from "react";
-import { TextField, Box, InputLabel, Typography } from "@material-ui/core";
+import { FC, useEffect, useRef, useState } from "react";
+import { TextField, Box, Typography } from "@material-ui/core";
 import { useRecoilState } from "recoil";
 import { inputFieldObjectState } from "../../stateManagement/attributesState";
 import { addFieldInputObject, useDocRef } from "./saveInputFields";
@@ -19,7 +19,7 @@ const Date: FC<InputProps> = ({ desc, id, chapterName }) => {
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
-      getInputValue(docRef, chapterName, id).then((value) => {
+      getInputValue(docRef!, chapterName, id).then((value) => {
         setValue(value);
       });
     }

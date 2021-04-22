@@ -2,6 +2,7 @@ import { useRecoilValue } from "recoil";
 import { firestore } from "../../firebase";
 import { documentState } from "../../stateManagement/attributesState";
 import { choosenApplicationState } from "../../stateManagement/choosenApplication";
+import firebase from "firebase";
 
 export function useDocRef() {
   const docID = useRecoilValue(documentState);
@@ -13,7 +14,10 @@ export function useDocRef() {
   }
 }
 
-export const saveInput = (docRef: any, inputFieldObject: any) => {
+export const saveInput = (
+  docRef: firebase.firestore.DocumentReference<firebase.firestore.DocumentData>,
+  inputFieldObject: any
+) => {
   Object.entries(inputFieldObject).forEach(([key, value]) => {
     if (key != "chapterName") {
       let attributeName: string = "";
@@ -32,7 +36,7 @@ export const saveInput = (docRef: any, inputFieldObject: any) => {
         .then(() => {
           console.log("Field updated!");
         })
-        .catch((error: any) => {
+        .catch((error) => {
           console.log("Error occured: ", error);
           throw new Error("Could not update field.");
         });
