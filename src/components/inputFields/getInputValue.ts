@@ -22,7 +22,7 @@ export async function getInputValue(
       return value;
     })
     .catch((error: any) => {
-      console.log("Error in retrieving value:", error);
+      console.error(error);
     });
   return value;
 }
