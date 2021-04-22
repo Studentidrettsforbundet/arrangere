@@ -128,3 +128,8 @@ type ApplicationProps = {
 type SubmitButtonProps = {
   chapterName: string;
 };
+
+type ApplicationID = {
+  id: string;
+  collection: string;
+};
