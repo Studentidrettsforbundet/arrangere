@@ -23,11 +23,6 @@ export const currentApplicationIdState = atom<string>({
   default: "",
 });
 
-export const currentCollectionState = atom<string>({
-  key: "currentCollectionState",
-  default: "",
-});
-
 export const previousChapterState = atom<string>({
   key: "previousChapterState",
   default: "",

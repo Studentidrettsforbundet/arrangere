@@ -6,7 +6,6 @@ import { documentState } from "../../stateManagement/attributesState";
 import {
   choosenApplicationState,
   currentApplicationIdState,
-  currentCollectionState,
 } from "../../stateManagement/choosenApplication";
 import { useStyles } from "../../style/chapters";
 
