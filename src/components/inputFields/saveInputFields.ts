@@ -1,4 +1,4 @@
-import { useRecoilValue } from "recoil";
+import { RecoilState, useRecoilValue } from "recoil";
 import { firestore } from "../../firebase";
 import { documentState } from "../../stateManagement/attributesState";
 import { choosenApplicationState } from "../../stateManagement/choosenApplication";
@@ -36,7 +36,7 @@ export const saveInput = (
         .then(() => {
           console.log("Field updated!");
         })
-        .catch((error: any) => {
+        .catch((error) => {
           console.log("Error occured: ", error);
           throw new Error("Could not update field.");
         });

@@ -1,11 +1,5 @@
 import React, { FC, useEffect, useRef, useState } from "react";
-import {
-  Typography,
-  Box,
-  FormLabel,
-  InputLabel,
-  Button,
-} from "@material-ui/core";
+import { Box, Button } from "@material-ui/core";
 import { addFieldInputObject, useDocRef } from "./saveInputFields";
 import { getInputValue } from "./getInputValue";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -15,7 +9,6 @@ import {
   documentState,
   inputFieldObjectState,
 } from "../../stateManagement/attributesState";
-import AddIcon from "@material-ui/icons/Add";
 
 const FileUpload: FC<InputProps> = ({ desc, id, chapterName }) => {
   const docID = useRecoilValue(documentState);
@@ -31,7 +24,7 @@ const FileUpload: FC<InputProps> = ({ desc, id, chapterName }) => {
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
-      getInputValue(docRef, chapterName, id).then((value) => {
+      getInputValue(docRef!, chapterName, id).then((value) => {
         if (value != undefined) {
           let urlAndName = value.split(".Filename:");
           setFileUrl(urlAndName[0]);

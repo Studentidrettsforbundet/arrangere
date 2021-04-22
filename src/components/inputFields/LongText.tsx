@@ -17,7 +17,7 @@ const LongText: FC<InputProps> = ({ desc, id, chapterName }) => {
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
-      getInputValue(docRef, chapterName, id).then((value) => {
+      getInputValue(docRef!, chapterName, id).then((value) => {
         setValue(value);
       });
     }

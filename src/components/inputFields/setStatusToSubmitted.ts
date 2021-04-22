@@ -6,15 +6,14 @@ export const setStatusToSubmitted = async (
   userID: string,
   application: string
 ) => {
-  let docStatus: any = {};
-  docStatus[`status`] = "submitted";
-
   docRef
-    .update(docStatus)
+    .update({
+      status: "submitted",
+    })
     .then(() => {
       console.log("Status updated in doc!");
     })
-    .catch((error: any) => {
+    .catch((error) => {
       console.log("Error occured: ", error);
       throw new Error("Could not update field.");
     });
