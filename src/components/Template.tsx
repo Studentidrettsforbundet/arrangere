@@ -1,10 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { firestore } from "../firebase";
-import {
-  chapterCounterState,
-  choosenApplicationState,
-} from "../stateManagement/choosenApplication";
+import { chapterCounterState } from "../stateManagement/choosenApplication";
 import DisplayError from "./DisplayError";
 import Application from "./Application";
 
@@ -16,13 +13,11 @@ const Template = (props: TemplateProps) => {
   const isInitialMount = useRef(true);
   const [loading, setLoading] = useState(true);
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
-  const setChoosenApplicationForm = useSetRecoilState(choosenApplicationState);
   const setChapterCounter = useSetRecoilState(chapterCounterState);
 
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
-      setChoosenApplicationForm(props.choosenApplicationForm);
       setChapterCounter(0);
     }
     generateApplicationForm();

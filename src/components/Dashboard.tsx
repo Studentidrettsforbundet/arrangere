@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Route } from "react-router";
 import { BrowserRouter, Redirect } from "react-router-dom";
 import { ChooseApplication } from "./ChooseApplication";
@@ -12,7 +11,6 @@ import { ApplicationReview } from "./admin/ApplicationReview";
 import ReceivedAppPage from "./admin/ReceivedAppPage";
 import { useEffect } from "react";
 import firebase from "firebase";
-import Template from "./Template";
 import { UserApplication } from "./user/UserApplication";
 
 export default function Dashboard() {
