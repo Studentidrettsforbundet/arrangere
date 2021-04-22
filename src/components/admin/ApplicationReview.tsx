@@ -3,18 +3,10 @@ import firebase from "firebase";
 import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { documentState } from "../../stateManagement/attributesState";
-import {
-  choosenApplicationState,
-  currentApplicationIdState,
-  currentCollectionState,
-} from "../../stateManagement/choosenApplication";
-import { useStyles } from "../../style/chapters";
+import { choosenApplicationState } from "../../stateManagement/choosenApplication";
 
 export const ApplicationReview = () => {
-  const classes = useStyles();
   var db = firebase.firestore();
-  // let currentApplicationId: string = useRecoilValue(currentApplicationIdState);
-  // let currentCollection: string = useRecoilValue(currentCollectionState);
   let currentApplicationId: string = useRecoilValue(documentState);
   let currentCollection: string = useRecoilValue(choosenApplicationState);
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
@@ -59,7 +51,7 @@ export const ApplicationReview = () => {
   }
 
   const renderInputFields = (inputFields: Array<InputField>) => {
-    let inputFieldList: Array<any> = [];
+    let inputFieldList: InputField[] = [];
     for (const inputField in inputFields) {
       inputFieldList.push(inputFields[inputField]);
     }
@@ -70,36 +62,38 @@ export const ApplicationReview = () => {
 
     return (
       <div>
-        {inputFieldList.map((inputField, i) => {
-          let value = inputField.value;
-          if (value != undefined) {
-            if (inputField.value.includes("Filename")) {
-              let urlAndName = inputField.value.split(".Filename:");
-              value = (
-                <a href={urlAndName[0]} download>
-                  {urlAndName[1]}
-                </a>
-              );
+        {inputFieldList.map(
+          (inputField: firebase.firestore.DocumentData, i: number) => {
+            let value = inputField.value;
+            if (value != undefined) {
+              if (inputField.value.includes("Filename")) {
+                let urlAndName = inputField.value.split(".Filename:");
+                value = (
+                  <a href={urlAndName[0]} download>
+                    {urlAndName[1]}
+                  </a>
+                );
+              }
             }
+            return (
+              <Box pb={3} key={i}>
+                <Typography style={{ fontWeight: "bold" }} variant="subtitle1">
+                  {inputField.desc}
+                </Typography>
+                <Typography variant="body1">
+                  Svar:
+                  {value}
+                </Typography>
+              </Box>
+            );
           }
-          return (
-            <Box pb={3} key={i}>
-              <Typography style={{ fontWeight: "bold" }} variant="subtitle1">
-                {inputField.desc}
-              </Typography>
-              <Typography variant="body1">
-                Svar:
-                {value}
-              </Typography>
-            </Box>
-          );
-        })}
+        )}
       </div>
     );
   };
 
   const renderAttributes = (attributes: Array<Attribute>) => {
-    let attributeList: Array<any> = [];
+    let attributeList: Attribute[] = [];
     for (const attribute in attributes) {
       attributeList.push(attributes[attribute]);
     }
@@ -108,15 +102,17 @@ export const ApplicationReview = () => {
 
     return (
       <div>
-        {attributeList.map((attribute, i) => {
-          return (
-            <div key={i}>
-              <h2>{attribute.title}</h2>
-              <h3>{attribute.desc}</h3>
-              {renderInputFields(attribute.input_fields)}
-            </div>
-          );
-        })}
+        {attributeList.map(
+          (attribute: firebase.firestore.DocumentData, i: number) => {
+            return (
+              <div key={i}>
+                <h2>{attribute.title}</h2>
+                <h3>{attribute.desc}</h3>
+                {renderInputFields(attribute.input_fields)}
+              </div>
+            );
+          }
+        )}
       </div>
     );
   };
