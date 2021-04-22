@@ -58,14 +58,14 @@ const Application = (props: Props) => {
   const nextChapter = () => {
     if (chapterCounter < props.chapterList.length - 1) {
       setChapterCounter(chapterCounter + 1);
-      saveInput(docRef, inputFieldObject);
+      saveInput(docRef!, inputFieldObject);
     }
   };
 
   const prevChapter = () => {
     if (chapterCounter > 0) {
       setChapterCounter(chapterCounter - 1);
-      saveInput(docRef, inputFieldObject);
+      saveInput(docRef!, inputFieldObject);
     }
   };
 

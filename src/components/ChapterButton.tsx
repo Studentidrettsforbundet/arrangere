@@ -20,7 +20,7 @@ const ChapterButton: FC<ButtonProps> = ({ title, priority }) => {
 
   const navToChapter = () => {
     setChapterCounter(priority - 1);
-    saveInput(docRef, inputFieldObject);
+    saveInput(docRef!, inputFieldObject);
   };
 
   if (title == currentChapter) {

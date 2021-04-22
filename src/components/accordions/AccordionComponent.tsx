@@ -48,7 +48,7 @@ const AccordionComponent: FC<AccordionProps> = ({
       .update({
         [fieldPath]: firebase.firestore.FieldValue.delete(),
       })
-      .catch((error: any) => {
+      .catch((error) => {
         console.log("Could not delete", error);
       });
 
