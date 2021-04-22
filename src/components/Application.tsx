@@ -12,11 +12,7 @@ import { inputFieldObjectState } from "../stateManagement/attributesState";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 
-type Props = {
-  chapterList: Array<Chapter>;
-};
-
-const Application = (props: Props) => {
+const Application = (props: ApplicationProps) => {
   const classes = useStyles();
   const docRef = useDocRef();
   const setCurrentChapterState = useSetRecoilState(currentChapterState);

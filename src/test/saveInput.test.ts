@@ -7,6 +7,7 @@ import {
 } from "../components/inputFields/saveInputFields";
 import { getInputValue } from "../components/inputFields/getInputValue";
 import { firestore } from "../firebase";
+
 describe("Test", () => {
   it("test if addFieldInputObject sets fields", () => {
     const inputFieldObject = addFieldInputObject(
