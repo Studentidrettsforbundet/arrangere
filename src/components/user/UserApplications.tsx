@@ -102,9 +102,20 @@ export const UserApplications = () => {
         Mine påbegynte søknader
       </Typography>
       {inProgressApplicationIDs.length === 0 ? (
-        <p>Du har ingen påbegynte søknader.</p>
+        <p style={{ color: "#707070", textAlign: "center", padding: 30 }}>
+          Du har ingen påbegynte søknader.
+        </p>
       ) : (
-        <Box>{renderInProgressApplications()}</Box>
+        <Box>
+          <Grid
+            container
+            direction="row"
+            justify="flex-start"
+            alignItems="flex-start"
+          >
+            {renderInProgressApplications()}
+          </Grid>
+        </Box>
       )}
 
       <br></br>
@@ -122,7 +133,16 @@ export const UserApplications = () => {
       {submittedApplicationIDs.length === 0 ? (
         <p>Du har ingen innsendte søknader.</p>
       ) : (
-        <Box>{renderSubmittedApplications()}</Box>
+        <Box>
+          <Grid
+            container
+            direction="row"
+            justify="flex-start"
+            alignItems="flex-start"
+          >
+            {renderSubmittedApplications()}
+          </Grid>
+        </Box>
       )}
     </div>
   );

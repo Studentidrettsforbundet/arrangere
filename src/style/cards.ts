@@ -1,6 +1,8 @@
-import { makeStyles } from "@material-ui/core";
+import { createStyles, makeStyles, Theme } from "@material-ui/core";
+import { isWhiteSpaceLike } from "typescript";
 
-export const useStyles = makeStyles({
+export const useStyles = makeStyles((theme: Theme)=>
+createStyles({
   root: {
     width: 300,
     margin: 20,
@@ -20,6 +22,10 @@ export const useStyles = makeStyles({
     flexDirection: "row",
     justifyContent: "center",
   },
+  cardButton:{
+    color: theme.palette.secondary.dark,
+    borderColor: theme.palette.secondary.dark,
+  },
   media: {
     height: 30,
   },
@@ -32,17 +38,14 @@ export const useStyles = makeStyles({
   inProgressColor: {
     color: "white",
     backgroundColor: "#F4BC1C",
-    // borderColor: "#EC9706",
-    // color: "#EC9706",
   },
   submittedColor: {
     color: "white",
     backgroundColor: "#8DB600",
-    // borderColor: "#66a113",
-    // color: "#66a113",
   },
   avatar: {
     backgroundColor: "black",
     fontSize: 18,
   },
-});
+})
+);

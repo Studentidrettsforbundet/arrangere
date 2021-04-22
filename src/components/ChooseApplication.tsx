@@ -7,9 +7,8 @@ import { UserApplications } from "./user/UserApplications";
 import { useStyles } from "../style/cards";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "../stateManagement/userAuth";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { firestore } from "../firebase";
-import AppCard from "./admin/AppCard";
 
 export const ChooseApplication = () => {
   const [submittedApplicationIDs, setSubmittedApplicationIDs] = useState<

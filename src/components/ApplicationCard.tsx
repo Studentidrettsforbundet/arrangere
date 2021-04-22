@@ -153,15 +153,16 @@ export const ApplicationCard = (props: CardProps) => {
           {props.title}
         </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions className={classes.actions}>
         <Button
           component={RouterLink}
+          variant="outlined"
           to={{
             pathname: props.to,
             state: { template: props.template },
           }}
           size="small"
-          color="primary"
+          className={classes.cardButton}
           onClick={() => {
             copyDoc(props.template);
           }}

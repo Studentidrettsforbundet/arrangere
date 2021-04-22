@@ -104,14 +104,6 @@ export default function AppCard(props: AppCardProps) {
           }
         ></CardHeader>
         <CardContent className={classes.content}>
-          {/* <Typography
-            variant="body2"
-            className={classes.pos}
-            component="p"
-            color="primary"
-          >
-            {props.collectionName}
-          </Typography> */}
           <Typography
             variant="body2"
             className={classes.pos}
@@ -126,7 +118,6 @@ export default function AppCard(props: AppCardProps) {
                 className={classes.submittedColor}
                 label="innsendt"
                 size="small"
-                // variant="outlined"
                 icon={<DoneIcon className={classes.submittedColor} />}
               />
             </>
@@ -135,7 +126,6 @@ export default function AppCard(props: AppCardProps) {
               className={classes.inProgressColor}
               label="påbegynt"
               size="small"
-              // variant="outlined"
             />
           )}
         </CardContent>
