@@ -1,7 +1,6 @@
 import {
   Button,
   Card,
-  CardActionArea,
   CardActions,
   CardContent,
   CardMedia,
@@ -38,9 +37,11 @@ export const ApplicationCard = (props: CardProps) => {
           {props.title}
         </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions className={classes.actions}>
         <Button
+          className={classes.cardButton}
           component={RouterLink}
+          variant="outlined"
           to={{
             pathname: props.to,
             state: { template: props.template },
