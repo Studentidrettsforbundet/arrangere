@@ -1,6 +1,6 @@
 import { firestore } from "../../firebase";
 
-export async function copyDoc(template: string, currentUser:any) {
+export async function copyDoc(template: string, currentUser: any) {
   let collectionFrom = template + "Template";
   let collectionTo = template + "Applications";
   const docFromRef = firestore.collection(collectionFrom);
@@ -85,14 +85,16 @@ export async function copyDoc(template: string, currentUser:any) {
     await firestore
       .collection(collectionTo)
       .doc(newDocId)
-      .set({
-            status: "in progress",
-            user_id: [currentUser?.uid],
-            user_email: [currentUser?.email],
-            user_organization: tempOrganization,
-            date: dateStr,
-          },
-          { merge: true })
+      .set(
+        {
+          status: "in progress",
+          user_id: [currentUser?.uid],
+          user_email: [currentUser?.email],
+          user_organization: tempOrganization,
+          date: dateStr,
+        },
+        { merge: true }
+      )
       .then(() => {
         console.log(
           "Status field created in doc:" +
