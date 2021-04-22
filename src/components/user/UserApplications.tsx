@@ -1,11 +1,12 @@
 import { Divider, Typography, Box } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { firestore } from "../../firebase";
 import { currentUserState } from "../../stateManagement/userAuth";
 import AppCard from "../admin/AppCard";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import AssignmentTurnedInOutlinedIcon from "@material-ui/icons/AssignmentTurnedInOutlined";
+import firebase from "firebase";
 
 type ApplicationID = {
   id: string;
@@ -35,7 +36,7 @@ export const UserApplications = () => {
     let inProgressApplicationIDs: Array<ApplicationID> = [];
     if (currentUser != null) {
       const doc = await firestore.collection("user").doc(currentUser.uid).get();
-      const docData: any = doc.data();
+      const docData: firebase.firestore.DocumentData = doc.data()!;
       for (const applicationID in docData.applications) {
         if (docData.applications[applicationID].id !== undefined) {
           if (docData.applications[applicationID].status === "submitted") {
