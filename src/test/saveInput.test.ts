@@ -1,24 +1,15 @@
 /**
  * @jest-environment node
  */
-<<<<<<< HEAD
-
-=======
->>>>>>> dev
 import {
   addFieldInputObject,
   saveInput,
 } from "../components/inputFields/saveInputFields";
 import { getInputValue } from "../components/inputFields/getInputValue";
 import { firestore } from "../firebase";
-<<<<<<< HEAD
 
 describe("Test", () => {
-  /*  it("test if addFieldInputObject sets fields", () => {
-=======
-describe("Test", () => {
   it("test if addFieldInputObject sets fields", () => {
->>>>>>> dev
     const inputFieldObject = addFieldInputObject(
       "Trondheim",
       "general",
@@ -26,14 +17,8 @@ describe("Test", () => {
       "general-3"
     );
     expect(inputFieldObject).toBeDefined();
-<<<<<<< HEAD
-    expect(inputFieldObject.chapterName).toEqual("general");
-  }); */
-
-=======
     expect((<any>inputFieldObject).chapterName).toEqual("general");
   });
->>>>>>> dev
   it("Test if input value gets saved and retrived", async () => {
     const object = { "general-3": "Fotball", chapterName: "general" };
     const docRef = firestore
@@ -43,8 +28,6 @@ describe("Test", () => {
     const value = await getInputValue(docRef, "general", "general-3");
     expect(value).toEqual("Fotball");
   });
-<<<<<<< HEAD
-=======
   it("Test if input value gets saved and retrived in accordion", async () => {
     const object = {
       "activity-1": "Butterfly",
@@ -63,5 +46,4 @@ describe("Test", () => {
     const value3 = await getInputValue(docRef, "activities", "activity-3");
     expect(value3).toEqual("Dame");
   });
->>>>>>> dev
 });
