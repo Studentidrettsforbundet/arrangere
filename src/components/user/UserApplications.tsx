@@ -73,6 +73,7 @@ export const UserApplications = () => {
       )
     );
   };
+
   const renderSubmittedApplications = () => {
     return submittedApplicationIDs?.map(
       (applicationID: ApplicationID, i: number) => (
@@ -86,8 +87,6 @@ export const UserApplications = () => {
       )
     );
   };
-
-  console.log(inProgressApplicationIDs);
 
   return (
     <div>
@@ -106,6 +105,8 @@ export const UserApplications = () => {
       ) : (
         <Box>{renderInProgressApplications()}</Box>
       )}
+
+      <br></br>
 
       <Typography gutterBottom variant="h5" component="h2">
         <span

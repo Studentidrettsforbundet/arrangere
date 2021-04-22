@@ -75,9 +75,7 @@ export const ChooseApplication = () => {
 
   return (
     <div role="main" style={{ padding: 40 }}>
-      <Typography gutterBottom align="center" variant="h1">
-        Søknader
-      </Typography>
+      <Typography aria-label="Søknader" align="left" variant="h1"></Typography>
       <Typography gutterBottom variant="h5" component="h2">
         Opprett ny søknad
       </Typography>
