@@ -63,8 +63,6 @@ export default function ReceivedAppPage() {
     setSlApplicationIDs(applicationIDs);
   }
 
-  console.log(snmApplicationIDs);
-
   return (
     <Box px={10} pt={6}>
       <h1>Innsendte søknader</h1>
