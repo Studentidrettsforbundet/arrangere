@@ -3,7 +3,10 @@ import firebase from "firebase";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { documentState } from "../../stateManagement/attributesState";
-import { choosenApplicationState } from "../../stateManagement/choosenApplication";
+import {
+  choosenApplicationState,
+  currentApplicationIdState,
+} from "../../stateManagement/choosenApplication";
 import { useStyles } from "../../style/chapters";
 
 export const ApplicationReview = () => {

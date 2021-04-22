@@ -1,16 +1,24 @@
-import { Divider, Typography, Box } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import { Divider, Typography, Box, Grid } from "@material-ui/core";
+import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { firestore } from "../../firebase";
 import { currentUserState } from "../../stateManagement/userAuth";
 import AppCard from "../admin/AppCard";
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import AssignmentTurnedInOutlinedIcon from "@material-ui/icons/AssignmentTurnedInOutlined";
+import firebase from "firebase";
+
+type ApplicationID = {
+  id: string;
+  collection: string;
+};
 
 export const UserApplications = () => {
   const [submittedApplicationIDs, setSubmittedApplicationIDs] = useState<
-    Array<any>
+    Array<ApplicationID>
   >([]);
   const [inProgressApplicationIDs, setInProgressApplicationIDs] = useState<
-    Array<any>
+    Array<ApplicationID>
   >([]);
   const currentUser = useRecoilValue(currentUserState);
   const [updateState, setUpdateState] = useState(false);
@@ -24,26 +32,23 @@ export const UserApplications = () => {
   }, [updateState]);
 
   async function getApplications() {
-    let submittedApplicationIDs: Array<any> = [];
-    let inProgressApplicationIDs: Array<any> = [];
+    let submittedApplicationIDs: Array<ApplicationID> = [];
+    let inProgressApplicationIDs: Array<ApplicationID> = [];
     if (currentUser != null) {
       const doc = await firestore.collection("user").doc(currentUser.uid).get();
-      const docData: any = doc.data();
-      if (docData != undefined) {
-        for (const applicationID in docData.applications) {
-          if (docData.applications[applicationID].id !== undefined) {
-            if (docData.applications[applicationID].status === "submitted") {
-              // Her er det sykt rart at jeg ikke kan sette det som et objekt som er gjort i else under..
-              submittedApplicationIDs.push({
-                id: docData.applications[applicationID].id,
-                collection: docData.applications[applicationID].collection,
-              });
-            } else {
-              inProgressApplicationIDs.push({
-                id: docData.applications[applicationID].id,
-                collection: docData.applications[applicationID].collection,
-              });
-            }
+      const docData: firebase.firestore.DocumentData = doc.data()!;
+      for (const applicationID in docData.applications) {
+        if (docData.applications[applicationID].id !== undefined) {
+          if (docData.applications[applicationID].status === "submitted") {
+            submittedApplicationIDs.push({
+              id: docData.applications[applicationID].id,
+              collection: docData.applications[applicationID].collection,
+            });
+          } else {
+            inProgressApplicationIDs.push({
+              id: docData.applications[applicationID].id,
+              collection: docData.applications[applicationID].collection,
+            });
           }
         }
       }
@@ -57,26 +62,31 @@ export const UserApplications = () => {
   };
 
   const renderInProgressApplications = () => {
-    return inProgressApplicationIDs?.map((applicationID: any, i: any) => (
-      <AppCard
-        key={i}
-        to="/edit"
-        applicationId={applicationID.id}
-        collectionName={applicationID.collection}
-        onChange={updateApplications}
-      ></AppCard>
-    ));
+    return inProgressApplicationIDs?.map(
+      (applicationID: ApplicationID, i: number) => (
+        <AppCard
+          key={i}
+          to="/edit"
+          applicationId={applicationID.id}
+          collectionName={applicationID.collection}
+          onChange={updateApplications}
+        ></AppCard>
+      )
+    );
   };
+
   const renderSubmittedApplications = () => {
-    return submittedApplicationIDs?.map((applicationID: any, i: any) => (
-      <AppCard
-        key={i}
-        to="/application"
-        applicationId={applicationID.id}
-        collectionName={applicationID.collection}
-        onChange={updateApplications}
-      ></AppCard>
-    ));
+    return submittedApplicationIDs?.map(
+      (applicationID: ApplicationID, i: number) => (
+        <AppCard
+          key={i}
+          to="/application"
+          applicationId={applicationID.id}
+          collectionName={applicationID.collection}
+          onChange={updateApplications}
+        ></AppCard>
+      )
+    );
   };
 
   return (
@@ -86,13 +96,54 @@ export const UserApplications = () => {
       <br></br>
 
       <Typography gutterBottom variant="h5" component="h2">
+        <span style={{ paddingRight: "0.3em" }}>
+          <EditOutlinedIcon />
+        </span>
         Mine påbegynte søknader
       </Typography>
-      <Box>{renderInProgressApplications()}</Box>
+      {inProgressApplicationIDs.length === 0 ? (
+        <p style={{ color: "#707070", textAlign: "center", padding: 30 }}>
+          Du har ingen påbegynte søknader.
+        </p>
+      ) : (
+        <Box>
+          <Grid
+            container
+            direction="row"
+            justify="flex-start"
+            alignItems="flex-start"
+          >
+            {renderInProgressApplications()}
+          </Grid>
+        </Box>
+      )}
+
+      <br></br>
+
       <Typography gutterBottom variant="h5" component="h2">
+        <span
+          style={{
+            paddingRight: "0.3em",
+          }}
+        >
+          <AssignmentTurnedInOutlinedIcon />
+        </span>
         Mine innsendte søknader
       </Typography>
-      <Box>{renderSubmittedApplications()}</Box>
+      {submittedApplicationIDs.length === 0 ? (
+        <p>Du har ingen innsendte søknader.</p>
+      ) : (
+        <Box>
+          <Grid
+            container
+            direction="row"
+            justify="flex-start"
+            alignItems="flex-start"
+          >
+            {renderSubmittedApplications()}
+          </Grid>
+        </Box>
+      )}
     </div>
   );
 };

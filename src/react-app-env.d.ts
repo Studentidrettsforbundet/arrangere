@@ -16,7 +16,6 @@ type ChapterWithID = {
     desc: string;
     attributes: Array<Attribute>;
     priority: number;
-    buttons: Array<string>;
   };
 };
 
@@ -76,6 +75,7 @@ type CardProps = {
   title: string;
   to: string;
   template: string;
+  //onClick: (applicationForm: string) => void;
 };
 
 type ButtonProps = {
@@ -91,6 +91,11 @@ type ReceivedApplicationProps = {
 type ErrorTypes = {
   status: ErrorStatus;
   text: ErrorText;
+};
+
+type ErrorProps = {
+  title: string;
+  message: string;
 };
 
 type HomeAccordionProps = {
@@ -114,4 +119,12 @@ type AccordionProps = {
   mainDesc: string;
   chapterName: string;
   onAccordionDelete: (isDeleted: boolean) => void;
+};
+
+type ApplicationProps = {
+  chapterList: Array<Chapter>;
+};
+
+type SubmitButtonProps = {
+  chapterName: string;
 };

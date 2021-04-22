@@ -7,9 +7,8 @@ import { UserApplications } from "./user/UserApplications";
 import { useStyles } from "../style/cards";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "../stateManagement/userAuth";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { firestore } from "../firebase";
-import AppCard from "./admin/AppCard";
 
 export const ChooseApplication = () => {
   const [submittedApplicationIDs, setSubmittedApplicationIDs] = useState<
@@ -56,11 +55,9 @@ export const ChooseApplication = () => {
 
   return (
     <div role="main" style={{ padding: 40 }}>
-      <Typography gutterBottom align="center" variant="h1">
-        Søknader
-      </Typography>
+      <Typography aria-label="Søknader" align="left" variant="h1"></Typography>
       <Typography gutterBottom variant="h5" component="h2">
-        Opprette ny søknad!
+        Opprett ny søknad
       </Typography>
       <Grid
         container
@@ -71,19 +68,19 @@ export const ChooseApplication = () => {
       >
         <ApplicationCard
           image={Student_NM_logo}
-          title="Søknadskjema for student-NM"
+          title="Søknadskjema for Student-NM"
           to="/studentnm"
           template="snm"
         />
         <ApplicationCard
           image={Studentleker_logo}
-          title="Søknadskjema for studentleker"
+          title="Søknadskjema for Studentleker"
           to="/studentleker"
           template="sl"
         />
         <ApplicationCard
           image={Student_Cup_logo}
-          title="Søknadskjema for student-Cup"
+          title="Søknadskjema for Student-Cup"
           to="/studentcup"
           template="sc"
         />
