@@ -29,7 +29,7 @@ export const SaveButton = () => {
   };
 
   return (
-    <Box width="100%">
+    <Box>
       <Button
         variant="contained"
         onClick={() => saveAndAlertUser(docRef!)}
@@ -38,7 +38,7 @@ export const SaveButton = () => {
         Lagre
       </Button>
 
-      <Box mt={1}>
+      <Box mt={2}>
         {showAlert ? (
           <Alert
             severity="success"
