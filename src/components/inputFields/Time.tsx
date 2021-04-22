@@ -1,10 +1,10 @@
 import { FC, useEffect, useRef, useState } from "react";
-import { useStyles } from "../../style/inputStyles";
 import { Typography, TextField, Box } from "@material-ui/core";
 import { useRecoilState } from "recoil";
 import { inputFieldObjectState } from "../../stateManagement/attributesState";
 import { addFieldInputObject, useDocRef } from "./saveInputFields";
 import { getInputValue } from "./getInputValue";
+import { useStyles } from "../../style/inputStyles";
 
 const Time: FC<InputProps> = ({ desc, id, chapterName }) => {
   const classes = useStyles();
