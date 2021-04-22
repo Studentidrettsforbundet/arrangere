@@ -4,8 +4,6 @@ import Student_NM_logo from "./../images/student_NM.png";
 import Studentleker_logo from "./../images/studentleker-1.png";
 import Student_Cup_logo from "./../images/studentcup-1.png";
 import { UserApplications } from "./user/UserApplications";
-import { choosenApplicationState } from "../stateManagement/choosenApplication";
-import { useRecoilValue, useSetRecoilState } from "recoil";
 
 export const ChooseApplication = () => {
   //Bør endre navn til typ dashboard ellerno
