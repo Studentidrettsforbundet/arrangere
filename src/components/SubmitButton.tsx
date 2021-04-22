@@ -15,7 +15,7 @@ import { useRecoilValue } from "recoil";
 import { firestore } from "../firebase";
 import { documentState } from "../stateManagement/attributesState";
 import { currentUserState } from "../stateManagement/userAuth";
-import { setStatusToSubmitted } from "./inputFields/confirmSubmittedApplication";
+import { setStatusToSubmitted } from "./inputFields/setStatusToSubmitted";
 import { useDocRef } from "./inputFields/saveInputFields";
 import firebase from "firebase";
 
