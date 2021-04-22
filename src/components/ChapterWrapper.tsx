@@ -34,8 +34,6 @@ const ChapterWrapper = ({
         });
         attributeListLocal.sort((a: any, b: any) => a.priority - b.priority);
       });
-    } else {
-      console.log("No attributes!");
     }
     setAttributeList(attributeListLocal);
     setLoading(false);

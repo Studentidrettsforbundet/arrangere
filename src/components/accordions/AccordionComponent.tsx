@@ -49,7 +49,7 @@ const AccordionComponent: FC<AccordionProps> = ({
         [fieldPath]: firebase.firestore.FieldValue.delete(),
       })
       .catch((error: any) => {
-        console.log("Could not delete", error);
+        console.error(error);
       });
 
     const inputFieldObjectLocal = Object.entries(inputFieldObject).reduce(

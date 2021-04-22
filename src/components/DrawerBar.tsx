@@ -25,11 +25,9 @@ function handleLogout(e: any) {
   e.preventDefault();
   auth
     .signOut()
-    .then(function () {
-      console.log("signout complete");
-    })
+    .then(function () {})
     .catch((error) => {
-      console.log("Kunne ikke logge ut");
+      console.error("Not able to log out");
     });
 }
 

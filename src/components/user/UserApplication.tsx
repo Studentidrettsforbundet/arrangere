@@ -39,7 +39,6 @@ export const UserApplication = () => {
       .then((doc) => {
         const docData = doc?.data();
         if (!docData) {
-          console.log("No data here");
           return null;
         } else {
           for (let chapter in docData) {

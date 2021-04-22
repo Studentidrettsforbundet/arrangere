@@ -47,14 +47,12 @@ const Template = (props: TemplateProps) => {
               priority: chapter.data().priority,
             });
           } else {
-            console.log("No such document!");
-            <DisplayError message={""} title={""} />;
             throw new Error("No document.");
           }
         });
       })
       .catch((error) => {
-        console.log("Error getting document: ", error);
+        console.error("Error getting document: ", error);
       });
 
     setChapterList(chapterListLocal);
