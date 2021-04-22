@@ -71,6 +71,17 @@ export const ApplicationReview = () => {
     return (
       <div>
         {inputFieldList.map((inputField, i) => {
+          let value = inputField.value;
+          if (value != undefined) {
+            if (inputField.value.includes("Filename")) {
+              let urlAndName = inputField.value.split(".Filename:");
+              value = (
+                <a href={urlAndName[0]} download>
+                  {urlAndName[1]}
+                </a>
+              );
+            }
+          }
           return (
             <Box pb={3} key={i}>
               <Typography style={{ fontWeight: "bold" }} variant="subtitle1">
@@ -78,7 +89,7 @@ export const ApplicationReview = () => {
               </Typography>
               <Typography variant="body1">
                 Svar:
-                {inputField.value}
+                {value}
               </Typography>
             </Box>
           );
