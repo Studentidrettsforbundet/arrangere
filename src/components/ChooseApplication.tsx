@@ -53,26 +53,6 @@ export const ChooseApplication = () => {
     setInProgressApplicationIDs(inProgressApplicationIDs);
   }
 
-  const renderSubmittedApplications = () => {
-    return submittedApplicationIDs?.map((applicationID: any, i: any) => (
-      <AppCard
-        to="/application"
-        applicationId={applicationID.id}
-        collectionName={applicationID.collection}
-      ></AppCard>
-    ));
-  };
-
-  const renderInProgressApplications = () => {
-    return inProgressApplicationIDs?.map((applicationID: any, i: any) => (
-      <AppCard
-        to="/edit"
-        applicationId={applicationID.id}
-        collectionName={applicationID.collection}
-      ></AppCard>
-    ));
-  };
-
   return (
     <div role="main" style={{ padding: 40 }}>
       <Typography gutterBottom align="center" variant="h1">

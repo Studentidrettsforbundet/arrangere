@@ -1,4 +1,4 @@
-import { Divider, Typography, Box } from "@material-ui/core";
+import { Divider, Typography, Box, Grid } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { firestore } from "../../firebase";
@@ -86,7 +86,13 @@ export const UserApplications = () => {
       <Typography gutterBottom variant="h5" component="h2">
         Mine påbegynte søknader
       </Typography>
-      <Box>{renderInProgressApplications()}</Box>
+
+      <Box>
+        <Grid container direction="row">
+          {renderInProgressApplications()}
+        </Grid>
+      </Box>
+
       <Typography gutterBottom variant="h5" component="h2">
         Mine innsendte søknader
       </Typography>

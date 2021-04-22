@@ -156,7 +156,7 @@ export const ApplicationCard = (props: CardProps) => {
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
+      <CardActions className={classes.actions}>
         <Button
           component={RouterLink}
           to={{
@@ -166,7 +166,6 @@ export const ApplicationCard = (props: CardProps) => {
           size="small"
           color="primary"
           onClick={() => {
-            // getOrganization();
             copyDoc(props.template);
           }}
         >
