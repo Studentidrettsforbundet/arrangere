@@ -32,14 +32,12 @@ export const ApplicationCard = (props: CardProps) => {
 
   return (
     <Card className={classes.root} style={{ width: 250, padding: 25 }}>
-      <CardActionArea>
+      <CardContent>
         <CardMedia className={classes.media} image={props.image} />
-        <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {props.title}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
+        <Typography variant="body2" color="textSecondary" component="p">
+          {props.title}
+        </Typography>
+      </CardContent>
       <CardActions>
         <Button
           component={RouterLink}
