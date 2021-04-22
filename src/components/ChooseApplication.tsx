@@ -27,21 +27,18 @@ export const ChooseApplication = () => {
           title="Søknadskjema for student-NM"
           to="/studentnm"
           template="snm"
-          //onClick={() => handleChange("snm")}
         />
         <ApplicationCard
           image={Studentleker_logo}
           title="Søknadskjema for studentleker"
           to="/studentleker"
           template="sl"
-          //onClick={() => handleChange("sl")}
         />
         <ApplicationCard
           image={Student_Cup_logo}
           title="Søknadskjema for student-Cup"
           to="/studentcup"
           template="sc"
-          //onClick={() => handleChange("sc")}
         />
       </Grid>
       <UserApplications />

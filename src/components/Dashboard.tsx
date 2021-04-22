@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Route } from "react-router";
 import { BrowserRouter, Redirect } from "react-router-dom";
 import { ChooseApplication } from "./ChooseApplication";

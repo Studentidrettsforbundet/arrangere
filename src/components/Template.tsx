@@ -16,14 +16,11 @@ const Template = (props: TemplateProps) => {
   const isInitialMount = useRef(true);
   const [loading, setLoading] = useState(true);
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
-  //const setChoosenApplicationForm = useSetRecoilState(choosenApplicationState);
   const setChapterCounter = useSetRecoilState(chapterCounterState);
 
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
-      console.log("props.choosenApplicationForm", props.choosenApplicationForm);
-      //setChoosenApplicationForm(props.choosenApplicationForm);
       setChapterCounter(0);
     }
     generateApplicationForm();
