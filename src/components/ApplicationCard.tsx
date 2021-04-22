@@ -23,7 +23,7 @@ export const ApplicationCard = (props: CardProps) => {
   const setApplicationForm = useSetRecoilState(choosenApplicationState);
 
   const handleOnClick = async () => {
-    const newDocId = await copyDoc(props.template);
+    const newDocId = await copyDoc(props.template, currentUser);
     setDocID(newDocId);
     addDocToUser(currentUser!.uid, newDocId, props.template);
     setApplicationForm(props.template);
