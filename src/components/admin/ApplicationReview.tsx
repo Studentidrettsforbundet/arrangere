@@ -84,7 +84,7 @@ export const ApplicationReview = () => {
           }
           return (
             <Box pb={3} key={i}>
-              <Typography style={{ fontWeight: "bold" }} variant="subtitle1">
+              <Typography style={{ fontWeight: "bold" }} component="p">
                 {inputField.desc}
               </Typography>
               <Typography variant="body1">

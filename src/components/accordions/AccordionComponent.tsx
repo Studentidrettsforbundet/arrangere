@@ -82,7 +82,7 @@ const AccordionComponent: FC<AccordionProps> = ({
 
           {haveMainDesc ? (
             <Box px={2}>
-              <Typography variant="subtitle1">{mainDesc}</Typography>
+              <Typography component="p">{mainDesc}</Typography>
             </Box>
           ) : (
             ""

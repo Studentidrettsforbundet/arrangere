@@ -45,7 +45,7 @@ const InputWrapper: FC<InputWrapperProps> = ({
               <Typography variant="h6">{title}</Typography>
               {mainDesc != "" ? (
                 <Box>
-                  <Typography variant="subtitle1">{mainDesc}</Typography>
+                  <Typography component="p">{mainDesc}</Typography>
                 </Box>
               ) : (
                 ""

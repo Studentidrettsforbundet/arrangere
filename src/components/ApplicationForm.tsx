@@ -30,7 +30,7 @@ export const ApplicationForm = () => {
     <div style={{ width: "100%" }}>
       {choosenApplicationForm === " " ? (
         <Box p={10}>
-          <Typography variant="subtitle2">Laster inn..</Typography>
+          <Typography component="p">Laster inn..</Typography>
           <Skeleton />
         </Box>
       ) : (
