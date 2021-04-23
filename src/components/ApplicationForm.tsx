@@ -7,7 +7,7 @@ export const ApplicationForm = (props: any) => {
     <div style={{ width: "100%" }}>
       {props.location.template != undefined ? (
         <Box p={10}>
-          <Typography variant="subtitle2">Laster inn..</Typography>
+          <Typography component="p">Laster inn..</Typography>
           <Skeleton />
         </Box>
       ) : (

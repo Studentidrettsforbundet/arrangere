@@ -23,8 +23,8 @@ export async function getInputValue(
       value = res.get(fieldPath);
       return value;
     })
-    .catch((error) => {
-      console.log("Error in retrieving value:", error);
+    .catch((error: any) => {
+      console.error(error);
     });
   return value;
 }

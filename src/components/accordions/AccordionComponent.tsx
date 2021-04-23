@@ -48,8 +48,8 @@ const AccordionComponent: FC<AccordionProps> = ({
       .update({
         [fieldPath]: firebase.firestore.FieldValue.delete(),
       })
-      .catch((error) => {
-        console.log("Could not delete", error);
+      .catch((error: any) => {
+        console.error(error);
       });
 
     const inputFieldObjectLocal = Object.entries(inputFieldObject).reduce(
@@ -82,7 +82,7 @@ const AccordionComponent: FC<AccordionProps> = ({
 
           {haveMainDesc ? (
             <Box px={2}>
-              <Typography variant="subtitle1">{mainDesc}</Typography>
+              <Typography component="p">{mainDesc}</Typography>
             </Box>
           ) : (
             ""

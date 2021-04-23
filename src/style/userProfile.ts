@@ -1,5 +1,4 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { theme } from "./typography";
 
 export const useStyles = makeStyles({
   container: {
