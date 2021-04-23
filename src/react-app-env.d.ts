@@ -76,8 +76,7 @@ type CardProps = {
   image: string;
   title: string;
   to: string;
-  template: string;
-  //onClick: (applicationForm: string) => void;
+  collection: string;
 };
 
 type ButtonProps = {
@@ -134,6 +133,11 @@ type ApplicationProps = {
 type SubmitButtonProps = {
   chapterName: string;
   setErrorStatus: (error: { status: any; text: string }) => void;
+};
+
+type ApplicationID = {
+  id: string;
+  collection: string;
 };
 
 type ApplicationID = {

@@ -100,7 +100,6 @@ const SignUp = () => {
       .catch((err: any) => {
         setError(err.code);
       });
-
     setLoading(false);
   };
 

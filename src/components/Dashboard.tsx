@@ -6,12 +6,12 @@ import { currentUserState, userRoleState } from "../stateManagement/userAuth";
 import DrawerBar from "./DrawerBar";
 import Home from "./Home";
 import UserProfile from "./UserProfile";
-import { ApplicationForm } from "./ApplicationForm";
 import { ApplicationReview } from "./admin/ApplicationReview";
 import ReceivedAppPage from "./admin/ReceivedAppPage";
 import { useEffect } from "react";
 import firebase from "firebase";
 import { UserApplication } from "./user/UserApplication";
+import Template from "./Template";
 
 export default function Dashboard() {
   const currentUser = useRecoilValue(currentUserState);
@@ -51,9 +51,9 @@ export default function Dashboard() {
         <Route exact path="/" component={Home} />
         <Route exact path="/userprofile" component={UserProfile} />
         <Route exact path="/applications" component={ChooseApplication} />
-        <Route exact path="/studentnm" component={ApplicationForm} />
-        <Route exact path="/studentleker" component={ApplicationForm} />
-        <Route exact path="/studentcup" component={ApplicationForm} />
+        <Route exact path="/studentnm" component={Template} />
+        <Route exact path="/studentleker" component={Template} />
+        <Route exact path="/studentcup" component={Template} />
         {userRole === "admin" ? (
           <>
             <Route
@@ -66,7 +66,6 @@ export default function Dashboard() {
           " "
         )}
         <Route exact path="/application" component={ApplicationReview} />
-
         <Route exact path="/edit" component={UserApplication} />
       </BrowserRouter>
     </div>
