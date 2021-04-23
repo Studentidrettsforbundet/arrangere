@@ -48,6 +48,7 @@ type InputWrapperProps = {
   chapterName: string;
   attributeName: string;
   priority: number;
+  setErrorStatus: (error: { status: any; text: string }) => void;
 };
 
 type AccordionsProps = {
@@ -56,6 +57,7 @@ type AccordionsProps = {
   key: string;
   chapterName: string;
   attributeName: string;
+  setErrorStatus: (error: { status: any; text: string }) => void;
 };
 
 type Attribute = {
@@ -94,8 +96,12 @@ type ErrorTypes = {
 };
 
 type ErrorProps = {
-  title: string;
-  message: string;
+  error: { status: any; text: string };
+  showModal: (show: boolean) => void;
+};
+
+type saveButtonProps = {
+  setErrorStatus: (error: { status: any; text: string }) => void;
 };
 
 type HomeAccordionProps = {
@@ -127,4 +133,10 @@ type ApplicationProps = {
 
 type SubmitButtonProps = {
   chapterName: string;
+  setErrorStatus: (error: { status: any; text: string }) => void;
+};
+
+type ApplicationID = {
+  id: string;
+  collection: string;
 };

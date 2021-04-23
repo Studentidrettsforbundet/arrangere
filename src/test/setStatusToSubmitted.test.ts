@@ -27,7 +27,7 @@ describe("Test", () => {
       .catch((error: any) => {
         console.log("Error in retrieving value:", error);
       });
-    expect(value).toEqual("submitted");
+    return expect(value).toEqual("submitted");
   });
   it("Test if status field gets updated to submitted on user", async () => {
     const docRef = firestore

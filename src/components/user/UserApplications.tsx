@@ -8,11 +8,6 @@ import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import AssignmentTurnedInOutlinedIcon from "@material-ui/icons/AssignmentTurnedInOutlined";
 import firebase from "firebase";
 
-type ApplicationID = {
-  id: string;
-  collection: string;
-};
-
 export const UserApplications = () => {
   const [submittedApplicationIDs, setSubmittedApplicationIDs] = useState<
     Array<ApplicationID>

@@ -13,13 +13,11 @@ export async function copyDoc(template: string, currentUser: any) {
   const year = date.getFullYear();
   const dateStr = day + "/" + month + "/" + year;
 
-  const docData = await docFromRef
-    .get()
-    .then((doc) => {
-      doc.forEach((chapter) => {
-        if (chapter.exists) {
-          chapterExists = true;
-        }
+  const docData = await docFromRef.get().then((doc) => {
+    doc.forEach((chapter) => {
+      if (chapter.exists) {
+        chapterExists = true;
+
         chapterListLocal.push({
           id: chapter.id,
           content: {
@@ -29,17 +27,10 @@ export async function copyDoc(template: string, currentUser: any) {
             priority: chapter.data().priority,
           },
         });
-      });
-      return chapterExists;
-    })
-    .catch((error) => {
-      //<DisplayError message={error.message} title={error.name} />;
-      console.error(
-        "Error reading document",
-        `${collectionFrom}/`,
-        JSON.stringify(error)
-      );
+      }
     });
+    return chapterExists;
+  });
 
   const docToRef = firestore.collection(collectionTo).doc();
   let newDocId = docToRef.id;
@@ -57,14 +48,6 @@ export async function copyDoc(template: string, currentUser: any) {
               newDocId +
               "\nIn collection " +
               template
-          );
-        })
-        .catch((error) => {
-          //<DisplayError message={error.message} title={error.name} />;
-          console.error(
-            "Error reading document",
-            `${collectionFrom}/`,
-            JSON.stringify(error)
           );
         });
     });
@@ -101,13 +84,6 @@ export async function copyDoc(template: string, currentUser: any) {
             newDocId +
             "\nIn collection " +
             template
-        );
-      })
-      .catch((error) => {
-        console.error(
-          "Error creating document",
-          `${collectionTo}`,
-          JSON.stringify(error)
         );
       });
   }
