@@ -5,7 +5,7 @@ import { inputFieldObjectState } from "../stateManagement/attributesState";
 import {
   chapterCounterState,
   currentChapterState,
-} from "../stateManagement/choosenApplication";
+} from "../stateManagement/applicationState";
 import { useStyles } from "../style/chapters";
 import { saveInput, useDocRef } from "./inputFields/saveInputFields";
 
