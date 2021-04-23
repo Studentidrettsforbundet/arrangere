@@ -1,6 +1,6 @@
 import { Box, Typography } from "@material-ui/core";
 import firebase from "firebase";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { documentState } from "../../stateManagement/attributesState";
 import { choosenApplicationState } from "../../stateManagement/choosenApplication";
@@ -20,7 +20,7 @@ export const ApplicationReview = () => {
     currentApplicationId: string
   ) {
     if (currentCollection == "") {
-      console.log("currentCollection is empty");
+      console.error("currentCollection is empty");
     } else {
       let chapterListLocal: Array<Chapter> = [];
 
@@ -31,7 +31,6 @@ export const ApplicationReview = () => {
         .then((doc) => {
           const docData = doc?.data();
           if (!docData) {
-            console.log("no data here");
             return null;
           } else {
             for (let chapter in docData) {

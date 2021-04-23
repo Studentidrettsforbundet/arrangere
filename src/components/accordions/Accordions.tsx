@@ -39,6 +39,7 @@ const Accordions: FC<AccordionsProps> = ({
           Object.entries(attribute).forEach(([key, value]) => {
             accordions.push(
               <AccordionComponent
+                key={key}
                 name={key}
                 inputFields={value.input_fields}
                 priority={value.priority}
@@ -72,6 +73,7 @@ const Accordions: FC<AccordionsProps> = ({
     Object.entries(attributeList[0]).forEach(([key, value]) => {
       accordion = (
         <AccordionComponent
+          key={key}
           name={key}
           inputFields={value.input_fields}
           priority={value.priority}

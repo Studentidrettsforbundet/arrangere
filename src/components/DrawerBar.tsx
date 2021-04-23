@@ -23,11 +23,9 @@ function handleLogout(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
   e.preventDefault();
   auth
     .signOut()
-    .then(function () {
-      console.log("Du har logget ut");
-    })
+    .then(function () {})
     .catch((error) => {
-      console.log("Kunne ikke logge ut", error);
+      console.error("Not able to log out");
     });
 }
 

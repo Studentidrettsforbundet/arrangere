@@ -26,7 +26,6 @@ export const SubmittedApplications = () => {
         .then((doc: any) => {
           const data = doc?.data();
           if (!data) {
-            console.log("no data here");
             return null;
           } else {
             setApplicationList((applicationList: any) => [

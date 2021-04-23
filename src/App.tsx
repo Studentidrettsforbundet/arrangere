@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
-import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import {
+  ThemeProvider,
+  unstable_createMuiStrictModeTheme as createMuiTheme,
+} from "@material-ui/core/styles";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { auth } from "./firebase";
 import { currentUserState, loadingUserState } from "./stateManagement/userAuth";
@@ -38,7 +41,7 @@ const studentidrettTheme = createMuiTheme({
         h3: "h2",
         h4: "h4",
         h5: "h2",
-        h6: "subtitle1",
+        h6: "p",
         subtitle1: "subtitle1",
         subtitle2: "h2",
         body1: "span",
