@@ -3,7 +3,7 @@ import ChapterWrapper from "./ChapterWrapper";
 import {
   chapterCounterState,
   currentChapterState,
-} from "../stateManagement/choosenApplication";
+} from "../stateManagement/applicationState";
 import { Box, Button } from "@material-ui/core/";
 import { useStyles } from "../style/chapters";
 import ChapterButton from "./ChapterButton";

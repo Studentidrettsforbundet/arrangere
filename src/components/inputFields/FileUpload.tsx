@@ -6,12 +6,12 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import firebase from "firebase";
 import { v4 as uuid } from "uuid";
 import {
-  documentState,
+  applicationIDState,
   inputFieldObjectState,
 } from "../../stateManagement/attributesState";
 
 const FileUpload: FC<InputProps> = ({ desc, id, chapterName }) => {
-  const docID = useRecoilValue(documentState);
+  const docID = useRecoilValue(applicationIDState);
   const [fileUrl, setFileUrl] = useState("");
   const [fileName, setFileName] = useState("");
   const [inputFieldObject, setInputFieldList] = useRecoilState(

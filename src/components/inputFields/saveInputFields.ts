@@ -1,12 +1,12 @@
 import { useRecoilValue } from "recoil";
 import { firestore } from "../../firebase";
-import { documentState } from "../../stateManagement/attributesState";
-import { choosenApplicationState } from "../../stateManagement/choosenApplication";
+import { applicationIDState } from "../../stateManagement/attributesState";
+import { applicationTypeState } from "../../stateManagement/applicationState";
 import firebase from "firebase";
 
 export function useDocRef() {
-  const docID = useRecoilValue(documentState);
-  const collection = useRecoilValue(choosenApplicationState);
+  const docID = useRecoilValue(applicationIDState);
+  const collection = useRecoilValue(applicationTypeState);
 
   if (docID && collection) {
     let docRef = firestore.collection(collection + "Applications").doc(docID);
@@ -21,7 +21,7 @@ export const saveInput = async (
   let status = true;
 
   for (const [key, value] of Object.entries(inputFieldObject)) {
-    if (key != "chapterName") {
+    if (key !== "chapterName") {
       let attributeName: string = "";
       let inputNr: string = "";
       let newKey = key.split("-");

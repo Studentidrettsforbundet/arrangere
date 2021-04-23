@@ -2,13 +2,13 @@ import { Box, Typography } from "@material-ui/core";
 import firebase from "firebase";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { documentState } from "../../stateManagement/attributesState";
-import { choosenApplicationState } from "../../stateManagement/choosenApplication";
+import { applicationIDState } from "../../stateManagement/attributesState";
+import { applicationTypeState } from "../../stateManagement/applicationState";
 
 export const ApplicationReview = () => {
   var db = firebase.firestore();
-  let currentApplicationId: string = useRecoilValue(documentState);
-  let currentCollection: string = useRecoilValue(choosenApplicationState);
+  let currentApplicationId: string = useRecoilValue(applicationIDState);
+  let currentCollection: string = useRecoilValue(applicationTypeState);
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
 
   useEffect(() => {
