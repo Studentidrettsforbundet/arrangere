@@ -9,7 +9,7 @@ import {
 import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
 import { useDocRef } from "../inputFields/saveInputFields";
 import { useRecoilValue } from "recoil";
-import { choosenApplicationState } from "../../stateManagement/choosenApplication";
+import { applicationTypeState } from "../../stateManagement/applicationState";
 
 const Accordions: FC<AccordionsProps> = ({
   title,
@@ -19,7 +19,7 @@ const Accordions: FC<AccordionsProps> = ({
   setErrorStatus,
 }) => {
   const docRef = useDocRef();
-  const chosenApplication = useRecoilValue(choosenApplicationState);
+  const chosenApplication = useRecoilValue(applicationTypeState);
   const [newFields, setNewFields] = useState<any>([]);
   const [isAccordionDeleted, setIsAccordionDeleted] = useState<boolean>(false);
 

@@ -2,13 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   chapterCounterState,
-  choosenApplicationState,
-} from "../stateManagement/choosenApplication";
+  applicationTypeState,
+} from "../stateManagement/applicationState";
 import Application from "./Application";
 import { Box, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { getChapterList } from "./inputFields/retriveTemplate";
-import { documentState } from "../stateManagement/attributesState";
+import { applicationIDState } from "../stateManagement/attributesState";
 import { currentUserState } from "../stateManagement/userAuth";
 import { addDocToUser } from "./inputFields/addDocToUser";
 import { copyDoc } from "./inputFields/copyDoc";
@@ -20,8 +20,8 @@ const Template = (props: any) => {
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
   const setChapterCounter = useSetRecoilState(chapterCounterState);
   const currentUser = useRecoilValue(currentUserState);
-  const setDocID = useSetRecoilState(documentState);
-  const setCurrentCollectionState = useSetRecoilState(choosenApplicationState);
+  const setDocID = useSetRecoilState(applicationIDState);
+  const setCurrentCollectionState = useSetRecoilState(applicationTypeState);
   const [error, setError] = useState({ status: "success", text: "Success" });
   const [showModal, setShowModal] = useState(false);
 

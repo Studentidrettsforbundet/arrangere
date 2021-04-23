@@ -3,7 +3,7 @@ import { Skeleton } from "@material-ui/lab";
 import { useEffect, useRef, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { firestore } from "../../firebase";
-import { chapterCounterState } from "../../stateManagement/choosenApplication";
+import { chapterCounterState } from "../../stateManagement/applicationState";
 import Application from "../Application";
 
 export const UserApplication = (props: any) => {

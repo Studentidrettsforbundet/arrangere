@@ -6,8 +6,8 @@ export const inputFieldObjectState = atom({
   default: {},
 });
 
-export const documentState = atom<string>({
-  key: "documentState",
+export const applicationIDState = atom<string>({
+  key: "applicationIDState",
   default: "",
   effects_UNSTABLE: [localStorageEffect("docID")],
 });

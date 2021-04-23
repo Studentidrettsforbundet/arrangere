@@ -14,7 +14,7 @@ import React, { FC, useState } from "react";
 import { useHistory } from "react-router";
 import { useRecoilValue } from "recoil";
 import { firestore } from "../firebase";
-import { documentState } from "../stateManagement/attributesState";
+import { applicationIDState } from "../stateManagement/attributesState";
 import { currentUserState } from "../stateManagement/userAuth";
 import { setStatusToSubmitted } from "./inputFields/setStatusToSubmitted";
 import { useDocRef } from "./inputFields/saveInputFields";
@@ -25,7 +25,7 @@ export const SubmitButton: FC<SubmitButtonProps> = ({
   setErrorStatus,
 }) => {
   const [open, setOpen] = useState(false);
-  const currentDocID = useRecoilValue(documentState);
+  const currentDocID = useRecoilValue(applicationIDState);
   const currentUserID = useRecoilValue(currentUserState);
   const [submitted, setSubmitted] = useState("in progress");
 

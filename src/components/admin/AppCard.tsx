@@ -19,8 +19,8 @@ import {
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { useStyles } from "../../style/cards";
 import { Link as RouterLink } from "react-router-dom";
-import { choosenApplicationState } from "../../stateManagement/choosenApplication";
-import { documentState } from "../../stateManagement/attributesState";
+import { applicationTypeState } from "../../stateManagement/applicationState";
+import { applicationIDState } from "../../stateManagement/attributesState";
 import { firestore } from "../../firebase";
 import { useEffect, useState } from "react";
 import { deleteApplication } from "../user/deleteApplication";
@@ -32,8 +32,8 @@ import {
 } from "../../stateManagement/userAuth";
 
 export default function AppCard(props: AppCardProps) {
-  const setCurrentApplicationIdState = useSetRecoilState(documentState);
-  const setCurrentCollectionState = useSetRecoilState(choosenApplicationState);
+  const setCurrentApplicationIdState = useSetRecoilState(applicationIDState);
+  const setCurrentCollectionState = useSetRecoilState(applicationTypeState);
   let [sport, setSport] = useState<string[]>([]);
   let [userEmail, setUserEmail] = useState<string>();
   let [status, setStatus] = useState<any>();
