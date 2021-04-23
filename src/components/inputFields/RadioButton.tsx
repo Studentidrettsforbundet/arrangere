@@ -17,14 +17,14 @@ const RadioButton: FC<InputProps> = ({ desc, id, chapterName }) => {
     inputFieldObjectState
   );
 
-  const [value, setValue] = useState("Ja" || "");
+  const [value, setValue] = useState("Ja");
   const isInitialMount = useRef(true);
   const docRef = useDocRef();
 
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
-      getInputValue(docRef, chapterName, id).then((value) => {
+      getInputValue(docRef!, chapterName, id).then((value) => {
         setValue(value);
       });
     }

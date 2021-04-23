@@ -1,20 +1,16 @@
 import { Box, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { useEffect, useRef, useState } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { firestore } from "../../firebase";
-import { documentState } from "../../stateManagement/attributesState";
 import {
   chapterCounterState,
-  choosenApplicationState,
 } from "../../stateManagement/choosenApplication";
 import Application from "../Application";
 
-export const UserApplication = () => {
+export const UserApplication = (props: any) => {
   //foreslår å endre dette navnet til UserApplicationReview
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
-  let currentApplicationId: string = useRecoilValue(documentState);
-  let currentCollection: string = useRecoilValue(choosenApplicationState);
   const [loading, setLoading] = useState(true);
   const isInitialMount = useRef(true);
   const setChapterCounter = useSetRecoilState(chapterCounterState);
@@ -24,8 +20,8 @@ export const UserApplication = () => {
       isInitialMount.current = false;
       setChapterCounter(0);
     }
-    retriveApplicationData(currentCollection, currentApplicationId);
-  }, [currentApplicationId]);
+    retriveApplicationData(props.location.state.collection, props.location.state.applicationID);
+  }, [props.location.state.applicationID]);
 
   async function retriveApplicationData(
     currentCollection: string,
@@ -41,7 +37,6 @@ export const UserApplication = () => {
       .then((doc) => {
         const docData = doc?.data();
         if (!docData) {
-          console.log("No data here");
           return null;
         } else {
           for (let chapter in docData) {
@@ -67,8 +62,6 @@ export const UserApplication = () => {
     setChapterList(chapterListLocal);
     setLoading(false);
   }
-
-  console.log(chapterList);
 
   return (
     <div style={{ width: "100%" }}>

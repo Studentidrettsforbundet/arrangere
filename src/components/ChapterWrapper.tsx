@@ -1,5 +1,5 @@
 import { Box, Typography } from "@material-ui/core";
-import React, { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { inputFieldObjectState } from "../stateManagement/attributesState";
 import InputWrapper from "./inputFields/InputWrapper";
@@ -34,8 +34,6 @@ const ChapterWrapper = ({
         });
         attributeListLocal.sort((a: any, b: any) => a.priority - b.priority);
       });
-    } else {
-      console.log("No attributes!");
     }
     setAttributeList(attributeListLocal);
     setLoading(false);
@@ -102,7 +100,7 @@ const ChapterWrapper = ({
         <p></p>
       )}
       <div>{renderInputFields(attributeList, buttons, chapterName)}</div>
-      <Box display="flex" mt={3} mb={3}>
+      <Box display="flex" justifyContent="space-between" my={3}>
         <SaveButton />
         <SubmitButton chapterName={chapterName} />
       </Box>

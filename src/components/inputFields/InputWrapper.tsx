@@ -1,5 +1,5 @@
-import React, { FC } from "react";
-import { Typography, Button, Box } from "@material-ui/core";
+import { FC } from "react";
+import { Typography, Box } from "@material-ui/core";
 
 import { generateComponents } from "./getInputFieldComponent";
 import Accordions from "../accordions/Accordions";
@@ -45,7 +45,7 @@ const InputWrapper: FC<InputWrapperProps> = ({
               <Typography variant="h6">{title}</Typography>
               {mainDesc != "" ? (
                 <Box>
-                  <Typography variant="subtitle1">{mainDesc}</Typography>
+                  <Typography component="p">{mainDesc}</Typography>
                 </Box>
               ) : (
                 ""

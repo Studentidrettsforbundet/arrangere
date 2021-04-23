@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import {
   Typography,
   Button,
@@ -49,7 +49,7 @@ const AccordionComponent: FC<AccordionProps> = ({
         [fieldPath]: firebase.firestore.FieldValue.delete(),
       })
       .catch((error: any) => {
-        console.log("Could not delete", error);
+        console.error(error);
       });
 
     const inputFieldObjectLocal = Object.entries(inputFieldObject).reduce(
@@ -82,7 +82,7 @@ const AccordionComponent: FC<AccordionProps> = ({
 
           {haveMainDesc ? (
             <Box px={2}>
-              <Typography variant="subtitle1">{mainDesc}</Typography>
+              <Typography component="p">{mainDesc}</Typography>
             </Box>
           ) : (
             ""

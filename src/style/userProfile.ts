@@ -5,12 +5,11 @@ export const useStyles = makeStyles({
     marginTop: "6vw",
     display: "flex",
     alignItems: "center",
-    /*  justifyContent: "center", */
   },
   root: {
     width: "100vw",
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
     maxWidth: 800,
     padding: 30,
   },
@@ -19,16 +18,22 @@ export const useStyles = makeStyles({
     marginBottom: "10px",
   },
   contentHeader: {
-    marginTop: "30px",
+    marginTop: "1rem",
+    marginLeft: "1rem;",
+    fontWeight: "bold",
   },
   content: {
-    marginTop: "5px",
+    marginLeft: "1rem;",
+    marginBottom: "0.8rem",
   },
   divider: {
-    marginBottom: "15px",
+    marginBottom: "1rem",
   },
-  icon: {
-    width: "80px",
-    height: "100px",
+  paper: {
+    width: "45rem",
+    border: "1px solid",
+    borderColor: "lightblue",
+    marginTop: "1rem",
+    borderRadius: "8px",
   },
 });

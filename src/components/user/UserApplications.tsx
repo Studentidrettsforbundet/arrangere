@@ -1,4 +1,4 @@
-import { Divider, Typography, Box } from "@material-ui/core";
+import { Divider, Typography, Box, Grid } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { firestore } from "../../firebase";
@@ -32,24 +32,26 @@ export const UserApplications = () => {
     if (currentUser != null) {
       const doc = await firestore.collection("user").doc(currentUser.uid).get();
       const docData: firebase.firestore.DocumentData = doc.data()!;
-      for (const applicationID in docData.applications) {
-        if (docData.applications[applicationID].id !== undefined) {
-          if (docData.applications[applicationID].status === "submitted") {
-            submittedApplicationIDs.push({
-              id: docData.applications[applicationID].id,
-              collection: docData.applications[applicationID].collection,
-            });
-          } else {
-            inProgressApplicationIDs.push({
-              id: docData.applications[applicationID].id,
-              collection: docData.applications[applicationID].collection,
-            });
+      if (docData != undefined) {
+        for (const applicationID in docData.applications) {
+          if (docData.applications[applicationID].id !== undefined) {
+            if (docData.applications[applicationID].status === "submitted") {
+              submittedApplicationIDs.push({
+                id: docData.applications[applicationID].id,
+                collection: docData.applications[applicationID].collection,
+              });
+            } else {
+              inProgressApplicationIDs.push({
+                id: docData.applications[applicationID].id,
+                collection: docData.applications[applicationID].collection,
+              });
+            }
           }
         }
+        setSubmittedApplicationIDs(submittedApplicationIDs);
+        setInProgressApplicationIDs(inProgressApplicationIDs);
       }
     }
-    setSubmittedApplicationIDs(submittedApplicationIDs);
-    setInProgressApplicationIDs(inProgressApplicationIDs);
   }
 
   const updateApplications = (isUpdate: boolean) => {
@@ -97,9 +99,20 @@ export const UserApplications = () => {
         Mine påbegynte søknader
       </Typography>
       {inProgressApplicationIDs.length === 0 ? (
-        <p>Du har ingen påbegynte søknader.</p>
+        <p style={{ color: "#707070", textAlign: "center", padding: 30 }}>
+          Du har ingen påbegynte søknader.
+        </p>
       ) : (
-        <Box>{renderInProgressApplications()}</Box>
+        <Box>
+          <Grid
+            container
+            direction="row"
+            justify="flex-start"
+            alignItems="flex-start"
+          >
+            {renderInProgressApplications()}
+          </Grid>
+        </Box>
       )}
 
       <br></br>
@@ -117,7 +130,16 @@ export const UserApplications = () => {
       {submittedApplicationIDs.length === 0 ? (
         <p>Du har ingen innsendte søknader.</p>
       ) : (
-        <Box>{renderSubmittedApplications()}</Box>
+        <Box>
+          <Grid
+            container
+            direction="row"
+            justify="flex-start"
+            alignItems="flex-start"
+          >
+            {renderSubmittedApplications()}
+          </Grid>
+        </Box>
       )}
     </div>
   );

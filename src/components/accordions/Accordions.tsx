@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from "@material-ui/core";
-import React, { FC, useEffect, useState } from "react";
+import { FC, ReactElement, useEffect, useState } from "react";
 import firebase from "firebase";
 import AccordionComponent from "./AccordionComponent";
 import {
@@ -32,13 +32,14 @@ const Accordions: FC<AccordionsProps> = ({
   };
 
   const renderAccordions = async () => {
-    let accordions: any = [];
+    let accordions: ReactElement[] = [];
     await getListOfAttributes(docRef!, attributeName, chapterName).then(
       (attributeObjectList) => {
         attributeObjectList.forEach((attribute) => {
           Object.entries(attribute).forEach(([key, value]) => {
             accordions.push(
               <AccordionComponent
+                key={key}
                 name={key}
                 inputFields={value.input_fields}
                 priority={value.priority}
@@ -72,6 +73,7 @@ const Accordions: FC<AccordionsProps> = ({
     Object.entries(attributeList[0]).forEach(([key, value]) => {
       accordion = (
         <AccordionComponent
+          key={key}
           name={key}
           inputFields={value.input_fields}
           priority={value.priority}

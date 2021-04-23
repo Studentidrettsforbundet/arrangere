@@ -99,7 +99,7 @@ describe("Sign up", () => {
       cy.get("form").should("contain", "Fyll inn alle feltene");
     });
 
-    it("should fill login form and redirect to homepage, then log out", () => {
+    it("should fill login form and redirect to homepage", () => {
       cy.visit("/login");
 
       cy.get('[type="text"]')

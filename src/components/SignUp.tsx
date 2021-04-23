@@ -15,12 +15,7 @@ import {
 import Alert from "@material-ui/lab/Alert";
 import logo from "../images/logo-sort.png";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import {
-  BrowserRouter,
-  Link as RouterLink,
-  Redirect,
-  useHistory,
-} from "react-router-dom";
+import { Link as RouterLink, Redirect, useHistory } from "react-router-dom";
 import { auth } from "../firebase";
 import {
   currentUserState,

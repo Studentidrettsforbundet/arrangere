@@ -4,7 +4,6 @@ import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
 import AssignmentOutlinedIcon from "@material-ui/icons/AssignmentOutlined";
-
 import {
   CssBaseline,
   CardMedia,
@@ -18,26 +17,21 @@ import { Link } from "react-router-dom";
 import { useStyles } from "../style/drawerBar";
 import { auth } from "../firebase";
 import { useRecoilValue } from "recoil";
-import { currentUserState, userRoleState } from "../stateManagement/userAuth";
-import firebase from "firebase";
+import { userRoleState } from "../stateManagement/userAuth";
 
-function handleLogout(e: any) {
+function handleLogout(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
   e.preventDefault();
   auth
     .signOut()
-    .then(function () {
-      console.log("signout complete");
-    })
+    .then(function () {})
     .catch((error) => {
-      console.log("Kunne ikke logge ut");
+      console.error("Not able to log out");
     });
 }
 
 export default function DrawerBar() {
   const classes = useStyles();
-  const currentUser = useRecoilValue(currentUserState);
   const userRole = useRecoilValue(userRoleState);
-  var db = firebase.firestore();
 
   return (
     <div className={classes.root}>
