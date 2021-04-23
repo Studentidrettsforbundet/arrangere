@@ -100,13 +100,6 @@ export async function copyDoc(template: string, currentUser: any) {
             "\nIn collection " +
             template
         );
-      })
-      .catch((error) => {
-        console.error(
-          "Error creating document",
-          `${collectionTo}`,
-          JSON.stringify(error)
-        );
       });
   }
   return newDocId;

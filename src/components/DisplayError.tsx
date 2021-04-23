@@ -1,28 +1,19 @@
-import { FC } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { FC, useState } from "react";
 import { Alert, AlertTitle } from "@material-ui/lab";
+import { Box, Button } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    "& > * + *": {
-      marginTop: theme.spacing(2),
-    },
-  },
-}));
-
-const DisplayError: FC<ErrorProps> = ({ title, message }) => {
-  const classes = useStyles();
-
+const DisplayError: FC<ErrorProps> = ({ error, showModal }) => {
   return (
-    <div className={classes.root}>
-      <p>Det skjedde en feil, last inn på nytt! </p>
-      {/* <Alert severity="error">
-        <AlertTitle>Oisann, det oppsto en feil!</AlertTitle>
-        Prøv å last inn siden på nytt.
-        {message}
-      </Alert> */}
-    </div>
+    <Box style={{ width: "100%" }} mt={2}>
+      <Alert
+        severity={error.status}
+        onClose={() => {
+          showModal(false);
+        }}
+      >
+        {error.text}
+      </Alert>
+    </Box>
   );
 };
 

@@ -2,7 +2,6 @@ const fillInForm = (inputType) => {
   if (inputType == "input") {
     cy.get("input").each(($input) => {
       let type = $input.attr("type");
-      console.log("type");
       let value = "";
       if (type == "text") {
         value = "some text";

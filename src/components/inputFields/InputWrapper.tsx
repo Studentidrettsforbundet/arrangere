@@ -11,6 +11,7 @@ const InputWrapper: FC<InputWrapperProps> = ({
   buttons,
   chapterName,
   attributeName,
+  setErrorStatus,
 }) => {
   let isCollapse;
   let isExtraField;
@@ -25,11 +26,15 @@ const InputWrapper: FC<InputWrapperProps> = ({
       }
     });
   }
+  const onSetError = (error: { status: any; text: string }) => {
+    setErrorStatus(error);
+  };
 
   return (
     <div style={{ width: "100%" }}>
       {isCollapse ? (
         <Accordions
+          setErrorStatus={onSetError}
           key={attributeName}
           title={title}
           mainDesc={mainDesc}

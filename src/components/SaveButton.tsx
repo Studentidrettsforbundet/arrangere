@@ -6,30 +6,28 @@ import { useRecoilValue } from "recoil";
 import { inputFieldObjectState } from "../stateManagement/attributesState";
 import { saveInput, useDocRef } from "./inputFields/saveInputFields";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import DisplayError from "./DisplayError";
+import { FC } from "react";
 
-export const SaveButton = () => {
+export const SaveButton: FC<saveButtonProps> = ({ setErrorStatus }) => {
   const docRef = useDocRef();
-  const [showAlert, setShowAlert] = useState(false);
-  const [showError, setShowError] = useState(false);
+
   const inputFieldObject = useRecoilValue(inputFieldObjectState);
 
   const saveAndAlertUser = async (
     docRef: firebase.firestore.DocumentReference<firebase.firestore.DocumentData>
   ) => {
-    try {
-      try {
-        saveInput(docRef, inputFieldObject);
-      } catch (error) {
-        setShowError(true);
+    await saveInput(docRef, inputFieldObject).then((value) => {
+      if (!value) {
+        setErrorStatus({ status: "error", text: "Noe gikk galt. Prøv igjen." });
+      } else {
+        setErrorStatus({ status: "success", text: "Lagret!" });
       }
-      setShowAlert(true);
-    } catch (error) {
-      setShowError(true);
-    }
+    });
   };
 
   return (
-    <Box>
+    <Box mt={3}>
       <Button
         variant="contained"
         onClick={() => saveAndAlertUser(docRef!)}
@@ -37,29 +35,6 @@ export const SaveButton = () => {
       >
         Lagre
       </Button>
-
-      <Box mt={2}>
-        {showAlert ? (
-          <Alert
-            severity="success"
-            onClose={() => {
-              setShowAlert(false);
-            }}
-          >
-            {"Lagret!"}
-          </Alert>
-        ) : null}
-        {showError ? (
-          <Alert
-            severity="error"
-            onClose={() => {
-              setShowError(false);
-            }}
-          >
-            {"Ups, det skjedde en feil. Ikke lagret!"}
-          </Alert>
-        ) : null}
-      </Box>
     </Box>
   );
 };

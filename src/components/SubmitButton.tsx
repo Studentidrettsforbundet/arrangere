@@ -6,10 +6,11 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Grid,
 } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
 import { Alert } from "@material-ui/lab";
-import { FC, useState } from "react";
+import React, { FC, useState } from "react";
 import { useHistory } from "react-router";
 import { useRecoilValue } from "recoil";
 import { firestore } from "../firebase";
@@ -19,11 +20,15 @@ import { setStatusToSubmitted } from "./inputFields/setStatusToSubmitted";
 import { useDocRef } from "./inputFields/saveInputFields";
 import firebase from "firebase";
 
-export const SubmitButton: FC<SubmitButtonProps> = ({ chapterName }) => {
+export const SubmitButton: FC<SubmitButtonProps> = ({
+  chapterName,
+  setErrorStatus,
+}) => {
   const [open, setOpen] = useState(false);
   const currentDocID = useRecoilValue(documentState);
   const currentUserID = useRecoilValue(currentUserState);
   const [submitted, setSubmitted] = useState("in progress");
+
   const history = useHistory();
   const docRef = useDocRef();
 
@@ -31,6 +36,7 @@ export const SubmitButton: FC<SubmitButtonProps> = ({ chapterName }) => {
     docRef: firebase.firestore.DocumentReference<firebase.firestore.DocumentData>,
     userID: string
   ) {
+    let status = true;
     if ((await docRef!.get()).exists) {
       const doc = await firestore
         .collection("user")
@@ -41,15 +47,20 @@ export const SubmitButton: FC<SubmitButtonProps> = ({ chapterName }) => {
         for (const application in docData.applications) {
           if (docData.applications[application].id === currentDocID) {
             setStatusToSubmitted(docRef!, userID, application);
-            setSubmitted("submitted");
             history.push("/applications");
           }
         }
+      } else {
+        status = false;
       }
-      setSubmitted("failed");
-      handleClose();
     } else {
-      setSubmitted("failed");
+      status = false;
+    }
+    if (!status) {
+      setErrorStatus({
+        status: "error",
+        text: "Noe gikk galt. Sjekk internettilkoblingen din og prøv på nytt",
+      });
       handleClose();
     }
   }
@@ -63,9 +74,9 @@ export const SubmitButton: FC<SubmitButtonProps> = ({ chapterName }) => {
   };
 
   return (
-    <Box>
+    <Grid item>
       {chapterName === "additional" ? (
-        <Box flexShrink={0}>
+        <Box mt={3} flexShrink={0} style={{ float: "right" }}>
           <Button
             variant="contained"
             onClick={handleClickOpen}
@@ -99,14 +110,7 @@ export const SubmitButton: FC<SubmitButtonProps> = ({ chapterName }) => {
             </DialogActions>
           </Dialog>
         </Box>
-      ) : (
-        <Box></Box>
-      )}
-      {submitted === "failed" ? (
-        <Alert severity="error">
-          Something went wrong submitting the application!
-        </Alert>
       ) : null}
-    </Box>
+    </Grid>
   );
 };

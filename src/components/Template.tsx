@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   chapterCounterState,
@@ -12,6 +12,7 @@ import { documentState } from "../stateManagement/attributesState";
 import { currentUserState } from "../stateManagement/userAuth";
 import { addDocToUser } from "./inputFields/addDocToUser";
 import { copyDoc } from "./inputFields/copyDoc";
+import DisplayError from "./DisplayError";
 
 const Template = (props: any) => {
   const isInitialMount = useRef(true);
@@ -21,6 +22,8 @@ const Template = (props: any) => {
   const currentUser = useRecoilValue(currentUserState);
   const setDocID = useSetRecoilState(documentState);
   const setCurrentCollectionState = useSetRecoilState(choosenApplicationState);
+  const [error, setError] = useState({ status: "success", text: "Success" });
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (isInitialMount.current) {
@@ -46,6 +49,9 @@ const Template = (props: any) => {
     setLoading(false);
   }
 
+  const toShowModal = (show: boolean) => {
+    setShowModal(show);
+  };
   return (
     <div style={{ width: "100%" }}>
       {!loading ? (
@@ -56,6 +62,9 @@ const Template = (props: any) => {
           <Skeleton />
         </Box>
       )}
+      {showModal ? (
+        <DisplayError error={error} showModal={toShowModal}></DisplayError>
+      ) : null}
     </div>
   );
 };
