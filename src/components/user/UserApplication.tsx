@@ -3,9 +3,7 @@ import { Skeleton } from "@material-ui/lab";
 import { useEffect, useRef, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { firestore } from "../../firebase";
-import {
-  chapterCounterState,
-} from "../../stateManagement/choosenApplication";
+import { chapterCounterState } from "../../stateManagement/choosenApplication";
 import Application from "../Application";
 
 export const UserApplication = (props: any) => {
@@ -20,7 +18,10 @@ export const UserApplication = (props: any) => {
       isInitialMount.current = false;
       setChapterCounter(0);
     }
-    retriveApplicationData(props.location.state.collection, props.location.state.applicationID);
+    retriveApplicationData(
+      props.location.state.collection,
+      props.location.state.applicationID
+    );
   }, [props.location.state.applicationID]);
 
   async function retriveApplicationData(

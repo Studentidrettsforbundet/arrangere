@@ -32,7 +32,10 @@ const Template = (props: any) => {
 
   async function generateApplicationForm() {
     setLoading(true);
-    const newDocId = await copyDoc(props.location.state.collection, currentUser);
+    const newDocId = await copyDoc(
+      props.location.state.collection,
+      currentUser
+    );
     setDocID(newDocId);
     addDocToUser(currentUser!.uid, newDocId, props.location.state.collection);
     setCurrentCollectionState(props.location.state.collection);
