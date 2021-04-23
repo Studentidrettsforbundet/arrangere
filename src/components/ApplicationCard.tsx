@@ -6,29 +6,11 @@ import {
   CardMedia,
   Typography,
 } from "@material-ui/core";
-import { Link as RouterLink } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { documentState } from "../stateManagement/attributesState";
-import { choosenApplicationState } from "../stateManagement/choosenApplication";
-import { currentUserState } from "../stateManagement/userAuth";
 import { useStyles } from "../style/cards";
-import { addDocToUser } from "./inputFields/addDocToUser";
-import { copyDoc } from "./inputFields/copyDoc";
+import { Link as RouterLink } from "react-router-dom";
 
 export const ApplicationCard = (props: CardProps) => {
   const classes = useStyles();
-
-  const currentUser = useRecoilValue(currentUserState);
-  const setDocID = useSetRecoilState(documentState);
-  const setApplicationForm = useSetRecoilState(choosenApplicationState);
-
-  const handleOnClick = async () => {
-    const newDocId = await copyDoc(props.template, currentUser);
-    setDocID(newDocId);
-    addDocToUser(currentUser!.uid, newDocId, props.template);
-    setApplicationForm(props.template);
-  };
-
   return (
     <Card className={classes.root} style={{ width: 250, padding: 25 }}>
       <CardContent>
@@ -44,11 +26,10 @@ export const ApplicationCard = (props: CardProps) => {
           variant="outlined"
           to={{
             pathname: props.to,
-            state: { template: props.template },
+            state: { collection: props.collection },
           }}
           size="small"
           color="primary"
-          onClick={() => handleOnClick()}
         >
           Ny søknad
         </Button>

@@ -23,19 +23,19 @@ export const ChooseApplication = () => {
           image={Student_NM_logo}
           title="Søknadskjema for Student-NM"
           to="/studentnm"
-          template="snm"
+          collection="snm"
         />
         <ApplicationCard
           image={Studentleker_logo}
           title="Søknadskjema for Studentleker"
           to="/studentleker"
-          template="sl"
+          collection="sl"
         />
         <ApplicationCard
           image={Student_Cup_logo}
           title="Søknadskjema for Student-Cup"
           to="/studentcup"
-          template="sc"
+          collection="sc"
         />
       </Grid>
       <UserApplications />
