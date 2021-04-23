@@ -45,6 +45,8 @@ export const errorStateSelector = selector<ErrorTypes>({
         return { status: ErrorStatus.OTHER, text: ErrorText.PRIVACY_POLICY };
       case "":
         return { status: ErrorStatus.NONE, text: ErrorText.NONE };
+      case "logout":
+        return { status: ErrorStatus.OTHER, text: ErrorText.GENERAL };
       default:
         return { status: ErrorStatus.NONE, text: ErrorText.GENERAL };
     }

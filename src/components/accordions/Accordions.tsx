@@ -16,6 +16,7 @@ const Accordions: FC<AccordionsProps> = ({
   mainDesc,
   chapterName,
   attributeName,
+  setErrorStatus,
 }) => {
   const docRef = useDocRef();
   const chosenApplication = useRecoilValue(choosenApplicationState);
@@ -33,8 +34,8 @@ const Accordions: FC<AccordionsProps> = ({
 
   const renderAccordions = async () => {
     let accordions: ReactElement[] = [];
-    await getListOfAttributes(docRef!, attributeName, chapterName).then(
-      (attributeObjectList) => {
+    await getListOfAttributes(docRef!, attributeName, chapterName)
+      .then((attributeObjectList) => {
         attributeObjectList.forEach((attribute) => {
           Object.entries(attribute).forEach(([key, value]) => {
             accordions.push(
@@ -53,8 +54,13 @@ const Accordions: FC<AccordionsProps> = ({
         });
         accordions.sort((a: any, b: any) => a.key - b.key);
         setNewFields(accordions);
-      }
-    );
+      })
+      .catch(() => {
+        setErrorStatus({
+          status: "error",
+          text: "Kunne ikke hente data. Prøv å last inn siden på nytt.",
+        });
+      });
   };
 
   const copyField = async (
@@ -62,32 +68,40 @@ const Accordions: FC<AccordionsProps> = ({
     attributeName: string,
     chapterName: string
   ) => {
-    let attributeList = await copyAttributeFromTemplateToApplication(
+    await copyAttributeFromTemplateToApplication(
       chosenApplication,
       docRef,
       attributeName,
       chapterName
-    );
-    var accordion;
+    ).then((attributeList) => {
+      if (attributeList.length <= 0) {
+        setErrorStatus({
+          status: "error",
+          text: "Kunne ikke utføre handlingen.",
+        });
+      } else {
+        var accordion;
 
-    Object.entries(attributeList[0]).forEach(([key, value]) => {
-      accordion = (
-        <AccordionComponent
-          key={key}
-          name={key}
-          inputFields={value.input_fields}
-          priority={value.priority}
-          title={title}
-          mainDesc={mainDesc}
-          chapterName={chapterName}
-          onAccordionDelete={accordionDeleted}
-        ></AccordionComponent>
-      );
+        Object.entries(attributeList[0]).forEach(([key, value]) => {
+          accordion = (
+            <AccordionComponent
+              key={key}
+              name={key}
+              inputFields={value.input_fields}
+              priority={value.priority}
+              title={title}
+              mainDesc={mainDesc}
+              chapterName={chapterName}
+              onAccordionDelete={accordionDeleted}
+            ></AccordionComponent>
+          );
+        });
+
+        var accordions = [...newFields];
+        accordions.push(accordion);
+        setNewFields(accordions);
+      }
     });
-
-    var accordions = [...newFields];
-    accordions.push(accordion);
-    setNewFields(accordions);
   };
   return (
     <div>

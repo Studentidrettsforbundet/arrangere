@@ -16,23 +16,21 @@ import {
 import { Link } from "react-router-dom";
 import { useStyles } from "../style/drawerBar";
 import { auth } from "../firebase";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { userRoleState } from "../stateManagement/userAuth";
-
-function handleLogout(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-  e.preventDefault();
-  auth
-    .signOut()
-    .then(function () {})
-    .catch((error) => {
-      console.error("Not able to log out");
-    });
-}
+import { errorState } from "../stateManagement/errorHandling";
 
 export default function DrawerBar() {
+  const setError = useSetRecoilState(errorState);
   const classes = useStyles();
   const userRole = useRecoilValue(userRoleState);
 
+  function handleLogout(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
+    e.preventDefault();
+    auth.signOut().catch(() => {
+      setError("logout");
+    });
+  }
   return (
     <div className={classes.root}>
       <CssBaseline />

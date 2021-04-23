@@ -17,69 +17,48 @@ export const copyAttributeFromTemplateToApplication = async (
     .collection(template + "Template")
     .doc(`${chapterName}`);
 
-  const attributeInTemplate = await collectionToRef
-    .get()
-    .then((doc) => {
-      if (doc.exists) {
-        newAttribute = doc.data()!.attributes;
-        return newAttribute;
-      }
-    })
-    .catch((error) => {
-      console.error("Error reading from document first", JSON.stringify(error));
-    });
+  await collectionToRef.get().then((doc) => {
+    if (doc.exists) {
+      newAttribute = doc.data()!.attributes;
+      return newAttribute;
+    }
+  });
 
-  if (attributeInTemplate) {
-    await docRef
-      .get()
-      .then((doc: firebase.firestore.DocumentData) => {
-        if (doc.exists) {
-          let att = doc.data()![chapterName].attributes;
-          let counter = 0;
-          let highestPriority: number = 1;
-          Object.keys(att).forEach((attribute) => {
-            if (attribute.includes(attributeName)) {
-              counter++;
-              if (att[attribute].priority >= highestPriority) {
-                highestPriority = parseInt(att[attribute].priority) + 1;
-              }
-            }
-          });
-          let data: any = {};
-          let data2: any = {};
-
-          let newAttributeName = attributeName + highestPriority;
-
-          attributeObjectList = getOneNewAttribute(
-            newAttributeName,
-            newAttribute,
-            highestPriority
-          );
-
-          data[`${chapterName}.attributes.${newAttributeName}`] =
-            newAttribute[attributeName];
-
-          docRef.update(data, { merge: true }).catch((error: string) => {
-            console.error("Error updating document", JSON.stringify(error));
-          });
-
-          data2[
-            `${chapterName}.attributes.${newAttributeName}.priority`
-          ] = highestPriority;
-
-          docRef.update(data2).catch((error: string) => {
-            console.error("Error updating document", JSON.stringify(error));
-          });
+  await docRef.get().then((doc: firebase.firestore.DocumentData) => {
+    if (doc.exists) {
+      let att = doc.data()![chapterName].attributes;
+      let highestPriority: number = 1;
+      Object.keys(att).forEach((attribute) => {
+        if (attribute.includes(attributeName)) {
+          if (att[attribute].priority >= highestPriority) {
+            highestPriority = parseInt(att[attribute].priority) + 1;
+          }
         }
-      })
-      .catch((error: string) => {
-        console.error(
-          "Error reading from document second",
-          `${docRef}`,
-          JSON.stringify(error)
-        );
       });
-  }
+      let data: any = {};
+      let data2: any = {};
+
+      let newAttributeName = attributeName + highestPriority;
+
+      attributeObjectList = getOneNewAttribute(
+        newAttributeName,
+        newAttribute,
+        highestPriority
+      );
+
+      data[`${chapterName}.attributes.${newAttributeName}`] =
+        newAttribute[attributeName];
+
+      docRef.update(data, { merge: true });
+
+      data2[
+        `${chapterName}.attributes.${newAttributeName}.priority`
+      ] = highestPriority;
+
+      docRef.update(data2);
+    }
+  });
+
   return attributeObjectList;
 };
 
@@ -143,24 +122,16 @@ export const getListOfAttributes = async (
     { [key: string]: { input_fields: Array<InputField>; priority: number } }
   ] = [{}];
 
-  await docRef
-    .get()
-    .then((doc: firebase.firestore.DocumentData) => {
-      let att = doc.data()![chapterName].attributes;
-      Object.keys(att).forEach((attribute: string) => {
-        if (attribute.includes(attributeName)) {
-          let list = getOneNewAttribute(
-            attribute,
-            att,
-            att[attribute].priority
-          );
-          attributeObjectList.push(list[0]);
-        }
-      });
-    })
-    .catch((error: string) => {
-      console.error("Error creating", `${docRef}`, JSON.stringify(error));
+  await docRef.get().then((doc: firebase.firestore.DocumentData) => {
+    let att = doc.data()![chapterName].attributes;
+    Object.keys(att).forEach((attribute: string) => {
+      if (attribute.includes(attributeName)) {
+        let list = getOneNewAttribute(attribute, att, att[attribute].priority);
+        attributeObjectList.push(list[0]);
+      }
     });
+  });
+
   attributeObjectList.splice(0, 1);
 
   attributeObjectList.sort(

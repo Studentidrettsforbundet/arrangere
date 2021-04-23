@@ -17,6 +17,8 @@ const Template = (props: TemplateProps) => {
   const [loading, setLoading] = useState(true);
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
   const setChapterCounter = useSetRecoilState(chapterCounterState);
+  const [error, setError] = useState({ status: "success", text: "Success" });
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (isInitialMount.current) {
@@ -45,18 +47,18 @@ const Template = (props: TemplateProps) => {
               priority: chapter.data().priority,
             });
           } else {
-            throw new Error("No document.");
+            setError({ status: "error", text: "Kunne ikke hente data" });
           }
         });
-      })
-      .catch((error) => {
-        console.error("Error getting document: ", error);
       });
 
     setChapterList(chapterListLocal);
     setLoading(false);
   }
 
+  const toShowModal = (show: boolean) => {
+    setShowModal(show);
+  };
   return (
     <div style={{ width: "100%" }}>
       {loading ? (
@@ -67,6 +69,9 @@ const Template = (props: TemplateProps) => {
       ) : (
         <Application chapterList={chapterList}></Application>
       )}
+      {showModal ? (
+        <DisplayError error={error} showModal={toShowModal}></DisplayError>
+      ) : null}
     </div>
   );
 };

@@ -14,10 +14,5 @@ export const addDocToUser = async (
   let data: any = {};
   data[`applications.${docID}`] = applicationData;
 
-  firestore
-    .collection("user")
-    .doc(userID)
-    .update(data, { merge: true })
-    .then(() => console.log("Document added to user!"))
-    .catch((error) => console.log(error));
+  firestore.collection("user").doc(userID).update(data, { merge: true });
 };

@@ -97,7 +97,6 @@ export default function AppCard(props: AppCardProps) {
     } else {
       title = sport + ", " + organization;
     }
-    console.log(title);
     return title;
   }
 
