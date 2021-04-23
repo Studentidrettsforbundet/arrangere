@@ -102,7 +102,7 @@ const ChapterWrapper = ({
         <p></p>
       )}
       <div>{renderInputFields(attributeList, buttons, chapterName)}</div>
-      <Box display="flex" mt={3} mb={3}>
+      <Box display="flex" justifyContent="space-between" my={3}>
         <SaveButton />
         <SubmitButton chapterName={chapterName} />
       </Box>
