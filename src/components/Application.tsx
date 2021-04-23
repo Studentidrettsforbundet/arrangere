@@ -76,23 +76,46 @@ const Application = (props: ApplicationProps) => {
           {renderChapters(props.chapterList)[chapterCounter]}{" "}
           <Box display="flex" mt={3}>
             <Box width="100%">
-              <Button
-                variant="contained"
-                className={classes.prevBtn}
-                onClick={prevChapter}
-                startIcon={<NavigateBeforeIcon />}
-              >
-                Forrige
-              </Button>
+              {chapterCounter > 0 ? (
+                <Button
+                  variant="contained"
+                  className={classes.prevBtn}
+                  onClick={prevChapter}
+                  startIcon={<NavigateBeforeIcon />}
+                >
+                  Forrige
+                </Button>
+              ) : (
+                <Button
+                  disabled
+                  variant="contained"
+                  className={classes.prevBtn}
+                  onClick={prevChapter}
+                  startIcon={<NavigateBeforeIcon />}
+                >
+                  Forrige
+                </Button>
+              )}{" "}
             </Box>
             <Box flexShrink={0}>
-              <Button
-                variant="contained"
-                onClick={nextChapter}
-                endIcon={<NavigateNextIcon />}
-              >
-                Neste
-              </Button>
+              {chapterCounter < props.chapterList.length - 1 ? (
+                <Button
+                  variant="contained"
+                  onClick={nextChapter}
+                  endIcon={<NavigateNextIcon />}
+                >
+                  Neste
+                </Button>
+              ) : (
+                <Button
+                  disabled
+                  variant="contained"
+                  onClick={nextChapter}
+                  endIcon={<NavigateNextIcon />}
+                >
+                  Neste
+                </Button>
+              )}{" "}
             </Box>
           </Box>
         </Box>
