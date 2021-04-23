@@ -72,7 +72,7 @@ const LogIn = () => {
       .then(() => {
         history.push("/");
       })
-      .catch((error) => {
+      .catch(() => {
         setError("login");
       });
 

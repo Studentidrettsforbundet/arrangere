@@ -14,11 +14,13 @@ export function useDocRef() {
   }
 }
 
-export const saveInput = (
+export const saveInput = async (
   docRef: firebase.firestore.DocumentReference<firebase.firestore.DocumentData>,
   inputFieldObject: any
 ) => {
-  Object.entries(inputFieldObject).forEach(([key, value]) => {
+  let status = true;
+
+  for (const [key, value] of Object.entries(inputFieldObject)) {
     if (key != "chapterName") {
       let attributeName: string = "";
       let inputNr: string = "";
@@ -31,17 +33,12 @@ export const saveInput = (
         `${inputFieldObject.chapterName}.attributes.${attributeName}.input_fields.input${inputNr}.value`
       ] = value;
 
-      docRef
-        .update(data)
-        .then(() => {
-          console.log("Field updated!");
-        })
-        .catch((error) => {
-          console.log("Error occured: ", error);
-          throw new Error("Could not update field.");
-        });
+      await docRef.update(data).catch(() => {
+        status = false;
+      });
     }
-  });
+  }
+  return status;
 };
 
 export const addFieldInputObject = (

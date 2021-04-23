@@ -44,13 +44,9 @@ const AccordionComponent: FC<AccordionProps> = ({
     setLoadingDelete(true);
 
     let fieldPath = `${chapterName}.attributes.${attName}`;
-    await docRef
-      .update({
-        [fieldPath]: firebase.firestore.FieldValue.delete(),
-      })
-      .catch((error: any) => {
-        console.error(error);
-      });
+    await docRef.update({
+      [fieldPath]: firebase.firestore.FieldValue.delete(),
+    });
 
     const inputFieldObjectLocal = Object.entries(inputFieldObject).reduce(
       (inputFieldObjectLocal, [key, val]) => {
