@@ -37,11 +37,13 @@ export const SubmitButton: FC<SubmitButtonProps> = ({ chapterName }) => {
         .doc(currentUserID!.uid)
         .get();
       const docData: firebase.firestore.DocumentData = doc.data()!;
-      for (const application in docData.applications) {
-        if (docData.applications[application].id === currentDocID) {
-          setStatusToSubmitted(docRef!, userID, application);
-          setSubmitted("submitted");
-          history.push("/applications");
+      if (docData != undefined) {
+        for (const application in docData.applications) {
+          if (docData.applications[application].id === currentDocID) {
+            setStatusToSubmitted(docRef!, userID, application);
+            setSubmitted("submitted");
+            history.push("/applications");
+          }
         }
       }
       setSubmitted("failed");

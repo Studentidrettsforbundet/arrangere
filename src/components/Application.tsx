@@ -11,6 +11,7 @@ import { saveInput, useDocRef } from "./inputFields/saveInputFields";
 import { inputFieldObjectState } from "../stateManagement/attributesState";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import { ReactElement } from "react";
 
 const Application = (props: ApplicationProps) => {
   const classes = useStyles();
@@ -22,7 +23,7 @@ const Application = (props: ApplicationProps) => {
   const inputFieldObject = useRecoilValue(inputFieldObjectState);
 
   const renderChapters = (chapterList: Array<Chapter>) => {
-    const chapters: any = [];
+    const chapters: ReactElement[] = [];
     chapterList.map((chapter: Chapter) => {
       chapters.push(
         <ChapterWrapper
@@ -38,7 +39,7 @@ const Application = (props: ApplicationProps) => {
   };
 
   const renderButtons = (chapterList: Array<Chapter>) => {
-    const chapterButtons: any = [];
+    const chapterButtons: ReactElement[] = [];
     chapterList.map((chapter: Chapter) => {
       chapterButtons.push(
         <ChapterButton
@@ -54,14 +55,14 @@ const Application = (props: ApplicationProps) => {
   const nextChapter = () => {
     if (chapterCounter < props.chapterList.length - 1) {
       setChapterCounter(chapterCounter + 1);
-      saveInput(docRef, inputFieldObject);
+      saveInput(docRef!, inputFieldObject);
     }
   };
 
   const prevChapter = () => {
     if (chapterCounter > 0) {
       setChapterCounter(chapterCounter - 1);
-      saveInput(docRef, inputFieldObject);
+      saveInput(docRef!, inputFieldObject);
     }
   };
 
@@ -75,23 +76,46 @@ const Application = (props: ApplicationProps) => {
           {renderChapters(props.chapterList)[chapterCounter]}{" "}
           <Box display="flex" mt={3}>
             <Box width="100%">
-              <Button
-                variant="contained"
-                className={classes.prevBtn}
-                onClick={prevChapter}
-                startIcon={<NavigateBeforeIcon />}
-              >
-                Forrige
-              </Button>
+              {chapterCounter > 0 ? (
+                <Button
+                  variant="contained"
+                  className={classes.prevBtn}
+                  onClick={prevChapter}
+                  startIcon={<NavigateBeforeIcon />}
+                >
+                  Forrige
+                </Button>
+              ) : (
+                <Button
+                  disabled
+                  variant="contained"
+                  className={classes.prevBtn}
+                  onClick={prevChapter}
+                  startIcon={<NavigateBeforeIcon />}
+                >
+                  Forrige
+                </Button>
+              )}{" "}
             </Box>
             <Box flexShrink={0}>
-              <Button
-                variant="contained"
-                onClick={nextChapter}
-                endIcon={<NavigateNextIcon />}
-              >
-                Neste
-              </Button>
+              {chapterCounter < props.chapterList.length - 1 ? (
+                <Button
+                  variant="contained"
+                  onClick={nextChapter}
+                  endIcon={<NavigateNextIcon />}
+                >
+                  Neste
+                </Button>
+              ) : (
+                <Button
+                  disabled
+                  variant="contained"
+                  onClick={nextChapter}
+                  endIcon={<NavigateNextIcon />}
+                >
+                  Neste
+                </Button>
+              )}{" "}
             </Box>
           </Box>
         </Box>

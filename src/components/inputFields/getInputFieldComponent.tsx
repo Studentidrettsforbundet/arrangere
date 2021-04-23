@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { ReactElement } from "react";
 import Date from "./Date";
 import FileUpload from "./FileUpload";
 import LongText from "./LongText";
@@ -43,8 +43,8 @@ export const generateComponents = (
   inputFields: Array<InputField>,
   chapterName: string
 ) => {
-  const components: any = [];
-  inputFields.map((inputField: any, i) => {
+  const components: ReactElement[] = [];
+  inputFields.map((inputField: InputField, i) => {
     const Component = getComponentToBeRendered(inputField.type);
     components.push(
       <Component

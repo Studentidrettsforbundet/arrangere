@@ -90,12 +90,23 @@ export default function AppCard(props: AppCardProps) {
     return status;
   }
 
+  function getTitle() {
+    let title;
+    if (props.collectionName === "sl" || sport == [""]) {
+      title = organization;
+    } else {
+      title = sport + ", " + organization;
+    }
+    console.log(title);
+    return title;
+  }
+
   return (
     <div>
       <Card className={classes.root}>
         <CardHeader
           className={classes.header}
-          title={sport + ", " + organization}
+          title={getTitle()}
           subheader={date}
           avatar={
             <Avatar aria-label="recipe" className={classes.avatar}>

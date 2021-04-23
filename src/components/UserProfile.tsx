@@ -9,17 +9,18 @@ import {
   Divider,
   Grid,
   CircularProgress,
+  Paper,
 } from "@material-ui/core";
 
 export default function UserProfile() {
   const [loading, setLoading] = useState(false);
   const currentUser = useRecoilValue(currentUserState);
-  let [organizationName, setOrganizationName] = useState<any>();
+  let [organizationName, setOrganizationName] = useState<string>();
   let [
     organizationAccountNumber,
     setOrganizationAccountNumber,
-  ] = useState<String>();
-  let [organizationNumber, setOrganizationNumber] = useState<String>();
+  ] = useState<string>();
+  let [organizationNumber, setOrganizationNumber] = useState<string>();
   const classes = useStyles();
   var db = firebase.firestore();
 
@@ -47,7 +48,6 @@ export default function UserProfile() {
 
   async function retriveOrganizationInfo() {
     if (organizationName != "") {
-      //setLoading(true);
       await db
         .collection("organizations")
         .doc(organizationName)
@@ -70,14 +70,12 @@ export default function UserProfile() {
   return (
     <div role="main">
       <Box p={12} width={1}>
-        <Grid container direction="row" alignItems="center">
-          <Grid item xs={10}>
-            <Typography className={classes.header} variant="h1">
-              Min profil
-            </Typography>
-            <Divider className={classes.divider} variant="fullWidth" />
-          </Grid>
+        <Grid container direction="row" item xs={10} alignItems="center">
+          <Typography className={classes.header} variant="h1">
+            Min profil
+          </Typography>
         </Grid>
+        <Divider className={classes.divider} variant="fullWidth" />
         {loading ? (
           <Grid container direction="row" alignItems="center">
             <Grid item sm={2}></Grid>
@@ -87,31 +85,55 @@ export default function UserProfile() {
             </Grid>
           </Grid>
         ) : (
-          <Grid container direction="row" alignItems="center">
-            <Grid className={classes.contentGrid} item xs={10}>
-              <Typography className={classes.contentHeader}>Email:</Typography>
-              <Typography className={classes.content}>
-                {currentUser?.email}
-              </Typography>
-              <Typography className={classes.contentHeader}>
-                Idrettsklubb:
-              </Typography>
-              <Typography className={classes.content}>
-                {organizationName}
-              </Typography>
-              <Typography className={classes.contentHeader}>
-                Organisasjonsnummer:
-              </Typography>
-              <Typography className={classes.content}>
-                {organizationNumber}
-              </Typography>
-              <Typography className={classes.contentHeader}>
-                Organisasjonens kontonummer:
-              </Typography>
-              <Typography className={classes.content}>
-                {organizationAccountNumber}
-              </Typography>
-            </Grid>
+          <Grid
+            className={classes.contentGrid}
+            item
+            xs={10}
+            container
+            direction="column"
+            justify="center"
+            alignItems="flex-start"
+          >
+            <Paper className={classes.paper} elevation={0}>
+              <Grid container direction="column">
+                <Typography className={classes.contentHeader}>
+                  Email:
+                </Typography>
+                <Typography className={classes.content}>
+                  {currentUser?.email}
+                </Typography>
+              </Grid>
+            </Paper>
+            <Paper className={classes.paper} elevation={0}>
+              <Grid container direction="column">
+                <Typography className={classes.contentHeader}>
+                  Idrettsklubb:
+                </Typography>
+                <Typography className={classes.content}>
+                  {organizationName}
+                </Typography>
+              </Grid>
+            </Paper>
+            <Paper className={classes.paper} elevation={0}>
+              <Grid container direction="column">
+                <Typography className={classes.contentHeader}>
+                  Organisasjonsnummer:
+                </Typography>
+                <Typography className={classes.content}>
+                  {organizationNumber}
+                </Typography>
+              </Grid>
+            </Paper>
+            <Paper className={classes.paper} elevation={0}>
+              <Grid container direction="column">
+                <Typography className={classes.contentHeader}>
+                  Organisasjonens kontonummer:
+                </Typography>
+                <Typography className={classes.content}>
+                  {organizationAccountNumber}
+                </Typography>
+              </Grid>
+            </Paper>
           </Grid>
         )}
       </Box>

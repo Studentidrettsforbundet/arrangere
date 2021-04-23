@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { firestore } from "../firebase";
 import {
   Accordion,
@@ -36,7 +36,7 @@ const Home = () => {
   }
 
   const renderAccordions = (accordionList: Array<HomeAccordionProps>) => {
-    const accordions: any = [];
+    const accordions: ReactElement[] = [];
     accordionList.map((accordion: HomeAccordionProps, i) => {
       accordions.push(
         <Box p={0.5} key={i}>
