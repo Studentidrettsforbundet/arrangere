@@ -1,19 +1,26 @@
 import { useEffect, useRef, useState } from "react";
-import { useSetRecoilState } from "recoil";
-import { firestore } from "../firebase";
-import { chapterCounterState } from "../stateManagement/choosenApplication";
-import DisplayError from "./DisplayError";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  chapterCounterState,
+  choosenApplicationState,
+} from "../stateManagement/choosenApplication";
 import Application from "./Application";
+import { Box, Typography } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
+import { getChapterList } from "./inputFields/retriveTemplate";
+import { documentState } from "../stateManagement/attributesState";
+import { currentUserState } from "../stateManagement/userAuth";
+import { addDocToUser } from "./inputFields/addDocToUser";
+import { copyDoc } from "./inputFields/copyDoc";
 
-type TemplateProps = {
-  choosenApplicationForm: string;
-};
-
-const Template = (props: TemplateProps) => {
+const Template = (props: any) => {
   const isInitialMount = useRef(true);
   const [loading, setLoading] = useState(true);
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
   const setChapterCounter = useSetRecoilState(chapterCounterState);
+  const currentUser = useRecoilValue(currentUserState);
+  const setDocID = useSetRecoilState(documentState);
+  const setCurrentCollectionState = useSetRecoilState(choosenApplicationState);
 
   useEffect(() => {
     if (isInitialMount.current) {
@@ -21,47 +28,30 @@ const Template = (props: TemplateProps) => {
       setChapterCounter(0);
     }
     generateApplicationForm();
-  }, [props.choosenApplicationForm]);
+  }, []);
 
   async function generateApplicationForm() {
     setLoading(true);
-    let chapterListLocal: Array<Chapter> = [];
-
-    await firestore
-      .collection(props.choosenApplicationForm + "Template")
-      .get()
-      .then((snapshot) => {
-        snapshot.docs.forEach((chapter) => {
-          if (chapter.exists) {
-            chapterListLocal.push({
-              chapterName: chapter.id,
-              buttons: chapter.data().buttons,
-              title: chapter.data().title,
-              desc: chapter.data().desc,
-              attributes: chapter.data().attributes,
-              priority: chapter.data().priority,
-            });
-          } else {
-            console.log("No such document!");
-            <DisplayError message={""} title={""} />;
-            throw new Error("No document.");
-          }
-        });
-      })
-      .catch((error) => {
-        console.log("Error getting document: ", error);
-      });
-
+    const newDocId = await copyDoc(props.location.state.collection, currentUser);
+    setDocID(newDocId);
+    addDocToUser(currentUser!.uid, newDocId, props.location.state.collection);
+    setCurrentCollectionState(props.location.state.collection);
+    const chapterListLocal = await getChapterList(
+      props.location.state.collection
+    );
     setChapterList(chapterListLocal);
     setLoading(false);
   }
 
   return (
     <div style={{ width: "100%" }}>
-      {loading ? (
-        <p>Laster inn..</p>
-      ) : (
+      {!loading ? (
         <Application chapterList={chapterList}></Application>
+      ) : (
+        <Box p={10}>
+          <Typography variant="subtitle2">Laster inn..</Typography>
+          <Skeleton />
+        </Box>
       )}
     </div>
   );

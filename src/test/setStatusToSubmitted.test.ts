@@ -2,8 +2,6 @@
  * @jest-environment node
  */
 
-import { saveInput } from "../components/inputFields/saveInputFields";
-import { getInputValue } from "../components/inputFields/getInputValue";
 import { firestore } from "../firebase";
 import { setStatusToSubmitted } from "../components/inputFields/setStatusToSubmitted";
 describe("Test", () => {

@@ -1,3 +1,5 @@
+import { Box, Typography } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
 import { useEffect, useRef, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { firestore } from "../../firebase";
@@ -71,7 +73,10 @@ export const UserApplication = () => {
   return (
     <div style={{ width: "100%" }}>
       {loading ? (
-        <p>Laster inn..</p>
+        <Box p={10}>
+          <Typography variant="subtitle2">Laster inn..</Typography>
+          <Skeleton />
+        </Box>
       ) : (
         <Application chapterList={chapterList}></Application>
       )}

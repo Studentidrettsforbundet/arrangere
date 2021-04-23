@@ -16,7 +16,7 @@ import Alert from "@material-ui/lab/Alert";
 import logo from "../images/logo-sort.png";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
-  BrowserRouter as Router,
+  BrowserRouter,
   Link as RouterLink,
   Redirect,
   useHistory,
@@ -105,7 +105,6 @@ const SignUp = () => {
       .catch((err: any) => {
         setError(err.code);
       });
-
     setLoading(false);
   };
 

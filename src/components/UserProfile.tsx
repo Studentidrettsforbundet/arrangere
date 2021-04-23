@@ -10,6 +10,7 @@ import {
   Grid,
   CircularProgress,
 } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
 
 export default function UserProfile() {
   const [loading, setLoading] = useState(false);
@@ -82,7 +83,10 @@ export default function UserProfile() {
           <Grid container direction="row" alignItems="center">
             <Grid item sm={2}></Grid>
             <Grid className={classes.contentGrid} item xs={12}>
-              <p>Laster inn..</p>
+              <Box p={10}>
+                <Typography variant="subtitle2">Laster inn..</Typography>
+                <Skeleton />
+              </Box>
               <CircularProgress />
             </Grid>
           </Grid>

@@ -4,56 +4,8 @@ import Student_NM_logo from "./../images/student_NM.png";
 import Studentleker_logo from "./../images/studentleker-1.png";
 import Student_Cup_logo from "./../images/studentcup-1.png";
 import { UserApplications } from "./user/UserApplications";
-import { useStyles } from "../style/cards";
-import { useRecoilValue } from "recoil";
-import { currentUserState } from "../stateManagement/userAuth";
-import React, { useEffect, useState } from "react";
-import { firestore } from "../firebase";
-import AppCard from "./admin/AppCard";
 
 export const ChooseApplication = () => {
-  const [submittedApplicationIDs, setSubmittedApplicationIDs] = useState<
-    Array<any>
-  >([]);
-  const [inProgressApplicationIDs, setInProgressApplicationIDs] = useState<
-    Array<any>
-  >([]);
-  const classes = useStyles();
-  const currentUser = useRecoilValue(currentUserState);
-
-  useEffect(() => {
-    getApplications();
-  }, []);
-
-  async function getApplications() {
-    let submittedApplicationIDs: Array<any> = [];
-    let inProgressApplicationIDs: Array<any> = [];
-    if (currentUser != null) {
-      const doc = await firestore.collection("user").doc(currentUser.uid).get();
-      const docData: any = doc.data();
-      if (docData != undefined) {
-        for (const applicationID in docData.applications) {
-          if (docData.applications[applicationID].id != undefined) {
-            if (docData.applications[applicationID].status == "submitted") {
-              // Her er det sykt rart at jeg ikke kan sette det som et objekt som er gjort i else under..
-              submittedApplicationIDs.push({
-                id: docData.applications[applicationID].id,
-                collection: docData.applications[applicationID].collection,
-              });
-            } else {
-              inProgressApplicationIDs.push({
-                id: docData.applications[applicationID].id,
-                collection: docData.applications[applicationID].collection,
-              });
-            }
-          }
-        }
-      }
-    }
-    setSubmittedApplicationIDs(submittedApplicationIDs);
-    setInProgressApplicationIDs(inProgressApplicationIDs);
-  }
-
   return (
     <div role="main" style={{ padding: 40 }}>
       <Typography aria-label="Søknader" align="left" variant="h1"></Typography>
@@ -71,19 +23,19 @@ export const ChooseApplication = () => {
           image={Student_NM_logo}
           title="Søknadskjema for Student-NM"
           to="/studentnm"
-          template="snm"
+          collection="snm"
         />
         <ApplicationCard
           image={Studentleker_logo}
           title="Søknadskjema for Studentleker"
           to="/studentleker"
-          template="sl"
+          collection="sl"
         />
         <ApplicationCard
           image={Student_Cup_logo}
           title="Søknadskjema for Student-Cup"
           to="/studentcup"
-          template="sc"
+          collection="sc"
         />
       </Grid>
       <UserApplications />
