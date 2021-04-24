@@ -1,23 +1,19 @@
-import { Box, Grid, Typography } from "@material-ui/core";
-import React, { ReactElement, useEffect, useState } from "react";
+import { Typography } from "@material-ui/core";
+import { ReactElement, useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { inputFieldObjectState } from "../stateManagement/attributesState";
 import InputWrapper from "./inputFields/InputWrapper";
 import { is_numeric } from "./utils";
 import { useStyles } from "../style/chapters";
-import { SubmitButton } from "./SubmitButton";
-import { SaveButton } from "./SaveButton";
-import DisplayError from "./DisplayError";
+
 
 const ChapterWrapper = ({
   chapter: { attributes, buttons, desc, title },
-  chapterName,
+  chapterName, setErrorStatus
 }: ChapterWithName) => {
   const [loading, setLoading] = useState(true);
   const [attributeList, setAttributeList] = useState<AttributeObject[]>([]);
   const setInputFieldObject = useSetRecoilState(inputFieldObjectState);
-  const [error, setError] = useState({ status: "success", text: "Success" });
-  const [showModal, setShowModal] = useState(false);
 
   const classes = useStyles();
 
@@ -91,12 +87,8 @@ const ChapterWrapper = ({
     return inputWrappers;
   };
 
-  const toShowModal = (show: boolean) => {
-    setShowModal(show);
-  };
   const onSetError = (error: { status: any; text: string }) => {
-    setError(error);
-    setShowModal(true);
+    setErrorStatus(error);
   };
 
   return (
@@ -112,18 +104,6 @@ const ChapterWrapper = ({
         <p></p>
       )}
       <div>{renderInputFields(attributeList, buttons, chapterName)}</div>
-      <Grid
-        container
-        direction="row"
-        justify="space-between"
-        alignItems="flex-start"
-      >
-        <SaveButton setErrorStatus={onSetError} />
-        <SubmitButton setErrorStatus={onSetError} chapterName={chapterName} />
-        {showModal ? (
-          <DisplayError error={error} showModal={toShowModal}></DisplayError>
-        ) : null}
-      </Grid>
     </div>
   );
 };

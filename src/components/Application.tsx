@@ -4,14 +4,17 @@ import {
   chapterCounterState,
   currentChapterState,
 } from "../stateManagement/applicationState";
-import { Box, Button } from "@material-ui/core/";
-import { useStyles } from "../style/chapters";
-import ChapterButton from "./ChapterButton";
-import { saveInput, useDocRef } from "./inputFields/saveInputFields";
 import { inputFieldObjectState } from "../stateManagement/attributesState";
+import { ReactElement, useState } from "react";
+import { Grid, Box, Button } from "@material-ui/core/";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
-import { ReactElement } from "react";
+import { useStyles } from "../style/chapters";
+import { saveInput, useDocRef } from "./inputFields/saveInputFields";
+import ChapterButton from "./ChapterButton";
+import { SubmitButton } from "./SubmitButton";
+import { SaveButton } from "./SaveButton";
+import DisplayError from "./DisplayError";
 
 const Application = (props: ApplicationProps) => {
   const classes = useStyles();
@@ -21,6 +24,8 @@ const Application = (props: ApplicationProps) => {
     chapterCounterState
   );
   const inputFieldObject = useRecoilValue(inputFieldObjectState);
+  const [error, setError] = useState({ status: "success", text: "Success" });
+  const [showModal, setShowModal] = useState(false);
 
   const renderChapters = (chapterList: Array<Chapter>) => {
     const chapters: ReactElement[] = [];
@@ -30,6 +35,7 @@ const Application = (props: ApplicationProps) => {
           key={chapter.title}
           chapterName={chapter.chapterName}
           chapter={chapter}
+          setErrorStatus={onSetError}
         />
       );
     });
@@ -66,6 +72,15 @@ const Application = (props: ApplicationProps) => {
     }
   };
 
+  const toShowModal = (show: boolean) => {
+    setShowModal(show);
+  };
+
+  const onSetError = (error: { status: any; text: string }) => {
+    setError(error);
+    setShowModal(true);
+  };
+
   return (
     <div>
       <div role="navigation" className="chapterButtons">
@@ -74,6 +89,19 @@ const Application = (props: ApplicationProps) => {
       <div role="main">
         <Box px={15} pb={6} pt={6}>
           {renderChapters(props.chapterList)[chapterCounter]}{" "}
+          <Grid
+            container
+            direction="row"
+            justify="space-between"
+            alignItems="flex-start"
+          >
+            <SaveButton setErrorStatus={onSetError} />
+            {chapterCounter < props.chapterList.length - 1 ? null :
+              <SubmitButton setErrorStatus={onSetError} />}
+            {showModal ? (
+              <DisplayError error={error} showModal={toShowModal}></DisplayError>
+            ) : null}
+          </Grid>
           <Box display="flex" mt={3}>
             <Box width="100%">
               {chapterCounter > 0 ? (
