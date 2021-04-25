@@ -14,7 +14,9 @@ import { addDocToUser } from "./inputFields/addDocToUser";
 import { copyDoc } from "./inputFields/copyDoc";
 import DisplayError from "./DisplayError";
 
-const Template = (props: any) => {
+import { RouteComponentProps } from 'react-router-dom';
+
+const Template = (props: RouteComponentProps<{}, {}, ApplicationStateProps>) => {
   const isInitialMount = useRef(true);
   const [loading, setLoading] = useState(true);
   const [chapterList, setChapterList] = useState<Chapter[]>([]);

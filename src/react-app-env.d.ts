@@ -86,9 +86,7 @@ type ButtonProps = {
   priority: number;
 };
 
-type ReceivedApplicationProps = {
-  collectionName: string;
-};
+type LocationProps = Location<StateType>;
 
 type ErrorTypes = {
   status: ErrorStatus;
@@ -125,6 +123,11 @@ type AccordionProps = {
   mainDesc: string;
   chapterName: string;
   onAccordionDelete: (isDeleted: boolean) => void;
+};
+
+type ApplicationStateProps = {
+  collection: string;
+  applicationID: string;
 };
 
 type ApplicationProps = {
