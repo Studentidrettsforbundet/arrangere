@@ -6,7 +6,9 @@ import { firestore } from "../../firebase";
 import { chapterCounterState } from "../../stateManagement/applicationState";
 import Application from "../Application";
 
-export const UserApplication = (props: any) => {
+import { RouteComponentProps } from 'react-router-dom';
+
+export const UserApplication = (props: RouteComponentProps<{}, {}, ApplicationStateProps>) => {
   //foreslår å endre dette navnet til UserApplicationReview
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
   const [loading, setLoading] = useState(true);
