@@ -99,9 +99,7 @@ export const UserApplications = () => {
         Mine påbegynte søknader
       </Typography>
       {inProgressApplicationIDs.length === 0 ? (
-        <p style={{ color: "#707070", textAlign: "center", padding: 30 }}>
-          Du har ingen påbegynte søknader.
-        </p>
+        <p style={{ color: "#707070" }}>Du har ingen påbegynte søknader.</p>
       ) : (
         <Box>
           <Grid
@@ -128,7 +126,7 @@ export const UserApplications = () => {
         Mine innsendte søknader
       </Typography>
       {submittedApplicationIDs.length === 0 ? (
-        <p>Du har ingen innsendte søknader.</p>
+        <p style={{ color: "#707070" }}>Du har ingen innsendte søknader.</p>
       ) : (
         <Box>
           <Grid
