@@ -30,6 +30,7 @@ import {
   currentUserState,
   userRoleState,
 } from "../../stateManagement/userAuth";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 export default function AppCard(props: AppCardProps) {
   const setCurrentApplicationIdState = useSetRecoilState(applicationIDState);
@@ -126,7 +127,7 @@ export default function AppCard(props: AppCardProps) {
             <>
               <Chip
                 className={classes.submittedColor}
-                label="innsendt"
+                label="Innsendt"
                 size="small"
                 icon={<DoneIcon className={classes.submittedColor} />}
               />
@@ -134,7 +135,7 @@ export default function AppCard(props: AppCardProps) {
           ) : (
             <Chip
               className={classes.inProgressColor}
-              label="påbegynt"
+              label="Påbegynt"
               size="small"
             />
           )}
@@ -182,6 +183,7 @@ export default function AppCard(props: AppCardProps) {
                   </Button>
                   <Button
                     onClick={() => handleDeleteApplication()}
+                    style={{ backgroundColor: "#d9534f", color: "white" }}
                     color="primary"
                   >
                     Slett søknad

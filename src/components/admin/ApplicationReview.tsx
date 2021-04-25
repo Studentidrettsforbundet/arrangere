@@ -1,17 +1,22 @@
 import { Box, Button, Typography } from "@material-ui/core";
 import firebase from "firebase";
-import { ReactElement, useEffect, useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { chapterCounterState, currentChapterState } from "../../stateManagement/applicationState";
+import { ReactElement, useEffect, useRef, useState } from "react";
+import { RecoilValueReadOnly, useRecoilState, useSetRecoilState } from "recoil";
+import {
+  chapterCounterState,
+  currentChapterState,
+} from "../../stateManagement/applicationState";
 
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from "react-router-dom";
 import { useStyles } from "../../style/chapters";
 import ChapterButton from "../ChapterButton";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import { Skeleton } from "@material-ui/lab";
 
-export const ApplicationReview = (props: RouteComponentProps<{}, {}, ApplicationStateProps>) => {
+export const ApplicationReview = (
+  props: RouteComponentProps<{}, {}, ApplicationStateProps>
+) => {
   var db = firebase.firestore();
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
   const classes = useStyles();
@@ -20,9 +25,17 @@ export const ApplicationReview = (props: RouteComponentProps<{}, {}, Application
   const [chapterCounter, setChapterCounter] = useRecoilState(
     chapterCounterState
   );
+  const isInitialMount = useRef(true);
 
   useEffect(() => {
-    retriveApplicationData(props.location.state.collection, props.location.state.applicationID);
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      setChapterCounter(0);
+    }
+    retriveApplicationData(
+      props.location.state.collection,
+      props.location.state.applicationID
+    );
   }, []);
 
   async function retriveApplicationData(
@@ -33,7 +46,7 @@ export const ApplicationReview = (props: RouteComponentProps<{}, {}, Application
       console.error("currentCollection is empty");
     } else {
       let chapterListLocal: Array<Chapter> = [];
-      setLoading(true)
+      setLoading(true);
       await db
         .collection(currentCollection + "Applications")
         .doc(currentApplicationId)
@@ -64,13 +77,13 @@ export const ApplicationReview = (props: RouteComponentProps<{}, {}, Application
           }
         });
       setChapterList(chapterListLocal);
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   const renderChapters = (chapterList: Array<Chapter>) => {
     chapterList.sort((a: Chapter, b: Chapter) => a.priority - b.priority);
-    const chapters: ReactElement[] = []
+    const chapters: ReactElement[] = [];
     chapterList.map((chapter: Chapter, i) => {
       chapters.push(
         <div key={i}>
@@ -83,7 +96,7 @@ export const ApplicationReview = (props: RouteComponentProps<{}, {}, Application
           {renderAttributes(chapter.attributes)}
         </div>
       );
-    })
+    });
     setCurrentChapterState(chapterList[chapterCounter].title);
     return chapters;
   };
@@ -113,7 +126,6 @@ export const ApplicationReview = (props: RouteComponentProps<{}, {}, Application
     );
   };
 
-
   const renderInputFields = (inputFields: Array<InputField>) => {
     let inputFieldList: InputField[] = [];
     for (const inputField in inputFields) {
@@ -141,13 +153,12 @@ export const ApplicationReview = (props: RouteComponentProps<{}, {}, Application
             }
             return (
               <Box pb={3} key={i}>
-                <Typography style={{ fontWeight: "bold" }} variant="subtitle1">
-                  {inputField.desc}
-                </Typography>
-                <Typography variant="body1">
-                  Svar:
-                  {value}
-                </Typography>
+                <Typography variant="subtitle1">{inputField.desc}</Typography>
+                <Box>
+                  <Typography style={{ fontWeight: "bold" }} variant="body1">
+                    Svar: <Typography>{value}</Typography>
+                  </Typography>
+                </Box>
               </Box>
             );
           }
@@ -184,11 +195,13 @@ export const ApplicationReview = (props: RouteComponentProps<{}, {}, Application
 
   return (
     <div style={{ width: "100%" }}>
-      {loading ? (<Box p={10}>
-        <Typography variant="subtitle2">Laster inn..</Typography>
-        <Skeleton />
-      </Box>) :
-        (<div>
+      {loading ? (
+        <Box p={10}>
+          <Typography variant="subtitle2">Laster inn..</Typography>
+          <Skeleton />
+        </Box>
+      ) : (
+        <div>
           <div role="navigation" className="chapterButtons">
             <Box className={classes.nav}>{renderButtons(chapterList)}</Box>
           </div>
@@ -241,7 +254,8 @@ export const ApplicationReview = (props: RouteComponentProps<{}, {}, Application
               </Box>
             </Box>
           </div>
-        </div>)}
+        </div>
+      )}
     </div>
   );
 };
