@@ -126,7 +126,7 @@ export default function AppCard(props: AppCardProps) {
             <>
               <Chip
                 className={classes.submittedColor}
-                label="innsendt"
+                label="Innsendt"
                 size="small"
                 icon={<DoneIcon className={classes.submittedColor} />}
               />
@@ -134,7 +134,7 @@ export default function AppCard(props: AppCardProps) {
           ) : (
             <Chip
               className={classes.inProgressColor}
-              label="påbegynt"
+              label="Påbegynt"
               size="small"
             />
           )}
