@@ -23,7 +23,7 @@ export const SubmittedApplications = () => {
         .collection("user")
         .doc(currentUser.uid)
         .get()
-        .then((doc: any) => {
+        .then((doc: firebase.firestore.DocumentData) => {
           const data = doc?.data();
           if (!data) {
             return null;
