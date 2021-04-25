@@ -1,19 +1,29 @@
-import { Box, Typography } from "@material-ui/core";
+import { Box, Button, Typography } from "@material-ui/core";
 import firebase from "firebase";
-import { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { applicationIDState } from "../../stateManagement/attributesState";
-import { applicationTypeState } from "../../stateManagement/applicationState";
+import { ReactElement, useEffect, useState } from "react";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { chapterCounterState, currentChapterState } from "../../stateManagement/applicationState";
 
-export const ApplicationReview = () => {
+import { RouteComponentProps } from 'react-router-dom';
+import { useStyles } from "../../style/chapters";
+import ChapterButton from "../ChapterButton";
+import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import { Skeleton } from "@material-ui/lab";
+
+export const ApplicationReview = (props: RouteComponentProps<{}, {}, ApplicationStateProps>) => {
   var db = firebase.firestore();
-  let currentApplicationId: string = useRecoilValue(applicationIDState);
-  let currentCollection: string = useRecoilValue(applicationTypeState);
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
+  const classes = useStyles();
+  const [loading, setLoading] = useState(true);
+  const setCurrentChapterState = useSetRecoilState(currentChapterState);
+  const [chapterCounter, setChapterCounter] = useRecoilState(
+    chapterCounterState
+  );
 
   useEffect(() => {
-    retriveApplicationData(currentCollection, currentApplicationId);
-  }, [currentApplicationId]);
+    retriveApplicationData(props.location.state.collection, props.location.state.applicationID);
+  }, []);
 
   async function retriveApplicationData(
     currentCollection: string,
@@ -23,7 +33,7 @@ export const ApplicationReview = () => {
       console.error("currentCollection is empty");
     } else {
       let chapterListLocal: Array<Chapter> = [];
-
+      setLoading(true)
       await db
         .collection(currentCollection + "Applications")
         .doc(currentApplicationId)
@@ -34,20 +44,75 @@ export const ApplicationReview = () => {
             return null;
           } else {
             for (let chapter in docData) {
-              chapterListLocal.push({
-                chapterName: chapter,
-                title: docData[chapter].title,
-                desc: docData[chapter].desc,
-                attributes: docData[chapter].attributes,
-                priority: docData[chapter].priority,
-                buttons: docData[chapter].buttons,
-              });
+              if (
+                chapter != "status" &&
+                chapter != "user_id" &&
+                chapter != "date" &&
+                chapter != "user_email" &&
+                chapter != "user_organization"
+              ) {
+                chapterListLocal.push({
+                  chapterName: chapter,
+                  title: docData[chapter].title,
+                  desc: docData[chapter].desc,
+                  attributes: docData[chapter].attributes,
+                  priority: docData[chapter].priority,
+                  buttons: docData[chapter].buttons,
+                });
+              }
             }
-            setChapterList(chapterListLocal);
           }
         });
+      setChapterList(chapterListLocal);
+      setLoading(false)
     }
   }
+
+  const renderChapters = (chapterList: Array<Chapter>) => {
+    chapterList.sort((a: Chapter, b: Chapter) => a.priority - b.priority);
+    const chapters: ReactElement[] = []
+    chapterList.map((chapter: Chapter, i) => {
+      chapters.push(
+        <div key={i}>
+          <Typography style={{ color: "#00adee" }} variant="h4">
+            {chapter.title}
+          </Typography>
+          <Typography gutterBottom={true} variant="h6">
+            {chapter.desc}
+          </Typography>
+          {renderAttributes(chapter.attributes)}
+        </div>
+      );
+    })
+    setCurrentChapterState(chapterList[chapterCounter].title);
+    return chapters;
+  };
+
+  const renderAttributes = (attributes: Array<Attribute>) => {
+    let attributeList: Attribute[] = [];
+    for (const attribute in attributes) {
+      attributeList.push(attributes[attribute]);
+    }
+
+    attributeList.sort((a: Attribute, b: Attribute) => a.priority - b.priority);
+
+    return (
+      <div>
+        {attributeList.map(
+          (attribute: firebase.firestore.DocumentData, i: number) => {
+            return (
+              <div key={i}>
+                <h2>{attribute.title}</h2>
+                <h3>{attribute.desc}</h3>
+                {renderInputFields(attribute.input_fields)}
+              </div>
+            );
+          }
+        )}
+      </div>
+    );
+  };
+
 
   const renderInputFields = (inputFields: Array<InputField>) => {
     let inputFieldList: InputField[] = [];
@@ -91,57 +156,92 @@ export const ApplicationReview = () => {
     );
   };
 
-  const renderAttributes = (attributes: Array<Attribute>) => {
-    let attributeList: Attribute[] = [];
-    for (const attribute in attributes) {
-      attributeList.push(attributes[attribute]);
-    }
-
-    attributeList.sort((a: Attribute, b: Attribute) => a.priority - b.priority);
-
-    return (
-      <div>
-        {attributeList.map(
-          (attribute: firebase.firestore.DocumentData, i: number) => {
-            return (
-              <div key={i}>
-                <h2>{attribute.title}</h2>
-                <h3>{attribute.desc}</h3>
-                {renderInputFields(attribute.input_fields)}
-              </div>
-            );
-          }
-        )}
-      </div>
-    );
+  const renderButtons = (chapterList: Array<Chapter>) => {
+    const chapterButtons: ReactElement[] = [];
+    chapterList.map((chapter: Chapter) => {
+      chapterButtons.push(
+        <ChapterButton
+          key={chapter.priority}
+          title={chapter.title}
+          priority={chapter.priority}
+        />
+      );
+    });
+    return chapterButtons;
   };
 
-  const renderChapters = (chapterList: Array<Chapter>) => {
-    chapterList.sort((a: Chapter, b: Chapter) => a.priority - b.priority);
-    return (
-      <div style={{ width: "100%" }}>
-        {chapterList.map((chapter: Chapter, i) => {
-          return (
-            <div key={i}>
-              <Typography style={{ color: "#00adee" }} variant="h4">
-                {chapter.title}
-              </Typography>
-              <Typography gutterBottom={true} variant="h6">
-                {chapter.desc}
-              </Typography>
-              {renderAttributes(chapter.attributes)}
-            </div>
-          );
-        })}
-      </div>
-    );
+  const nextChapter = () => {
+    if (chapterCounter < chapterList.length - 1) {
+      setChapterCounter(chapterCounter + 1);
+    }
+  };
+
+  const prevChapter = () => {
+    if (chapterCounter > 0) {
+      setChapterCounter(chapterCounter - 1);
+    }
   };
 
   return (
-    <div>
-      <Box px={10} pt={6}>
-        {renderChapters(chapterList)}
-      </Box>
+    <div style={{ width: "100%" }}>
+      {loading ? (<Box p={10}>
+        <Typography variant="subtitle2">Laster inn..</Typography>
+        <Skeleton />
+      </Box>) :
+        (<div>
+          <div role="navigation" className="chapterButtons">
+            <Box className={classes.nav}>{renderButtons(chapterList)}</Box>
+          </div>
+          <div role="main">
+            <Box px={15} pb={6} pt={6}>
+              {renderChapters(chapterList)[chapterCounter]}{" "}
+              <Box display="flex" mt={3}>
+                <Box width="100%">
+                  {chapterCounter > 0 ? (
+                    <Button
+                      variant="contained"
+                      className={classes.prevBtn}
+                      onClick={prevChapter}
+                      startIcon={<NavigateBeforeIcon />}
+                    >
+                      Forrige
+                    </Button>
+                  ) : (
+                    <Button
+                      disabled
+                      variant="contained"
+                      className={classes.prevBtn}
+                      onClick={prevChapter}
+                      startIcon={<NavigateBeforeIcon />}
+                    >
+                      Forrige
+                    </Button>
+                  )}{" "}
+                </Box>
+                <Box flexShrink={0}>
+                  {chapterCounter < chapterList.length - 1 ? (
+                    <Button
+                      variant="contained"
+                      onClick={nextChapter}
+                      endIcon={<NavigateNextIcon />}
+                    >
+                      Neste
+                    </Button>
+                  ) : (
+                    <Button
+                      disabled
+                      variant="contained"
+                      onClick={nextChapter}
+                      endIcon={<NavigateNextIcon />}
+                    >
+                      Neste
+                    </Button>
+                  )}{" "}
+                </Box>
+              </Box>
+            </Box>
+          </div>
+        </div>)}
     </div>
   );
 };
