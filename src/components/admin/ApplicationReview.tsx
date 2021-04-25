@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from "@material-ui/core";
 import firebase from "firebase";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import { RecoilValueReadOnly, useRecoilState, useSetRecoilState } from "recoil";
 import {
   chapterCounterState,
@@ -25,8 +25,13 @@ export const ApplicationReview = (
   const [chapterCounter, setChapterCounter] = useRecoilState(
     chapterCounterState
   );
+  const isInitialMount = useRef(true);
 
   useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      setChapterCounter(0);
+    }
     retriveApplicationData(
       props.location.state.collection,
       props.location.state.applicationID
