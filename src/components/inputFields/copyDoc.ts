@@ -67,17 +67,17 @@ export async function copyDoc(template: string, currentUser: any) {
         });
     });
 
-    let tempOrganization = "";
-    const organization = await firestore
+    let organization = "";
+    await firestore
       .collection("user")
       .doc(currentUser?.uid)
       .get()
       .then((doc) => {
         const data = doc!.data();
         if (data != undefined) {
-          tempOrganization = data.organization;
+          organization = data.organization;
         }
-        return tempOrganization;
+        return organization;
       });
 
     await firestore
@@ -88,7 +88,7 @@ export async function copyDoc(template: string, currentUser: any) {
           status: "in progress",
           user_id: [currentUser?.uid],
           user_email: [currentUser?.email],
-          user_organization: tempOrganization,
+          user_organization: organization,
           date: dateStr,
         },
         { merge: true }

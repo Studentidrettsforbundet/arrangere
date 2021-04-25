@@ -28,6 +28,7 @@ export default function ReceivedAppPage() {
 
     await firestore
       .collection(collectionName)
+      .orderBy("date", "desc")
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -41,6 +42,7 @@ export default function ReceivedAppPage() {
     let applicationIDs: Array<string> = [];
     await firestore
       .collection(collectionName)
+      .orderBy("date", "desc")
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -54,6 +56,7 @@ export default function ReceivedAppPage() {
     let applicationIDs: Array<string> = [];
     await firestore
       .collection(collectionName)
+      .orderBy("date", "desc")
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {

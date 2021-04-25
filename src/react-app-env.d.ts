@@ -22,6 +22,7 @@ type ChapterWithID = {
 type ChapterWithName = {
   chapter: Chapter;
   chapterName: string;
+  setErrorStatus: (error: { status: any; text: string }) => void;
 };
 
 //extra info about the inputfield objects passed to the different input field types
@@ -134,7 +135,6 @@ type ApplicationProps = {
 };
 
 type SubmitButtonProps = {
-  chapterName: string;
   setErrorStatus: (error: { status: any; text: string }) => void;
 };
 
