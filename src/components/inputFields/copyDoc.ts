@@ -27,6 +27,7 @@ export async function copyDoc(template: string, currentUser: any) {
             desc: chapter.data().desc,
             attributes: chapter.data().attributes,
             priority: chapter.data().priority,
+            buttons: chapter.data().buttons,
           },
         });
       });
