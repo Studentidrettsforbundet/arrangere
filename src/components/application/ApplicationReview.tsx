@@ -1,18 +1,17 @@
-import { Box, Button, Typography } from "@material-ui/core";
-import firebase from "firebase";
 import { ReactElement, useEffect, useRef, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
+import { RouteComponentProps } from "react-router-dom";
+import firebase from "firebase";
+import { Box, Button, Typography } from "@material-ui/core";
+import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import { Skeleton } from "@material-ui/lab";
 import {
   chapterCounterState,
   currentChapterState,
 } from "../../stateManagement/applicationState";
-
-import { RouteComponentProps } from "react-router-dom";
 import { useStyles } from "../../style/chapters";
 import ChapterButton from "../buttons/ChapterButton";
-import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
-import NavigateNextIcon from "@material-ui/icons/NavigateNext";
-import { Skeleton } from "@material-ui/lab";
 
 export const ApplicationReview = (
   props: RouteComponentProps<{}, {}, ApplicationStateProps>
@@ -42,7 +41,7 @@ export const ApplicationReview = (
     currentCollection: string,
     currentApplicationId: string
   ) {
-    if (currentCollection == "") {
+    if (currentCollection === "") {
       console.error("currentCollection is empty");
     } else {
       let chapterListLocal: Array<Chapter> = [];

@@ -36,7 +36,7 @@ const Time: FC<InputProps> = ({ desc, id, chapterName }) => {
   };
 
   let inputProperties;
-  if (desc == "") {
+  if (desc === "") {
     inputProperties = { "aria-label": id, step: 300 };
   } else {
     inputProperties = { "aria-label": desc, step: 300 };

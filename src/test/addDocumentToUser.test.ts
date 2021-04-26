@@ -2,8 +2,8 @@
  * @jest-environment node
  */
 //import firebase from "@firebase/rules-unit-testing";
-import { addDocumentToUser } from "../components/application/addDocumentToUser";
 import { firestore } from "../firebase";
+import { addDocumentToUser } from "../components/application/addDocumentToUser";
 
 describe("Test if ", () => {
   it("Test if doc is added to user", async () => {

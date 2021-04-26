@@ -4,6 +4,7 @@
 
 import { firestore } from "../firebase";
 import { setStatusToSubmitted } from "../components/application/setStatusToSubmitted";
+
 describe("Test", () => {
   it("Test if status field gets updated to submitted on doc", async () => {
     const docRef = firestore

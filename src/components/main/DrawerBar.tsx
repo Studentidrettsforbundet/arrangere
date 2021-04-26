@@ -1,4 +1,6 @@
-import StudentidrettLogo from "../../images/studentidrett-logo-sort.png";
+import { Link } from "react-router-dom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+
 import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -13,12 +15,13 @@ import {
   ListItemText,
   Button,
 } from "@material-ui/core";
-import { Link } from "react-router-dom";
-import { useStyles } from "../../style/drawerBar";
-import { auth } from "../../firebase";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+
 import { userRoleState } from "../../stateManagement/userAuth";
 import { errorState } from "../../stateManagement/errorHandling";
+import { useStyles } from "../../style/drawerBar";
+import { auth } from "../../firebase";
+
+import StudentidrettLogo from "../../images/studentidrett-logo-sort.png";
 
 export default function DrawerBar() {
   const setError = useSetRecoilState(errorState);
@@ -64,7 +67,7 @@ export default function DrawerBar() {
               </ListItemIcon>
               <ListItemText primary="Søknader" />
             </ListItem>
-            {userRole == "admin" ? (
+            {userRole === "admin" ? (
               <ListItem button component={Link} to="/receivedApplications">
                 <ListItemIcon>
                   <AssignmentOutlinedIcon />

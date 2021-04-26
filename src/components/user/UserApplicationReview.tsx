@@ -1,17 +1,18 @@
+import { useEffect, useRef, useState } from "react";
+import { RouteComponentProps } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+
 import { Box, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { useEffect, useRef, useState } from "react";
-import { useSetRecoilState } from "recoil";
+
 import { firestore } from "../../firebase";
 import { chapterCounterState } from "../../stateManagement/applicationState";
-import Application from "../application/Application";
 
-import { RouteComponentProps } from "react-router-dom";
+import Application from "../application/Application";
 
 export const UserApplicationReview = (
   props: RouteComponentProps<{}, {}, ApplicationStateProps>
 ) => {
-  //foreslår å endre dette navnet til UserApplicationReview
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
   const [loading, setLoading] = useState(true);
   const isInitialMount = useRef(true);

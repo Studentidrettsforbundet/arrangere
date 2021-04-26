@@ -1,10 +1,10 @@
-import { Typography } from "@material-ui/core";
 import { ReactElement, useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
+import { Typography } from "@material-ui/core";
 import { inputFieldObjectState } from "../../stateManagement/attributesState";
-import InputWrapper from "./InputWrapper";
-import { is_numeric } from "../utils";
 import { useStyles } from "../../style/chapters";
+import { is_numeric } from "../utils";
+import InputWrapper from "./InputWrapper";
 
 const ChapterWrapper = ({
   chapter: { attributes, buttons, desc, title },

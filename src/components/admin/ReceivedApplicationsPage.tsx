@@ -1,8 +1,7 @@
-import { Box } from "@material-ui/core";
 import { useEffect, useState } from "react";
+import { Box, Grid } from "@material-ui/core";
 import { firestore } from "../../firebase";
 import ApplicationCard from "../application/ApplicationCard";
-import Grid from "@material-ui/core/Grid";
 
 export default function ReceivedApplicationsPage() {
   let [snmApplicationIDs, setSnmApplicationIDs] = useState<string[]>();

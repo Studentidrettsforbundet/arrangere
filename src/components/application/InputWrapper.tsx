@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { Typography, Box } from "@material-ui/core";
-
 import { generateComponents } from "../inputFields/getInputFieldComponent";
 import Accordions from "../accordions/Accordions";
 

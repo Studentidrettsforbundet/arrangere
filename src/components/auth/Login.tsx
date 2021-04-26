@@ -1,5 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import { Link as RouterLink, Redirect, useHistory } from "react-router-dom";
+import {
+  Typography,
+  Link,
+  FormControl,
+  Button,
+  TextField,
+  CardContent,
+  CardActions,
+  Card,
+  Container,
+} from "@material-ui/core";
+import { useStyles } from "../../style/authentication";
+import Alert from "@material-ui/lab/Alert";
 import {
   currentUserState,
   loadingUserState,
@@ -9,26 +23,7 @@ import {
   errorStateSelector,
 } from "../../stateManagement/errorHandling";
 import { auth } from "../../firebase";
-import Alert from "@material-ui/lab/Alert";
-import {
-  Container,
-  Typography,
-  Link,
-  FormControl,
-  Button,
-  TextField,
-  CardContent,
-  CardActions,
-  Card,
-} from "@material-ui/core";
 import logo from "../../images/logo-sort.png";
-import {
-  BrowserRouter as Router,
-  Link as RouterLink,
-  Redirect,
-  useHistory,
-} from "react-router-dom";
-import { useStyles } from "../../style/authentication";
 
 const LogIn = () => {
   const currentUser = useRecoilValue(currentUserState);
@@ -59,7 +54,7 @@ const LogIn = () => {
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
-    if (emailRef.current!.value == "" || passwordRef.current!.value == "") {
+    if (emailRef.current!.value === "" || passwordRef.current!.value === "") {
       return setError("required");
     }
 

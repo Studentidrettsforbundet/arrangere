@@ -1,20 +1,20 @@
+import { ReactElement, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import ChapterWrapper from "./ChapterWrapper";
+import { Grid, Box, Button } from "@material-ui/core/";
+import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import {
   chapterCounterState,
   currentChapterState,
 } from "../../stateManagement/applicationState";
 import { inputFieldObjectState } from "../../stateManagement/attributesState";
-import { ReactElement, useState } from "react";
-import { Grid, Box, Button } from "@material-ui/core/";
-import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
-import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import { useStyles } from "../../style/chapters";
 import { saveInput, useDocRef } from "../application/saveInputFields";
-import ChapterButton from "../buttons/ChapterButton";
 import { SubmitButton } from "../buttons/SubmitButton";
 import { SaveButton } from "../buttons/SaveButton";
+import ChapterButton from "../buttons/ChapterButton";
 import DisplayError from "../error/DisplayError";
+import ChapterWrapper from "./ChapterWrapper";
 
 const Application = (props: ApplicationProps) => {
   const classes = useStyles();

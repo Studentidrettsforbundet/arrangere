@@ -1,10 +1,10 @@
 import { FC, useEffect, useRef, useState } from "react";
-import { TextField, Box, Typography } from "@material-ui/core";
 import { useRecoilState } from "recoil";
+import { TextField, Box, Typography } from "@material-ui/core";
+import { useStyles } from "../../style/inputStyles";
 import { inputFieldObjectState } from "../../stateManagement/attributesState";
 import { addFieldInputObject, useDocRef } from "../application/saveInputFields";
 import { getInputValue } from "./getInputValue";
-import { useStyles } from "../../style/inputStyles";
 
 const Date: FC<InputProps> = ({ desc, id, chapterName }) => {
   const classes = useStyles();
@@ -35,7 +35,7 @@ const Date: FC<InputProps> = ({ desc, id, chapterName }) => {
   };
 
   let inputProperties;
-  if (desc == "") {
+  if (desc === "") {
     inputProperties = { "aria-label": id };
   } else {
     inputProperties = { "aria-label": desc };

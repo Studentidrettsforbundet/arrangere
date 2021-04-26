@@ -1,9 +1,9 @@
 import { Grid, Typography } from "@material-ui/core/";
+import { UserApplicationsOverview } from "../user/UserApplicationsOverview";
 import { ApplicationType } from "./ApplicationType";
 import Student_NM_logo from "../../images/student_NM.png";
 import Studentleker_logo from "../../images/studentleker-1.png";
 import Student_Cup_logo from "../../images/studentcup-1.png";
-import { UserApplicationsOverview } from "../user/UserApplicationsOverview";
 
 export const ChooseApplication = () => {
   return (

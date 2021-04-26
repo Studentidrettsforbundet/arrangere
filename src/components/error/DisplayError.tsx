@@ -1,6 +1,6 @@
-import React, { FC, useState } from "react";
-import { Alert, AlertTitle } from "@material-ui/lab";
-import { Box, Button } from "@material-ui/core";
+import { FC } from "react";
+import { Box } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 
 const DisplayError: FC<ErrorProps> = ({ error, showModal }) => {
   return (

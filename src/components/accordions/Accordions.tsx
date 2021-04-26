@@ -1,15 +1,15 @@
-import { Box, Button, Typography } from "@material-ui/core";
 import { FC, ReactElement, useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 import firebase from "firebase";
-import AccordionComponent from "./AccordionComponent";
+import { Box, Button, Typography } from "@material-ui/core";
+import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
+import { applicationTypeState } from "../../stateManagement/applicationState";
 import {
   getListOfAttributes,
   copyAttributeFromTemplateToApplication,
 } from "./copyAttribute";
-import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
 import { useDocRef } from "../application/saveInputFields";
-import { useRecoilValue } from "recoil";
-import { applicationTypeState } from "../../stateManagement/applicationState";
+import AccordionComponent from "./AccordionComponent";
 
 const Accordions: FC<AccordionsProps> = ({
   title,

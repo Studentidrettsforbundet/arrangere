@@ -1,8 +1,8 @@
+import firebase from "firebase";
 import { useRecoilValue } from "recoil";
 import { firestore } from "../../firebase";
 import { applicationIDState } from "../../stateManagement/attributesState";
 import { applicationTypeState } from "../../stateManagement/applicationState";
-import firebase from "firebase";
 
 export function useDocRef() {
   const docID = useRecoilValue(applicationIDState);

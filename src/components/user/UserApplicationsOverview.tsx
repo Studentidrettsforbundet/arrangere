@@ -1,12 +1,13 @@
-import { Divider, Typography, Box, Grid } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { firestore } from "../../firebase";
-import { currentUserState } from "../../stateManagement/userAuth";
-import ApplicationCard from "../application/ApplicationCard";
+import firebase from "firebase";
+import { Divider, Typography, Box, Grid } from "@material-ui/core";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import AssignmentTurnedInOutlinedIcon from "@material-ui/icons/AssignmentTurnedInOutlined";
-import firebase from "firebase";
+import { firestore } from "../../firebase";
+import { currentUserState } from "../../stateManagement/userAuth";
+
+import ApplicationCard from "../application/ApplicationCard";
 
 export const UserApplicationsOverview = () => {
   const [submittedApplicationIDs, setSubmittedApplicationIDs] = useState<

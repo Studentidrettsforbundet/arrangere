@@ -1,4 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { Link as RouterLink, Redirect, useHistory } from "react-router-dom";
+import firebase from "firebase";
 import {
   Button,
   Card,
@@ -13,20 +16,17 @@ import {
   Typography,
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
-import logo from "../../images/logo-sort.png";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { Link as RouterLink, Redirect, useHistory } from "react-router-dom";
-import { auth } from "../../firebase";
+import { useStyles } from "../../style/authentication";
 import {
   currentUserState,
   loadingUserState,
 } from "../../stateManagement/userAuth";
-import { useStyles } from "../../style/authentication";
 import {
   errorState,
   errorStateSelector,
 } from "../../stateManagement/errorHandling";
-import firebase from "firebase";
+import { auth } from "../../firebase";
+import logo from "../../images/logo-sort.png";
 
 const SignUp = () => {
   var db = firebase.firestore();

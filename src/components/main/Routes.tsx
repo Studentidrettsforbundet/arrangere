@@ -1,20 +1,20 @@
+import { useEffect } from "react";
 import { Route } from "react-router";
-import { BrowserRouter, Redirect } from "react-router-dom";
-import { ChooseApplication } from "../application/ChooseApplication";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { BrowserRouter, Redirect } from "react-router-dom";
+import firebase from "firebase";
 import {
   currentUserState,
   userRoleState,
 } from "../../stateManagement/userAuth";
-import DrawerBar from "./DrawerBar";
-import Home from "./Home";
-import UserProfile from "../user/UserProfile";
+import { ChooseApplication } from "../application/ChooseApplication";
 import { ApplicationReview } from "../application/ApplicationReview";
-import { useEffect } from "react";
-import firebase from "firebase";
 import { UserApplicationReview } from "../user/UserApplicationReview";
 import Template from "../application/Template";
 import ReceivedApplicationsPage from "../admin/ReceivedApplicationsPage";
+import UserProfile from "../user/UserProfile";
+import DrawerBar from "./DrawerBar";
+import Home from "./Home";
 
 export default function Routes() {
   const currentUser = useRecoilValue(currentUserState);
@@ -43,7 +43,7 @@ export default function Routes() {
     }
   }
 
-  if (currentUser == null) {
+  if (currentUser === null) {
     return <Redirect to="/login" />;
   }
 

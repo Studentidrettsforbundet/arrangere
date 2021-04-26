@@ -1,12 +1,12 @@
-import { Button } from "@material-ui/core";
 import { FC } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import { Button } from "@material-ui/core";
+import { useStyles } from "../../style/chapters";
 import { inputFieldObjectState } from "../../stateManagement/attributesState";
 import {
   chapterCounterState,
   currentChapterState,
 } from "../../stateManagement/applicationState";
-import { useStyles } from "../../style/chapters";
 import { saveInput, useDocRef } from "../application/saveInputFields";
 
 const ChapterButton: FC<ButtonProps> = ({ title, priority }) => {
@@ -21,7 +21,7 @@ const ChapterButton: FC<ButtonProps> = ({ title, priority }) => {
     saveInput(docRef!, inputFieldObject);
   };
 
-  if (title == currentChapter) {
+  if (title === currentChapter) {
     return (
       <Button
         key={priority}

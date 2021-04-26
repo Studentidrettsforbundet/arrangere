@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useState } from "react";
-import { firestore } from "../../firebase";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import {
   Accordion,
   AccordionSummary,
@@ -7,7 +7,8 @@ import {
   Typography,
   Box,
 } from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+
+import { firestore } from "../../firebase";
 
 const Home = () => {
   const [accordions, setAccordions] = useState<HomeAccordionProps[]>([]);

@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import firebase from "firebase";
 import { useRecoilValue } from "recoil";
-import { currentUserState } from "../../stateManagement/userAuth";
-import { useStyles } from "../../style/userProfile";
+import firebase from "firebase";
+
 import {
   Typography,
   Box,
@@ -12,6 +11,9 @@ import {
   Paper,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+
+import { currentUserState } from "../../stateManagement/userAuth";
+import { useStyles } from "../../style/userProfile";
 
 export default function UserProfile() {
   const [loading, setLoading] = useState(false);

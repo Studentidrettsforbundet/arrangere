@@ -1,12 +1,15 @@
 import { useEffect } from "react";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
-import { ThemeProvider } from "@material-ui/core/styles";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { auth } from "./firebase";
+
+import { ThemeProvider } from "@material-ui/core/styles";
+
 import { currentUserState, loadingUserState } from "./stateManagement/userAuth";
+import { studentidrettTheme } from "./style/appTheme";
+import { auth } from "./firebase";
+
 import Login from "./components/auth/Login";
 import SignUp from "./components/auth/SignUp";
-import { studentidrettTheme } from "./style/appTheme";
 import Routes from "./components/main/Routes";
 
 function App() {

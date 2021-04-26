@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   Avatar,
   Button,
@@ -14,21 +16,18 @@ import {
   DialogTitle,
   Typography,
 } from "@material-ui/core";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { useStyles } from "../../style/cards";
-import { Link as RouterLink } from "react-router-dom";
-import { applicationTypeState } from "../../stateManagement/applicationState";
-import { applicationIDState } from "../../stateManagement/attributesState";
-import { firestore } from "../../firebase";
-import { useEffect, useState } from "react";
-import { deleteApplication } from "./deleteApplication";
 import DoneIcon from "@material-ui/icons/Done";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+
 import {
   currentUserState,
   userRoleState,
 } from "../../stateManagement/userAuth";
-import DeleteIcon from "@material-ui/icons/Delete";
+import { applicationTypeState } from "../../stateManagement/applicationState";
+import { applicationIDState } from "../../stateManagement/attributesState";
+import { useStyles } from "../../style/cards";
+import { firestore } from "../../firebase";
+
+import { deleteApplication } from "./deleteApplication";
 
 export default function ApplicationCard(props: AppCardProps) {
   const setCurrentApplicationIdState = useSetRecoilState(applicationIDState);

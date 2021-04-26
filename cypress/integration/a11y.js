@@ -7,7 +7,7 @@ describe("Accessibility", () => {
       cy.wait(2000);
       cy.injectAxe();
       cy.checkA11y();
-      if (url == "/") {
+      if (url === "/") {
         cy.get(".MuiAccordion-rounded").eq(0).click();
         cy.checkA11y();
       }

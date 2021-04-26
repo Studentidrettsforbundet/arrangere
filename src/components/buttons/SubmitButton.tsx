@@ -1,3 +1,7 @@
+import { FC, useState } from "react";
+import { useHistory } from "react-router";
+import { useRecoilValue } from "recoil";
+import firebase from "firebase";
 import {
   Box,
   Button,
@@ -9,15 +13,11 @@ import {
   Grid,
 } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
-import { FC, useState } from "react";
-import { useHistory } from "react-router";
-import { useRecoilValue } from "recoil";
-import { firestore } from "../../firebase";
 import { applicationIDState } from "../../stateManagement/attributesState";
 import { currentUserState } from "../../stateManagement/userAuth";
+import { firestore } from "../../firebase";
 import { setStatusToSubmitted } from "../application/setStatusToSubmitted";
 import { useDocRef } from "../application/saveInputFields";
-import firebase from "firebase";
 
 export const SubmitButton: FC<SubmitButtonProps> = ({ setErrorStatus }) => {
   const [open, setOpen] = useState(false);

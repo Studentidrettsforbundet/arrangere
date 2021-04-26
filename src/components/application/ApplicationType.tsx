@@ -1,3 +1,4 @@
+import { Link as RouterLink } from "react-router-dom";
 import {
   Button,
   Card,
@@ -7,7 +8,6 @@ import {
   Typography,
 } from "@material-ui/core";
 import { useStyles } from "../../style/cards";
-import { Link as RouterLink } from "react-router-dom";
 
 export const ApplicationType = (props: CardProps) => {
   const classes = useStyles();

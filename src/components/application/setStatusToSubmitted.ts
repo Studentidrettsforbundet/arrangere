@@ -1,5 +1,5 @@
-import { firestore } from "../../firebase";
 import firebase from "firebase";
+import { firestore } from "../../firebase";
 
 export const setStatusToSubmitted = async (
   docRef: firebase.firestore.DocumentReference<firebase.firestore.DocumentData>,

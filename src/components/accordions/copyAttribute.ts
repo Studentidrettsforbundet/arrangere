@@ -1,6 +1,6 @@
+import firebase from "firebase";
 import { firestore } from "../../firebase";
 import { is_numeric } from "../utils";
-import firebase from "firebase";
 
 export const copyAttributeFromTemplateToApplication = async (
   template: string,
@@ -74,7 +74,7 @@ const getOneNewAttribute = (
 
   Object.keys(att).forEach((attribute: string) => {
     let localInputFields: Array<InputField> = [];
-    if (attribute == attributeName) {
+    if (attribute === attributeName) {
       attributeObjectList.push({
         [attribute]: {
           input_fields: att[attribute].input_fields,

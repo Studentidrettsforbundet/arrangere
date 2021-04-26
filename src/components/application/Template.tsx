@@ -1,20 +1,21 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import { RouteComponentProps } from "react-router-dom";
+import { Box, Typography } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
 import {
   chapterCounterState,
   applicationTypeState,
 } from "../../stateManagement/applicationState";
-import Application from "./Application";
-import { Box, Typography } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
-import { getChapterList } from "./retriveTemplate";
 import { applicationIDState } from "../../stateManagement/attributesState";
 import { currentUserState } from "../../stateManagement/userAuth";
+
 import { addDocumentToUser } from "./addDocumentToUser";
 import { copyDocument } from "../application/copyDocument";
-import DisplayError from "../error/DisplayError";
+import { getChapterList } from "./retriveTemplate";
 
-import { RouteComponentProps } from "react-router-dom";
+import DisplayError from "../error/DisplayError";
+import Application from "./Application";
 
 const Template = (
   props: RouteComponentProps<{}, {}, ApplicationStateProps>

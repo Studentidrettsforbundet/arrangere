@@ -1,14 +1,15 @@
 import React, { FC, useEffect, useRef, useState } from "react";
-import { Box, Button } from "@material-ui/core";
-import { addFieldInputObject, useDocRef } from "../application/saveInputFields";
-import { getInputValue } from "./getInputValue";
 import { useRecoilState, useRecoilValue } from "recoil";
 import firebase from "firebase";
 import { v4 as uuid } from "uuid";
+import { Box, Button } from "@material-ui/core";
 import {
   applicationIDState,
   inputFieldObjectState,
 } from "../../stateManagement/attributesState";
+
+import { addFieldInputObject, useDocRef } from "../application/saveInputFields";
+import { getInputValue } from "./getInputValue";
 
 const FileUpload: FC<InputProps> = ({ desc, id, chapterName }) => {
   const docID = useRecoilValue(applicationIDState);
