@@ -1,7 +1,6 @@
 /**
  * @jest-environment node
  */
-//import firebase from "@firebase/rules-unit-testing";
 import { firestore } from "../firebase";
 import { addDocumentToUser } from "../components/application/addDocumentToUser";
 
