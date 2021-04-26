@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { useStyles2 } from "../../style/inputStyles";
-import { useDocRef } from "../inputFields/saveInputFields";
+import { useDocRef } from "../application/saveInputFields";
 import firebase from "firebase";
 import { useRecoilState } from "recoil";
 import { inputFieldObjectState } from "../../stateManagement/attributesState";
@@ -33,7 +33,7 @@ const AccordionComponent: FC<AccordionProps> = ({
     inputFieldObjectState
   );
   let haveMainDesc = false;
-  if (mainDesc != null) {
+  if (mainDesc !== null) {
     haveMainDesc = true;
   }
 

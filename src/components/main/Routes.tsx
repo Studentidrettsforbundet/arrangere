@@ -1,19 +1,22 @@
 import { Route } from "react-router";
 import { BrowserRouter, Redirect } from "react-router-dom";
-import { ChooseApplication } from "./ChooseApplication";
+import { ChooseApplication } from "../application/ChooseApplication";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { currentUserState, userRoleState } from "../stateManagement/userAuth";
+import {
+  currentUserState,
+  userRoleState,
+} from "../../stateManagement/userAuth";
 import DrawerBar from "./DrawerBar";
 import Home from "./Home";
-import UserProfile from "./UserProfile";
-import { ApplicationReview } from "./admin/ApplicationReview";
-import ReceivedAppPage from "./admin/ReceivedAppPage";
+import UserProfile from "../user/UserProfile";
+import { ApplicationReview } from "../application/ApplicationReview";
 import { useEffect } from "react";
 import firebase from "firebase";
-import { UserApplication } from "./user/UserApplication";
-import Template from "./Template";
+import { UserApplicationReview } from "../user/UserApplicationReview";
+import Template from "../application/Template";
+import ReceivedApplicationsPage from "../admin/ReceivedApplicationsPage";
 
-export default function Dashboard() {
+export default function Routes() {
   const currentUser = useRecoilValue(currentUserState);
   const [userRole, setUserRole] = useRecoilState(userRoleState);
 
@@ -24,7 +27,7 @@ export default function Dashboard() {
   }, [userRole]);
 
   async function getUserRole() {
-    if (currentUser != null) {
+    if (currentUser !== null) {
       await db
         .collection("user")
         .doc(currentUser.uid)
@@ -59,14 +62,14 @@ export default function Dashboard() {
             <Route
               exact
               path="/receivedApplications"
-              component={ReceivedAppPage}
+              component={ReceivedApplicationsPage}
             />
           </>
         ) : (
           " "
         )}
         <Route exact path="/application" component={ApplicationReview} />
-        <Route exact path="/edit" component={UserApplication} />
+        <Route exact path="/edit" component={UserApplicationReview} />
       </BrowserRouter>
     </div>
   );

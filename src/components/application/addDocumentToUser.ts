@@ -1,6 +1,6 @@
 import { firestore } from "../../firebase";
 
-export const addDocToUser = async (
+export const addDocumentToUser = async (
   userID: string,
   docID: string,
   collection: string

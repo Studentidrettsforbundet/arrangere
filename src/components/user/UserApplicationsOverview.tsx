@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { firestore } from "../../firebase";
 import { currentUserState } from "../../stateManagement/userAuth";
-import AppCard from "../admin/AppCard";
+import ApplicationCard from "../application/ApplicationCard";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import AssignmentTurnedInOutlinedIcon from "@material-ui/icons/AssignmentTurnedInOutlined";
 import firebase from "firebase";
 
-export const UserApplications = () => {
+export const UserApplicationsOverview = () => {
   const [submittedApplicationIDs, setSubmittedApplicationIDs] = useState<
     Array<ApplicationID>
   >([]);
@@ -29,10 +29,10 @@ export const UserApplications = () => {
   async function getApplications() {
     let submittedApplicationIDs: Array<ApplicationID> = [];
     let inProgressApplicationIDs: Array<ApplicationID> = [];
-    if (currentUser != null) {
+    if (currentUser !== null) {
       const doc = await firestore.collection("user").doc(currentUser.uid).get();
       const docData: firebase.firestore.DocumentData = doc.data()!;
-      if (docData != undefined) {
+      if (docData !== undefined) {
         for (const applicationID in docData.applications) {
           if (docData.applications[applicationID].id !== undefined) {
             if (docData.applications[applicationID].status === "submitted") {
@@ -61,13 +61,13 @@ export const UserApplications = () => {
   const renderInProgressApplications = () => {
     return inProgressApplicationIDs?.map(
       (applicationID: ApplicationID, i: number) => (
-        <AppCard
+        <ApplicationCard
           key={i}
           to="/edit"
           applicationId={applicationID.id}
           collectionName={applicationID.collection}
           onChange={updateApplications}
-        ></AppCard>
+        ></ApplicationCard>
       )
     );
   };
@@ -75,13 +75,13 @@ export const UserApplications = () => {
   const renderSubmittedApplications = () => {
     return submittedApplicationIDs?.map(
       (applicationID: ApplicationID, i: number) => (
-        <AppCard
+        <ApplicationCard
           key={i}
           to="/application"
           applicationId={applicationID.id}
           collectionName={applicationID.collection}
           onChange={updateApplications}
-        ></AppCard>
+        ></ApplicationCard>
       )
     );
   };

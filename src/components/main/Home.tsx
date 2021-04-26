@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useState } from "react";
-import { firestore } from "../firebase";
+import { firestore } from "../../firebase";
 import {
   Accordion,
   AccordionSummary,

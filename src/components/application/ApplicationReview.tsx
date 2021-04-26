@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from "@material-ui/core";
 import firebase from "firebase";
 import { ReactElement, useEffect, useRef, useState } from "react";
-import { RecoilValueReadOnly, useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   chapterCounterState,
   currentChapterState,
@@ -9,7 +9,7 @@ import {
 
 import { RouteComponentProps } from "react-router-dom";
 import { useStyles } from "../../style/chapters";
-import ChapterButton from "../ChapterButton";
+import ChapterButton from "../buttons/ChapterButton";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import { Skeleton } from "@material-ui/lab";
@@ -58,11 +58,11 @@ export const ApplicationReview = (
           } else {
             for (let chapter in docData) {
               if (
-                chapter != "status" &&
-                chapter != "user_id" &&
-                chapter != "date" &&
-                chapter != "user_email" &&
-                chapter != "user_organization"
+                chapter !== "status" &&
+                chapter !== "user_id" &&
+                chapter !== "date" &&
+                chapter !== "user_email" &&
+                chapter !== "user_organization"
               ) {
                 chapterListLocal.push({
                   chapterName: chapter,
@@ -141,7 +141,7 @@ export const ApplicationReview = (
         {inputFieldList.map(
           (inputField: firebase.firestore.DocumentData, i: number) => {
             let value = inputField.value;
-            if (value != undefined) {
+            if (value !== undefined) {
               if (inputField.value.includes("Filename")) {
                 let urlAndName = inputField.value.split(".Filename:");
                 value = (

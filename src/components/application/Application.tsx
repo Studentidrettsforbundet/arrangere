@@ -3,18 +3,18 @@ import ChapterWrapper from "./ChapterWrapper";
 import {
   chapterCounterState,
   currentChapterState,
-} from "../stateManagement/applicationState";
-import { inputFieldObjectState } from "../stateManagement/attributesState";
+} from "../../stateManagement/applicationState";
+import { inputFieldObjectState } from "../../stateManagement/attributesState";
 import { ReactElement, useState } from "react";
 import { Grid, Box, Button } from "@material-ui/core/";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
-import { useStyles } from "../style/chapters";
-import { saveInput, useDocRef } from "./inputFields/saveInputFields";
-import ChapterButton from "./ChapterButton";
-import { SubmitButton } from "./SubmitButton";
-import { SaveButton } from "./SaveButton";
-import DisplayError from "./DisplayError";
+import { useStyles } from "../../style/chapters";
+import { saveInput, useDocRef } from "../application/saveInputFields";
+import ChapterButton from "../buttons/ChapterButton";
+import { SubmitButton } from "../buttons/SubmitButton";
+import { SaveButton } from "../buttons/SaveButton";
+import DisplayError from "../error/DisplayError";
 
 const Application = (props: ApplicationProps) => {
   const classes = useStyles();
@@ -96,10 +96,14 @@ const Application = (props: ApplicationProps) => {
             alignItems="flex-start"
           >
             <SaveButton setErrorStatus={onSetError} />
-            {chapterCounter < props.chapterList.length - 1 ? null :
-              <SubmitButton setErrorStatus={onSetError} />}
+            {chapterCounter < props.chapterList.length - 1 ? null : (
+              <SubmitButton setErrorStatus={onSetError} />
+            )}
             {showModal ? (
-              <DisplayError error={error} showModal={toShowModal}></DisplayError>
+              <DisplayError
+                error={error}
+                showModal={toShowModal}
+              ></DisplayError>
             ) : null}
           </Grid>
           <Box display="flex" mt={3}>

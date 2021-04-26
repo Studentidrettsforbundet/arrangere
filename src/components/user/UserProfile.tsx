@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import firebase from "firebase";
 import { useRecoilValue } from "recoil";
-import { currentUserState } from "../stateManagement/userAuth";
-import { useStyles } from "../style/userProfile";
+import { currentUserState } from "../../stateManagement/userAuth";
+import { useStyles } from "../../style/userProfile";
 import {
   Typography,
   Box,
@@ -31,7 +31,7 @@ export default function UserProfile() {
   }, [organizationName]);
 
   async function retriveOrganizationName() {
-    if (currentUser != null) {
+    if (currentUser !== null) {
       await db
         .collection("user")
         .doc(currentUser.uid)
@@ -48,7 +48,7 @@ export default function UserProfile() {
   }
 
   async function retriveOrganizationInfo() {
-    if (organizationName != "") {
+    if (organizationName !== "") {
       await db
         .collection("organizations")
         .doc(organizationName)

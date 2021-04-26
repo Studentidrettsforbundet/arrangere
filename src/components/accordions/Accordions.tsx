@@ -7,7 +7,7 @@ import {
   copyAttributeFromTemplateToApplication,
 } from "./copyAttribute";
 import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
-import { useDocRef } from "../inputFields/saveInputFields";
+import { useDocRef } from "../application/saveInputFields";
 import { useRecoilValue } from "recoil";
 import { applicationTypeState } from "../../stateManagement/applicationState";
 

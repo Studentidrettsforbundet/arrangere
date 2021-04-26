@@ -12,16 +12,14 @@ import SendIcon from "@material-ui/icons/Send";
 import { FC, useState } from "react";
 import { useHistory } from "react-router";
 import { useRecoilValue } from "recoil";
-import { firestore } from "../firebase";
-import { applicationIDState } from "../stateManagement/attributesState";
-import { currentUserState } from "../stateManagement/userAuth";
-import { setStatusToSubmitted } from "./inputFields/setStatusToSubmitted";
-import { useDocRef } from "./inputFields/saveInputFields";
+import { firestore } from "../../firebase";
+import { applicationIDState } from "../../stateManagement/attributesState";
+import { currentUserState } from "../../stateManagement/userAuth";
+import { setStatusToSubmitted } from "../application/setStatusToSubmitted";
+import { useDocRef } from "../application/saveInputFields";
 import firebase from "firebase";
 
-export const SubmitButton: FC<SubmitButtonProps> = ({
-  setErrorStatus,
-}) => {
+export const SubmitButton: FC<SubmitButtonProps> = ({ setErrorStatus }) => {
   const [open, setOpen] = useState(false);
   const currentDocID = useRecoilValue(applicationIDState);
   const currentUserID = useRecoilValue(currentUserState);
@@ -40,7 +38,7 @@ export const SubmitButton: FC<SubmitButtonProps> = ({
         .doc(currentUserID!.uid)
         .get();
       const docData: firebase.firestore.DocumentData = doc.data()!;
-      if (docData != undefined) {
+      if (docData !== undefined) {
         for (const application in docData.applications) {
           if (docData.applications[application].id === currentDocID) {
             await setStatusToSubmitted(docRef!, userID, application);
@@ -84,7 +82,7 @@ export const SubmitButton: FC<SubmitButtonProps> = ({
           endIcon={<SendIcon />}
         >
           Send inn
-          </Button>
+        </Button>
         <Dialog
           open={open}
           onClose={handleClose}
@@ -96,18 +94,18 @@ export const SubmitButton: FC<SubmitButtonProps> = ({
             <DialogContentText id="alert-dialog-description">
               Er du sikker på at du vil sende inn søknaden? Har du husket å
               lagre?
-              </DialogContentText>
+            </DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="primary" autoFocus>
               Gå tilbake
-              </Button>
+            </Button>
             <Button
               onClick={() => submitApplication(docRef!, currentUserID!.uid)}
               color="primary"
             >
               Send inn
-              </Button>
+            </Button>
           </DialogActions>
         </Dialog>
       </Box>

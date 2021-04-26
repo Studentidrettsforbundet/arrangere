@@ -3,12 +3,12 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   currentUserState,
   loadingUserState,
-} from "../stateManagement/userAuth";
+} from "../../stateManagement/userAuth";
 import {
   errorState,
   errorStateSelector,
-} from "../stateManagement/errorHandling";
-import { auth } from "../firebase";
+} from "../../stateManagement/errorHandling";
+import { auth } from "../../firebase";
 import Alert from "@material-ui/lab/Alert";
 import {
   Container,
@@ -21,14 +21,14 @@ import {
   CardActions,
   Card,
 } from "@material-ui/core";
-import logo from "../images/logo-sort.png";
+import logo from "../../images/logo-sort.png";
 import {
   BrowserRouter as Router,
   Link as RouterLink,
   Redirect,
   useHistory,
 } from "react-router-dom";
-import { useStyles } from "../style/authentication";
+import { useStyles } from "../../style/authentication";
 
 const LogIn = () => {
   const currentUser = useRecoilValue(currentUserState);
@@ -52,7 +52,7 @@ const LogIn = () => {
     }
   });
 
-  if (currentUser != null && !userLoading) {
+  if (currentUser !== null && !userLoading) {
     return <Redirect to="/" />;
   }
 
@@ -80,7 +80,7 @@ const LogIn = () => {
   };
 
   let alertContainer;
-  if (error.status != "") {
+  if (error.status !== "") {
     alertContainer = (
       <Alert className={classes.formfield} severity="error">
         {error.text}

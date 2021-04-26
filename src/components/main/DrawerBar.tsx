@@ -1,4 +1,4 @@
-import StudentidrettLogo from "./../images/studentidrett-logo-sort.png";
+import StudentidrettLogo from "../../images/studentidrett-logo-sort.png";
 import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -14,11 +14,11 @@ import {
   Button,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { useStyles } from "../style/drawerBar";
-import { auth } from "../firebase";
+import { useStyles } from "../../style/drawerBar";
+import { auth } from "../../firebase";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { userRoleState } from "../stateManagement/userAuth";
-import { errorState } from "../stateManagement/errorHandling";
+import { userRoleState } from "../../stateManagement/userAuth";
+import { errorState } from "../../stateManagement/errorHandling";
 
 export default function DrawerBar() {
   const setError = useSetRecoilState(errorState);

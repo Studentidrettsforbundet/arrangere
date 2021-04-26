@@ -3,7 +3,7 @@
  */
 
 import { firestore } from "../firebase";
-import { setStatusToSubmitted } from "../components/inputFields/setStatusToSubmitted";
+import { setStatusToSubmitted } from "../components/application/setStatusToSubmitted";
 describe("Test", () => {
   it("Test if status field gets updated to submitted on doc", async () => {
     const docRef = firestore
@@ -21,9 +21,6 @@ describe("Test", () => {
       .get()
       .then((res: any) => {
         return res.get(fieldPath);
-      })
-      .catch((error: any) => {
-        console.log("Error in retrieving value:", error);
       });
     return expect(value).toEqual("submitted");
   });
@@ -42,12 +39,9 @@ describe("Test", () => {
       .doc("SqHIu7oPUeaQKU19ev2UFpjXMsv2")
       .get()
       .then((res: any) => {
-        console.log(res.get(fieldPath));
         return res.get(fieldPath);
-      })
-      .catch((error: any) => {
-        console.log("Error in retrieving value:", error);
       });
+
     expect(value).toEqual("submitted");
   });
 });

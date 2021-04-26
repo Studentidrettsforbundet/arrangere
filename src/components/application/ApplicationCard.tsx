@@ -6,14 +6,12 @@ import {
   CardActions,
   CardContent,
   CardHeader,
-  CardMedia,
   Chip,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Divider,
   Typography,
 } from "@material-ui/core";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -23,7 +21,7 @@ import { applicationTypeState } from "../../stateManagement/applicationState";
 import { applicationIDState } from "../../stateManagement/attributesState";
 import { firestore } from "../../firebase";
 import { useEffect, useState } from "react";
-import { deleteApplication } from "../user/deleteApplication";
+import { deleteApplication } from "./deleteApplication";
 import DoneIcon from "@material-ui/icons/Done";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import {
@@ -32,7 +30,7 @@ import {
 } from "../../stateManagement/userAuth";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-export default function AppCard(props: AppCardProps) {
+export default function ApplicationCard(props: AppCardProps) {
   const setCurrentApplicationIdState = useSetRecoilState(applicationIDState);
   const setCurrentCollectionState = useSetRecoilState(applicationTypeState);
   let [sport, setSport] = useState<string[]>([]);
@@ -60,7 +58,7 @@ export default function AppCard(props: AppCardProps) {
       currentUser!.uid
     );
     handleClose();
-    if (props.onChange != undefined) {
+    if (props.onChange !== undefined) {
       props.onChange(true);
     }
   };
@@ -76,12 +74,12 @@ export default function AppCard(props: AppCardProps) {
       .get()
       .then((doc) => {
         let docData = doc.data();
-        if (docData != undefined) {
+        if (docData !== undefined) {
           setStatus(docData.status);
           setOrganization(docData.user_organization);
           setUserEmail(docData.user_email);
           setDate(docData.date);
-          if (docData.general != undefined) {
+          if (docData.general !== undefined) {
             setSport(
               docData!.general.attributes.general.input_fields.input3.value
             );
@@ -93,7 +91,7 @@ export default function AppCard(props: AppCardProps) {
 
   function getTitle() {
     let title;
-    if (props.collectionName === "sl" || sport == [""]) {
+    if (props.collectionName === "sl" || sport === [""]) {
       title = organization;
     } else {
       title = sport + ", " + organization;

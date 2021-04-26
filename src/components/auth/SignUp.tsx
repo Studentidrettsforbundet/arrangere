@@ -13,19 +13,19 @@ import {
   Typography,
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
-import logo from "../images/logo-sort.png";
+import logo from "../../images/logo-sort.png";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { Link as RouterLink, Redirect, useHistory } from "react-router-dom";
-import { auth } from "../firebase";
+import { auth } from "../../firebase";
 import {
   currentUserState,
   loadingUserState,
-} from "../stateManagement/userAuth";
-import { useStyles } from "../style/authentication";
+} from "../../stateManagement/userAuth";
+import { useStyles } from "../../style/authentication";
 import {
   errorState,
   errorStateSelector,
-} from "../stateManagement/errorHandling";
+} from "../../stateManagement/errorHandling";
 import firebase from "firebase";
 
 const SignUp = () => {
@@ -53,7 +53,7 @@ const SignUp = () => {
     }
   });
 
-  if (currentUser != null && !userLoading) {
+  if (currentUser !== null && !userLoading) {
     return <Redirect to="/" />;
   }
 
@@ -85,7 +85,7 @@ const SignUp = () => {
         passwordRef.current!.value
       )
       .then((cred) => {
-        if (cred.user != null) {
+        if (cred.user !== null) {
           return db.collection("user").doc(cred.user.uid).set({
             organization: "",
             role: "",

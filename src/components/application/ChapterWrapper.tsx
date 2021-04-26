@@ -1,15 +1,15 @@
 import { Typography } from "@material-ui/core";
 import { ReactElement, useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
-import { inputFieldObjectState } from "../stateManagement/attributesState";
-import InputWrapper from "./inputFields/InputWrapper";
-import { is_numeric } from "./utils";
-import { useStyles } from "../style/chapters";
-
+import { inputFieldObjectState } from "../../stateManagement/attributesState";
+import InputWrapper from "./InputWrapper";
+import { is_numeric } from "../utils";
+import { useStyles } from "../../style/chapters";
 
 const ChapterWrapper = ({
   chapter: { attributes, buttons, desc, title },
-  chapterName, setErrorStatus
+  chapterName,
+  setErrorStatus,
 }: ChapterWithName) => {
   const [loading, setLoading] = useState(true);
   const [attributeList, setAttributeList] = useState<AttributeObject[]>([]);
@@ -96,7 +96,7 @@ const ChapterWrapper = ({
       <Typography className={classes.heading} variant="h1">
         {title}
       </Typography>
-      {desc != "" ? (
+      {desc !== "" ? (
         <Typography gutterBottom={true} variant="h6">
           {desc}
         </Typography>

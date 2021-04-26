@@ -1,9 +1,9 @@
 import { Grid, Typography } from "@material-ui/core/";
-import { ApplicationCard } from "./ApplicationCard";
-import Student_NM_logo from "./../images/student_NM.png";
-import Studentleker_logo from "./../images/studentleker-1.png";
-import Student_Cup_logo from "./../images/studentcup-1.png";
-import { UserApplications } from "./user/UserApplications";
+import { ApplicationType } from "./ApplicationType";
+import Student_NM_logo from "../../images/student_NM.png";
+import Studentleker_logo from "../../images/studentleker-1.png";
+import Student_Cup_logo from "../../images/studentcup-1.png";
+import { UserApplicationsOverview } from "../user/UserApplicationsOverview";
 
 export const ChooseApplication = () => {
   return (
@@ -19,26 +19,26 @@ export const ChooseApplication = () => {
         alignItems="center"
         style={{ padding: 30 }}
       >
-        <ApplicationCard
+        <ApplicationType
           image={Student_NM_logo}
           title="Søknadskjema for Student-NM"
           to="/studentnm"
           collection="snm"
         />
-        <ApplicationCard
+        <ApplicationType
           image={Studentleker_logo}
           title="Søknadskjema for Studentleker"
           to="/studentleker"
           collection="sl"
         />
-        <ApplicationCard
+        <ApplicationType
           image={Student_Cup_logo}
           title="Søknadskjema for Student-Cup"
           to="/studentcup"
           collection="sc"
         />
       </Grid>
-      <UserApplications />
+      <UserApplicationsOverview />
     </div>
   );
 };

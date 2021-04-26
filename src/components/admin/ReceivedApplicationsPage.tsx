@@ -1,10 +1,10 @@
 import { Box } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { firestore } from "../../firebase";
-import AppCard from "./AppCard";
+import ApplicationCard from "../application/ApplicationCard";
 import Grid from "@material-ui/core/Grid";
 
-export default function ReceivedAppPage() {
+export default function ReceivedApplicationsPage() {
   let [snmApplicationIDs, setSnmApplicationIDs] = useState<string[]>();
   let [scApplicationIDs, setScApplicationIDs] = useState<string[]>();
   let [slApplicationIDs, setSlApplicationIDs] = useState<string[]>();
@@ -73,7 +73,7 @@ export default function ReceivedAppPage() {
       <Grid container alignItems="stretch">
         {snmApplicationIDs?.map((applicationID: string) => {
           return (
-            <AppCard
+            <ApplicationCard
               key={applicationID}
               to="/application"
               applicationId={applicationID}
@@ -87,7 +87,7 @@ export default function ReceivedAppPage() {
       <Grid container alignItems="stretch">
         {slApplicationIDs?.map((applicationID: string) => {
           return (
-            <AppCard
+            <ApplicationCard
               key={applicationID}
               to="/application"
               applicationId={applicationID}
@@ -101,7 +101,7 @@ export default function ReceivedAppPage() {
       <Grid container alignItems="stretch">
         {scApplicationIDs?.map((applicationID: string) => {
           return (
-            <AppCard
+            <ApplicationCard
               key={applicationID}
               to="/application"
               applicationId={applicationID}

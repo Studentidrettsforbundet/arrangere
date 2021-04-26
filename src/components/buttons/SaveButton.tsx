@@ -1,12 +1,10 @@
 import { Box, Button } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import firebase from "firebase";
-import { useState } from "react";
 import { useRecoilValue } from "recoil";
-import { inputFieldObjectState } from "../stateManagement/attributesState";
-import { saveInput, useDocRef } from "./inputFields/saveInputFields";
+import { inputFieldObjectState } from "../../stateManagement/attributesState";
+import { saveInput, useDocRef } from "../application/saveInputFields";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
-import DisplayError from "./DisplayError";
 import { FC } from "react";
 
 export const SaveButton: FC<saveButtonProps> = ({ setErrorStatus }) => {

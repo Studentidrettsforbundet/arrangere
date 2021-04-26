@@ -5,7 +5,7 @@ export const localStorageEffect = (key: string) => ({
   onSet,
 }: any) => {
   const savedValue = localStorage.getItem(key);
-  if (savedValue != null && savedValue != undefined) {
+  if (savedValue !== null && savedValue !== undefined) {
     setSelf(JSON.parse(savedValue));
   }
   onSet((newValue: any) => {

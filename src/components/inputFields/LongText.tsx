@@ -2,7 +2,7 @@ import { FC, useEffect, useRef, useState } from "react";
 import { TextField, Typography, Box } from "@material-ui/core";
 import { useRecoilState } from "recoil";
 import { inputFieldObjectState } from "../../stateManagement/attributesState";
-import { addFieldInputObject, useDocRef } from "./saveInputFields";
+import { addFieldInputObject, useDocRef } from "../application/saveInputFields";
 import { getInputValue } from "./getInputValue";
 
 const LongText: FC<InputProps> = ({ desc, id, chapterName }) => {

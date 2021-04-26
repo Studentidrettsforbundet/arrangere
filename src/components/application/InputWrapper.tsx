@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Typography, Box } from "@material-ui/core";
 
-import { generateComponents } from "./getInputFieldComponent";
+import { generateComponents } from "../inputFields/getInputFieldComponent";
 import Accordions from "../accordions/Accordions";
 
 const InputWrapper: FC<InputWrapperProps> = ({
@@ -15,13 +15,13 @@ const InputWrapper: FC<InputWrapperProps> = ({
 }) => {
   let isCollapse;
   let isExtraField;
-  if (buttons != null) {
+  if (buttons !== null) {
     buttons.forEach((button) => {
       let buttonName = button.split(" ");
-      if (buttonName[1] == attributeName) {
+      if (buttonName[1] === attributeName) {
         isCollapse = true;
       }
-      if (buttonName[1] == attributeName.substr(0, attributeName.length - 1)) {
+      if (buttonName[1] === attributeName.substr(0, attributeName.length - 1)) {
         isExtraField = true;
       }
     });
@@ -48,7 +48,7 @@ const InputWrapper: FC<InputWrapperProps> = ({
           ) : (
             <div>
               <Typography variant="h6">{title}</Typography>
-              {mainDesc != "" ? (
+              {mainDesc !== "" ? (
                 <Box>
                   <Typography component="p">{mainDesc}</Typography>
                 </Box>

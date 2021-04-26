@@ -6,20 +6,12 @@ export const setStatusToSubmitted = async (
   userID: string,
   application: string
 ) => {
-  await docRef
-    .update({
-      status: "submitted",
-    })
-    .then(() => {
-      console.log("Status updated in doc!");
-    });
+  await docRef.update({
+    status: "submitted",
+  });
 
   let userStatus: any = {};
   userStatus[`applications.${application}.status`] = "submitted";
 
-  await firestore
-    .collection("user")
-    .doc(userID)
-    .update(userStatus)
-    .then(() => console.log("Status updated on user!"));
+  await firestore.collection("user").doc(userID).update(userStatus);
 };

@@ -4,7 +4,7 @@
 import {
   addFieldInputObject,
   saveInput,
-} from "../components/inputFields/saveInputFields";
+} from "../components/application/saveInputFields";
 import { getInputValue } from "../components/inputFields/getInputValue";
 import { firestore } from "../firebase";
 

@@ -4,11 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { firestore } from "../../firebase";
 import { chapterCounterState } from "../../stateManagement/applicationState";
-import Application from "../Application";
+import Application from "../application/Application";
 
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from "react-router-dom";
 
-export const UserApplication = (props: RouteComponentProps<{}, {}, ApplicationStateProps>) => {
+export const UserApplicationReview = (
+  props: RouteComponentProps<{}, {}, ApplicationStateProps>
+) => {
   //foreslår å endre dette navnet til UserApplicationReview
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
   const [loading, setLoading] = useState(true);
@@ -44,11 +46,11 @@ export const UserApplication = (props: RouteComponentProps<{}, {}, ApplicationSt
         } else {
           for (let chapter in docData) {
             if (
-              chapter != "status" &&
-              chapter != "user_id" &&
-              chapter != "date" &&
-              chapter != "user_email" &&
-              chapter != "user_organization"
+              chapter !== "status" &&
+              chapter !== "user_id" &&
+              chapter !== "date" &&
+              chapter !== "user_email" &&
+              chapter !== "user_organization"
             ) {
               chapterListLocal.push({
                 chapterName: chapter,

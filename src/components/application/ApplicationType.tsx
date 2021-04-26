@@ -6,10 +6,10 @@ import {
   CardMedia,
   Typography,
 } from "@material-ui/core";
-import { useStyles } from "../style/cards";
+import { useStyles } from "../../style/cards";
 import { Link as RouterLink } from "react-router-dom";
 
-export const ApplicationCard = (props: CardProps) => {
+export const ApplicationType = (props: CardProps) => {
   const classes = useStyles();
   return (
     <Card className={classes.root} style={{ width: 250, padding: 25 }}>

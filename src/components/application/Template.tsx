@@ -3,20 +3,22 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   chapterCounterState,
   applicationTypeState,
-} from "../stateManagement/applicationState";
+} from "../../stateManagement/applicationState";
 import Application from "./Application";
 import { Box, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { getChapterList } from "./inputFields/retriveTemplate";
-import { applicationIDState } from "../stateManagement/attributesState";
-import { currentUserState } from "../stateManagement/userAuth";
-import { addDocToUser } from "./inputFields/addDocToUser";
-import { copyDoc } from "./inputFields/copyDoc";
-import DisplayError from "./DisplayError";
+import { getChapterList } from "./retriveTemplate";
+import { applicationIDState } from "../../stateManagement/attributesState";
+import { currentUserState } from "../../stateManagement/userAuth";
+import { addDocumentToUser } from "./addDocumentToUser";
+import { copyDocument } from "../application/copyDocument";
+import DisplayError from "../error/DisplayError";
 
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from "react-router-dom";
 
-const Template = (props: RouteComponentProps<{}, {}, ApplicationStateProps>) => {
+const Template = (
+  props: RouteComponentProps<{}, {}, ApplicationStateProps>
+) => {
   const isInitialMount = useRef(true);
   const [loading, setLoading] = useState(true);
   const [chapterList, setChapterList] = useState<Chapter[]>([]);
@@ -37,12 +39,16 @@ const Template = (props: RouteComponentProps<{}, {}, ApplicationStateProps>) => 
 
   async function generateApplicationForm() {
     setLoading(true);
-    const newDocId = await copyDoc(
+    const newDocId = await copyDocument(
       props.location.state.collection,
       currentUser
     );
     setDocID(newDocId);
-    addDocToUser(currentUser!.uid, newDocId, props.location.state.collection);
+    addDocumentToUser(
+      currentUser!.uid,
+      newDocId,
+      props.location.state.collection
+    );
     setCurrentCollectionState(props.location.state.collection);
     const chapterListLocal = await getChapterList(
       props.location.state.collection
