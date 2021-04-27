@@ -7,11 +7,11 @@ import {
   currentUserState,
   userRoleState,
 } from "../../stateManagement/userAuth";
-import { ChooseApplication } from "../application/ChooseApplication";
-import { ApplicationReview } from "../application/ApplicationReview";
-import { UserApplicationReview } from "../user/UserApplicationReview";
+import { Dashboard } from "../application/Dashboard";
+import { ReviewApplication } from "../application/ReviewApplication";
+import { EditApplication } from "../user/EditApplication";
 import Template from "../application/Template";
-import ReceivedApplicationsPage from "../admin/ReceivedApplicationsPage";
+import AdminApplicationsOverview from "../admin/AdminApplicationsOverview";
 import UserProfile from "../user/UserProfile";
 import DrawerBar from "./DrawerBar";
 import Home from "./Home";
@@ -53,7 +53,7 @@ export default function Routes() {
         <DrawerBar />
         <Route exact path="/" component={Home} />
         <Route exact path="/userprofile" component={UserProfile} />
-        <Route exact path="/applications" component={ChooseApplication} />
+        <Route exact path="/applications" component={Dashboard} />
         <Route exact path="/studentnm" component={Template} />
         <Route exact path="/studentleker" component={Template} />
         <Route exact path="/studentcup" component={Template} />
@@ -62,14 +62,14 @@ export default function Routes() {
             <Route
               exact
               path="/receivedApplications"
-              component={ReceivedApplicationsPage}
+              component={AdminApplicationsOverview}
             />
           </>
         ) : (
           " "
         )}
-        <Route exact path="/application" component={ApplicationReview} />
-        <Route exact path="/edit" component={UserApplicationReview} />
+        <Route exact path="/review" component={ReviewApplication} />
+        <Route exact path="/edit" component={EditApplication} />
       </BrowserRouter>
     </div>
   );

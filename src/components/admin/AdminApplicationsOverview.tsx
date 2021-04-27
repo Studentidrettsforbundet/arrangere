@@ -3,7 +3,7 @@ import { Box, Grid } from "@material-ui/core";
 import { firestore } from "../../firebase";
 import ApplicationCard from "../application/ApplicationCard";
 
-export default function ReceivedApplicationsPage() {
+export default function AdminApplicationsOverview() {
   let [snmApplicationIDs, setSnmApplicationIDs] = useState<string[]>();
   let [scApplicationIDs, setScApplicationIDs] = useState<string[]>();
   let [slApplicationIDs, setSlApplicationIDs] = useState<string[]>();
@@ -74,7 +74,7 @@ export default function ReceivedApplicationsPage() {
           return (
             <ApplicationCard
               key={applicationID}
-              to="/application"
+              to="/review"
               applicationId={applicationID}
               collectionName="snm"
               onChange={updateApplications}
@@ -88,7 +88,7 @@ export default function ReceivedApplicationsPage() {
           return (
             <ApplicationCard
               key={applicationID}
-              to="/application"
+              to="/review"
               applicationId={applicationID}
               collectionName="sl"
               onChange={updateApplications}
@@ -102,7 +102,7 @@ export default function ReceivedApplicationsPage() {
           return (
             <ApplicationCard
               key={applicationID}
-              to="/application"
+              to="/review"
               applicationId={applicationID}
               collectionName="sc"
               onChange={updateApplications}

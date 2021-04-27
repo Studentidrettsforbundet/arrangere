@@ -13,7 +13,7 @@ import {
 import { useStyles } from "../../style/chapters";
 import ChapterButton from "../buttons/ChapterButton";
 
-export const ApplicationReview = (
+export const ReviewApplication = (
   props: RouteComponentProps<{}, {}, ApplicationStateProps>
 ) => {
   var db = firebase.firestore();
@@ -259,4 +259,4 @@ export const ApplicationReview = (
   );
 };
 
-export default ApplicationReview;
+export default ReviewApplication;

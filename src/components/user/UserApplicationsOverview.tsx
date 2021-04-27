@@ -78,7 +78,7 @@ export const UserApplicationsOverview = () => {
       (applicationID: ApplicationID, i: number) => (
         <ApplicationCard
           key={i}
-          to="/application"
+          to="/review"
           applicationId={applicationID.id}
           collectionName={applicationID.collection}
           onChange={updateApplications}

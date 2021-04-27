@@ -10,7 +10,7 @@ import { chapterCounterState } from "../../stateManagement/applicationState";
 
 import Application from "../application/Application";
 
-export const UserApplicationReview = (
+export const EditApplication = (
   props: RouteComponentProps<{}, {}, ApplicationStateProps>
 ) => {
   const [chapterList, setChapterList] = useState<Chapter[]>([]);

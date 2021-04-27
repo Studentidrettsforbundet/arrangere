@@ -12,7 +12,7 @@ import { currentUserState } from "../../stateManagement/userAuth";
 
 import { addDocumentToUser } from "./addDocumentToUser";
 import { copyDocument } from "../application/copyDocument";
-import { getChapterList } from "./retriveTemplate";
+import { getChapterList } from "./retrieveTemplate";
 
 import DisplayError from "../error/DisplayError";
 import Application from "./Application";
