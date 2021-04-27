@@ -2,7 +2,7 @@ import { FC, useEffect, useRef, useState } from "react";
 import { Typography, TextField, Box } from "@material-ui/core";
 import { useRecoilState } from "recoil";
 import { inputFieldObjectState } from "../../stateManagement/attributesState";
-import { addFieldInputObject, useDocRef } from "./saveInputFields";
+import { addFieldInputObject, useDocRef } from "../application/saveInputFields";
 import { getInputValue } from "./getInputValue";
 import { useStyles } from "../../style/inputStyles";
 
@@ -36,7 +36,7 @@ const Time: FC<InputProps> = ({ desc, id, chapterName }) => {
   };
 
   let inputProperties;
-  if (desc == "") {
+  if (desc === "") {
     inputProperties = { "aria-label": id, step: 300 };
   } else {
     inputProperties = { "aria-label": desc, step: 300 };

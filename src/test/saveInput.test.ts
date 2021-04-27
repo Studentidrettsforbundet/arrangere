@@ -1,12 +1,12 @@
 /**
  * @jest-environment node
  */
+import { firestore } from "../firebase";
 import {
   addFieldInputObject,
   saveInput,
-} from "../components/inputFields/saveInputFields";
+} from "../components/application/saveInputFields";
 import { getInputValue } from "../components/inputFields/getInputValue";
-import { firestore } from "../firebase";
 
 describe("Test", () => {
   it("test if addFieldInputObject sets fields", () => {

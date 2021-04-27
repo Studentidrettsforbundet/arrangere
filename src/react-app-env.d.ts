@@ -16,6 +16,7 @@ type ChapterWithID = {
     desc: string;
     attributes: Array<Attribute>;
     priority: number;
+    buttons: Array<String>;
   };
 };
 
@@ -136,11 +137,6 @@ type ApplicationProps = {
 
 type SubmitButtonProps = {
   setErrorStatus: (error: { status: any; text: string }) => void;
-};
-
-type ApplicationID = {
-  id: string;
-  collection: string;
 };
 
 type ApplicationID = {

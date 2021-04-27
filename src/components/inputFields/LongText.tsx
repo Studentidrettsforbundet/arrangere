@@ -1,8 +1,8 @@
 import { FC, useEffect, useRef, useState } from "react";
-import { TextField, Typography, Box } from "@material-ui/core";
 import { useRecoilState } from "recoil";
+import { TextField, Typography, Box } from "@material-ui/core";
 import { inputFieldObjectState } from "../../stateManagement/attributesState";
-import { addFieldInputObject, useDocRef } from "./saveInputFields";
+import { addFieldInputObject, useDocRef } from "../application/saveInputFields";
 import { getInputValue } from "./getInputValue";
 
 const LongText: FC<InputProps> = ({ desc, id, chapterName }) => {
@@ -33,7 +33,7 @@ const LongText: FC<InputProps> = ({ desc, id, chapterName }) => {
   };
 
   let inputProperties;
-  if (desc == "") {
+  if (desc === "") {
     inputProperties = { "aria-label": id };
   } else {
     inputProperties = { "aria-label": desc };

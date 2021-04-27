@@ -1,14 +1,15 @@
 import React, { FC, useEffect, useRef, useState } from "react";
-import { Box, Button } from "@material-ui/core";
-import { addFieldInputObject, useDocRef } from "./saveInputFields";
-import { getInputValue } from "./getInputValue";
 import { useRecoilState, useRecoilValue } from "recoil";
 import firebase from "firebase";
 import { v4 as uuid } from "uuid";
+import { Box, Button } from "@material-ui/core";
 import {
   applicationIDState,
   inputFieldObjectState,
 } from "../../stateManagement/attributesState";
+
+import { addFieldInputObject, useDocRef } from "../application/saveInputFields";
+import { getInputValue } from "./getInputValue";
 
 const FileUpload: FC<InputProps> = ({ desc, id, chapterName }) => {
   const docID = useRecoilValue(applicationIDState);
@@ -25,7 +26,7 @@ const FileUpload: FC<InputProps> = ({ desc, id, chapterName }) => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
       getInputValue(docRef!, chapterName, id).then((value) => {
-        if (value != undefined) {
+        if (value !== undefined) {
           let urlAndName = value.split(".Filename:");
           setFileUrl(urlAndName[0]);
           setFileName(urlAndName[1]);
@@ -37,7 +38,7 @@ const FileUpload: FC<InputProps> = ({ desc, id, chapterName }) => {
   const saveFile = async (target: HTMLInputElement) => {
     var files = target.files;
     var file: File | null;
-    if (files != null) {
+    if (files !== null) {
       for (var i = 0; i < files.length; i++) {
         file = files.item(i);
         const fileId = uuid();
