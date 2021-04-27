@@ -1,4 +1,6 @@
 import { FC, useState } from "react";
+import { useRecoilState } from "recoil";
+import firebase from "firebase";
 import {
   Typography,
   Button,
@@ -10,11 +12,9 @@ import {
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { useStyles2 } from "../../style/inputStyles";
-import { useDocRef } from "../inputFields/saveInputFields";
-import firebase from "firebase";
-import { useRecoilState } from "recoil";
 import { inputFieldObjectState } from "../../stateManagement/attributesState";
 import { generateComponents } from "../inputFields/getInputFieldComponent";
+import { useDocRef } from "../application/saveInputFields";
 
 const AccordionComponent: FC<AccordionProps> = ({
   name,
@@ -33,7 +33,7 @@ const AccordionComponent: FC<AccordionProps> = ({
     inputFieldObjectState
   );
   let haveMainDesc = false;
-  if (mainDesc != null) {
+  if (mainDesc !== null) {
     haveMainDesc = true;
   }
 
@@ -92,7 +92,7 @@ const AccordionComponent: FC<AccordionProps> = ({
         </Accordion>
       </Grid>
       <Grid item align-self="center" xs={1}>
-        {priority == 1 ? (
+        {priority === 1 ? (
           <p></p>
         ) : (
           <Button

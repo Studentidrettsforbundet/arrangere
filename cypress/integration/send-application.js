@@ -1,20 +1,20 @@
 const fillInForm = (inputType) => {
-  if (inputType == "input") {
+  if (inputType === "input") {
     cy.get("input").each(($input) => {
       let type = $input.attr("type");
       let value = "";
-      if (type == "text") {
+      if (type === "text") {
         value = "some text";
         cy.wrap($input).type(value).should("have.value", value);
-      } else if (type == "date") {
+      } else if (type === "date") {
         value = "2021-02-14";
         cy.wrap($input).type(value).should("have.value", value);
-      } else if (type == "radio") {
+      } else if (type === "radio") {
         cy.wrap($input).check();
       }
     });
   }
-  if (inputType == "textarea") {
+  if (inputType === "textarea") {
     cy.get("textarea").each(($textarea) => {
       cy.wrap($textarea).type("Some text");
     });

@@ -1,4 +1,5 @@
 import { FC, useEffect, useRef, useState } from "react";
+import { useRecoilState } from "recoil";
 import {
   Radio,
   RadioGroup,
@@ -6,11 +7,9 @@ import {
   FormControl,
   FormLabel,
 } from "@material-ui/core/";
-import { useRecoilState } from "recoil";
 import { inputFieldObjectState } from "../../stateManagement/attributesState";
-import { addFieldInputObject, useDocRef } from "./saveInputFields";
+import { addFieldInputObject, useDocRef } from "../application/saveInputFields";
 import { getInputValue } from "./getInputValue";
-import React from "react";
 
 const RadioButton: FC<InputProps> = ({ desc, id, chapterName }) => {
   const [inputFieldObject, setInputFieldList] = useRecoilState(

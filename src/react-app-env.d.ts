@@ -143,8 +143,3 @@ type ApplicationID = {
   id: string;
   collection: string;
 };
-
-type ApplicationID = {
-  id: string;
-  collection: string;
-};
