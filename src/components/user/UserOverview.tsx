@@ -9,7 +9,7 @@ import { currentUserState } from "../../stateManagement/userAuth";
 
 import ApplicationCard from "../application/ApplicationCard";
 
-export const UserApplicationsOverview = () => {
+export const UserOverview = () => {
   const [submittedApplicationIDs, setSubmittedApplicationIDs] = useState<
     Array<ApplicationID>
   >([]);

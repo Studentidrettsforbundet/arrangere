@@ -16,7 +16,7 @@ import SendIcon from "@material-ui/icons/Send";
 import { applicationIDState } from "../../stateManagement/attributesState";
 import { currentUserState } from "../../stateManagement/userAuth";
 import { firestore } from "../../firebase";
-import { setStatusToSubmitted } from "../application/setStatusToSubmitted";
+import { setStatus } from "../application/setStatus";
 import { useDocRef } from "../application/saveInputFields";
 
 export const SubmitButton: FC<SubmitButtonProps> = ({ setErrorStatus }) => {
@@ -41,7 +41,7 @@ export const SubmitButton: FC<SubmitButtonProps> = ({ setErrorStatus }) => {
       if (docData !== undefined) {
         for (const application in docData.applications) {
           if (docData.applications[application].id === currentDocID) {
-            await setStatusToSubmitted(docRef!, userID, application);
+            await setStatus(docRef!, userID, application);
             history.push("/applications");
           }
         }

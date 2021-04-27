@@ -3,7 +3,7 @@ import { Box, Grid } from "@material-ui/core";
 import { firestore } from "../../firebase";
 import ApplicationCard from "../application/ApplicationCard";
 
-export default function AdminApplicationsOverview() {
+export default function AdminOverview() {
   let [snmApplicationIDs, setSnmApplicationIDs] = useState<string[]>();
   let [scApplicationIDs, setScApplicationIDs] = useState<string[]>();
   let [slApplicationIDs, setSlApplicationIDs] = useState<string[]>();

@@ -3,14 +3,14 @@
  */
 
 import { firestore } from "../firebase";
-import { setStatusToSubmitted } from "../components/application/setStatusToSubmitted";
+import { setStatus } from "../components/application/setStatus";
 
 describe("Test", () => {
   it("Test if status field gets updated to submitted on doc", async () => {
     const docRef = firestore
       .collection("snmApplications")
       .doc("ot8ttU6nGW7mtpltrZGZ");
-    await setStatusToSubmitted(
+    await setStatus(
       docRef,
       "SqHIu7oPUeaQKU19ev2UFpjXMsv2",
       "ot8ttU6nGW7mtpltrZGZ"
@@ -29,7 +29,7 @@ describe("Test", () => {
     const docRef = firestore
       .collection("snmApplications")
       .doc("ot8ttU6nGW7mtpltrZGZ");
-    await setStatusToSubmitted(
+    await setStatus(
       docRef,
       "SqHIu7oPUeaQKU19ev2UFpjXMsv2",
       "ot8ttU6nGW7mtpltrZGZ"
