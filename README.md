@@ -29,9 +29,10 @@ Make sure you have a Java SDK downloaded and also the firebase tool package. Dow
 
 Update the emulator data:
 
-1. Copy data from firestore (the production data): gcloud firestore export gs://arrangere-a8fca.appspot.com/your-chosen-name
-2. Download the data: gsutil -m cp -r gs://arrangere-a8fca.appspot.com/your-chosen-name .  
-3. Update the path "emulator": "firebase emulators:start --import arrangereDefaultData" in package.json to use your new folder, i.e "--import your-chosen-name"
+1. Copy data from firestore (the production data) with the command: `gcloud firestore export gs://arrangere-a8fca.appspot.com/your-chosen-name`
+2. Download the data with the command: `gsutil -m cp -r gs://arrangere-a8fca.appspot.com/your-chosen-name . `
+3. Update the path "emulator": "firebase emulators:start --import arrangereDefaultData" in package.json 
+   to use your new folder, i.e "--import your-chosen-name"
 
 N.B: The unit tests uses arrangereDefaultDate, replacing this will lead to failing tests without updating the collections ands doc Ids in the tests.
 
@@ -93,24 +94,24 @@ arrangere/
 It is important that you are running the emulator and the application before running the test. If you are not running the emulator, a new user will be created in the production environment.
 If you want to run the tests again, remember to delete the user created by the test from the emulator first.
 
-For running the test, use the command:
+Run the cypress tests with the command:
 `npx cypress run`
 
 - Running this command will overwrite the screenshots and videoes in the cypress-folder. Just add and commit them when you do changes.
 
-To open Cypress in test browser, use the command:
+Open Cypress in test browser with the command:
 `npx cypress open`
 
-Running the unit tests, use the command: 
+Run the unit tests with the command: 
 `npm run test`
 
 ## Firebase Deploy
 
 The project uses Firebase Hosting. Before deploying the project to Firebase Hosting it has to get build. 
 
-Build the project with this command: `npm run build`
+Build the project with the command: `npm run build`
 
-Deploy the project with this command: `firebase deploy`
+Deploy the project with the command: `firebase deploy`
 
 
 ## Pages
