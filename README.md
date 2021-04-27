@@ -19,13 +19,22 @@ This command runs the app in the development mode. Open [http://localhost:3000](
 
 ## Emulators
 
-When running the application at localhost it gets connected to firebase emulators. An emulator is used to build and test apps locally. The app is connected to the Cloud Firestore emulator to safely read and write documents in testing.
+When running the application at localhost it uses the firebase emulators suite. The emulator suite is used to build and test apps locally. The app is connected to the Cloud Firestore emulator to safely read and write documents in testing. The Firestore emulator uses a copy of the production data to mimic the behaviour of  the production Firestore.
 
 Make sure you have a Java SDK downloaded and also the firebase tool package. Download this using the command:
 `npm install -g firebase-tools`
 
 1. Start the emulators by running the command `npm run emulator` in your terminal
 2. Open the UI by clicking the link in your terminal ( http://localhost:4000)
+
+Update the emulator data:
+
+1. Copy data from firestore (the production data): gcloud firestore export gs://arrangere-a8fca.appspot.com/your-chosen-name
+2. Download the data: gsutil -m cp -r gs://arrangere-a8fca.appspot.com/your-chosen-name .  
+3. Update the path "emulator": "firebase emulators:start --import arrangereDefaultData" in package.json to use your new folder, i.e "--import your-chosen-name"
+
+N.B: The unit tests uses arrangereDefaultDate, replacing this will lead to failing tests without updating the collections ands doc Ids in the tests.
+
 
 ## Folder Structure
 
@@ -81,7 +90,7 @@ arrangere/
 
 #### Cypress
 
-It is important that you are running the emulator before running the test. If you are not running the emulator, a new user will be created in the production environment.
+It is important that you are running the emulator and the application before running the test. If you are not running the emulator, a new user will be created in the production environment.
 If you want to run the tests again, remember to delete the user created by the test from the emulator first.
 
 For running the test, use the command:
@@ -91,6 +100,18 @@ For running the test, use the command:
 
 To open Cypress in test browser, use the command:
 `npx cypress open`
+
+Running the unit tests, use the command: 
+`npm run test`
+
+## Firebase Deploy
+
+The project uses Firebase Hosting. Before deploying the project to Firebase Hosting it has to get build. 
+
+Build the project with this command: `npm run build`
+
+Deploy the project with this command: `firebase deploy`
+
 
 ## Pages
 
