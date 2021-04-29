@@ -173,12 +173,15 @@ N.B: The unit tests uses arrangereDefaultDate, replacing this will lead to faili
    
    
 ```
+
+#### Detailed folder structure of the src folder
+
 The figure below shows the folder structure of sub folders and files within the components folder. The group decided to divide the files into five main folders with a name based on the file types. The sub folders in the component folder is further divided into the different product parts. The corresponding logic to the components is in the same folder as the component.
 
 ![folderStructure](https://user-images.githubusercontent.com/43407205/116536892-d0439800-a8e5-11eb-9cad-aac9756074b7.jpg)
 
 
-##Component Structure
+## Component Structure
 
 The figure below shows how components are related to each other, and how they are triggered. The stippled arrows represent redirects using react-router, while the solid lines shows the component hierarchy. 
 
