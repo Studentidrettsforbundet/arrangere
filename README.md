@@ -45,52 +45,145 @@ N.B: The unit tests uses arrangereDefaultDate, replacing this will lead to faili
 ## Folder Structure
 
 ```
-arrangere/
-  .firebaserc
-  .gitignore
-  firebase.json
-  package-lock.json
-  package.json
-  README.md
-  tsconfig.json
-  yarn.lock
-  node_modules/
-  public/
-    index.html
-  src/
-    assets/
-    components/
-	    inputfields/
-		    Date.tsx
-		    FileUpload.tsx
-		    InputWrapper.tsx
-		    LongText.tsx
-		    Number.tsx
-		    RadioButton.tsx
-		    ShortText.tsx
-		    Time.tsx
-		ApplicationCard.tsx
-		ChooseApplication.tsx
-		Dashboard.tsx
-		DrawerBar.tsx
-		Home.tsx
-		Login.tsx
-		SignUp.tsx
-		StudentCupForm.tsx
-		StudentlekerForm.tsx
-		StudentNMForm.tsx
-		UserProfile.tsx
-    stateManagement/
-	    errorHandling.ts
-	    userAuth.ts
-	images/
-    style/
-    test/
-    App.tsx
-    firebase.js
-    index.tsx
-    react-app-env.d.ts
+  |-- arrangere
+    |-- .firebaserc
+    |-- .gitignore
+    |-- README.md
+    |-- cypress.json
+    |-- firebase.json
+    |-- package-lock.json
+    |-- package.json
+    |-- tsconfig.json
+    |-- yarn.lock
+    |-- .github
+        |-- workflows
+	        |-- cypress.yml
+	        |-- format.yml
+    |-- vscode
+            |-- settings.json
+    |-- arrangereDefaultData
+                |-- all_namespaces/all_kinds
+			        |-- all_namespaces_all_kinds.export_metadata
+			        |-- output-0
+                |-- arrangereDefaultData.overall_export_metadata
+    |-- cypress
+                |-- fixtures
+	                |-- sample.json
+                |-- integration
+                    |-- 1-a11y-login-signup.js
+                    |-- 2-authentication.js
+                    |-- a11y-cup.js
+                    |-- a11y-nm.js
+                    |-- a11y-studentleker.js
+                    |-- a11y.js
+                    |-- send-application.js
+	            |-- plugins
+		            |-- index.js
+                |-- support
+	                |-- commands.js
+	                |-- index.js
+                |-- videos
+	                |-- authentication.js.mp4
+	|-- public
+            |-- 404.html
+            |-- index.html
+            |-- manifest.json
+   |-- src
+	   	|-- components
+	   		|-- accordions
+	   			|-- AccordionComponent.tsx
+	   			|-- Accordions.tsx
+	   			|-- copyAttribute.ts
+	   		|-- admin
+	   			|-- AdminOverview.tsx
+	   		|-- application
+	   			|-- Application.tsx
+	   			|-- ApplicationCard.tsx
+	   			|-- ApplicationType.tsx
+	   			|-- ChapterWrapper.tsx
+	   			|-- Dashboard.tsx
+	   			|-- InputWrapper.tsx
+	   			|-- ReviewApplication.tsx
+	   			|-- Template.tsx
+	   			|-- addDocumentToUser.ts
+	   			|-- copyDocument.ts
+	   			|-- deleteApplication.ts
+	   			|-- retrieveTemplate.ts
+	   			|-- saveInputFields.ts
+	   			|-- setStatus.ts
+	   		|-- auth
+	   			|-- Login.tsx
+	   			|-- SignUp.tsx
+	   		|-- buttons
+	   			|-- ChapterButton.tsx
+	   			|-- SaveButton.tsx
+	   			|-- SubmitButton.tsx
+	   		|-- error
+	   			|-- DisplayError.tsx
+	   		|-- inputFields
+	   			|-- Date.tsx
+	   			|-- FileUpload.tsx
+	   			|-- LongText.tsx
+	   			|-- Number.tsx
+	   			|-- RadioButton.tsx
+	   			|-- ShortText.tsx
+	   			|-- Time.tsx
+	   			|-- getInputFieldComponent.tsx
+	   			|-- getInputValue.ts
+	   		|-- main
+	   			|-- DrawerBar.tsx
+	   			|-- Home.tsx
+	   			|-- Routes.tsx
+	   		|-- user
+	   			|-- EditApplication.tsx
+	   			|-- UserOverview.tsx
+	   			|-- UserProfile.tsx
+	   		|-- utils.ts
+	   	|-- images
+			|-- logo-sort.png
+			|-- student_NM.png
+			|-- studentcup-1.png
+			|-- studentidrett-logo-sort.png
+			|-- studentleker-1.png
+	   	|-- stateManagement
+	   		|-- applicationState.ts
+	   		|-- attributeState.ts
+	   		|-- errorHandling.ts
+	   		|-- localstorageRecoil.ts
+	   		|-- userAuth.ts
+	   	|-- style
+	   		|-- appTheme.ts
+	   		|-- authentication.ts
+	   		|-- cards.ts
+	   		|-- chapters.ts
+	   		|-- drawerBar.ts
+	   		|-- inputStyles.ts
+	   		|-- userProfile.ts
+	    |-- test
+	    	|-- addDocumentToUser.test.ts
+	    	|-- package-lock.json
+	    	|-- package.json
+	    	|-- saveInput.test.ts
+	    	|-- setStatusToSubmitted.test.ts
+	    	|-- tsconfig.testing.json
+	    |-- App.tsx
+	    |-- firebase.js
+	    |-- index.tsx
+	    |-- react-app-env.d.ts
+   
+   
 ```
+The figure below shows the folder structure of sub folders and files within the components folder. The group decided to divide the files into five main folders with a name based on the file types. The sub folders in the component folder is further divided into the different product parts. The corresponding logic to the components is in the same folder as the component.
+
+![folderStructure](https://user-images.githubusercontent.com/43407205/116536892-d0439800-a8e5-11eb-9cad-aac9756074b7.jpg)
+
+
+##Component Structure
+
+The figure below shows how components are related to each other, and how they are triggered. The stippled arrows represent redirects using react-router, while the solid lines shows the component hierarchy. 
+
+![ComponentStructure](https://user-images.githubusercontent.com/43407205/116536582-69be7a00-a8e5-11eb-81ff-aea49a303c23.jpg)
+
 
 ## Testing
 
