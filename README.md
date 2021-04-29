@@ -185,7 +185,7 @@ The figure below shows the folder structure of sub folders and files within the 
 
 The figure below shows how components are related to each other, and how they are triggered. The stippled arrows represent redirects using react-router, while the solid lines shows the component hierarchy. 
 
-![ComponentStructure](https://user-images.githubusercontent.com/43407205/116536582-69be7a00-a8e5-11eb-81ff-aea49a303c23.jpg)
+![ComponentStructure](https://user-images.githubusercontent.com/43407205/116543913-c1151800-a8ee-11eb-8c02-e2f372db6c99.jpg)
 
 
 ## Testing
