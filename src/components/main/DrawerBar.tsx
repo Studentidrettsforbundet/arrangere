@@ -72,7 +72,7 @@ export default function DrawerBar() {
                 <ListItemIcon>
                   <AssignmentOutlinedIcon />
                 </ListItemIcon>
-                <ListItemText primary="Innsendte søknader" />
+                <ListItemText primary="Administrer søknader" />
               </ListItem>
             ) : (
               " "

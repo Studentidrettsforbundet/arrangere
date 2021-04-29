@@ -67,7 +67,7 @@ export default function AdminOverview() {
 
   return (
     <Box px={10} pt={6}>
-      <h1>Innsendte søknader</h1>
+      <h1>Administrer søknader</h1>
       <h2>Student-NM</h2>
       <Grid container alignItems="stretch">
         {snmApplicationIDs?.map((applicationID: string) => {
