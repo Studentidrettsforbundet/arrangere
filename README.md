@@ -27,6 +27,11 @@ Make sure you have a Java SDK downloaded and also the firebase tool package. Dow
 1. Start the emulators by running the command `npm run emulator` in your terminal
 2. Open the UI by clicking the link in your terminal ( http://localhost:4000)
 
+To run the project without the emulator, with production firestore and auth, you need to comment out this section from the firebase.js file.
+
+<img width="541" alt="emulator" src="https://user-images.githubusercontent.com/43407205/116536366-19dfb300-a8e5-11eb-8179-c2f93b851d6e.png">
+
+
 Update the emulator data:
 
 1. Copy data from firestore (the production data) with the command: `gcloud firestore export gs://arrangere-a8fca.appspot.com/your-chosen-name`
