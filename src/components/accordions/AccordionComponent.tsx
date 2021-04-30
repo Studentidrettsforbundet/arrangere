@@ -13,7 +13,7 @@ import {
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { useStyles2 } from "../../style/inputStyles";
 import { inputFieldObjectState } from "../../stateManagement/attributesState";
-import { generateComponents } from "../inputFields/getInputFieldComponent";
+import { generateComponents } from "../inputFields/InputFieldComponent";
 import { useDocRef } from "../application/saveInputFields";
 
 const AccordionComponent: FC<AccordionProps> = ({

@@ -1,5 +1,5 @@
 import { Grid, Typography } from "@material-ui/core/";
-import { UserApplicationsOverview } from "../user/UserApplicationsOverview";
+import { UserOverview } from "../user/UserOverview";
 import { ApplicationType } from "./ApplicationType";
 import Student_NM_logo from "../../images/student_NM.png";
 import Studentleker_logo from "../../images/studentleker-1.png";
@@ -38,7 +38,7 @@ export const Dashboard = () => {
           collection="sc"
         />
       </Grid>
-      <UserApplicationsOverview />
+      <UserOverview />
     </div>
   );
 };

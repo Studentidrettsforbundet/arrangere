@@ -170,9 +170,13 @@ const SignUp = () => {
                     Jeg samtykker til at «arrangere» behandler
                     personopplysninger på vegne av NSI i henhold til{" "}
                   </span>
-                  <Link href={"www.studentidrett.no/personvern"}>
-                    NSIs gjeldenede peronvernspolicy
-                  </Link>
+                  <a
+                    target="_blank"
+                    rel="noreferrer"
+                    href={"www.studentidrett.no/personvern"}
+                  >
+                    NSIs gjeldende personvernspolicy
+                  </a>
                 </div>
               }
               labelPlacement="end"

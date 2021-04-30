@@ -11,7 +11,7 @@ import { Dashboard } from "../application/Dashboard";
 import { ReviewApplication } from "../application/ReviewApplication";
 import { EditApplication } from "../user/EditApplication";
 import Template from "../application/Template";
-import AdminApplicationsOverview from "../admin/AdminApplicationsOverview";
+import AdminOverview from "../admin/AdminOverview";
 import UserProfile from "../user/UserProfile";
 import DrawerBar from "./DrawerBar";
 import Home from "./Home";
@@ -62,7 +62,7 @@ export default function Routes() {
             <Route
               exact
               path="/receivedApplications"
-              component={AdminApplicationsOverview}
+              component={AdminOverview}
             />
           </>
         ) : (

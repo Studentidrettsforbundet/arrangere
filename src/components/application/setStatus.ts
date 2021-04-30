@@ -1,7 +1,7 @@
 import firebase from "firebase";
 import { firestore } from "../../firebase";
 
-export const setStatusToSubmitted = async (
+export const setStatus = async (
   docRef: firebase.firestore.DocumentReference<firebase.firestore.DocumentData>,
   userID: string,
   application: string
