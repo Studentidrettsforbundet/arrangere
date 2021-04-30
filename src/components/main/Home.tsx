@@ -39,11 +39,15 @@ const Home = () => {
   const renderAccordions = (accordionList: Array<HomeAccordionProps>) => {
     const accordions: ReactElement[] = [];
     accordionList.map((accordion: HomeAccordionProps, i) => {
+      let open = false;
+      if (i == 0) {
+        open = true;
+      }
       accordions.push(
         <Box p={0.5} key={i}>
-          <Accordion>
+          <Accordion defaultExpanded={open}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>{accordion.title}</Typography>
+              <Typography variant="h6">{accordion.title}</Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Typography>{accordion.desc}</Typography>
