@@ -18,6 +18,9 @@
 
 This application is an application portal for the Norwegian Student Sports Association (NST) where users can apply to arrange the events SNM, SC and SL.
 
+![arrangere](https://user-images.githubusercontent.com/43408175/116851868-8c0d0c00-abf3-11eb-9c5a-86aa6be56245.PNG)
+
+
 <a name="instructions"/>
 
 
