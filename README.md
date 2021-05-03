@@ -1,8 +1,25 @@
 # Arrangere
 
+#### Table of Contents
+
+- [Description](#desc)
+- [Installation and Setup Instructions](#instructions)
+- [Emulators](#emulators)
+- [Folder Structure](#folder)
+- [Component Structure](#component)
+- [Testing](#testing)
+- [Firebase Deploy](#deploy)
+- [Pages](#pages)
+
+<a name="desc"/>
+
+
 ## Description
 
 This application is an application portal for the Norwegian Student Sports Association (NST) where users can apply to arrange the events SNM, SC and SL.
+
+<a name="instructions"/>
+
 
 ## Installation and Setup Instructions
 
