@@ -34,6 +34,8 @@ Run the command `npm install`
 Run `npm start` to start the server.
 This command runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000/) to view it in the browser.
 
+<a name="emulators"/>
+
 ## Emulators
 
 When running the application at localhost it uses the firebase emulators suite. The emulator suite is used to build and test apps locally. The app is connected to the Cloud Firestore emulator to safely read and write documents in testing. The Firestore emulator uses a copy of the production data to mimic the behaviour of  the production Firestore.
@@ -58,6 +60,7 @@ Update the emulator data:
 
 N.B: The unit tests uses arrangereDefaultDate, replacing this will lead to failing tests without updating the collections ands doc Ids in the tests.
 
+<a name="folder"/>
 
 ## Folder Structure
 
@@ -197,6 +200,7 @@ The figure below shows the folder structure of sub folders and files within the 
 
 ![folderStructure](https://user-images.githubusercontent.com/43407205/116536892-d0439800-a8e5-11eb-9cad-aac9756074b7.jpg)
 
+<a name="component"/>
 
 ## Component Structure
 
@@ -204,6 +208,7 @@ The figure below shows how components are related to each other, and how they ar
 
 ![ComponentStructure](https://user-images.githubusercontent.com/43407205/116543913-c1151800-a8ee-11eb-8c02-e2f372db6c99.jpg)
 
+<a name="testing"/>
 
 ## Testing
 
@@ -223,6 +228,8 @@ Open Cypress in test browser with the command:
 Run the unit tests with the command: 
 `npm run test`
 
+<a name="deploy"/>
+
 ## Firebase Deploy
 
 The project uses Firebase Hosting. Before deploying the project to Firebase Hosting it has to get build. 
@@ -231,6 +238,7 @@ Build the project with the command: `npm run build`
 
 Deploy the project with the command: `firebase deploy`
 
+<a name="pages"/>
 
 ## Pages
 
